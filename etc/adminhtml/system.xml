@@ -1,0 +1,200 @@
+<?xml version="1.0"?>
+<!--
+/**
+* Ifthenpay_Payment module dependency
+*
+* @category    Gateway Payment
+* @package     Ifthenpay_Payment
+* @author      Ifthenpay
+* @copyright   Ifthenpay (http://www.ifthenpay.com)
+* @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+*/
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="payment" translate="label" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+            <group id="ifthenpay" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label><![CDATA[<div class="ifthenpay-payment-logo"></div><div class="ifthenpay-payment-text">Payments by Multibanco, MB WAY, Payshop and Credit Card</div>]]></label>
+                    <fieldset_css>complex ifthenpay-section</fieldset_css>
+                    <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\Payment</frontend_model>
+                    <field id="sandboxMode" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Sandbox Mode</label>
+                            <comment>Activate sandbox mode to test the module without activate callback.</comment>
+                            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    </field>
+                    <field id="backofficeKey" translate="label comment" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" type="text">
+                        <label>Backoffice key</label>
+                        <comment>Insert Backoffice key provided by Ifthenpay.</comment>
+                        <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\IsVisible</frontend_model>
+                        <backend_model>Ifthenpay\Payment\Model\Config\Backend\Config</backend_model>
+                    </field>
+                    <group id="multibanco" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1"
+                       translate="label">
+                        <label>Multibanco Configuration</label>
+                        <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\FieldSet</frontend_model>
+                        <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Enable</label>
+                            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        </field>
+                        <field id="activeCallback" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Activate Callback</label>
+                            <comment>Activate callback automatically. If sandbox mode is enabled, callback will not activate.</comment>
+                            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        </field>
+                        <field id="entidade" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" type="select">
+                            <label>Entity</label>
+                            <source_model>Ifthenpay\Payment\Model\Config\Source\Entidade</source_model>
+                        </field>
+                        <field id="subEntidade" translate="label comment" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" type="select">
+                            <label>Sub Entity</label>
+                            <comment>Choose the entity and sub entity will appear automatically</comment>
+                            <source_model>Ifthenpay\Payment\Model\Config\Source\subEntidade</source_model>
+                        </field>
+                        <field id="chooseNewEntidadeSubEntidade" translate="label" type="button" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Choose New Entidade/SubEntidade</label>
+                            <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\ChooseNewEntidadeSubEntidadeBtn</frontend_model>
+                        </field>
+                        <field id="addNewAccount" translate="label comment" type="button" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Request Multibanco Account</label>
+                            <comment>Don't have multibanco account? Click to add multibanco account</comment>
+                            <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\AddNewAccountBtn</frontend_model>
+                        </field>
+                        <field id="resetAccounts" translate="label comment" type="button" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Reset Accounts</label>
+                            <comment>Add new account? Click to reset your accounts</comment>
+                            <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\ResetAccountBtn</frontend_model>
+                        </field>
+                        <field id="callbackInfo" sortOrder="161" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\CallbackInfo</frontend_model>
+                        </field>
+                        <field id="allowspecific" translate="label" type="allowspecific" sortOrder="50" showInDefault="1" showInWebsite="1" canRestore="1">
+                            <label>Payment from Applicable Countries</label>
+                            <source_model>Magento\Payment\Model\Config\Source\Allspecificcountries</source_model>
+                        </field>
+                        <field id="specificcountry" translate="label" type="multiselect" sortOrder="51" showInDefault="1" showInWebsite="1">
+                            <label>Payment from Specific Countries</label>
+                            <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
+                            <can_be_empty>1</can_be_empty>
+                        </field>
+                    </group>
+                    <group id="mbway" type="text" sortOrder="11" showInDefault="1" showInWebsite="1" showInStore="1"
+                       translate="label">
+                        <label>MB WAY Configuration</label>
+                        <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\FieldSet</frontend_model>
+                        <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Enable</label>
+                            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        </field>
+                        <field id="activeCallback" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Activate Callback</label>
+                            <comment>Activate callback automatically. If sandbox mode is enabled, callback will not activate.</comment>
+                            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        </field>
+                        <field id="cancelMbwayOrder" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Cancel MB WAY Order</label>
+                            <comment>Automaticly cancel MB WAY order when payment notification expired.</comment>
+                            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        </field>
+                        <field id="mbwayKey" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" type="select">
+                            <label>MB WAY Key</label>
+                            <source_model>Ifthenpay\Payment\Model\Config\Source\MbwayKey</source_model>
+                        </field>
+                        <field id="chooseNewEntidadeSubEntidade" translate="label" type="button" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Choose New Entidade/SubEntidade</label>
+                            <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\ChooseNewEntidadeSubEntidadeBtn</frontend_model>
+                        </field>
+                        <field id="addNewAccount" translate="label comment" type="button" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Request MB WAY Account</label>
+                            <comment>Don't have mbway account? Click to request an mbway account</comment>
+                            <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\AddNewAccountBtn</frontend_model>
+                        </field>
+                        <field id="callbackInfo" sortOrder="161" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\CallbackInfo</frontend_model>
+                        </field>
+                        <field id="allowspecific" translate="label" type="allowspecific" sortOrder="50" showInDefault="1" showInWebsite="1" canRestore="1">
+                            <label>Payment from Applicable Countries</label>
+                            <source_model>Magento\Payment\Model\Config\Source\Allspecificcountries</source_model>
+                        </field>
+                        <field id="specificcountry" translate="label" type="multiselect" sortOrder="51" showInDefault="1" showInWebsite="1">
+                            <label>Payment from Specific Countries</label>
+                            <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
+                            <can_be_empty>1</can_be_empty>
+                        </field>
+                    </group>
+                    <group id="payshop" type="text" sortOrder="12" showInDefault="1" showInWebsite="1" showInStore="1"
+                       translate="label">
+                        <label>Payshop Configuration</label>
+                        <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\FieldSet</frontend_model>
+                        <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Enable</label>
+                            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        </field>
+                        <field id="activeCallback" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Activate Callback</label>
+                            <comment>Activate callback automatically. If sandbox mode is enabled, callback will not activate.</comment>
+                            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        </field>
+                        <field id="payshopKey" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" type="select">
+                            <label>Payshop Key</label>
+                            <source_model>Ifthenpay\Payment\Model\Config\Source\PayshopKey</source_model>
+                        </field>
+                        <field id="validade" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Payshop Validaty</label>
+                        </field>
+                        <field id="chooseNewEntidadeSubEntidade" translate="label" type="button" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Choose New Entidade/SubEntidade</label>
+                            <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\ChooseNewEntidadeSubEntidadeBtn</frontend_model>
+                        </field>
+                        <field id="addNewAccount" translate="label comment" type="button" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Request Payshop Account</label>
+                            <comment>Don't have payshop account? Click to request an payshop account</comment>
+                            <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\AddNewAccountBtn</frontend_model>
+                        </field>
+                        <field id="callbackInfo" sortOrder="161" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\CallbackInfo</frontend_model>
+                        </field>
+                        <field id="allowspecific" translate="label" type="allowspecific" sortOrder="50" showInDefault="1" showInWebsite="1" canRestore="1">
+                            <label>Payment from Applicable Countries</label>
+                            <source_model>Magento\Payment\Model\Config\Source\Allspecificcountries</source_model>
+                        </field>
+                        <field id="specificcountry" translate="label" type="multiselect" sortOrder="51" showInDefault="1" showInWebsite="1">
+                            <label>Payment from Specific Countries</label>
+                            <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
+                            <can_be_empty>1</can_be_empty>
+                        </field>
+                    </group>
+                    <group id="ccard" type="text" sortOrder="12" showInDefault="1" showInWebsite="1" showInStore="1"
+                       translate="label">
+                        <label>Credit Card Configuration</label>
+                        <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\FieldSet</frontend_model>
+                        <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Enable</label>
+                            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        </field>
+                        <field id="ccardKey" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" type="select">
+                            <label>CCard Key</label>
+                            <source_model>Ifthenpay\Payment\Model\Config\Source\CCardKey</source_model>
+                        </field>
+                        <field id="chooseNewEntidadeSubEntidade" translate="label" type="button" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Choose New Entidade/SubEntidade</label>
+                            <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\ChooseNewEntidadeSubEntidadeBtn</frontend_model>
+                        </field>
+                        <field id="addNewAccount" translate="label comment" type="button" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Request Credit Card Account</label>
+                            <comment>Don't have credit card account? Click to request an credit card account</comment>
+                            <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\AddNewAccountBtn</frontend_model>
+                        </field>
+                        <field id="allowspecific" translate="label" type="allowspecific" sortOrder="50" showInDefault="1" showInWebsite="1" canRestore="1">
+                            <label>Payment from Applicable Countries</label>
+                            <source_model>Magento\Payment\Model\Config\Source\Allspecificcountries</source_model>
+                        </field>
+                        <field id="specificcountry" translate="label" type="multiselect" sortOrder="51" showInDefault="1" showInWebsite="1">
+                            <label>Payment from Specific Countries</label>
+                            <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
+                            <can_be_empty>1</can_be_empty>
+                        </field>
+                    </group>
+                </group>
+        </section>
+    </system>
+</config>

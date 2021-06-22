@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<!--
+/**
+* Ifthenpay_Payment module dependency
+*
+* @category    Gateway Payment
+* @package     Ifthenpay_Payment
+* @author      Ifthenpay
+* @copyright   Ifthenpay (http://www.ifthenpay.com)
+* @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+*/
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <payment>
+                <multibanco>
+                    <title>Multibanco</title>
+                    <subEntidade>Choose Entity</subEntidade>
+                    <allowspecific>0</allowspecific>
+                    <active>1</active>
+                    <order_status>pending_payment</order_status>
+                    <model>Ifthenpay\Payment\Model\MultibancoPayment</model>
+                </multibanco>
+                <mbway>
+                    <title>MB WAY</title>
+                    <allowspecific>0</allowspecific>
+                    <active>1</active>
+                    <order_status>pending_payment</order_status>
+                    <model>Ifthenpay\Payment\Model\MbwayPayment</model>
+                </mbway>
+                <payshop>
+                    <title>Payshop</title>
+                    <allowspecific>0</allowspecific>
+                    <active>1</active>
+                    <order_status>pending_payment</order_status>
+                    <model>Ifthenpay\Payment\Model\PayshopPayment</model>
+                </payshop>
+                <ccard>
+                    <title>Credit Card</title>
+                    <active>0</active>
+                    <model>IfthenpayCCardFacade</model>
+                    <order_status>pending_payment</order_status>
+                    <can_use_checkout>1</can_use_checkout>
+                    <is_gateway>1</is_gateway>
+                    <payment_action>authorize</payment_action>
+                    <can_authorize>1</can_authorize>
+                </ccard>
+        </payment>
+    </default>
+</config>
+

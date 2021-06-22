@@ -1,0 +1,138 @@
+<?php
+/**
+* Ifthenpay_Payment module dependency
+*
+* @category    Gateway Payment
+* @package     Ifthenpay_Payment
+* @author      Ifthenpay
+* @copyright   Ifthenpay (http://www.ifthenpay.com)
+* @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+*/
+
+if ($block->isIfthenpayPayment()) {
+   if ($block->getPaymentResultStatus()) {
+        if ($block->getPaymentMethod() == 'mbway' && $block->getMbwayCountdownShow()) { ?>
+            <div class="panel mbwayCountdownPanel">
+                <div class="panel-body">
+                    <h3><?= __('confirmPaymentMbwayApp') ?></h3>
+                    <div id="appSpinner" style="display:none">
+                        <img src="<?php echo $this->getViewFileUrl('Ifthenpay_Payment::svg/oval.svg'); ?>" alt="spinner svg"/>
+                    </div>
+                    <div id="countdownMbway">
+                        <h3 id="countdownMinutes"></h3>
+                        <h3>:</h3>
+                        <h3 id="countdownSeconds"></h3>
+                    </div>
+                    <p><?= __('confirmPaymentMbwayExpire') ?></p>
+                </div>
+            </div>
+            <div id="confirmMbwayOrder" class="panel" style="display:none;">
+                <div class="panel-heading">
+                <img src="<?php echo $this->getViewFileUrl('Ifthenpay_Payment::svg/mbwayOrderConfirm.svg'); ?>" alt="confirm order icon">
+                </div>
+                <div class="panel-body">
+                    <h3><?= __('mbwayOrderPaid') ?></h3>
+                    <p><?= __('mbwayOrderConfirmed') ?></p>
+                </div>
+            </div>
+            <input type="hidden" id="ifthenpayOrderId" value="<?php echo $block->getOrderId() ?>"/>
+            <input type="hidden" id="cancelMbwayOrderUrl" value="<?php echo $block->getUrlCancelMbwayOrder() ?>"/>
+            <input type="hidden" id="checkMbwayPaymentStatusUrl" value="<?php echo $block->getUrlCheckMbwayPaymentStatus() ?>"/>
+            <input type="hidden" id="mbwayIdPedido" value="<?php echo $block->ifthenpayGatewayResult['idPedido'] ?>"/>
+        <?php }
+        ?>
+        <div id="paymentReturnPanel" class="panel">
+            <div class="panel-body">
+                <div class="paymentLogo <?php echo $block->getPaymentMethod() . 'Icon'?>">
+                    <img src="<?php echo $this->getViewFileUrl('Ifthenpay_Payment::svg/' . $block->getPaymentMethod() . '.svg'); ?>" alt="<?php echo $block->getPaymentMethod()?> logotipo">
+                </div>
+                <div class="paymentData">
+                    <?php if ($block->getPaymentMethod() === 'multibanco') { ?>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <?= __('Entity') ?>:
+                                <span class="badge"><?php echo $block->ifthenpayGatewayResult['entidade'] ?></span>
+                            </li>
+                            <li class="list-group-item">
+                                <?= __('Reference') ?>:
+                                <span class="badge"><?php echo $block->ifthenpayGatewayResult['referencia'] ?></span>
+                            </li>
+                            <li class="list-group-item">
+                                <?= __('Total to Pay') ?>:
+                                <span class="badge"><?php echo $block->ifthenpayGatewayResult['totalToPay'] . $block->getStoreCurency() ?></span>
+                            </li>
+                        </ul>
+                    <?php } elseif ($block->getPaymentMethod() === 'mbway') { ?>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <?= __('Phone') ?>:
+                                <span class="badge"><?php echo $block->ifthenpayGatewayResult['telemovel'] ?></span>
+                            </li>
+                            <li class="list-group-item">
+                                <?= __('order') ?>:
+                                <span class="badge"><?php echo $block->getOrder()->getIncrementId() ?></span>
+                            </li>
+                            <li class="list-group-item">
+                                <?= __('Total to Pay') ?>:
+                                <span class="badge"><?php echo $block->ifthenpayGatewayResult['totalToPay'] . $block->getStoreCurency() ?></span>
+                            </li>
+                        </ul>
+                        <?php if ($block->getResendMbwayNotificationControllerUrl()) { ?>
+                            <div>
+                                <h5><?= __('mbwayNotificationNotReceived') ?></h5>
+                                <button class="btn btn-primary" id="resendMbwayNotificationBtn"><?= __('mbwayResendNotification') ?></button>
+                                <input type="hidden" id="resendMbwayNotificationControllerUrl" value="<?php echo $block->getResendMbwayNotificationControllerUrl() ?>"/>
+                                <input type="hidden" id="mbwayPhoneNumber" value="<?php echo $block->ifthenpayGatewayResult['telemovel'] ?>"/>
+                                <input type="hidden" id="mbwayTotalToPay" value="<?php echo $block->ifthenpayGatewayResult['totalToPay'] ?>"/>
+                            </div>
+                        <?php } ?>
+                    <?php } elseif ($block->getPaymentMethod() === 'payshop') { ?>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <?= __('Reference') ?>:
+                                <span class="badge"><?php echo $block->ifthenpayGatewayResult['referencia'] ?></span>
+                            </li>
+                            <li class="list-group-item">
+                                <?= __('Validity') ?>:
+                                <span class="badge"><?php echo $block->ifthenpayGatewayResult['validade'] !== '' ? (new \DateTime($block->ifthenpayGatewayResult['validade']))->format('d-m-Y') : '' ?></span>
+                            </li>
+                            <li class="list-group-item">
+                                <?= __('Total to Pay') ?>:
+                                <span class="badge"><?php echo $block->ifthenpayGatewayResult['totalToPay'] . $block->getStoreCurency() ?></span>
+                            </li>
+                        </ul>
+                    <?php } else { ?>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <?= __('Total to Pay') ?>:
+                                <span class="badge"><?php echo $block->ifthenpayGatewayResult['totalToPay'] . $block->getStoreCurency() ?></span>
+                            </li>
+                        </ul>
+                    <?php } ?>
+                </div>
+            </div>
+        </div>
+        <br /><br /><?= __('emailSent') ?>
+        <br /><br /><strong><?= __('orderShiped') ?></strong>
+    <?php } elseif ($block->ifthenpayGatewayResult['status'] === 'cancel') {?>
+        <div id="orderCancelPanel" class="panel">
+            <div class="panel-heading">
+            <img src="<?php echo $this->getViewFileUrl('Ifthenpay_Payment::svg/cancelOrder.svg'); ?>" alt="cancel order icon">
+            </div>
+            <div class="panel-body">
+                <h3><?= __('creditCardPaymenCanceledTitle') ?></h3>
+                <p><?= __('creditCardPaymenCanceledDescription') ?></p>
+            </div>
+        </div>
+    <?php } else { ?>
+        <div id="orderErrorPanel" class="panel">
+            <div class="panel-heading">
+                <img src="<?php echo $this->getViewFileUrl('Ifthenpay_Payment::svg/error.svg'); ?>" alt="error icon">
+            </div>
+            <div class="panel-body">
+                <h3><?= __('wentWrong') ?></h3>
+                <p><?= __('wentWrongDescription') ?></p>
+            </div>
+        </div>
+    <?php }
+}

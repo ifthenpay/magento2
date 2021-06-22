@@ -1,0 +1,32 @@
+<?php
+/**
+* Ifthenpay_Payment module dependency
+*
+* @category    Gateway Payment
+* @package     Ifthenpay_Payment
+* @author      Ifthenpay
+* @copyright   Ifthenpay (http://www.ifthenpay.com)
+* @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+*/
+
+if($block->configData['callbackUrl'] && $block->configData['chaveAntiPhishing']) { ?>
+    <div class="ifthenpayCallback panel">
+        <div class="panel-body">
+        <?php if($block->configData['callbackActivated']) { ?>
+            <span class="label label-success"><?= __('Callback Activated') ?></span>
+        <?php } else { ?>
+            <span class="label label-danger"><?= __('Callback not Activated') ?></span>
+        <?php } ?>
+            <ul class="list-group callback-list-group">
+                <li class="list-group-item">
+                    <?= __('Anti-Phishing Key') ?>:
+                    <span class="badge"><?php echo $block->configData['chaveAntiPhishing'] ?></span>
+                </li>
+                <li class="list-group-item callback-list">
+                    <?= __('Callback Url') ?>:
+                    <span class="badge callbackUrl"><?php echo $block->configData['callbackUrl'] ?></span>
+                </li>
+            </ul>
+        </div>
+    </div>
+<?php } ?>

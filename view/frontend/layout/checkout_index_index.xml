@@ -1,0 +1,90 @@
+<?xml version="1.0"?>
+<!--
+/**
+* Ifthenpay_Payment module dependency
+*
+* @category    Gateway Payment
+* @package     Ifthenpay_Payment
+* @author      Ifthenpay
+* @copyright   Ifthenpay (http://www.ifthenpay.com)
+* @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+*/
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="Ifthenpay_Payment::styles.css"/>
+    </head>
+    <body>
+        <referenceBlock name="checkout.root">
+            <arguments>
+                <argument name="jsLayout" xsi:type="array">
+                    <item name="components" xsi:type="array">
+                        <item name="checkout" xsi:type="array">
+                            <item name="children" xsi:type="array">
+                                <item name="steps" xsi:type="array">
+                                    <item name="children" xsi:type="array">
+                                        <item name="billing-step" xsi:type="array">
+                                            <item name="component" xsi:type="string">uiComponent</item>
+                                            <item name="children" xsi:type="array">
+                                                <item name="additional-payment-validators" xsi:type="array">
+                                                    <item name="children" xsi:type="array">
+                                                        <!-- Declare your validation. START -->
+                                                        <item name="mbway-validator" xsi:type="array">
+                                                            <item name="component" xsi:type="string">Ifthenpay_Payment/js/view/mbwayValidation</item>
+                                                        </item>
+                                                        <!-- Declare your validation. END -->
+                                                    </item>
+                                                </item>
+                                                <item name="payment" xsi:type="array">
+                                                    <item name="children" xsi:type="array">
+                                                        <item name="renders" xsi:type="array">
+                                                            <!-- merge payment method renders here -->
+                                                            <item name="children" xsi:type="array">
+                                                                <item name="multibanco" xsi:type="array">
+                                                                    <item name="component" xsi:type="string">Ifthenpay_Payment/js/view/payment/ifthenpay-payments</item>
+                                                                    <item name="methods" xsi:type="array">
+                                                                        <item name="multibanco" xsi:type="array">
+                                                                            <item name="isBillingAddressRequired" xsi:type="boolean">true</item>
+                                                                        </item>
+                                                                    </item>
+                                                                </item>
+                                                                <item name="mbway" xsi:type="array">
+                                                                    <item name="component" xsi:type="string">Ifthenpay_Payment/js/view/payment/ifthenpay-payments</item>
+                                                                    <item name="methods" xsi:type="array">
+                                                                        <item name="multibanco" xsi:type="array">
+                                                                            <item name="isBillingAddressRequired" xsi:type="boolean">true</item>
+                                                                        </item>
+                                                                    </item>
+                                                                </item>
+                                                                <item name="payshop" xsi:type="array">
+                                                                    <item name="component" xsi:type="string">Ifthenpay_Payment/js/view/payment/ifthenpay-payments</item>
+                                                                    <item name="methods" xsi:type="array">
+                                                                        <item name="multibanco" xsi:type="array">
+                                                                            <item name="isBillingAddressRequired" xsi:type="boolean">true</item>
+                                                                        </item>
+                                                                    </item>
+                                                                </item>
+                                                                <item name="ccard" xsi:type="array">
+                                                                    <item name="component" xsi:type="string">Ifthenpay_Payment/js/view/payment/ifthenpay-payments</item>
+                                                                    <item name="methods" xsi:type="array">
+                                                                        <item name="ccard" xsi:type="array">
+                                                                            <item name="isBillingAddressRequired" xsi:type="boolean">true</item>
+                                                                        </item>
+                                                                    </item>
+                                                                </item>
+                                                            </item>
+                                                        </item>
+                                                    </item>
+                                                </item>
+                                            </item>
+                                        </item>
+                                    </item>
+                                </item>
+                            </item>
+                        </item>
+                    </item>
+                </argument>
+            </arguments>
+        </referenceBlock>
+    </body>
+</page>
