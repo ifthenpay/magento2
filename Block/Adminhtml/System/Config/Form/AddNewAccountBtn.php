@@ -48,7 +48,7 @@ class AddNewAccountBtn extends Field
             $userPaymentMethods = $configData->getUserPaymentMethods();
             $ifthenpayPaymentMethods = $this->gateway->getPaymentMethodsType();
             $this->logger->debug('addNewAccountBtn: user payment methods retrieved with success');
-            if (!empty($configData) && empty(array_diff($userPaymentMethods, $ifthenpayPaymentMethods))) {
+            if (!empty(array_diff($userPaymentMethods, $ifthenpayPaymentMethods))) {
                 $element->unsScope()->unsCanUseWebsiteValue()->unsCanUseDefaultValue();
                 return parent::render($element);
             } else {
@@ -58,8 +58,6 @@ class AddNewAccountBtn extends Field
             $this->logger->debug('addNewAccountBtn: ' . $th->getMessage());
             throw $th;
         }
-        
-
     }
 
     protected function _getElementHtml(AbstractElement $element)

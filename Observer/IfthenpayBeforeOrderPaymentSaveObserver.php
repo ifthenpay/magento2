@@ -42,7 +42,7 @@ class IfthenpayBeforeOrderPaymentSaveObserver implements ObserverInterface
         $order = $payment->getOrder();
 
         try {
-            if (!empty($this->request->getParams()) && $this->gateway->checkIfthenpayPaymentMethod($paymentMethod) && $paymentMethod !== 'ccard') {
+            if ($this->gateway->checkIfthenpayPaymentMethod($paymentMethod) && $paymentMethod !== 'ccard') {
                 $this->ifthenpayGatewayResult = $this->ifthenpayPaymentReturn->setOrder($order)->execute()->getPaymentGatewayResultData();
                 switch ($paymentMethod) {
                     case 'multibanco':

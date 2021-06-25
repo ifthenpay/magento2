@@ -48,7 +48,7 @@ class ResetAccountBtn extends Field
             $userPaymentMethods = $configData->getUserPaymentMethods();
             $ifthenpayPaymentMethods = $this->gateway->getPaymentMethodsType();
 
-            if (!empty($configData) && empty(array_diff($userPaymentMethods, $ifthenpayPaymentMethods))) {
+            if (!empty(array_diff($userPaymentMethods, $ifthenpayPaymentMethods))) {
                 $element->unsScope()->unsCanUseWebsiteValue()->unsCanUseDefaultValue();
                 $this->logger->debug('ResetAccountBtn: ResetAccountBtn render with success');
                 return parent::render($element);

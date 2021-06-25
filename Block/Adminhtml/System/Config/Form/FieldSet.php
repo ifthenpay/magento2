@@ -11,10 +11,10 @@
 
 namespace Ifthenpay\Payment\Block\Adminhtml\System\Config\Form;
 
+//use Magento\Backend\Block\Template\Context;
 use Magento\Backend\Block\Context;
 use Magento\Backend\Model\Auth\Session;
 use Magento\Config\Block\System\Config\Form\Fieldset as BaseField;
-use Magento\Config\Model\Config;
 use Magento\Framework\Data\Form\Element\AbstractElement;
 use Magento\Framework\View\Helper\Js;
 use Magento\Framework\View\Helper\SecureHtmlRenderer;
@@ -23,7 +23,7 @@ use Ifthenpay\Payment\Helper\Data;
 
 class FieldSet extends BaseField
 {
-    
+
     private $config;
     private $secureRenderer;
     private $helperData;
@@ -33,7 +33,6 @@ class FieldSet extends BaseField
         Context $context,
         Session $authSession,
         Js $jsHelper,
-        Config $config,
         SecureHtmlRenderer $secureRenderer,
         array $data = []
     ) {
@@ -42,10 +41,11 @@ class FieldSet extends BaseField
             $authSession,
             $jsHelper,
             $data,
-            $secureRenderer
+            $secureRenderer,
+            $authSession,
+            $jsHelper,
+
         );
-        $this->config         = $config;
-        $this->secureRenderer = $secureRenderer;
         $this->helperData = $helperData;
     }
 
@@ -55,7 +55,7 @@ class FieldSet extends BaseField
         $backofficeKey = $this->helperData->getBackofficeKey();
 
         if (is_null($backofficeKey)) {
-            return $this->_decorateRowHtml($element, $html);
+            return $html;
         }
         return parent::render($element);
     }

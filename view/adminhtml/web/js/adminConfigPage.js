@@ -32,7 +32,7 @@ require([
             success: function(data, status, xhr) {
                 subEntidadeInput.empty();
                 Object.keys(data).forEach(key => {
-                    data[key][1].SubEntidade.forEach((subEntidade) => {
+                    data[key][0].SubEntidade.forEach((subEntidade) => {
                         documentFragment.append($(`<option value="${subEntidade}">${subEntidade}</option>`));
                     });
                 });

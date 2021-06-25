@@ -29,13 +29,13 @@ class MbwayData extends Data implements IfthenpayDataInterface
     {
         $dataMbwayKey = $this->scopeConfig->getValue(self::USER_MBWAY_KEY, ScopeConfigInterface::SCOPE_TYPE_DEFAULT, $this->getStoreCode());
         $cancelMbwayOrder = $this->scopeConfig->getValue(self::CANCEL_MBWAY_ORDER, ScopeConfigInterface::SCOPE_TYPE_DEFAULT, $this->getStoreCode());
-        if ($dataMbwayKey) {
+        if ($dataMbwayKey && $cancelMbwayOrder) {
             return array_merge(parent::getConfig(), [
                 'mbwayKey' => $dataMbwayKey,
                 'cancelMbwayOrder' => $cancelMbwayOrder
             ]);
         }
-
+        return [];
     }
 
     public function deleteConfig(): void

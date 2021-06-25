@@ -23,8 +23,10 @@ class MultibancoConfigForm extends ConfigForm
     {
         if (!empty($this->configData)) {
             if ($useEntidade) {
+                unset($this->options['Choose Account']);
                 $this->options[$this->configData['entidade']] = $this->configData['entidade'];
             } else {
+                unset($this->options['Choose Account']);
                 $this->options[$this->configData['subEntidade']] = $this->configData['subEntidade'];
             }
         } else {
