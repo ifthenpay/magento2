@@ -17,7 +17,7 @@ use Ifthenpay\Payment\Lib\Payments\Payment;
 use Ifthenpay\Payment\Lib\Builders\DataBuilder;
 use Ifthenpay\Payment\Lib\Builders\GatewayDataBuilder;
 use Ifthenpay\Payment\Lib\Contracts\Payments\PaymentMethodInterface;
-use Ifthenpay\Payment\Lib\Request\Webservice;
+use Ifthenpay\Payment\Lib\Request\WebService;
 
 
 class MbWay extends Payment implements PaymentMethodInterface
@@ -26,7 +26,7 @@ class MbWay extends Payment implements PaymentMethodInterface
     private $telemovel;
     private $mbwayPedido;
 
-    public function __construct(GatewayDataBuilder $data, string $orderId, string $valor, Webservice $webservice = null)
+    public function __construct(GatewayDataBuilder $data, string $orderId, string $valor, WebService $webservice = null)
     {
         parent::__construct($orderId, $valor, $data, $webservice);
         $this->mbwayKey = $data->getData()->mbwayKey;

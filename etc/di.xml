@@ -33,7 +33,7 @@
     </virtualType>
     <virtualType name="gatewayDataBuilder" type="Ifthenpay\Payment\Lib\Builders\GatewayDataBuilder">
     </virtualType>
-    <virtualType name="webservice" type="Ifthenpay\Payment\Lib\Request\Webservice">
+    <virtualType name="webservice" type="Ifthenpay\Payment\Lib\Request\WebService">
         <arguments>
             <argument name="client" xsi:type="object">client</argument>
         </arguments>

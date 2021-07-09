@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Ifthenpay\Payment\Lib\Payments;
 
-use Ifthenpay\Payment\Lib\Request\Webservice;
+use Ifthenpay\Payment\Lib\Request\WebService;
 use Ifthenpay\Payment\Lib\Builders\GatewayDataBuilder;
 use Ifthenpay\Payment\Lib\Contracts\Payments\PaymentStatusInterface;
 
@@ -24,7 +24,7 @@ class MbWayPaymentStatus implements PaymentStatusInterface
     private $mbwayPedido;
     private $webservice;
 
-    public function __construct(Webservice $webservice)
+    public function __construct(WebService $webservice)
     {
         $this->webservice = $webservice;
     }

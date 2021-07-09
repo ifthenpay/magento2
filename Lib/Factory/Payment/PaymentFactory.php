@@ -32,7 +32,7 @@ class PaymentFactory extends BaseFactory
     private $dataBuilder;
     private $webservice;
 
-    public function __construct(DataBuilder $dataBuilder, Webservice $webservice = null)
+    public function __construct(DataBuilder $dataBuilder, WebService $webservice = null)
 	{
         $this->dataBuilder = $dataBuilder;
         $this->webservice = $webservice;

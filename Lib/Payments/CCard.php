@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Ifthenpay\Payment\Lib\Payments;
 
-use Ifthenpay\Payment\Lib\Request\Webservice;
+use Ifthenpay\Payment\Lib\Request\WebService;
 use Ifthenpay\Payment\Lib\Builders\DataBuilder;
 use Ifthenpay\Payment\Lib\Builders\GatewayDataBuilder;
 use Ifthenpay\Payment\Lib\Contracts\Payments\PaymentMethodInterface;
@@ -26,7 +26,7 @@ class CCard extends Payment implements PaymentMethodInterface
     private $errorUrl;
     private $cancelUrl;
 
-    public function __construct(GatewayDataBuilder $data, string $orderId, string $valor, Webservice $webservice = null)
+    public function __construct(GatewayDataBuilder $data, string $orderId, string $valor, WebService $webservice = null)
     {
         parent::__construct($orderId, $valor, $data, $webservice);
         $this->ccardKey = $data->getData()->ccardKey;
@@ -50,7 +50,7 @@ class CCard extends Payment implements PaymentMethodInterface
     private function setReferencia(): void
     {
         $this->ccardPedido = $this->webservice->postRequest(
-            'https://ifthenpay.com/api/creditcard/sandbox/init/' . $this->ccardKey,
+            'https://ifthenpay.com/api/creditcard/init/' . $this->ccardKey,
             [
                 "orderId" => $this->orderId,
                 "amount" => $this->valor,
