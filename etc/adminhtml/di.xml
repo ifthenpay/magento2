@@ -13,11 +13,6 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
     <virtualType name="gateway" type="Ifthenpay\Payment\Lib\Payments\Gateway">
     </virtualType>
-    <type name="Ifthenpay\Payment\Model\Config\Backend\BackofficeKey">
-        <arguments>
-            <argument name="gateway" xsi:type="object">gateway</argument>
-        </arguments>
-    </type>
     <preference for="Magento\Framework\Data\OptionSourceInterface" type="Ifthenpay\Payment\Model\Config\Source\Entidade"/>
     <type name="Ifthenpay\Payment\Model\Config\Backend\Config">
         <arguments>

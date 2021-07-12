@@ -48,7 +48,7 @@
                         <field id="subEntidade" translate="label comment" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" type="select">
                             <label>Sub Entity</label>
                             <comment>Choose the entity and sub entity will appear automatically</comment>
-                            <source_model>Ifthenpay\Payment\Model\Config\Source\subEntidade</source_model>
+                            <source_model>Ifthenpay\Payment\Model\Config\Source\SubEntidade</source_model>
                         </field>
                         <field id="chooseNewEntidadeSubEntidade" translate="label" type="button" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Choose New Entidade/SubEntidade</label>
