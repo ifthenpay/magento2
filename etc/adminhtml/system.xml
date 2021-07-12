@@ -32,9 +32,10 @@
                        translate="label">
                         <label>Multibanco Configuration</label>
                         <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\FieldSet</frontend_model>
-                        <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                             <label>Enable</label>
                             <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                            <config_path>payment/multibanco/active</config_path>
                         </field>
                         <field id="activeCallback" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Activate Callback</label>
@@ -81,9 +82,10 @@
                        translate="label">
                         <label>MB WAY Configuration</label>
                         <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\FieldSet</frontend_model>
-                        <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                             <label>Enable</label>
                             <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                            <config_path>payment/mbway/active</config_path>
                         </field>
                         <field id="activeCallback" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Activate Callback</label>
@@ -125,9 +127,10 @@
                        translate="label">
                         <label>Payshop Configuration</label>
                         <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\FieldSet</frontend_model>
-                        <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                             <label>Enable</label>
                             <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                            <config_path>payment/payshop/active</config_path>
                         </field>
                         <field id="activeCallback" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Activate Callback</label>
@@ -167,9 +170,10 @@
                        translate="label">
                         <label>Credit Card Configuration</label>
                         <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\FieldSet</frontend_model>
-                        <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                             <label>Enable</label>
                             <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                            <config_path>payment/ccard/active</config_path>
                         </field>
                         <field id="ccardKey" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" type="select">
                             <label>CCard Key</label>
