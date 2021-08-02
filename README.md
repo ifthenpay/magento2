@@ -1,4 +1,5 @@
 Ifthenpay module for Magento 2
+==============
 
 ![Ifthenpay](https://ifthenpay.com/images/all_payments_logo.png)
 
