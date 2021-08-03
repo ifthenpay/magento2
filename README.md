@@ -5,6 +5,8 @@ Ifthenpay module for Magento 2
 
 **This is the Ifthenpay module for Magento CMS**
 
+**Este módulo é compatível com versão 2.4 ou superior do Magento.**
+
 **Multibanco** is one Portuguese payment method that allows the customer to pay by bank reference.
 This module will allow you to generate a payment Reference that the customer can then use to pay for his order on the ATM or Home Banking service. This plugin uses one of the several gateways/services available in Portugal, IfthenPay.
 
