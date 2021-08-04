@@ -1,9 +1,6 @@
 Ifthenpay module for Magento 2
-
-This extension is not ready for production, is a test.
-Este módulo não está pronto para produção, é apenas um teste.
 ==============
-![Ifthenpay](https://ifthenpay.com/images/all_payments_logo.png)
+![Ifthenpay](https://ifthenpay.com/images/all_payments_logo_final.png)
 
 **This is the Ifthenpay module for Magento CMS**
 
