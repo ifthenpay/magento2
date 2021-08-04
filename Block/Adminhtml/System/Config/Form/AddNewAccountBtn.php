@@ -43,7 +43,7 @@ class AddNewAccountBtn extends Field
     public function render(AbstractElement $element)
     {
         try {
-            $this->paymentMethod = str_replace('_addNewAccount', '', str_replace('payment_us_ifthenpay_', '', $element->getHtmlId()));
+            $this->paymentMethod = str_replace('_addNewAccount', '', explode("_ifthenpay_", $element->getHtmlId())[1]);
             $configData = $this->dataFactory->setType($this->paymentMethod)->build();
             $userPaymentMethods = $configData->getUserPaymentMethods();
             $ifthenpayPaymentMethods = $this->gateway->getPaymentMethodsType();

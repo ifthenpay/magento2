@@ -51,7 +51,7 @@ class CallbackInfo extends \Magento\Config\Block\System\Config\Form\Field
     public function render(\Magento\Framework\Data\Form\Element\AbstractElement $element)
     {
         try {
-            $paymentMethod = str_replace('_callbackInfo', '', str_replace('payment_us_ifthenpay_', '', $element->getHtmlId()));
+            $paymentMethod = str_replace('_callbackInfo', '', explode("_ifthenpay_", $element->getHtmlId())[1]);
             $ifthenpayConfigForm = $this->ifthenpayConfigFormFactory->setType($paymentMethod)->build();
 
             if (!$ifthenpayConfigForm->displayCallbackInfo()) {
