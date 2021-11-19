@@ -11,6 +11,7 @@
 
 namespace Ifthenpay\Payment\Block;
 
+use Ifthenpay\Payment\Lib\Payments\Gateway;
 use Ifthenpay\Payment\Helper\Factory\DataFactory;
 use Magento\Framework\View\Element\Template\Context;
 
@@ -20,28 +21,28 @@ class Info extends \Magento\Payment\Block\Info
 
     public function __construct(Context $context, DataFactory $dataFactory,array $data = [])
     {
-        $this->dataFactory = $dataFactory;
         parent::__construct($context, $data);
+        $this->dataFactory = $dataFactory;
     }
 
     public function getSpecificInformation()
     {
         switch ($this->getMethodCode()) {
-            case 'multibanco':
+            case Gateway::MULTIBANCO:
                 $informations[__('Entity')->render()] = $this->getInfo()->getAdditionalInformation('entidade');
                 $informations[__('Reference')->render()] = $this->getInfo()->getAdditionalInformation('referencia');
                 break;
-            case 'mbway':
+            case Gateway::MBWAY:
                 $informations[__('Request ID')->render()] = $this->getInfo()->getAdditionalInformation('idPedido');
                 $informations[__('MB WAY Phone')->render()] = $this->getInfo()->getAdditionalInformation('telemovel');
                 break;
-            case 'payshop':
+            case Gateway::PAYSHOP:
                 $informations[__('Request ID')->render()] = $this->getInfo()->getAdditionalInformation('idPedido');
                 $informations[__('Reference')->render()] = $this->getInfo()->getAdditionalInformation('referencia');
                 $informations[__('Validity')->render()] = $this->getInfo()->getAdditionalInformation('validade') !== '' ? (new \DateTime($this->getInfo()->getAdditionalInformation('validade')))->format('d-m-Y') : '';
 
                 break;
-            case 'ccard':
+            case Gateway::CCARD:
                 $informations[__('Request ID')->render()] = $this->getInfo()->getAdditionalInformation('idPedido');
                 break;
             default:

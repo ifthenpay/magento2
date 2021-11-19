@@ -13,8 +13,9 @@ declare(strict_types=1);
 
 namespace Ifthenpay\Payment\Model\Ui;
 
-use Magento\Checkout\Model\ConfigProviderInterface;
+use Ifthenpay\Payment\Lib\Payments\Gateway;
 use Magento\Framework\View\Asset\Repository;
+use Magento\Checkout\Model\ConfigProviderInterface;
 
 class IfthenpayConfigProvider implements ConfigProviderInterface
 {
@@ -30,13 +31,13 @@ class IfthenpayConfigProvider implements ConfigProviderInterface
     {
         return [
             'payment' => [
-                'multibanco' => [
+                Gateway::MULTIBANCO => [
                     'logoUrl' => $this->assetRepository->getUrlWithParams('Ifthenpay_Payment::svg/multibanco.svg', []),
                 ],
-                'mbway' => [
+                Gateway::MBWAY => [
                     'logoUrl' => $this->assetRepository->getUrlWithParams('Ifthenpay_Payment::svg/mbway.svg', []),
                 ],
-                'payshop' => [
+                Gateway::PAYSHOP => [
                     'logoUrl' => $this->assetRepository->getUrlWithParams('Ifthenpay_Payment::svg/payshop.svg', []),
                 ],
             ]

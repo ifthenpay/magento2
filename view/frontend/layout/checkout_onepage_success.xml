@@ -16,6 +16,10 @@
         <script src="Ifthenpay_Payment::js/mbwayCountDown.js"/>
     </head>
     <body>
+        <referenceContainer name="page.messages">
+            <block class="Magento\Framework\View\Element\Template" name="ajax.message.placeholder" template="Magento_Theme::html/messages.phtml"/>
+            <block class="Magento\Framework\View\Element\Messages" name="messages" as="messages" template="Magento_Theme::messages.phtml"/>
+        </referenceContainer>
         <referenceContainer name="order.success.additional.info">
             <block class="Ifthenpay\Payment\Block\Checkout\Onepage\Success\PaymentReturn" name="onepage.success.paymentReturn"
             template="checkout/onepage/success/paymentReturn.phtml"/>

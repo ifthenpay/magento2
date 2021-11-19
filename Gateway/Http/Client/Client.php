@@ -45,10 +45,13 @@ class Client implements ClientInterface
                 ->setOrder($transferObject->getBody()['order'])
                 ->setPayment($transferObject->getBody()['payment'])
                 ->execute()->getPaymentGatewayResultData();
-            $this->logger->debug('CCard Payment: CCard Payment return executed with success');
+            $this->logger->debug('CCard Payment return executed with success', ['result' => $result]);
             return $result;
         } catch (\Exception $th) {
-            $this->logger->debug('CCard Payment: Error executing CCard Payment return - ' . $th->getMessage());
+            $this->logger->debug('Error executing CCard Payment return', [
+                'error' => $th,
+                'errorMessage' => $th->getMessage()
+            ]);
             throw $th;
         }
     }

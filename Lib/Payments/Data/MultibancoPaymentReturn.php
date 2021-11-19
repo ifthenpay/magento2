@@ -25,7 +25,7 @@ class MultibancoPaymentReturn extends MultibancoBase implements PaymentReturnInt
         $this->setGatewayBuilderData();
         $this->paymentGatewayResultData = $this->ifthenpayGateway->execute(
             $this->paymentDefaultData->paymentMethod,
-            $this->gatewayBuilder,
+            $this->gatewayDataBuilder,
             strval($this->paymentDefaultData->order->getIncrementId()),
             strval($this->paymentDefaultData->order->getGrandTotal())
         )->getData();

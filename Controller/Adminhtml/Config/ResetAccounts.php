@@ -48,15 +48,31 @@ class ResetAccounts extends Action
             $backofficeKey = $configData->getBackofficeKey();
 
             if (!$backofficeKey) {
+                $this->logger->debug('Backoffice key is required for Reseting accounts', [
+                    'errorMessage' => __('backofficeKeyRequired'),
+                    'backofficeKey' => $backofficeKey,
+                    'requestData' => $requestData,
+                    'configData' => $configData
+                ]);
                 return $this->resultJsonFactory->create()->setData(['error' => __('backofficeKeyRequired')]);
             }
             $this->gateway->authenticate($backofficeKey);
             $configData->saveUserPaymentMethods($this->gateway->getPaymentMethods());
             $configData->saveUserAccount($this->gateway->getAccount());
-            $this->logger->debug('ResetAccounts: Reseting accounts with success');
+            $this->logger->debug('Reseting accounts with success', [
+                'backofficeKey' => $backofficeKey,
+                'requestData' => $requestData,
+                'configData' => $configData
+            ]);
             return $this->resultJsonFactory->create()->setData(['success' => true]);
         } catch (\Throwable $th) {
-            $this->logger->debug('ResetAccounts: Error Reseting accounts - ' . $th->getMessage());
+            $this->logger->debug('Error Reseting accounts', [
+                'error' => $th,
+                'errorMessage' => $th->getMessage(),
+                'backofficeKey' => $backofficeKey,
+                'requestData' => $requestData,
+                'configData' => $configData
+            ]);
             return $this->resultJsonFactory->create()->setData(['error' => true]);
         }
     }

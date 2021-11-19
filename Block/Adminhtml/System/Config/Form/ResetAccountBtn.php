@@ -50,13 +50,25 @@ class ResetAccountBtn extends Field
 
             if (!empty(array_diff($userPaymentMethods, $ifthenpayPaymentMethods))) {
                 $element->unsScope()->unsCanUseWebsiteValue()->unsCanUseDefaultValue();
-                $this->logger->debug('ResetAccountBtn: ResetAccountBtn render with success');
+                $this->logger->debug('ResetAccountBtn render with success', [
+                    'paymentMethod' => $this->paymentMethod,
+                    'configData' => $configData,
+                    'userPaymentMethods' => $userPaymentMethods,
+                    'ifthenpayPaymentMethods' => $ifthenpayPaymentMethods
+                ]);
                 return parent::render($element);
             } else {
                 $this->_decorateRowHtml($element, '');
             }
         } catch (\Throwable $th) {
-            $this->logger->debug('ResetAccountBtn: Error - ' . $th->getMessage());
+            $this->logger->debug('Error render resetAccountBtn', [
+                'error' => $th,
+                'errorMessage' => $th->getMessage(),
+                'paymentMethod' => $this->paymentMethod,
+                'configData' => $configData,
+                'userPaymentMethods' => $userPaymentMethods,
+                'ifthenpayPaymentMethods' => $ifthenpayPaymentMethods
+            ]);
             throw $th;
         }
     }

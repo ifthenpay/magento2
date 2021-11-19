@@ -13,25 +13,17 @@ declare(strict_types=1);
 
 namespace Ifthenpay\Payment\Lib\Payments;
 
-use Ifthenpay\Payment\Lib\Request\WebService;
-use Ifthenpay\Payment\Lib\Builders\GatewayDataBuilder;
+use Ifthenpay\Payment\Lib\Payments\PaymentStatus;
 use Ifthenpay\Payment\Lib\Contracts\Payments\PaymentStatusInterface;
 
 
-class MbWayPaymentStatus implements PaymentStatusInterface
+class MbWayPaymentStatus extends PaymentStatus implements PaymentStatusInterface
 {
-    private $data;
     private $mbwayPedido;
-    private $webservice;
-
-    public function __construct(WebService $webservice)
-    {
-        $this->webservice = $webservice;
-    }
 
     private function checkEstado(): bool
     {
-        if ($this->mbwayPedido['EstadoPedidos'][0]['Estado'] === '000') {
+        if (!empty($this->mbwayPedido['EstadoPedidos']) && $this->mbwayPedido['EstadoPedidos'][0]['Estado'] === '000') {
             return true;
         }
         return false;
@@ -39,7 +31,7 @@ class MbWayPaymentStatus implements PaymentStatusInterface
 
     private function getMbwayEstado(): void
     {
-        $this->mbwayPedido = $this->webservice->postRequest(
+        $this->mbwayPedido = $this->webService->postRequest(
             'https://mbway.ifthenpay.com/IfthenPayMBW.asmx/EstadoPedidosJSON',
             [
                     'MbWayKey' => $this->data->getData()->mbwayKey,
@@ -53,17 +45,5 @@ class MbWayPaymentStatus implements PaymentStatusInterface
     {
         $this->getMbwayEstado();
         return $this->checkEstado();
-    }
-
-    /**
-     * Set the value of data
-     *
-     * @return  self
-     */
-    public function setData(GatewayDataBuilder $data)
-    {
-        $this->data = $data;
-
-        return $this;
     }
 }

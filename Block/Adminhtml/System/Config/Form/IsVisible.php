@@ -15,7 +15,7 @@ namespace Ifthenpay\Payment\Block\Adminhtml\System\Config\Form;
 use Magento\Config\Block\System\Config\Form\Field;
 use Magento\Backend\Block\Template\Context;
 use Ifthenpay\Payment\Helper\Data;
-use \Magento\Framework\Data\Form\Element\AbstractElement;
+use Magento\Framework\Data\Form\Element\AbstractElement;
 
 class IsVisible extends Field
 {

@@ -26,9 +26,9 @@ class CCard extends Payment implements PaymentMethodInterface
     private $errorUrl;
     private $cancelUrl;
 
-    public function __construct(GatewayDataBuilder $data, string $orderId, string $valor, WebService $webservice = null)
+    public function __construct(GatewayDataBuilder $data, string $orderId, string $valor, WebService $webService = null)
     {
-        parent::__construct($orderId, $valor, $data, $webservice);
+        parent::__construct($orderId, $valor, $data, $webService);
         $this->ccardKey = $data->getData()->ccardKey;
         $this->successUrl = $data->getData()->successUrl;
         $this->errorUrl = $data->getData()->errorUrl;
@@ -49,7 +49,7 @@ class CCard extends Payment implements PaymentMethodInterface
 
     private function setReferencia(): void
     {
-        $this->ccardPedido = $this->webservice->postRequest(
+        $this->ccardPedido = $this->webService->postRequest(
             'https://ifthenpay.com/api/creditcard/init/' . $this->ccardKey,
             [
                 "orderId" => $this->orderId,

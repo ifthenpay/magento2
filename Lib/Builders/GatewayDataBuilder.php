@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Ifthenpay\Payment\Lib\Builders;
 
+use Ifthenpay\Payment\Lib\Builders\DataBuilder;
 use Ifthenpay\Payment\Lib\Contracts\Builders\GatewayDataBuilderInterface;
 
 class GatewayDataBuilder extends DataBuilder implements GatewayDataBuilderInterface

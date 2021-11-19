@@ -11,7 +11,7 @@
 
 namespace Ifthenpay\Payment\Controller\Frontend;
 
-use \Magento\Checkout\Model\Session;
+use Magento\Checkout\Model\Session;
 use Magento\Framework\App\Action\Action;
 use Magento\Framework\App\Action\Context;
 use Ifthenpay\Payment\Logger\IfthenpayLogger;
@@ -39,14 +39,20 @@ class CCardRedirectToProvider extends Action
     public function execute()
     {
         try {
-            
+
             $order = $this->_checkoutSession->getLastRealOrder();
             $payment = $order->getPayment();
-            $this->logger->debug('CCard Redirect: Redirect to lemanway made with success.');
-            return $this->resultFactory->create(ResultFactory::TYPE_REDIRECT)->setUrl($payment->getAdditionalInformation('paymentUrl'));
+            $paymentUrl = $payment->getAdditionalInformation('paymentUrl');
+            return $this->resultFactory->create(ResultFactory::TYPE_REDIRECT)->setUrl($paymentUrl);
         } catch (\Throwable $th) {
-            $this->logger->debug('CCard Redirect: Error redirecting to lemonway - ' . $th->getMessage());
+            $this->logger->debug('Error redirecting to ccard provider', [
+                'error' => $th,
+                'errorMessage' => $th->getMessage(),
+                'paymentUrl' => $paymentUrl,
+                'order' => $order,
+                'payment' => $payment
+            ]);
             throw $th;
-        }     
+        }
     }
 }

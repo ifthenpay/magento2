@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Ifthenpay\Payment\Lib\Callback;
 
+use Ifthenpay\Payment\Lib\Payments\Gateway;
 use Ifthenpay\Payment\Lib\Callback\CallbackData;
 use Ifthenpay\Payment\Lib\Contracts\Callback\CallbackDataInterface;
 
@@ -20,6 +21,6 @@ class CallbackDataCCard extends CallbackData implements CallbackDataInterface
 {
     public function getData(array $request): array
     {
-        return $this->repositoryFactory->setType('ccard')->build()->getByRequestId($request['requestId'])->getData();
+        return $this->repositoryFactory->setType(Gateway::CCARD)->build()->getByRequestId($request['requestId'])->getData();
     }
 }

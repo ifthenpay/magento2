@@ -11,12 +11,22 @@
 
 namespace Ifthenpay\Payment\Gateway\Response;
 
+use Ifthenpay\Payment\Logger\IfthenpayLogger;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Payment\Gateway\Response\HandlerInterface;
 use Magento\Payment\Gateway\Data\PaymentDataObjectInterface;
 
 class TxnIdHandler implements HandlerInterface
 {
+    private $logger;
+    
+    public function __construct(
+        IfthenpayLogger $logger
+    )
+    {
+        $this->logger = $logger;
+    }
+
     public function handle(array $handlingSubject, array $response)
     {
         $response = $response;
@@ -36,6 +46,11 @@ class TxnIdHandler implements HandlerInterface
             $payment->setAdditionalInformation('totalToPay', $response['totalToPay']);
             $payment->setTransactionId($response['idPedido']);
             $payment->setIsTransactionClosed(0);
+            $this->logger->debug('ccard adicional information set with success', [
+                'idPedido' => $response['idPedido'],
+                'paymentUrl' => $response['paymentUrl'],
+                'totalToPay' => $response['totalToPay']
+            ]);
         } else {
             $payment->setAdditionalInformation('error', __("The payment couldn't be processed at this time. Please try again later."));
             throw new LocalizedException(__("The payment couldn't be processed at this time. Please try again later."));

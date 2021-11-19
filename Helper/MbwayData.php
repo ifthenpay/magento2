@@ -12,8 +12,9 @@
 namespace Ifthenpay\Payment\Helper;
 
 use Ifthenpay\Payment\Helper\Data;
-use Ifthenpay\Payment\Helper\Contracts\IfthenpayDataInterface;
+use Ifthenpay\Payment\Lib\Payments\Gateway;
 use Magento\Framework\App\Config\ScopeConfigInterface;
+use Ifthenpay\Payment\Helper\Contracts\IfthenpayDataInterface;
 
 class MbwayData extends Data implements IfthenpayDataInterface
 {
@@ -23,7 +24,7 @@ class MbwayData extends Data implements IfthenpayDataInterface
     const CALLBACK_ACTIVATED = 'payment/ifthenpay/mbway/callbackActivated';
     const CANCEL_MBWAY_ORDER = 'payment/ifthenpay/mbway/cancelMbwayOrder';
 
-    protected $paymentMethod = 'mbway';
+    protected $paymentMethod = Gateway::MBWAY;
 
     public function getConfig(): array
     {

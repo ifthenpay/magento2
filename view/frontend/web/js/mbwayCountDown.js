@@ -20,6 +20,7 @@ require([
         var timer2 = '5:01';
         var minutesElement = $('#countdownMinutes');
         var secondsElement = $('#countdownSeconds');
+        var countdownPanel = $('div.mbwayCountdownPanel');
         var appSpinner = $('#appSpinner');
         var countdownMbway = $('#countdownMbway');
         var resendMbwayNotificationBtn = $('#resendMbwayNotificationBtn');
@@ -40,7 +41,7 @@ require([
                         if (response.orderStatus === 'paid') {
                             clearInterval(interval);
                             clearInterval(interval2);
-                            $('div.mbwayCountdownPanel').hide();
+                            countdownPanel.hide();
                             $('#confirmMbwayOrder').show();
                         }
                         appSpinner.hide();
@@ -65,12 +66,11 @@ require([
                 type: 'POST',
                 dataType: 'json',
                 success: function(response, status, xhr) {
-                    $('div.mbwayCountdownPanel').hide();
+                    countdownPanel.hide();
                     if (response.orderStatus === 'pending') {
                         $('#confirmMbwayOrder').hide();
                     } else {
                         $('#confirmMbwayOrder').show();
-                        $('#cancelMbwayOrder').hide();
                     }
                     appSpinner.hide();
                 },
@@ -87,39 +87,43 @@ require([
         }
 
         function init() {
+            if (countdownPanel.is(':visible')) {
                 interval = setInterval(() => {
-                var timer = timer2.split(':');
-                var minutes = parseInt(timer[0], 10);
-                var seconds = parseInt(timer[1], 10);
-                --seconds;
-                minutes = (seconds < 0) ? --minutes : minutes;
-                seconds = (seconds < 0) ? 59 : seconds;
-                seconds = (seconds < 10) ? 0 + seconds : seconds;
-                minutesElement.text(minutes);
-                secondsElement.text(seconds)
-                if (minutes < 0) {
-                    mbwayOrderCancel();
-                    clearInterval(interval);
-                    clearInterval(interval2);
-                }
-                if ((seconds <= 0) && (minutes <= 0)) {
-                    mbwayOrderCancel();
-                    clearInterval(interval);
-                    clearInterval(interval2);
-                }
-                timer2 = minutes + ':' + seconds;
-            }, 1000);
+                    
+                    var timer = timer2.split(':');
+                    var minutes = parseInt(timer[0], 10);
+                    var seconds = parseInt(timer[1], 10);
+                    --seconds;
+                    minutes = (seconds < 0) ? --minutes : minutes;
+                    seconds = (seconds < 0) ? 59 : seconds;
+                    seconds = (seconds < 10) ? 0 + seconds : seconds;
+
+                    minutesElement.text(minutes);
+                    secondsElement.text(seconds)
+                    if (minutes < 0) {
+                        mbwayOrderCancel();
+                        clearInterval(interval);
+                        clearInterval(interval2);
+                    }
+                    if ((seconds <= 0) && (minutes <= 0)) {
+                        mbwayOrderCancel();
+                        clearInterval(interval);
+                        clearInterval(interval2);
+                    }
+                    timer2 = minutes + ':' + seconds;
+                }, 1000);
+            }
         }
         if (countdownMbway.length > 0) {
             init();
             checkMBwayPaymentStatus();
         }
-        
+
     if (resendMbwayNotificationBtn.length > 0) {
         resendMbwayNotificationBtn.click(function() {
             clearInterval(interval);
             clearInterval(interval2);
-            $('div.mbwayCountdownPanel').hide();
+            countdownPanel.hide();
             $.ajax({
                 url: $('#resendMbwayNotificationControllerUrl').val(),
                 data: {
@@ -139,9 +143,12 @@ require([
                             always: function(){}
                         }
                     });
+                    timer2 = '5:01';
+                    countdownPanel.show();
+                    countdownMbway.show();
                     init();
                     checkMBwayPaymentStatus();
-                    $('div.mbwayCountdownPanel').show();
+                    
                 },
                 error: function (xhr, status, errorThrown) {
                     alert({

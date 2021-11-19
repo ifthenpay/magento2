@@ -12,24 +12,28 @@
 namespace Ifthenpay\Payment\Helper;
 
 use Ifthenpay\Payment\Helper\Data;
-use Ifthenpay\Payment\Helper\Contracts\IfthenpayDataInterface;
+use Ifthenpay\Payment\Lib\Payments\Gateway;
 use Magento\Framework\App\Config\ScopeConfigInterface;
+use Ifthenpay\Payment\Helper\Contracts\IfthenpayDataInterface;
 
 class PayshopData extends Data implements IfthenpayDataInterface
 {
     const USER_PAYSHOP_KEY = 'payment/ifthenpay/payshop/payshopKey';
     const USER_PAYSHOP_VALIDADE = 'payment/ifthenpay/payshop/validade';
+    const CANCEL_PAYSHOP_ORDER = 'payment/ifthenpay/payshop/cancelPayshopOrder';
 
-    protected $paymentMethod = 'payshop';
+    protected $paymentMethod = Gateway::PAYSHOP;
 
     public function getConfig(): array
     {
         $dataPayshopKey = $this->scopeConfig->getValue(self::USER_PAYSHOP_KEY, ScopeConfigInterface::SCOPE_TYPE_DEFAULT, $this->getStoreCode());
+        $cancelPayshopOrder = $this->scopeConfig->getValue(self::CANCEL_PAYSHOP_ORDER, ScopeConfigInterface::SCOPE_TYPE_DEFAULT, $this->getStoreCode());
 
         if ($dataPayshopKey) {
             return array_merge(parent::getConfig(), [
                 'payshopKey' => $dataPayshopKey,
-                'validade' => $this->scopeConfig->getValue(self::USER_PAYSHOP_VALIDADE, ScopeConfigInterface::SCOPE_TYPE_DEFAULT, $this->getStoreCode())
+                'validade' => $this->scopeConfig->getValue(self::USER_PAYSHOP_VALIDADE, ScopeConfigInterface::SCOPE_TYPE_DEFAULT, $this->getStoreCode()),
+                'cancelPayshopOrder' => $cancelPayshopOrder
             ]);
         } else {
             return [];

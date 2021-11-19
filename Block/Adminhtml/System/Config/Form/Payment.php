@@ -18,15 +18,12 @@ use Magento\Backend\Model\Auth\Session;
 use Magento\Backend\Model\UrlInterface;
 use Magento\Config\Block\System\Config\Form\Fieldset;
 use Magento\Framework\View\Helper\SecureHtmlRenderer;
-use \Magento\Framework\View\Asset\Repository;
+use Magento\Framework\View\Asset\Repository;
 
 class Payment extends Fieldset
 {
-   
-    private $config;
     private $secureRenderer;
     private $urlBuilder;
-    private $assetRepository;
 
     public function __construct(
         Context $context,

@@ -13,6 +13,7 @@ namespace Ifthenpay\Payment\Controller\Frontend;
 
 use Magento\Framework\App\Action\Action;
 use Magento\Framework\App\Action\Context;
+use Ifthenpay\Payment\Lib\Payments\Gateway;
 use Ifthenpay\Payment\Logger\IfthenpayLogger;
 use Ifthenpay\Payment\Helper\Factory\DataFactory;
 use Magento\Framework\Controller\Result\JsonFactory;
@@ -39,7 +40,7 @@ class CheckMbwayOrderStatus extends Action
     ) {
         parent::__construct($context);
         $this->resultJsonFactory = $resultJsonFactory;
-        $this->configData = $dataFactory->setType('mbway')->build()->getConfig();
+        $this->configData = $dataFactory->setType(Gateway::MBWAY)->build()->getConfig();
         $this->mbwayPaymentStatus = $mbwayPaymentStatus;
         $this->gatewayDataBuilder = $gatewayDataBuilder;
         $this->logger = $logger;
@@ -49,18 +50,36 @@ class CheckMbwayOrderStatus extends Action
     {
         try {
             $requestData = $this->getRequest()->getParams();
-            $this->gatewayDataBuilder->setMbwayKey($this->configData['mbwayKey']);
-            $this->gatewayDataBuilder->setIdPedido((string)$requestData['idPedido']);
+            $mbwayKey = $this->configData['mbwayKey'];
+            $idPedido = (string) $requestData['idPedido'];
+            $this->gatewayDataBuilder->setMbwayKey($mbwayKey);
+            $this->gatewayDataBuilder->setIdPedido($idPedido);
             if ($this->mbwayPaymentStatus->setData($this->gatewayDataBuilder)->getPaymentStatus()) {
-                $this->logger->debug('CheckMbwayStatus: Mbway payment status is paid');
+                $this->logger->debug('Mbway payment status is paid', [
+                    'requestData' => $requestData,
+                    'mbwayKey' => $mbwayKey,
+                    'idPedido' => $idPedido,
+                    'orderStatus' => 'paid'
+                ]);
                 return $this->resultJsonFactory->create()->setData(['orderStatus' => 'paid']);
             } else {
-                $this->logger->debug('CheckMbwayStatus: Mbway payment status is not paid');
+                $this->logger->debug('Mbway payment status is not paid', [
+                    'requestData' => $requestData,
+                    'mbwayKey' => $mbwayKey,
+                    'idPedido' => $idPedido,
+                    'orderStatus' => 'pending'
+                ]);
                 return $this->resultJsonFactory->create()->setData(['orderStatus' => 'pending']);
             }
-            
+
         } catch (\Throwable $th) {
-            $this->logger->debug('CheckMbwayStatus: Error checking mbway status - ' . $th->getMessage());
+            $this->logger->debug('Error checking mbway status', [
+                'error' => $th,
+                'errorMessage' => $th->getMessage(),
+                'requestData' => $requestData,
+                'mbwayKey' => $mbwayKey,
+                'idPedido' => $idPedido
+            ]);
             return $this->resultJsonFactory->create()->setData(['error' => $th->getMessage()]);
         }
     }

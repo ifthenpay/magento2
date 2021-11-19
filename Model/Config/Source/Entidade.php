@@ -11,11 +11,12 @@
 
 namespace Ifthenpay\Payment\Model\Config\Source;
 
+use Ifthenpay\Payment\Lib\Payments\Gateway;
 use Ifthenpay\Payment\Lib\Factory\Config\IfthenpayConfigFormFactory;
 
 class Entidade implements \Magento\Framework\Data\OptionSourceInterface
 {
-    protected $paymentMethod = 'multibanco';
+    protected $paymentMethod = Gateway::MULTIBANCO;
     protected $ifthenpayConfigFormFactory;
 
 

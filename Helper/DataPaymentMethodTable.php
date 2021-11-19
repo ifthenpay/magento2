@@ -11,10 +11,11 @@
 
 namespace Ifthenpay\Payment\Helper;
 
+use Magento\Framework\DB\Ddl\Table;
 use Magento\Framework\App\Helper\Context;
+use Ifthenpay\Payment\Lib\Payments\Gateway;
 use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Framework\Setup\SchemaSetupInterface;
-use Magento\Framework\DB\Ddl\Table;
 
 
 class DataPaymentMethodTable extends AbstractHelper
@@ -185,7 +186,7 @@ class DataPaymentMethodTable extends AbstractHelper
             ->addColumn(
               'paymentUrl',
               Table::TYPE_TEXT,
-              250,
+              1000,
               ['nullable' => false]
             )
             ->addColumn(
@@ -214,16 +215,16 @@ class DataPaymentMethodTable extends AbstractHelper
 
         foreach ($userPaymentMethods as $paymentMethod) {
             switch ($paymentMethod) {
-                case 'multibanco':
+                case Gateway::MULTIBANCO:
                     $this->createMultibancoTable();
                     break;
-                case 'mbway':
+                case Gateway::MBWAY:
                     $this->createMbwayTable();
                     break;
-                case 'payshop':
+                case Gateway::PAYSHOP:
                     $this->createPayshopTable();
                     break;
-                case 'ccard':
+                case Gateway::CCARD:
                     $this->createCCardTable();
                     break;
                 default:

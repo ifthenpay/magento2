@@ -16,11 +16,12 @@ namespace Ifthenpay\Payment\Lib\Factory\Payment;
 
 use Ifthenpay\Payment\Lib\Payments\CCard;
 use Ifthenpay\Payment\Lib\Payments\MbWay;
-use Ifthenpay\Payment\Lib\Factory\Factory as BaseFactory;
+use Ifthenpay\Payment\Lib\Payments\Gateway;
 use Ifthenpay\Payment\Lib\Payments\Payshop;
 use Ifthenpay\Payment\Lib\Request\WebService;
 use Ifthenpay\Payment\Lib\Payments\Multibanco;
 use Ifthenpay\Payment\Lib\Builders\DataBuilder;
+use Ifthenpay\Payment\Lib\Factory\Factory as BaseFactory;
 use Ifthenpay\Payment\Lib\Contracts\Payments\PaymentMethodInterface;
 
 
@@ -30,25 +31,25 @@ class PaymentFactory extends BaseFactory
     private $orderId;
     private $valor;
     private $dataBuilder;
-    private $webservice;
+    private $webService;
 
-    public function __construct(DataBuilder $dataBuilder, WebService $webservice = null)
+    public function __construct(DataBuilder $dataBuilder, WebService $webService)
 	{
         $this->dataBuilder = $dataBuilder;
-        $this->webservice = $webservice;
+        $this->webService = $webService;
     }
 
     public function build(): PaymentMethodInterface
     {
         switch ($this->type) {
-            case 'multibanco':
+            case Gateway::MULTIBANCO:
                 return new Multibanco($this->data, $this->orderId, $this->valor, $this->dataBuilder);
-            case 'mbway':
-                return new MbWay($this->data, $this->orderId, $this->valor, $this->webservice, $this->dataBuilder);
-            case 'payshop':
-                return new Payshop($this->data, $this->orderId, $this->valor, $this->webservice, $this->dataBuilder);
-            case 'ccard':
-                return new CCard($this->data, $this->orderId, $this->valor, $this->webservice, $this->dataBuilder);
+            case Gateway::MBWAY:
+                return new MbWay($this->data, $this->orderId, $this->valor, $this->webService, $this->dataBuilder);
+            case Gateway::PAYSHOP:
+                return new Payshop($this->data, $this->orderId, $this->valor, $this->webService, $this->dataBuilder);
+            case Gateway::CCARD:
+                return new CCard($this->data, $this->orderId, $this->valor, $this->webService, $this->dataBuilder);
             default:
                 throw new \Exception("Unknown Payment Class");
         }

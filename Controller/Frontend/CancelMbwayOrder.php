@@ -42,10 +42,18 @@ class CancelMbwayOrder extends Action
         try {
             $requestData = $this->getRequest()->getParams();
             $mbwayPayment = $this->mbwayRepository->getByOrderId($requestData['orderId']);
-            $this->logger->debug('CancelMbwayOrder: Cancel Mbway order with success');
+            $this->logger->debug('Cancel Mbway order with success', [
+                'requestData' => $requestData,
+                'mbwayPayment' => $mbwayPayment
+            ]);
             return $this->resultJsonFactory->create()->setData(['orderStatus' => $mbwayPayment['status']]);
         } catch (\Throwable $th) {
-            $this->logger->debug('CancelMbwayOrder: Error cancel mbway order - ' . $th->getMessage());
+            $this->logger->debug('Error cancel mbway order', [
+                'error' => $th,
+                'errorMessage' => $th->getMessage(),
+                'requestData' => $requestData,
+                'mbwayPayment' => $mbwayPayment
+            ]);
             return $this->resultJsonFactory->create()->setData(['error' => $th->getMessage()]);
         }
     }

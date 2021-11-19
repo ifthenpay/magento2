@@ -11,16 +11,16 @@
 
 namespace Ifthenpay\Payment\Model\Config\Backend;
 
-use \Magento\Framework\Registry;
+use Magento\Framework\Registry;
 use Ifthenpay\Payment\Helper\Data;
-use \Magento\Framework\Model\Context;
+use Magento\Framework\Model\Context;
 use Ifthenpay\Payment\Lib\Payments\Gateway;
 use Ifthenpay\Payment\Logger\IfthenpayLogger;
-use \Magento\Framework\Data\Collection\AbstractDb;
-use \Magento\Framework\App\Cache\TypeListInterface;
+use Magento\Framework\Data\Collection\AbstractDb;
+use Magento\Framework\App\Cache\TypeListInterface;
 use Ifthenpay\Payment\Helper\DataPaymentMethodTable;
-use \Magento\Framework\App\Config\ScopeConfigInterface;
-use \Magento\Framework\Model\ResourceModel\AbstractResource;
+use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Framework\Model\ResourceModel\AbstractResource;
 
 class Config extends \Magento\Framework\App\Config\Value
 {

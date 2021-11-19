@@ -51,9 +51,19 @@ class Data extends AbstractHelper
         $this->currency = $currency;
     }
 
+    protected function getStore()
+    {
+        return $this->storeManager->getStore();
+    }
+
     protected function getStoreCode()
     {
-        return $this->storeManager->getStore()->getCode();
+        return $this->getStore()->getCode();
+    }
+
+    protected function getStoreId()
+    {
+        return $this->getStore()->getId();
     }
 
     public function getSandboxMode()
@@ -99,6 +109,7 @@ class Data extends AbstractHelper
         $dataCallbackActivated = $this->scopeConfig->getValue($this->replacePaymentMethodIndPath(self::CALLBACK_ACTIVATED), ScopeConfigInterface::SCOPE_TYPE_DEFAULT, $this->getStoreCode());
 
         return [
+            'backofficeKey' => $this->getBackofficeKey(),
             'activateCallback' => $dataActivateCallback,
             'callbackUrl' => $dataCallbackUrl,
             'chaveAntiPhishing' => $dataChaveAntiPhishing,

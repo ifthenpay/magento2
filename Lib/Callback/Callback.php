@@ -15,12 +15,13 @@ namespace Ifthenpay\Payment\Lib\Callback;
 
 use Ifthenpay\Payment\Lib\Request\WebService;
 use Ifthenpay\Payment\Lib\Builders\GatewayDataBuilder;
+use Ifthenpay\Payment\Lib\Payments\Gateway;
 
 class Callback
 {
 
     private $activateEndpoint = 'https://ifthenpay.com/api/endpoint/callback/activation';
-    private $webservice;
+    private $webService;
     private $urlCallback;
     private $chaveAntiPhishing;
     private $backofficeKey;
@@ -29,14 +30,15 @@ class Callback
     private $activatedFor = false;
 
     private $urlCallbackParameters = [
-        'multibanco' => '?type=offline&payment={paymentMethod}&chave=[CHAVE_ANTI_PHISHING]&entidade=[ENTIDADE]&referencia=[REFERENCIA]&valor=[VALOR]',
-        'mbway' => '?type=offline&payment={paymentMethod}&chave=[CHAVE_ANTI_PHISHING]&referencia=[REFERENCIA]&id_pedido=[ID_TRANSACAO]&valor=[VALOR]&estado=[ESTADO]',
-        'payshop' => '?type=offline&payment={paymentMethod}&chave=[CHAVE_ANTI_PHISHING]&id_cliente=[ID_CLIENTE]&id_transacao=[ID_TRANSACAO]&referencia=[REFERENCIA]&valor=[VALOR]&estado=[ESTADO]',
+        Gateway::MULTIBANCO => '?type=offline&payment={paymentMethod}&chave=[CHAVE_ANTI_PHISHING]&entidade=[ENTIDADE]&referencia=[REFERENCIA]&valor=[VALOR]',
+        Gateway::MBWAY => '?type=offline&payment={paymentMethod}&chave=[CHAVE_ANTI_PHISHING]&referencia=[REFERENCIA]&id_pedido=[ID_TRANSACAO]&valor=[VALOR]&estado=[ESTADO]',
+        Gateway::PAYSHOP => '?type=offline&payment={paymentMethod}&chave=[CHAVE_ANTI_PHISHING]&id_cliente=[ID_CLIENTE]&id_transacao=[ID_TRANSACAO]&referencia=[REFERENCIA]&valor=[VALOR]&estado=[ESTADO]',
+        Gateway::CCARD => '?type=offline&payment={paymentMethod}&chave=[CHAVE_ANTI_PHISHING]&requestId=[REQUEST_ID]&orderId=[ORDER_ID]&valor=[VALOR]'
     ];
 
-    public function __construct(GatewayDataBuilder $data, WebService $webservice)
+    public function __construct(GatewayDataBuilder $data, WebService $webService)
     {
-        $this->webservice = $webservice;
+        $this->webService = $webService;
         $this->backofficeKey = $data->getData()->backofficeKey;
         $this->entidade = $data->getData()->entidade;
         $this->subEntidade = $data->getData()->subEntidade;
@@ -54,7 +56,7 @@ class Callback
 
     private function activateCallback(): void
     {
-        $request = $this->webservice->postRequest(
+        $request = $this->webService->postRequest(
             $this->activateEndpoint,
             [
             'chave' => $this->backofficeKey,

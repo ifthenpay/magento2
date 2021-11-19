@@ -16,8 +16,6 @@ namespace Ifthenpay\Payment\Lib\Payments\Data;
 use Ifthenpay\Payment\Lib\Base\Payments\PayshopBase;
 use Ifthenpay\Payment\Lib\Contracts\Payments\PaymentReturnInterface;
 
-
-
 class PayshopPaymentReturn extends PayshopBase implements PaymentReturnInterface
 {
     public function getPaymentReturn(): PaymentReturnInterface
@@ -25,7 +23,7 @@ class PayshopPaymentReturn extends PayshopBase implements PaymentReturnInterface
         $this->setGatewayBuilderData();
         $this->paymentGatewayResultData = $this->ifthenpayGateway->execute(
             $this->paymentDefaultData->paymentMethod,
-            $this->gatewayBuilder,
+            $this->gatewayDataBuilder,
             strval($this->paymentDefaultData->order->getIncrementId()),
             strval($this->paymentDefaultData->order->getGrandTotal())
         )->getData();

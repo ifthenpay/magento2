@@ -38,13 +38,20 @@ class ChooseNewEntidadeSubEntidadeBtn extends Field
             $configData = $this->dataFactory->setType($this->paymentMethod)->build()->getConfig();
             if (!empty($configData)) {
                 $element->unsScope()->unsCanUseWebsiteValue()->unsCanUseDefaultValue();
-                $this->logger->debug('chooseNewEntidadeSubEntidadeBtn: Button Choose New Entidade/SubEntidade rendered with success');
+                $this->logger->debug('chooseNewEntidadeSubEntidadeBtn: Button Choose New Entidade/SubEntidade rendered with success', [
+                    'paymentMethod' => $this->paymentMethod,
+                    'configData' => $configData
+                ]);
                 return parent::render($element);
             } else {
                 $this->_decorateRowHtml($element, '');
             }
         } catch (\Throwable $th) {
-            $this->logger->debug('chooseNewEntidadeSubEntidadeBtn: Error - ' . $th->getMessage());
+            $this->logger->debug('error render chooseNewEntidadeSubEntidadeBtn', [
+                'paymentMethod' => $this->paymentMethod, 
+                'error' => $th, 
+                'errorMessage' => $th->getMessage()
+            ]);
             throw $th;
         }
         

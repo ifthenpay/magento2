@@ -15,12 +15,12 @@ namespace Ifthenpay\Payment\Lib\Callback;
 
 use Ifthenpay\Payment\Lib\Callback\CallbackData;
 use Ifthenpay\Payment\Lib\Contracts\Callback\CallbackDataInterface;
-
+use Ifthenpay\Payment\Lib\Payments\Gateway;
 
 class CallbackDataMultibanco extends CallbackData implements CallbackDataInterface
 {
     public function getData(array $request): array
     {
-        return $this->repositoryFactory->setType('multibanco')->build()->getByReferencia($request['referencia'])->getData();
+        return $this->repositoryFactory->setType(Gateway::MULTIBANCO)->build()->getByReferencia($request['referencia'])->getData();
     }
 }

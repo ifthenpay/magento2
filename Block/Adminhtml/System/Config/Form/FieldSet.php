@@ -11,7 +11,6 @@
 
 namespace Ifthenpay\Payment\Block\Adminhtml\System\Config\Form;
 
-//use Magento\Backend\Block\Template\Context;
 use Magento\Backend\Block\Context;
 use Magento\Backend\Model\Auth\Session;
 use Magento\Config\Block\System\Config\Form\Fieldset as BaseField;
@@ -23,9 +22,6 @@ use Ifthenpay\Payment\Helper\Data;
 
 class FieldSet extends BaseField
 {
-
-    private $config;
-    private $secureRenderer;
     private $helperData;
 
     public function __construct(

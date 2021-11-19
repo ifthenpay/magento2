@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Ifthenpay\Payment\Lib\Callback;
 
+use Ifthenpay\Payment\Lib\Payments\Gateway;
 use Ifthenpay\Payment\Lib\Callback\CallbackData;
 use Ifthenpay\Payment\Lib\Contracts\Callback\CallbackDataInterface;
 
@@ -20,6 +21,6 @@ class CallbackDataPayshop extends CallbackData implements CallbackDataInterface
 {
     public function getData(array $request): array
     {
-        return $this->repositoryFactory->setType('payshop')->build()->getByIdPedido($request['id_transacao'])->getData();
+        return $this->repositoryFactory->setType(Gateway::PAYSHOP)->build()->getByIdPedido($request['id_transacao'])->getData();
     }
 }

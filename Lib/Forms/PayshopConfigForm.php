@@ -14,15 +14,25 @@ declare(strict_types=1);
 namespace Ifthenpay\Payment\Lib\Forms;
 
 use Ifthenpay\Payment\Lib\Forms\ConfigForm;
+use Ifthenpay\Payment\Lib\Payments\Gateway;
 
 class PayshopConfigForm extends ConfigForm
 {
-    protected $paymentMethod = 'payshop';
+    protected $paymentMethod = Gateway::PAYSHOP;
 
     protected function checkConfigValues($useEntidade = true): void
     {
         if (!empty($this->configData)) {
             $this->options[$this->configData['payshopKey']] = $this->configData['payshopKey'];
+        }
+    }
+
+    protected function checkIfConfigValueIsSet(): bool
+    {
+        if ($this->configData['payshopKey'] !== 'Choose Account') {
+            return true;
+        } else {
+            return false;
         }
     }
 

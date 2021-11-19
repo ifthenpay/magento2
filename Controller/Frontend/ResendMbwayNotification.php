@@ -58,13 +58,13 @@ class ResendMbwayNotification extends Action
             $requestData = $this->getRequest()->getParams();
 
             $mbwayPayment = $this->mbwayRepository->getByOrderId($requestData['orderId']);
-            $configData = $this->dataFactory->setType('mbway')->build()->getConfig();
+            $configData = $this->dataFactory->setType(Gateway::MBWAY)->build()->getConfig();
 
             $paymentData = $this->gatewayDataBuilder
                 ->setMbwayKey($configData['mbwayKey'])
                 ->setTelemovel($requestData['mbwayPhoneNumber']);
             $gatewayResult = $this->ifthenpayGateway->execute(
-                'mbway',
+                Gateway::MBWAY,
                 $paymentData,
                 strval($requestData['orderId']),
                 strval($requestData['mbwayTotalToPay'])
@@ -72,10 +72,21 @@ class ResendMbwayNotification extends Action
 
             $mbwayPayment->setId_transacao($gatewayResult->idPedido);
             $this->mbwayRepository->save($mbwayPayment);
-            $this->logger->debug('ResendMbwayNotification: Mbway notification resend with success');
+            $this->logger->debug('Mbway notification resend with success', [
+                'requestData' => $requestData,
+                'mbwayPayment' => $mbwayPayment,
+                'configData' => $configData,
+                'gatewayResult' => $gatewayResult
+            ]);
             return $this->resultJsonFactory->create()->setData(['success' => __('resendMbwayNotificationSuccess')]);
         } catch (\Throwable $th) {
-            $this->logger->debug('ResendMbwayNotification: Error resending mbway notification - ' . $th->getMessage());
+            $this->logger->debug('Error resending mbway notification', [
+                'error' => $th,
+                'errorMessage' => $th->getMessage(),
+                'requestData' => $requestData,
+                'mbwayPayment' => $mbwayPayment,
+                'configData' => $configData,
+            ]);
             return $this->resultJsonFactory->create()->setData(['error' => __('resendMbwayNotificationError')]);
         }
     }

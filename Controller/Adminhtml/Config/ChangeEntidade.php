@@ -42,14 +42,23 @@ class ChangeEntidade extends Action
 
     public function execute()
     {
-        
+
         try {
-            $this->gateway->setAccount($this->helperData->getUserAccount());
+            $userAccount = $this->helperData->getUserAccount();
+            $this->gateway->setAccount($userAccount);
             $requestData = $this->getRequest()->getParams();
-            $this->logger->debug('Change Entidade: Change Entidade with success');
+            $this->logger->debug('Change Entidade with success', [
+                'userAccount' => $userAccount,
+                'requestData' => $requestData
+            ]);
             return $this->resultJsonFactory->create()->setData([$this->gateway->getSubEntidadeInEntidade($requestData['entidade'])]);
         } catch (\Throwable $th) {
-            $this->logger->debug('Change Entidade: Error Changing Entidade - ' . $th->getMessage());
+            $this->logger->debug('Error Changing Entidade', [
+                'error' => $th,
+                'errorMessage' => $th->getMessage(),
+                'userAccount' => $userAccount,
+                'requestData' => $requestData
+            ]);
             return $this->resultJsonFactory->create()->setData(['error' => __('changeEntidadeError')]);
         }
     }

@@ -92,9 +92,10 @@
                             <comment>Activate callback automatically. If sandbox mode is enabled, callback will not activate.</comment>
                             <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                         </field>
-                        <field id="cancelMbwayOrder" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <field id="cancelMbwayOrder" translate="label comment tooltip" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Cancel MB WAY Order</label>
-                            <comment>Automaticly cancel MB WAY order when payment notification expired.</comment>
+                            <comment>Automatically cancel MB WAY order when payment notification expired.</comment>
+                            <tooltip>Configure Cron Job on your server.</tooltip>
                             <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                         </field>
                         <field id="mbwayKey" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" type="select">
@@ -137,6 +138,12 @@
                             <comment>Activate callback automatically. If sandbox mode is enabled, callback will not activate.</comment>
                             <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                         </field>
+                        <field id="cancelPayshopOrder" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Cancel Payshop Order</label>
+                            <comment>Automatically cancel Payshop order when payment expired.</comment>
+                            <tooltip>Configure Cron Job on your server.</tooltip>
+                            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        </field>
                         <field id="payshopKey" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" type="select">
                             <label>Payshop Key</label>
                             <source_model>Ifthenpay\Payment\Model\Config\Source\PayshopKey</source_model>
@@ -175,6 +182,17 @@
                             <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                             <config_path>payment/ccard/active</config_path>
                         </field>
+                        <field id="activeCallback" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Activate Callback</label>
+                            <comment>Activate callback automatically. If sandbox mode is enabled, callback will not activate.</comment>
+                            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        </field>
+                        <field id="cancelCCardOrder" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Cancel Credit Card Order</label>
+                            <comment>Automatically cancel Credit Card order when payment expired.</comment>
+                            <tooltip>Configure Cron Job on your server.</tooltip>
+                            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        </field>
                         <field id="ccardKey" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" type="select">
                             <label>CCard Key</label>
                             <source_model>Ifthenpay\Payment\Model\Config\Source\CCardKey</source_model>
@@ -187,6 +205,9 @@
                             <label>Request Credit Card Account</label>
                             <comment>Don't have credit card account? Click to request an credit card account</comment>
                             <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\AddNewAccountBtn</frontend_model>
+                        </field>
+                        <field id="callbackInfo" sortOrder="161" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\CallbackInfo</frontend_model>
                         </field>
                         <field id="allowspecific" translate="label" type="allowspecific" sortOrder="50" showInDefault="1" showInWebsite="1" canRestore="1">
                             <label>Payment from Applicable Countries</label>

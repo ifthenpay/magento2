@@ -15,10 +15,10 @@ require([
     'Magento_Ui/js/modal/alert',
     'mage/translate'
 ], function($, documentReady, url, alert, $t){
-    var subEntidadeInput = $('#payment_us_ifthenpay_multibanco_subEntidade');
+    var subEntidadeInput = $('select[id*="ifthenpay_multibanco_subEntidade"]');
     var documentFragment = $(document.createDocumentFragment());
 
-    $('#payment_us_ifthenpay_multibanco_entidade').change(function (event) {
+    $('select[id*="ifthenpay_multibanco_entidade"]').change(function (event) {
         var eventTarget = $(event.target);
         $.ajax({
             url: window.urlChangeEntidade,

@@ -16,10 +16,12 @@ use Magento\Framework\App\Action\Context;
 use Ifthenpay\Payment\Logger\IfthenpayLogger;
 use Ifthenpay\Payment\Lib\Strategy\Callback\CallbackStrategy;
 
+
 class Callback extends Action
 {
     protected $callbackStrategy;
     private $logger;
+    protected $messageManager;
 
     public function __construct(
         Context $context,
@@ -37,10 +39,14 @@ class Callback extends Action
     public function execute()
     {
         try {
-            $this->logger->debug('Callback: Callback executed with success');
-            return $this->callbackStrategy->execute($this->getRequest()->getParams(), $this);
+            $requestData = $this->getRequest()->getParams();
+            return $this->callbackStrategy->execute($requestData, $this);
         } catch (\Throwable $th) {
-            $this->logger->debug('Callback: Error Executing callback - ' . $th->getMessage());
+            $this->logger->debug('Error Executing callback', [
+                'error' => $th,
+                'errorMessage' => $th->getMessage(),
+                'requestData' => $requestData
+            ]);
             throw $th;
         }
     }

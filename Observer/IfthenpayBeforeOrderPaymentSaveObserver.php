@@ -17,22 +17,27 @@ use Magento\Framework\Event\Observer;
 use Ifthenpay\Payment\Lib\Payments\Gateway;
 use Ifthenpay\Payment\Logger\IfthenpayLogger;
 use Magento\Framework\Event\ObserverInterface;
+use Ifthenpay\Payment\Lib\Factory\Model\RepositoryFactory;
 use Ifthenpay\Payment\Lib\Strategy\Payments\IfthenpayPaymentReturn;
-use Magento\Framework\App\Request\Http;
 
 class IfthenpayBeforeOrderPaymentSaveObserver implements ObserverInterface
 {
     private $gateway;
     private $ifthenpayPaymentReturn;
     private $logger;
-    private $request;
+    private $repositoryFactory;
 
-	public function __construct(Gateway $gateway, IfthenpayPaymentReturn $ifthenpayPaymentReturn, Http $request,IfthenpayLogger $logger)
+	public function __construct(
+        Gateway $gateway,
+        IfthenpayPaymentReturn $ifthenpayPaymentReturn,
+        IfthenpayLogger $logger,
+        RepositoryFactory $repositoryFactory
+    )
 	{
         $this->gateway = $gateway;
         $this->ifthenpayPaymentReturn = $ifthenpayPaymentReturn;
-        $this->request = $request;
         $this->logger = $logger;
+        $this->repositoryFactory = $repositoryFactory;
 	}
 
     public function execute(Observer $observer)
@@ -40,35 +45,53 @@ class IfthenpayBeforeOrderPaymentSaveObserver implements ObserverInterface
         $payment = $observer->getEvent()->getPayment();
         $paymentMethod = $payment->getMethod();
         $order = $payment->getOrder();
-
+        $ifthenpayPayment = $this->repositoryFactory->setType($paymentMethod)->build()->getByOrderId($order->getIncrementId())->getData();
         try {
-            if ($this->gateway->checkIfthenpayPaymentMethod($paymentMethod) && $paymentMethod !== 'ccard') {
-                $this->ifthenpayGatewayResult = $this->ifthenpayPaymentReturn->setOrder($order)->execute()->getPaymentGatewayResultData();
+            if ($this->gateway->checkIfthenpayPaymentMethod($paymentMethod) && $paymentMethod !== Gateway::CCARD && empty($ifthenpayPayment)) {
+
                 switch ($paymentMethod) {
-                    case 'multibanco':
-                        $payment->setAdditionalInformation('entidade', $this->ifthenpayGatewayResult->entidade);
-                        $payment->setAdditionalInformation('referencia', $this->ifthenpayGatewayResult->referencia);
+                    case Gateway::MULTIBANCO:
+                        if (!$payment->getAdditionalInformation('referencia')) {
+                            $this->ifthenpayGatewayResult = $this->ifthenpayPaymentReturn->setOrder($order)->execute()->getPaymentGatewayResultData();
+                            $payment->setAdditionalInformation('entidade', $this->ifthenpayGatewayResult->entidade);
+                            $payment->setAdditionalInformation('referencia', $this->ifthenpayGatewayResult->referencia);
+                        }
                         break;
-                    case 'mbway':
-                        $payment->setAdditionalInformation('idPedido', $this->ifthenpayGatewayResult->idPedido);
-                        $payment->setAdditionalInformation('telemovel', $this->ifthenpayGatewayResult->telemovel);
-                        $payment->setAdditionalInformation('mbwayCountdownShow', true);
+                    case Gateway::MBWAY:
+                        if (!$payment->getAdditionalInformation('idPedido')) {
+                            $this->ifthenpayGatewayResult = $this->ifthenpayPaymentReturn->setOrder($order)->execute()->getPaymentGatewayResultData();
+                            $payment->setAdditionalInformation('idPedido', $this->ifthenpayGatewayResult->idPedido);
+                            $payment->setAdditionalInformation('telemovel', $this->ifthenpayGatewayResult->telemovel);
+                            $payment->setAdditionalInformation('mbwayCountdownShow', true);
+                        }
                         break;
-                    case 'payshop':
-                        $payment->setAdditionalInformation('idPedido', $this->ifthenpayGatewayResult->idPedido);
-                        $payment->setAdditionalInformation('referencia', $this->ifthenpayGatewayResult->referencia);
-                        $payment->setAdditionalInformation('validade', $this->ifthenpayGatewayResult->validade);
+                    case Gateway::PAYSHOP:
+                        if (!$payment->getAdditionalInformation('referencia')) {
+                            $this->ifthenpayGatewayResult = $this->ifthenpayPaymentReturn->setOrder($order)->execute()->getPaymentGatewayResultData();
+                            $payment->setAdditionalInformation('idPedido', $this->ifthenpayGatewayResult->idPedido);
+                            $payment->setAdditionalInformation('referencia', $this->ifthenpayGatewayResult->referencia);
+                            $payment->setAdditionalInformation('validade', $this->ifthenpayGatewayResult->validade);
+                        }
                         break;
                     default:
                         break;
                 }
                 $payment->setAdditionalInformation('totalToPay', $this->ifthenpayGatewayResult->totalToPay);
                 $payment->setAdditionalInformation('status', 'success');
-                $this->logger->debug('Payment Return: Payment return offline payment executed with success - orderId');
+                $this->logger->debug('Payment return offline payment executed with success', [
+                    'paymentMethod' => $paymentMethod,
+                    'order' => $order->getData(),
+                    'ifthenpayGatewayResult' => $this->ifthenpayGatewayResult
+                ]);
             }
         } catch (\Throwable $th) {
             $payment->setAdditionalInformation('status', 'error');
-            $this->logger->debug('Payment Return: Error executing Payment return offline payment - ' . $th->getMessage());
+            $this->logger->debug('Error executing Payment return offline payment', [
+                'error' => $th,
+                'errorMessage' => $th->getMessage(),
+                'paymentMethod' => $paymentMethod,
+                'order' => $order->getData(),
+            ]);
             throw $th;
         }
     }

@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Ifthenpay\Payment\Lib\Factory\Callback;
 
 use Ifthenpay\Payment\Lib\Factory\Factory;
+use Ifthenpay\Payment\Lib\Payments\Gateway;
 use Ifthenpay\Payment\Lib\Callback\CallbackDataCCard;
 use Ifthenpay\Payment\Lib\Callback\CallbackDataMbway;
 use Ifthenpay\Payment\Lib\Factory\Model\ModelFactory;
@@ -36,13 +37,13 @@ class CallbackDataFactory extends Factory
     public function build(): CallbackDataInterface
     {
         switch (strtolower($this->type)) {
-            case 'multibanco':
+            case Gateway::MULTIBANCO:
                 return new CallbackDataMultibanco($this->modelFactory, $this->repositoryFactory);
-            case 'mbway':
+            case Gateway::MBWAY:
                 return new CallbackDataMbway($this->modelFactory, $this->repositoryFactory);
-            case 'payshop':
+            case Gateway::PAYSHOP:
                 return new CallbackDataPayshop($this->modelFactory, $this->repositoryFactory);
-            case 'ccard':
+            case Gateway::CCARD:
                 return new CallbackDataCCard($this->modelFactory, $this->repositoryFactory);
             default:
                 throw new \Exception('Unknown Callback Data Class');

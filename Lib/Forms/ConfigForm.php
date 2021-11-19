@@ -29,7 +29,7 @@ abstract class ConfigForm
     protected $options;
     protected $magentoCallbackFactory;
     protected $dataFactory;
-    protected $webservice;
+    protected $webService;
     protected $storeManager;
     protected $configData;
     protected $helperData;
@@ -38,7 +38,7 @@ abstract class ConfigForm
         GatewayDataBuilder $gatewayDataBuilder,
         Gateway $gateway,
         DataFactory $dataFactory,
-        WebService $webservice,
+        WebService $webService,
         StoreManagerInterface $storeManager,
         CallbackFactory $callbackFactory
     )
@@ -46,7 +46,7 @@ abstract class ConfigForm
         $this->gatewayDataBuilder = $gatewayDataBuilder;
         $this->gateway = $gateway;
         $this->dataFactory = $dataFactory;
-        $this->webservice = $webservice;
+        $this->webService = $webService;
         $this->storeManager = $storeManager;
         $this->magentoCallbackFactory = $callbackFactory;
         $this->helperData = $this->dataFactory->setType($this->paymentMethod)->build();
@@ -69,7 +69,7 @@ abstract class ConfigForm
     public function getOptions($useEntidade = true): array
     {
         $this->checkConfigValues($useEntidade);
-        if ($this->helperData->getBackofficeKey() && !isset($this->options['Choose Account']) && $useEntidade) {
+        if ($this->helperData->getBackofficeKey() && $useEntidade) {
             $this->gateway->setAccount($this->helperData->getUserAccount());
             foreach ($this->gateway->getEntidadeSubEntidade($this->paymentMethod) as $key => $value) {
                 if (is_array($value)) {
@@ -97,37 +97,35 @@ abstract class ConfigForm
 
                 $ifthenpayCallback = $this->magentoCallbackFactory->create([
                     'data' => $this->gatewayDataBuilder,
-                    'webservice' => $this->webservice
+                    'webservice' => $this->webService
                 ]);
 
-                if (!$this->configData['callbackActivated']) {
+                if (!$this->configData['callbackActivated'] && $this->checkIfConfigValueIsSet()) {
                     $ifthenpayCallback->make($this->paymentMethod, $this->getCallbackControllerUrl(), $activateCallback);
+                    if (!$this->configData['callbackUrl'] && !$this->configData['chaveAntiPhishing']) {
+                        $this->helperData->saveCallback(
+                            $ifthenpayCallback->getUrlCallback(),
+                            $ifthenpayCallback->getChaveAntiPhishing(),
+                            $ifthenpayCallback->getActivatedFor()
+                        );
+                        $this->configData['callbackUrl'] = $ifthenpayCallback->getUrlCallback();
+                        $this->configData['chaveAntiPhishing'] = $ifthenpayCallback->getChaveAntiPhishing();
+                        $this->configData['callbackActivated'] = $ifthenpayCallback->getActivatedFor();
+                    } else if ($this->configData['callbackUrl'] && $this->configData['chaveAntiPhishing'] && !$ifthenpayCallback->getActivatedFor() && $this->configData['callbackActivated']) {
+                        $this->configData['callbackUrl'] = $this->configData['callbackUrl'];
+                        $this->configData['chaveAntiPhishing'] = $this->configData['chaveAntiPhishing'];
+                        $this->configData['callbackActivated'] = $this->configData['callbackActivated'];
+                    } else if ($this->configData['callbackUrl'] && $this->configData['chaveAntiPhishing'] && !$this->configData['callbackActivated'] && $ifthenpayCallback->getActivatedFor()) {
+                        $this->helperData->saveCallback(
+                            $ifthenpayCallback->getUrlCallback(),
+                            $ifthenpayCallback->getChaveAntiPhishing(),
+                            $ifthenpayCallback->getActivatedFor()
+                        );
+                        $this->configData['callbackUrl'] = $ifthenpayCallback->getUrlCallback();
+                        $this->configData['chaveAntiPhishing'] = $ifthenpayCallback->getChaveAntiPhishing();
+                        $this->configData['callbackActivated'] = $ifthenpayCallback->getActivatedFor();
+                    }
                 }
-
-                if (!$this->configData['callbackUrl'] && !$this->configData['chaveAntiPhishing']) {
-                    $this->helperData->saveCallback(
-                        $ifthenpayCallback->getUrlCallback(),
-                        $ifthenpayCallback->getChaveAntiPhishing(),
-                        $ifthenpayCallback->getActivatedFor()
-                    );
-                    $this->configData['callbackUrl'] = $ifthenpayCallback->getUrlCallback();
-                    $this->configData['chaveAntiPhishing'] = $ifthenpayCallback->getChaveAntiPhishing();
-                    $this->configData['callbackActivated'] = $ifthenpayCallback->getActivatedFor();
-                } else if ($this->configData['callbackUrl'] && $this->configData['chaveAntiPhishing'] && !$ifthenpayCallback->getActivatedFor() && $this->configData['callbackActivated']) {
-                    $this->configData['callbackUrl'] = $this->configData['callbackUrl'];
-                    $this->configData['chaveAntiPhishing'] = $this->configData['chaveAntiPhishing'];
-                    $this->configData['callbackActivated'] = $this->configData['callbackActivated'];
-                } else if ($this->configData['callbackUrl'] && $this->configData['chaveAntiPhishing'] && !$this->configData['callbackActivated'] && $ifthenpayCallback->getActivatedFor()) {
-                    $this->helperData->saveCallback(
-                        $ifthenpayCallback->getUrlCallback(),
-                        $ifthenpayCallback->getChaveAntiPhishing(),
-                        $ifthenpayCallback->getActivatedFor()
-                    );
-                    $this->configData['callbackUrl'] = $ifthenpayCallback->getUrlCallback();
-                    $this->configData['chaveAntiPhishing'] = $ifthenpayCallback->getChaveAntiPhishing();
-                    $this->configData['callbackActivated'] = $ifthenpayCallback->getActivatedFor();
-                }
-
             }
             return $this->configData;
         } catch (\Throwable $th) {
@@ -136,5 +134,6 @@ abstract class ConfigForm
     }
 
     abstract protected function checkConfigValues($useEntidade = true): void;
+    abstract protected function checkIfConfigValueIsSet(): bool;
     abstract public function displayCallbackInfo(): bool;
 }

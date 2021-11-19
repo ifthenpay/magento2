@@ -34,8 +34,8 @@
             </label>
             <div class="control input-container">
                 <img data-bind="attr: {src: getLogoUrl(), height: '39', width: '163'}" class="icon" alt="mbway logo">
-                <input name="payment[mbway_phone_number]" class="text input-field" type="text" id="mbwayPhoneNumber"
-                    data-validate="{required:true, 'validate-phone-number': true}"/>
+                <input name="payment[mbway_phone_number]" class="text input-field" type="number" id="mbwayPhoneNumber"
+                    data-validate="{required:true, 'validate-phone-number': true, 'pattern':/^((91|96|92|93)[0-9]{7})$/g}"/>
             </div>
         </div>
 

@@ -11,9 +11,24 @@
 
 namespace Ifthenpay\Payment\Model;
 
+use Ifthenpay\Payment\Lib\Payments\Gateway;
 use Ifthenpay\Payment\Model\PaymentModelBase;
+use Ifthenpay\Payment\Lib\Contracts\Payments\PaymentConfigInterface;
 
-class MbwayPayment extends PaymentModelBase
+class MbwayPayment extends PaymentModelBase implements PaymentConfigInterface
 {
-    protected $_code = 'mbway';
+    protected $_code = Gateway::MBWAY;
+
+    public function checkPaymentConfig(): bool
+    {
+        if (empty($this->configData)) {
+            return false;
+        }
+
+        if (!$this->configData['mbwayKey'] || $this->configData['mbwayKey'] === 'Choose Account') {
+            $this->ifthenpayLogger->debug('Mbway key is not set', ['configData' => $this->configData]);
+            return false;
+        }
+        return true;
+    }
 }

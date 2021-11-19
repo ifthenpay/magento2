@@ -44,4 +44,11 @@ class PayshopRepository implements PayshopRepositoryInterface
 
         return $payshopModel;
     }
+
+    public function getByOrderId(string $orderId)
+    {
+        $payshopModel = $this->payshopFactory->create();
+        $this->payshopResource->load($payshopModel, $orderId, 'order_id');
+        return $payshopModel;
+    }
 }

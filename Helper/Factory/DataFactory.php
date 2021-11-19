@@ -18,10 +18,11 @@ use Ifthenpay\Payment\Helper\MbwayData;
 use Ifthenpay\Payment\Helper\PayshopData;
 use Magento\Framework\App\Helper\Context;
 use Ifthenpay\Payment\Helper\MultibancoData;
-use \Magento\Store\Model\StoreManagerInterface;
+use Magento\Store\Model\StoreManagerInterface;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\App\Config\Storage\WriterInterface;
 use Ifthenpay\Payment\Helper\Contracts\IfthenpayDataInterface;
+use Ifthenpay\Payment\Lib\Payments\Gateway;
 use Magento\Framework\Locale\CurrencyInterface;
 
 
@@ -51,7 +52,7 @@ class DataFactory
 
     public function build(): IfthenpayDataInterface {
         switch ($this->type) {
-            case 'multibanco':
+            case Gateway::MULTIBANCO:
                 return new MultibancoData(
                     $this->context,
                     $this->storeManager,
@@ -59,7 +60,7 @@ class DataFactory
                     $this->scopeConfig,
                     $this->currency
                 );
-            case 'mbway':
+            case Gateway::MBWAY:
                 return new MbwayData(
                     $this->context,
                     $this->storeManager,
@@ -67,7 +68,7 @@ class DataFactory
                     $this->scopeConfig,
                     $this->currency
                 );
-            case 'payshop':
+            case Gateway::PAYSHOP:
                 return new PayshopData(
                     $this->context,
                     $this->storeManager,
@@ -75,7 +76,7 @@ class DataFactory
                     $this->scopeConfig,
                     $this->currency
                 );
-            case 'ccard':
+            case Gateway::CCARD:
                 return new CCardData(
                     $this->context,
                     $this->storeManager,

@@ -31,7 +31,7 @@ class IfthenpayConfigFormFactory extends Factory
     private $gatewayDataBuilder;
     private $gateway;
     private $dataFactory;
-    private $webservice;
+    private $webService;
     private $storeManager;
     private $magentoCallbackFactory;
 
@@ -39,7 +39,7 @@ class IfthenpayConfigFormFactory extends Factory
         GatewayDataBuilder $gatewayDataBuilder,
         Gateway $gateway,
         DataFactory $dataFactory,
-        WebService $webservice,
+        WebService $webService,
         StoreManagerInterface $storeManager,
         CallbackFactory $callbackFactory
     )
@@ -47,7 +47,7 @@ class IfthenpayConfigFormFactory extends Factory
         $this->gatewayDataBuilder = $gatewayDataBuilder;
         $this->gateway = $gateway;
         $this->dataFactory = $dataFactory;
-        $this->webservice = $webservice;
+        $this->webService = $webService;
         $this->storeManager = $storeManager;
         $this->magentoCallbackFactory = $callbackFactory;
 	}
@@ -55,39 +55,39 @@ class IfthenpayConfigFormFactory extends Factory
     public function build(
     ): ConfigForm {
         switch ($this->type) {
-            case 'multibanco':
+            case Gateway::MULTIBANCO:
                 return new MultibancoConfigForm(
                     $this->gatewayDataBuilder,
                     $this->gateway,
                     $this->dataFactory,
-                    $this->webservice,
+                    $this->webService,
                     $this->storeManager,
                     $this->magentoCallbackFactory
                 );
-            case 'mbway':
+            case Gateway::MBWAY:
                 return new MbwayConfigForm(
                     $this->gatewayDataBuilder,
                     $this->gateway,
                     $this->dataFactory,
-                    $this->webservice,
+                    $this->webService,
                     $this->storeManager,
                     $this->magentoCallbackFactory
                 );
-            case 'payshop':
+            case Gateway::PAYSHOP:
                 return new PayshopConfigForm(
                     $this->gatewayDataBuilder,
                     $this->gateway,
                     $this->dataFactory,
-                    $this->webservice,
+                    $this->webService,
                     $this->storeManager,
                     $this->magentoCallbackFactory
                 );
-            case 'ccard':
+            case Gateway::CCARD:
                 return new CCardConfigForm(
                     $this->gatewayDataBuilder,
                     $this->gateway,
                     $this->dataFactory,
-                    $this->webservice,
+                    $this->webService,
                     $this->storeManager,
                     $this->magentoCallbackFactory
                 );

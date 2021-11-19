@@ -25,15 +25,11 @@
         </arguments>
     </type>
     <virtualType name="ifthenpayConfigFormFactory" type="Ifthenpay\Payment\Lib\Factory\Config\IfthenpayConfigFormFactory"></virtualType>
-    <virtualType name="dataFactory" type="Ifthenpay\Payment\Helper\Factory\DataFactory">
-    </virtualType>
-    <virtualType name="client" type="GuzzleHttp\Client">
-    </virtualType>
-    <virtualType name="dataBuilder" type="Ifthenpay\Payment\Lib\Builders\DataBuilder">
-    </virtualType>
-    <virtualType name="gatewayDataBuilder" type="Ifthenpay\Payment\Lib\Builders\GatewayDataBuilder">
-    </virtualType>
-    <virtualType name="webservice" type="Ifthenpay\Payment\Lib\Request\WebService">
+    <virtualType name="dataFactory" type="Ifthenpay\Payment\Helper\Factory\DataFactory"></virtualType>
+    <virtualType name="client" type="GuzzleHttp\Client"></virtualType>
+    <virtualType name="dataBuilder" type="Ifthenpay\Payment\Lib\Builders\DataBuilder"></virtualType>
+    <virtualType name="gatewayDataBuilder" type="Ifthenpay\Payment\Lib\Builders\GatewayDataBuilder"></virtualType>
+    <virtualType name="webService" type="Ifthenpay\Payment\Lib\Request\WebService">
         <arguments>
             <argument name="client" xsi:type="object">client</argument>
         </arguments>
@@ -41,7 +37,13 @@
     <virtualType name="paymentFactory" type="Ifthenpay\Payment\Lib\Factory\Payment\PaymentFactory">
         <arguments>
             <argument name="dataBuilder" xsi:type="object">dataBuilder</argument>
-            <argument name="webservice" xsi:type="object">webservice</argument>
+            <argument name="webService" xsi:type="object">webService</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="gateway" type="Ifthenpay\Payment\Lib\Payments\Gateway">
+        <arguments>
+            <argument name="webService" xsi:type="object">webService</argument>
+            <argument name="paymentFactory" xsi:type="object">paymentFactory</argument>
         </arguments>
     </virtualType>
     <virtualType name="token" type="Ifthenpay\Payment\Lib\Utility\Token"></virtualType>
@@ -63,14 +65,11 @@
             <argument name="gateway" xsi:type="object">gateway</argument>
             <argument name="token" xsi:type="object">token</argument>
             <argument name="status" xsi:type="object">status</argument>
+            <argument name="repositoryFactory" xsi:type="object">repositoryFactory</argument>
+            <argument name="convertEuros" xsi:type="object">convertEuros</argument>
+            <argument name="ifthenpayLogger" xsi:type="object">Ifthenpay\Payment\Logger\IfthenpayLogger</argument>
         </arguments>
     </virtualType>
-    <type name="Ifthenpay\Payment\Lib\Payments\Gateway">
-        <arguments>
-            <argument name="webservice" xsi:type="object">webservice</argument>
-            <argument name="paymentFactory" xsi:type="object">paymentFactory</argument>
-        </arguments>
-    </type>
     <type name="Ifthenpay\Payment\Lib\Strategy\Payments\IfthenpayPaymentReturn">
         <arguments>
             <argument name="dataBuilder" xsi:type="object">dataBuilder</argument>
@@ -83,7 +82,7 @@
             <argument name="modelFactory" xsi:type="object">modelFactory</argument>
         </arguments>
     </virtualType>
-    <virtualType name="callbackValidate" type="Ifthenpay\Payment\Lib\Callback\callbackValidate"></virtualType>
+    <virtualType name="callbackValidate" type="Ifthenpay\Payment\Lib\Callback\CallbackValidate"></virtualType>
     <virtualType name="callbackOnline" type="Ifthenpay\Payment\Lib\Callback\CallbackOnline">
         <arguments>
             <argument name="callbackDataFactory" xsi:type="object">callbackDataFactory</argument>
@@ -94,18 +93,19 @@
             <argument name="modelFactory" xsi:type="object">modelFactory</argument>
             <argument name="createInvoiceService" xsi:type="object">createInvoiceService</argument>
             <argument name="dataFactory" xsi:type="object">dataFactory</argument>
+            <argument name="repositoryFactory" xsi:type="object">repositoryFactory</argument>
+            <argument name="ifthenpayLogger" xsi:type="object">Ifthenpay\Payment\Logger\IfthenpayLogger</argument>
         </arguments>
     </virtualType>
     <virtualType name="callbackOffline" type="Ifthenpay\Payment\Lib\Callback\CallbackOffline">
         <arguments>
             <argument name="callbackDataFactory" xsi:type="object">callbackDataFactory</argument>
             <argument name="callbackValidate" xsi:type="object">callbackValidate</argument>
-            <argument name="status" xsi:type="object">status</argument>
-            <argument name="token" xsi:type="object">token</argument>
-            <argument name="tokenExtra" xsi:type="object">tokenExtra</argument>
             <argument name="modelFactory" xsi:type="object">modelFactory</argument>
             <argument name="createInvoiceService" xsi:type="object">createInvoiceService</argument>
             <argument name="dataFactory" xsi:type="object">dataFactory</argument>
+            <argument name="repositoryFactory" xsi:type="object">repositoryFactory</argument>
+            <argument name="ifthenpayLogger" xsi:type="object">Ifthenpay\Payment\Logger\IfthenpayLogger</argument>
         </arguments>
     </virtualType>
 
@@ -117,14 +117,57 @@
     </type>
     <type name="Ifthenpay\Payment\Lib\Payments\MbWayPaymentStatus">
         <arguments>
-            <argument name="webservice" xsi:type="object">webservice</argument>
+            <argument name="webService" xsi:type="object">webService</argument>
         </arguments>
     </type>
-    <type name="Ifthenpay\Payment\Cron\CancelMbwayOrder">
+    <virtualType name="convertEuros" type="Ifthenpay\Payment\Lib\Utility\ConvertEuros"></virtualType>
+    <virtualType name="paymentStatusFactory" type="Ifthenpay\Payment\Lib\Factory\Payment\PaymentStatusFactory">
+        <arguments>
+            <argument name="webService" xsi:type="object">webService</argument>
+            <argument name="ifthenpayLogger" xsi:type="object">Ifthenpay\Payment\Logger\IfthenpayLogger</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="paymentChangeStatusFactory" type="Ifthenpay\Payment\Lib\Factory\Payment\PaymentChangeStatusFactory">
+        <arguments>
+            <argument name="gatewayDataBuilder" xsi:type="object">gatewayDataBuilder</argument>
+            <argument name="webService" xsi:type="object">webService</argument>
+            <argument name="paymentStatusFactory" xsi:type="object">paymentStatusFactory</argument>
+            <argument name="dataFactory" xsi:type="object">dataFactory</argument>
+            <argument name="repositoryFactory" xsi:type="object">repositoryFactory</argument>
+            <argument name="createInvoiceService" xsi:type="object">createInvoiceService</argument>
+            <argument name="convertEuros" xsi:type="object">convertEuros</argument>
+            <argument name="ifthenpayLogger" xsi:type="object">Ifthenpay\Payment\Logger\IfthenpayLogger</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="cancelIfthenpayOrderFactory" type="Ifthenpay\Payment\Lib\Factory\Cancel\CancelIfthenpayOrderFactory">
         <arguments>
             <argument name="dataFactory" xsi:type="object">dataFactory</argument>
-            <argument name="MbWayPaymentStatus" xsi:type="object">MbWayPaymentStatus</argument>
+            <argument name="paymentStatusFactory" xsi:type="object">paymentStatusFactory</argument>
+            <argument name="repositoryFactory" xsi:type="object">repositoryFactory</argument>
             <argument name="gatewayDataBuilder" xsi:type="object">gatewayDataBuilder</argument>
+            <argument name="ifthenpayLogger" xsi:type="object">Ifthenpay\Payment\Logger\IfthenpayLogger</argument>
+            <argument name="convertEuros" xsi:type="object">convertEuros</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="ifthenpayPaymentStatus" type="Ifthenpay\Payment\Lib\Strategy\Payments\IfthenpayPaymentStatus">
+        <arguments>
+            <argument name="paymentChangeStatusFactory" xsi:type="object">paymentChangeStatusFactory</argument>
+        </arguments>
+    </virtualType>
+
+    <type name="Ifthenpay\Payment\Cron\CheckIfthenpayPaymentStatus">
+        <arguments>
+            <argument name="ifthenpayPaymentStatus" xsi:type="object">ifthenpayPaymentStatus</argument>
+            <argument name="gateway" xsi:type="object">gateway</argument>
+            <argument name="ifthenpayLogger" xsi:type="object">Ifthenpay\Payment\Logger\IfthenpayLogger</argument>
+        </arguments>
+    </type>
+    <type name="Ifthenpay\Payment\Cron\CancelIfthenpayOrder">
+        <arguments>
+            <argument name="cancelIfthenpayOrderFactory" xsi:type="object">cancelIfthenpayOrderFactory</argument>
+            <argument name="gateway" xsi:type="object">gateway</argument>
+            <argument name="ifthenpayLogger" xsi:type="object">Ifthenpay\Payment\Logger\IfthenpayLogger</argument>
         </arguments>
     </type>
 
@@ -149,7 +192,7 @@
     </virtualType>
 
      <!-- Payment Method Facade configuration -->
-    <virtualType name="IfthenpayCCardFacade" type="Magento\Payment\Model\Method\Adapter">
+    <virtualType name="IfthenpayCCardFacade" type="Ifthenpay\Payment\Model\Method\IfthenpayAdapter">
         <arguments>
             <argument name="code" xsi:type="const">Ifthenpay\Payment\Model\Ui\IfthenpayCCardConfigProvider::CODE</argument>
             <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
@@ -190,10 +233,20 @@
             <argument name="config" xsi:type="object">IfthenpayCCardConfig</argument>
         </arguments>
     </virtualType>
+
+    <virtualType name="configValidator" type="Ifthenpay\Payment\Gateway\Validator\ConfigValidator">
+        <arguments>
+            <argument name="dataFactory" xsi:type="object">dataFactory</argument>
+            <argument name="logger" xsi:type="object">Ifthenpay\Payment\Logger\IfthenpayLogger</argument>
+        </arguments>
+    </virtualType>
+
+
     <virtualType name="IfthenpayCCardValidatorPool" type="Magento\Payment\Gateway\Validator\ValidatorPool">
         <arguments>
             <argument name="validators" xsi:type="array">
                 <item name="country" xsi:type="string">IfthenpayCCardCountryValidator</item>
+                <item name="availability" xsi:type="string">configValidator</item>
             </argument>
         </arguments>
     </virtualType>
@@ -224,14 +277,38 @@
         </arguments>
     </type>
 
+    <virtualType name="ifthenpayTxnIdHandler" type="Ifthenpay\Payment\Gateway\Response\TxnIdHandler">
+        <arguments>
+            <argument name="ifthenpayLogger" xsi:type="object">Ifthenpay\Payment\Logger\IfthenpayLogger</argument>
+        </arguments>
+    </virtualType>
+
     <!-- Response handlers -->
     <virtualType name="IfthenpayCCardResponseHandlerComposite" type="Magento\Payment\Gateway\Response\HandlerChain">
         <arguments>
             <argument name="handlers" xsi:type="array">
-                <item name="txnid" xsi:type="string">Ifthenpay\Payment\Gateway\Response\TxnIdHandler</item>
+                <item name="txnid" xsi:type="string">ifthenpayTxnIdHandler</item>
             </argument>
         </arguments>
     </virtualType>
+    <type name="Ifthenpay\Payment\Model\MultibancoPayment">
+        <arguments>
+            <argument name="dataFactory" xsi:type="object">dataFactory</argument>
+            <argument name="ifthenpayLogger" xsi:type="object">Ifthenpay\Payment\Logger\IfthenpayLogger</argument>
+        </arguments>
+    </type>
+    <type name="Ifthenpay\Payment\Model\MbwayPayment">
+        <arguments>
+            <argument name="dataFactory" xsi:type="object">dataFactory</argument>
+            <argument name="ifthenpayLogger" xsi:type="object">Ifthenpay\Payment\Logger\IfthenpayLogger</argument>
+        </arguments>
+    </type>
+    <type name="Ifthenpay\Payment\Model\PayshopPayment">
+        <arguments>
+            <argument name="dataFactory" xsi:type="object">dataFactory</argument>
+            <argument name="ifthenpayLogger" xsi:type="object">Ifthenpay\Payment\Logger\IfthenpayLogger</argument>
+        </arguments>
+    </type>
     <preference for="PayPal\Braintree\Gateway\Data\Order\OrderAdapter" type="Ifthenpay\Payment\Gateway\Data\Order\OrderAdapter"/>
     <preference for="Ifthenpay\Payment\Api\MultibancoRepositoryInterface" type="Ifthenpay\Payment\Model\MultibancoRepository"/>
     <preference for="Ifthenpay\Payment\Api\MbwayRepositoryInterface" type="Ifthenpay\Payment\Model\MbwayRepository"/>

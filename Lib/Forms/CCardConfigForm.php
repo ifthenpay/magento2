@@ -14,11 +14,11 @@ declare(strict_types=1);
 namespace Ifthenpay\Payment\Lib\Forms;
 
 use Ifthenpay\Payment\Lib\Forms\ConfigForm;
+use Ifthenpay\Payment\Lib\Payments\Gateway;
 
 class CCardConfigForm extends ConfigForm
 {
-    protected $paymentMethod = 'ccard';
-    protected $hasCallback = false;
+    protected $paymentMethod = Gateway::CCARD;
 
 
     protected function checkConfigValues($useEntidade = true): void
@@ -28,9 +28,18 @@ class CCardConfigForm extends ConfigForm
         }
     }
 
+    protected function checkIfConfigValueIsSet(): bool
+    {
+        if ($this->configData['ccardKey'] !== 'Choose Account') {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public function displayCallbackInfo(): bool
     {
-        return false;
+        return isset($this->configData['ccardKey']);
     }
 
     public function setGatewayBuilderData(): void

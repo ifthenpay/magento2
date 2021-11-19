@@ -20,20 +20,31 @@ use Ifthenpay\Payment\Lib\Factory\Payment\PaymentFactory;
 
 class Gateway
 {
-    private $webservice;
+    const MULTIBANCO = 'multibanco';
+    const MBWAY = 'mbway';
+    const PAYSHOP = 'payshop';
+    const CCARD = 'ccard';
+
+    private $webService;
     private $paymentFactory;
     private $account;
-    private $paymentMethods = ['multibanco', 'mbway', 'payshop', 'ccard'];
+    private $paymentMethods = [self::MULTIBANCO, self::MBWAY, self::PAYSHOP, self::CCARD];
+    private $paymentMethodsCanCancel = [self::MBWAY, self::CCARD, self::PAYSHOP];
 
-    public function __construct(WebService $webservice, PaymentFactory $paymentFactory)
+    public function __construct(WebService $webService, PaymentFactory $paymentFactory)
     {
-        $this->webservice = $webservice;
+        $this->webService = $webService;
         $this->paymentFactory = $paymentFactory;
     }
 
     public function getPaymentMethodsType(): array
     {
         return $this->paymentMethods;
+    }
+
+    public function getPaymentMethodsCanCancel(): array
+    {
+        return $this->paymentMethodsCanCancel;
     }
 
     public function checkIfthenpayPaymentMethod(string $paymentMethod): bool
@@ -46,7 +57,7 @@ class Gateway
 
     public function authenticate(string $backofficeKey): void
     {
-            $authenticate = $this->webservice->postRequest(
+            $authenticate = $this->webService->postRequest(
                 'https://www.ifthenpay.com/IfmbWS/ifmbws.asmx/' .
                 'getEntidadeSubentidadeJsonV2',
                 [
@@ -87,18 +98,18 @@ class Gateway
 
     public function getSubEntidadeInEntidade(string $entidade): array
     {
-        return array_filter(
+        return array_values(array_filter(
             $this->account,
             function ($value) use ($entidade) {
                 return $value['Entidade'] === $entidade;
             }
-        );
+        ));
     }
 
     public function getEntidadeSubEntidade(string $paymentMethod): array
     {
         $list = null;
-        if ($paymentMethod === 'multibanco') {
+        if ($paymentMethod === self::MULTIBANCO) {
             $list = array_filter(
                 array_column($this->account, 'Entidade'),
                 function ($value) {

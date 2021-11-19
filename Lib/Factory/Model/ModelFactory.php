@@ -13,11 +13,12 @@ declare(strict_types=1);
 
 namespace Ifthenpay\Payment\Lib\Factory\Model;
 
-use Ifthenpay\Payment\Lib\Factory\Factory;
-use Ifthenpay\Payment\Model\MultibancoFactory;
-use Ifthenpay\Payment\Model\MbwayFactory;
-use Ifthenpay\Payment\Model\PayshopFactory;
 use Ifthenpay\Payment\Model\CCardFactory;
+use Ifthenpay\Payment\Model\MbwayFactory;
+use Ifthenpay\Payment\Lib\Factory\Factory;
+use Ifthenpay\Payment\Lib\Payments\Gateway;
+use Ifthenpay\Payment\Model\PayshopFactory;
+use Ifthenpay\Payment\Model\MultibancoFactory;
 
 class ModelFactory extends Factory
 {
@@ -42,13 +43,13 @@ class ModelFactory extends Factory
     public function build()
     {
         switch ($this->type) {
-            case 'multibanco':
+            case Gateway::MULTIBANCO:
                 return $this->multibancoFactory->create();
-            case 'mbway':
+            case Gateway::MBWAY:
                 return $this->mbwayFactory->create();
-            case 'payshop':
+            case Gateway::PAYSHOP:
                 return $this->payshopFactory->create();
-            case 'ccard':
+            case Gateway::CCARD:
                 return $this->ccardFactory->create();
             default:
                 throw new \Exception("Unknown Model Class");

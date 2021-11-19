@@ -19,17 +19,18 @@ use Ifthenpay\Payment\Lib\Contracts\Models\PaymentModelInterface;
 
 class Payment
 {
+
     protected $orderId;
     protected $valor;
     protected $dataBuilder;
-    protected $webservice;
+    protected $webService;
 
-    public function __construct(string $orderId, string $valor, DataBuilder $dataBuilder, WebService $webservice = null)
+    public function __construct(string $orderId, string $valor, DataBuilder $dataBuilder, WebService $webService = null)
     {
         $this->orderId = $orderId;
         $this->valor = $this->formatNumber(number_format(floatval($valor), 2, '.', ''));
         $this->dataBuilder = $dataBuilder;
-        $this->webservice = $webservice;
+        $this->webService = $webService;
     }
 
     protected function formatNumber(string $number) : string

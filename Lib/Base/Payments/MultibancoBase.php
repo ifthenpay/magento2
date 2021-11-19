@@ -14,16 +14,18 @@ declare(strict_types=1);
 namespace Ifthenpay\Payment\Lib\Base\Payments;
 
 use Ifthenpay\Payment\Lib\Base\PaymentBase;
+use Ifthenpay\Payment\Lib\Payments\Gateway;
 
 class MultibancoBase extends PaymentBase
 {
-    protected $paymentMethod = 'multibanco';
+    protected $paymentMethod = Gateway::MULTIBANCO;
     protected $paymentMethodAlias = 'Multibanco';
 
     protected function setGatewayBuilderData(): void
     {
-        $this->gatewayBuilder->setEntidade($this->dataConfig['entidade']);
-        $this->gatewayBuilder->setSubEntidade($this->dataConfig['subEntidade']);
+        $this->gatewayDataBuilder->setEntidade($this->dataConfig['entidade']);
+        $this->gatewayDataBuilder->setSubEntidade($this->dataConfig['subEntidade']);
+        $this->logGatewayBuilderData();
     }
 
     protected function saveToDatabase(): void
@@ -35,5 +37,12 @@ class MultibancoBase extends PaymentBase
             'status' => 'pending'
         ]);
         $this->paymentRepository->save($this->paymentModel);
+        $this->logger->debug('multibanco payment saved in database with success', [
+                'entidade' => $this->paymentGatewayResultData->entidade,
+                'referencia' => $this->paymentGatewayResultData->referencia,
+                'order_id' => !is_null($this->paymentDefaultData->order->getOrderIncrementId()) ? $this->paymentDefaultData->order->getOrderIncrementId() : $this->paymentDefaultData->order->getIncrementId(),
+                'status' => 'pending'
+            ]
+        );
     }
 }

@@ -11,9 +11,28 @@
 
 namespace Ifthenpay\Payment\Model;
 
+use Ifthenpay\Payment\Lib\Contracts\Payments\PaymentConfigInterface;
+use Ifthenpay\Payment\Lib\Payments\Gateway;
 use Ifthenpay\Payment\Model\PaymentModelBase;
 
-class MultibancoPayment extends PaymentModelBase
+class MultibancoPayment extends PaymentModelBase implements PaymentConfigInterface
 {
-    protected $_code = 'multibanco';
+    protected $_code = Gateway::MULTIBANCO;
+
+    public function checkPaymentConfig(): bool
+    {
+        if (empty($this->configData)) {
+            return false;
+        }
+
+        if (!$this->configData['entidade'] || $this->configData['entidade'] === 'Choose Account') {
+            $this->ifthenpayLogger->debug('Multibanco entidade is not set', ['configData' => $this->configData]);
+            return false;
+        }
+        if (!$this->configData['subEntidade'] || $this->configData['subEntidade'] === 'Choose Account') {
+            $this->ifthenpayLogger->debug('Multibanco subEntidade is not set', ['configData' => $this->configData]);
+            return false;
+        }
+        return true;
+    }
 }

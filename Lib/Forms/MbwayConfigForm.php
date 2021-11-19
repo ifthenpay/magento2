@@ -14,16 +14,27 @@ declare(strict_types=1);
 namespace Ifthenpay\Payment\Lib\Forms;
 
 use Ifthenpay\Payment\Lib\Forms\ConfigForm;
+use Ifthenpay\Payment\Lib\Payments\Gateway;
+use Ifthenpay\Payment\Lib\Base\Payments\MbwayBase;
 
 class MbwayConfigForm extends ConfigForm
 {
-    protected $paymentMethod = 'mbway';
+    protected $paymentMethod = Gateway::MBWAY;
 
 
     protected function checkConfigValues($useEntidade = true): void
     {
         if (!empty($this->configData)) {
             $this->options[$this->configData['mbwayKey']] = $this->configData['mbwayKey'];
+        }
+    }
+
+    protected function checkIfConfigValueIsSet(): bool
+    {
+        if ($this->configData['mbwayKey'] !== 'Choose Account') {
+            return true;
+        } else {
+            return false;
         }
     }
 

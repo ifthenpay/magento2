@@ -11,10 +11,9 @@
 
 namespace Ifthenpay\Payment\Block\Adminhtml\System\Config\Form;
 
-use \Magento\Backend\Block\Template\Context;
+use Magento\Backend\Block\Template\Context;
 use Ifthenpay\Payment\Logger\IfthenpayLogger;
 use Ifthenpay\Payment\Lib\Factory\Config\IfthenpayConfigFormFactory;
-
 
 class CallbackInfo extends \Magento\Config\Block\System\Config\Form\Field
 {
@@ -58,13 +57,13 @@ class CallbackInfo extends \Magento\Config\Block\System\Config\Form\Field
                 $html = '';
             } else {
                 $this->configData = $ifthenpayConfigForm->createCallback();
-                $this->logger->debug('callback form: Callback Created with success.');
+                $this->logger->debug('callback form: Callback Created with success.', ['configData' => $this->configData]);
                 $html =  $this->toHtml();
             }
 
             return $this->_decorateRowHtml($element, "<td colspan='5'>" . $html . '</td>');    
         } catch (\Throwable $th) {
-            $this->logger->debug('callback form: Error creating callback info. - ' . $th->getMessage());
+            $this->logger->debug('callback form: Error creating callback info', ['error' => $th, 'errorMessage' => $th->getMessage()]);
             throw $th;
         }
         

@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Ifthenpay\Payment\Lib\Callback;
 
+use Ifthenpay\Payment\Lib\Payments\Gateway;
 use Ifthenpay\Payment\Lib\Callback\CallbackData;
 use Ifthenpay\Payment\Lib\Contracts\Callback\CallbackDataInterface;
 
@@ -20,7 +21,7 @@ class CallbackDataMbway extends CallbackData implements CallbackDataInterface
 {
     public function getData(array $request): array
     {
-        $paymentRepository = $this->repositoryFactory->setType('mbway')->build();
+        $paymentRepository = $this->repositoryFactory->setType(Gateway::MBWAY)->build();
         $data = $paymentRepository->getByIdPedido($request['id_pedido'])->getData();
 
         if (empty($data)) {

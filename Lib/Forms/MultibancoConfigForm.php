@@ -14,10 +14,11 @@ declare(strict_types=1);
 namespace Ifthenpay\Payment\Lib\Forms;
 
 use Ifthenpay\Payment\Lib\Forms\ConfigForm;
+use Ifthenpay\Payment\Lib\Payments\Gateway;
 
 class MultibancoConfigForm extends ConfigForm
 {
-    protected $paymentMethod = 'multibanco';
+    protected $paymentMethod = Gateway::MULTIBANCO;
 
     protected function checkConfigValues($useEntidade = true): void
     {
@@ -31,6 +32,15 @@ class MultibancoConfigForm extends ConfigForm
             }
         } else {
             $this->options;
+        }
+    }
+
+    protected function checkIfConfigValueIsSet(): bool
+    {
+        if ($this->configData['entidade'] !== 'Choose Account' && $this->configData['subEntidade'] !== 'Choose Account') {
+            return true;
+        } else {
+            return false;
         }
     }
 

@@ -24,9 +24,13 @@ class CCardPaymentReturn extends CCardBase implements PaymentReturnInterface
         $this->setGatewayBuilderData();
         $this->paymentGatewayResultData = $this->ifthenpayGateway->execute(
             $this->paymentDefaultData->paymentMethod,
-            $this->gatewayBuilder,
+            $this->gatewayDataBuilder,
             strval($this->paymentDefaultData->order->getOrderIncrementId()),
-            strval($this->paymentDefaultData->order->getGrandTotalAmount())
+            strval($this->convertEuros->execute(
+                    $this->paymentDefaultData->order->getCurrencyCode(),
+                    $this->paymentDefaultData->order->getGrandTotalAmount()
+                )
+            )
         )->toArray();
         $this->saveToDatabase();
         $this->setRedirectUrl(true, $this->paymentGatewayResultData['paymentUrl']);

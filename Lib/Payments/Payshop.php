@@ -26,9 +26,9 @@ class Payshop extends Payment implements PaymentMethodInterface
     protected $validade;
     private $payshopPedido;
 
-    public function __construct(GatewayDataBuilder $data, string $orderId, string $valor, WebService $webservice = null)
+    public function __construct(GatewayDataBuilder $data, string $orderId, string $valor, WebService $webService = null)
     {
-        parent::__construct($orderId, $valor, $data, $webservice);
+        parent::__construct($orderId, $valor, $data, $webService);
         $this->payshopKey = $data->getData()->payshopKey;
         $this->validade = $this->makeValidade($data->getData()->validade);
     }
@@ -59,7 +59,7 @@ class Payshop extends Payment implements PaymentMethodInterface
 
     private function setReferencia(): void
     {
-        $this->payshopPedido = $this->webservice->postRequest(
+        $this->payshopPedido = $this->webService->postRequest(
             'https://ifthenpay.com/api/payshop/reference/',
             [
                     'payshopkey' => $this->payshopKey,

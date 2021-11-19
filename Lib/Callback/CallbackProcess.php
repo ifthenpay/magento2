@@ -14,17 +14,13 @@ declare(strict_types=1);
 namespace Ifthenpay\Payment\Lib\Callback;
 
 use Magento\Framework\UrlInterface;
-use Ifthenpay\Payment\Lib\Utility\Token;
-use \Magento\Framework\App\Response\Http;
-use Ifthenpay\Payment\Lib\Utility\Status;
+use Magento\Framework\App\Response\Http;
 use Magento\Sales\Api\Data\OrderInterface;
-use Ifthenpay\Payment\Lib\Utility\TokenExtra;
 use Ifthenpay\Payment\Logger\IfthenpayLogger;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Sales\Api\OrderRepositoryInterface;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Ifthenpay\Payment\Helper\Factory\DataFactory;
-use Ifthenpay\Payment\Lib\Callback\CallbackValidate;
 use Ifthenpay\Payment\Lib\Factory\Model\ModelFactory;
 use Magento\Sales\Api\OrderPaymentRepositoryInterface;
 use Ifthenpay\Payment\Model\Service\CreateInvoiceService;
@@ -45,7 +41,6 @@ class CallbackProcess
     protected $searchCriteriaBuilder;
     protected $urlBuilder;
     protected $createInvoiceService;
-    protected $tokenExtra;
     protected $dataFactory;
     protected $logger;
     protected $paymentRepository;
@@ -53,10 +48,6 @@ class CallbackProcess
 
     public function __construct(
         CallbackDataFactory $callbackDataFactory,
-        CallbackValidate $callbackValidate,
-        Status $status,
-        Token $token,
-        TokenExtra $tokenExtra,
         ModelFactory $modelFactory,
         CreateInvoiceService $createInvoiceService,
         DataFactory $dataFactory,
@@ -67,14 +58,9 @@ class CallbackProcess
         ResultFactory $resultFactory,
         UrlInterface $urlBuilder,
         IfthenpayLogger $logger
-
     )
 	{
         $this->callbackDataFactory = $callbackDataFactory;
-        $this->callbackValidate = $callbackValidate;
-        $this->status = $status;
-        $this->token = $token;
-        $this->tokenExtra = $tokenExtra;
         $this->modelFactory = $modelFactory;
         $this->createInvoiceService = $createInvoiceService;
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
@@ -111,6 +97,7 @@ class CallbackProcess
 
     protected function executePaymentNotFound(): CallbackController
     {
+        $this->logger->debug('callback payment not found', ['requestData' => $this->request]);
         return $this->callbackController->getResponse()
         ->setStatusCode(Http::STATUS_CODE_404)
         ->setContent('Pagamento não encontrado');
@@ -122,6 +109,18 @@ class CallbackProcess
         $paymentModel = $paymentRepository->getById($this->paymentData['id']);
         $paymentModel->setStatus($status);
         $paymentRepository->save($paymentModel);
+    }
+
+    protected function changeOrderStatus(string $status): void
+    {
+        $this->order->setState($status)
+            ->setStatus($this->order->getConfig()->getStateDefaultStatus($status));
+        $this->orderRepository->save($this->order);
+    }
+
+    protected function createInvoice(string $invoiceCaptureType): void
+    {
+        $this->createInvoiceService->createInvoice($this->order, $invoiceCaptureType);
     }
 
     public function setRequest(array $request)

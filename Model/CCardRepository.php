@@ -44,4 +44,12 @@ class CCardRepository implements CCardRepositoryInterface
 
         return $ccardModel;
     }
+
+    public function getByOrderId(string $orderId)
+    {
+        $ccardModel = $this->ccardFactory->create();
+        $this->ccardResource->load($ccardModel, $orderId, 'order_id');
+
+        return $ccardModel;
+    }
 }

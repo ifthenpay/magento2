@@ -19,17 +19,19 @@ define(
         'use strict';
         return {
             validate: function () {
+                var mbwayPhoneRegex = /^((91|96|92|93)[0-9]{7})$/g;
                 var isValid = true; //Put your validation logic here
                 var paymentMethodSelected = $('input[name="payment[method]"]:checked').attr('id');
-                console.log(paymentMethodSelected);
-                if (paymentMethodSelected === 'mbway' && !$('#mbwayPhoneNumber').val()) {
-                    isValid = false;
+                if (paymentMethodSelected === 'mbway') {
+                    var mbwayPhoneNumber = $('#mbwayPhoneNumber').val();
+                    if (!mbwayPhoneNumber) {
+                        isValid = false;
+                        messageList.addErrorMessage({ message: $t('mbwayPhoneRequired')});
+                    } else if (!mbwayPhoneRegex.test($('#mbwayPhoneNumber').val())) {
+                        isValid = false;
+                        messageList.addErrorMessage({ message: $t('mbwayPhoneInvalid')});
+                    }
                 }
-
-                if (!isValid) {
-                    messageList.addErrorMessage({ message: $t('mbwayPhoneRequired')});
-                }
-
                 return isValid;
             }
         }

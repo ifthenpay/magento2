@@ -17,27 +17,27 @@
                     <title>Multibanco</title>
                     <subEntidade>Choose Entity</subEntidade>
                     <allowspecific>0</allowspecific>
-                    <active>1</active>
+                    <active>0</active>
                     <order_status>pending_payment</order_status>
                     <model>Ifthenpay\Payment\Model\MultibancoPayment</model>
                 </multibanco>
                 <mbway>
                     <title>MB WAY</title>
                     <allowspecific>0</allowspecific>
-                    <active>1</active>
+                    <active>0</active>
                     <order_status>pending_payment</order_status>
                     <model>Ifthenpay\Payment\Model\MbwayPayment</model>
                 </mbway>
                 <payshop>
                     <title>Payshop</title>
                     <allowspecific>0</allowspecific>
-                    <active>1</active>
+                    <active>0</active>
                     <order_status>pending_payment</order_status>
                     <model>Ifthenpay\Payment\Model\PayshopPayment</model>
                 </payshop>
                 <ccard>
                     <title>Credit Card</title>
-                    <active>1</active>
+                    <active>0</active>
                     <model>IfthenpayCCardFacade</model>
                     <order_status>pending_payment</order_status>
                     <can_use_checkout>1</can_use_checkout>

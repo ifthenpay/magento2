@@ -12,21 +12,25 @@
 namespace Ifthenpay\Payment\Helper;
 
 use Ifthenpay\Payment\Helper\Data;
-use Ifthenpay\Payment\Helper\Contracts\IfthenpayDataInterface;
+use Ifthenpay\Payment\Lib\Payments\Gateway;
 use Magento\Framework\App\Config\ScopeConfigInterface;
+use Ifthenpay\Payment\Helper\Contracts\IfthenpayDataInterface;
 
 class CCardData extends Data implements IfthenpayDataInterface
 {
     const USER_CCARD_KEY = 'payment/ifthenpay/ccard/ccardKey';
+    const CANCEL_CCARD_ORDER = 'payment/ifthenpay/ccard/cancelCCardOrder';
 
-    protected $paymentMethod = 'ccard';
+    protected $paymentMethod = Gateway::CCARD;
 
     public function getConfig(): array
     {
         $ccardKey = $this->scopeConfig->getValue(self::USER_CCARD_KEY, ScopeConfigInterface::SCOPE_TYPE_DEFAULT, $this->getStoreCode());
+        $cancelCCardOrder = $this->scopeConfig->getValue(self::CANCEL_CCARD_ORDER, ScopeConfigInterface::SCOPE_TYPE_DEFAULT, $this->getStoreCode());
         if ($ccardKey) {
             return array_merge(parent::getConfig(), [
-                'ccardKey' => $ccardKey
+                'ccardKey' => $ccardKey,
+                'cancelCCardOrder' => $cancelCCardOrder
             ]);
         } else {
             return [];

@@ -11,9 +11,10 @@
 
 namespace Ifthenpay\Payment\Model\Config\Source;
 
+use Ifthenpay\Payment\Lib\Payments\Gateway;
 use Ifthenpay\Payment\Model\Config\Source\Entidade;
 
 class PayshopKey extends Entidade
 {
-    protected $paymentMethod = 'payshop';
+    protected $paymentMethod = Gateway::PAYSHOP;
 }

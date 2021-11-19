@@ -55,7 +55,7 @@ if ($block->isIfthenpayPayment()) {
                             </li>
                             <li class="list-group-item">
                                 <?= __('Reference') ?>:
-                                <span class="badge"><?php echo $block->ifthenpayGatewayResult['referencia'] ?></span>
+                                <span class="badge"><?php echo $block->formatReference($block->ifthenpayGatewayResult['referencia']) ?></span>
                             </li>
                             <li class="list-group-item">
                                 <?= __('Total to Pay') ?>:
@@ -90,7 +90,7 @@ if ($block->isIfthenpayPayment()) {
                         <ul class="list-group">
                             <li class="list-group-item">
                                 <?= __('Reference') ?>:
-                                <span class="badge"><?php echo $block->ifthenpayGatewayResult['referencia'] ?></span>
+                                <span class="badge"><?php echo $block->formatReference($block->ifthenpayGatewayResult['referencia']) ?></span>
                             </li>
                             <li class="list-group-item">
                                 <?= __('Validity') ?>:

@@ -13,12 +13,15 @@ declare(strict_types=1);
 
 namespace Ifthenpay\Payment\Lib\Factory\Payment;
 
+use Magento\Directory\Helper\Data;
 use Magento\Framework\UrlInterface;
 use Magento\Framework\App\Request\Http;
 use Ifthenpay\Payment\Lib\Utility\Token;
 use Ifthenpay\Payment\Lib\Utility\Status;
 use Ifthenpay\Payment\Lib\Factory\Factory;
 use Ifthenpay\Payment\Lib\Payments\Gateway;
+use Ifthenpay\Payment\Logger\IfthenpayLogger;
+use Ifthenpay\Payment\Lib\Utility\ConvertEuros;
 use Ifthenpay\Payment\Helper\Factory\DataFactory;
 use Ifthenpay\Payment\Lib\Factory\Model\ModelFactory;
 use Ifthenpay\Payment\Lib\Builders\GatewayDataBuilder;
@@ -34,38 +37,43 @@ use Ifthenpay\Payment\Lib\Contracts\Factory\PaymentReturnFactoryInterface;
 class PaymentReturnFactory extends Factory implements PaymentReturnFactoryInterface
 {
     protected $paymentDefaultData;
-    protected $twigDefaultData;
-    protected $gatewayBuilder;
+    protected $gatewayDataBuilder;
     protected $ifthenpayGateway;
     protected $configData;
-    protected $utility;
-    protected $ifthenpayController;
     protected $dataFactory;
     protected $modelFactory;
     protected $urlBuilder;
     protected $repositoryFactory;
+    protected $directoryHelper;
+    protected $logger;
 
     public function __construct(
         DataFactory $dataFactory,
         ModelFactory $modelFactory,
-        GatewayDataBuilder $gatewayBuilder,
+        GatewayDataBuilder $gatewayDataBuilder,
         Gateway $ifthenpayGateway,
         UrlInterface $urlBuilder,
         Token $token,
         Status $status,
         RepositoryFactory $repositoryFactory,
-        Http $request
+        ConvertEuros $convertEuros,
+        Http $request,
+        Data $directoryHelper,
+        IfthenpayLogger $logger
     )
 	{
         $this->dataFactory = $dataFactory;
         $this->modelFactory = $modelFactory;
-        $this->gatewayBuilder = $gatewayBuilder;
+        $this->gatewayDataBuilder = $gatewayDataBuilder;
         $this->ifthenpayGateway = $ifthenpayGateway;
         $this->urlBuilder = $urlBuilder;
         $this->token = $token;
         $this->status = $status;
         $this->repositoryFactory = $repositoryFactory;
+        $this->convertEuros = $convertEuros;
         $this->request = $request;
+        $this->directoryHelper = $directoryHelper;
+        $this->logger = $logger;
     }
 
     public function setPaymentDefaultData($paymentDefaultData)
@@ -77,42 +85,47 @@ class PaymentReturnFactory extends Factory implements PaymentReturnFactoryInterf
 
     public function build(): PaymentReturnInterface {
         switch ($this->type) {
-            case 'multibanco':
+            case Gateway::MULTIBANCO:
                 return new MultibancoPaymentReturn(
                     $this->dataFactory,
                     $this->modelFactory,
                     $this->paymentDefaultData,
-                    $this->gatewayBuilder,
+                    $this->gatewayDataBuilder,
                     $this->ifthenpayGateway,
-                    $this->repositoryFactory
+                    $this->repositoryFactory,
+                    $this->logger
                 );
-            case 'mbway':
+            case Gateway::MBWAY:
                 return new MbwayPaymentReturn(
                     $this->dataFactory,
                     $this->modelFactory,
                     $this->paymentDefaultData,
-                    $this->gatewayBuilder,
+                    $this->gatewayDataBuilder,
                     $this->ifthenpayGateway,
                     $this->request,
-                    $this->repositoryFactory
+                    $this->repositoryFactory,
+                    $this->logger
                 );
-            case 'payshop':
+            case Gateway::PAYSHOP:
                 return new PayshopPaymentReturn(
                     $this->dataFactory,
                     $this->modelFactory,
                     $this->paymentDefaultData,
-                    $this->gatewayBuilder,
+                    $this->gatewayDataBuilder,
                     $this->ifthenpayGateway,
-                    $this->repositoryFactory
+                    $this->repositoryFactory,
+                    $this->logger
                 );
-            case 'ccard':
+            case Gateway::CCARD:
                 return new CCardPaymentReturn(
                     $this->dataFactory,
                     $this->modelFactory,
                     $this->paymentDefaultData,
-                    $this->gatewayBuilder,
+                    $this->gatewayDataBuilder,
                     $this->ifthenpayGateway,
                     $this->repositoryFactory,
+                    $this->logger,
+                    $this->convertEuros,
                     $this->urlBuilder,
                     $this->token,
                     $this->status

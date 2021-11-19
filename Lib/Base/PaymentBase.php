@@ -14,17 +14,19 @@ declare(strict_types=1);
 namespace Ifthenpay\Payment\Lib\Base;
 
 use Ifthenpay\Payment\Lib\Payments\Gateway;
+use Ifthenpay\Payment\Logger\IfthenpayLogger;
 use Ifthenpay\Payment\Lib\Builders\DataBuilder;
 use Ifthenpay\Payment\Helper\Factory\DataFactory;
 use Ifthenpay\Payment\Lib\Factory\Model\ModelFactory;
 use Ifthenpay\Payment\Lib\Builders\GatewayDataBuilder;
 use Ifthenpay\Payment\Lib\Factory\Model\RepositoryFactory;
-
-
+use Ifthenpay\Payment\Lib\Traits\Logs\LogGatewayBuilderData;
 
 abstract class PaymentBase
 {
-    protected $gatewayBuilder;
+    use LogGatewayBuilderData;
+
+    protected $gatewayDataBuilder;
     protected $paymentDefaultData;
     protected $paymentGatewayResultData;
     protected $ifthenpayGateway;
@@ -41,16 +43,18 @@ abstract class PaymentBase
         DataFactory $dataFactory,
         ModelFactory $modelFactory,
         DataBuilder $paymentDefaultData,
-        GatewayDataBuilder $gatewayBuilder,
+        GatewayDataBuilder $gatewayDataBuilder,
         Gateway $ifthenpayGateway,
-        RepositoryFactory $repositoryFactory
+        RepositoryFactory $repositoryFactory,
+        IfthenpayLogger $logger
     ) {
         $this->dataConfig = $dataFactory->setType($this->paymentMethod)->build()->getConfig();
         $this->paymentModel = $modelFactory->setType($this->paymentMethod)->build();
-        $this->gatewayBuilder = $gatewayBuilder;
+        $this->gatewayDataBuilder = $gatewayDataBuilder;
         $this->paymentDefaultData = $paymentDefaultData->getData();
         $this->ifthenpayGateway = $ifthenpayGateway;
         $this->paymentRepository = $repositoryFactory->setType($this->paymentMethod)->build();
+        $this->logger = $logger;
     }
 
     public function getRedirectUrl(): array

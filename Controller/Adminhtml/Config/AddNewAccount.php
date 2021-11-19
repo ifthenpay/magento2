@@ -66,10 +66,20 @@ class AddNewAccount extends Action
             $email->setFrom($from, $nameFrom);
             $email->addTo($to, $nameTo);
             $email->send();
-            $this->logger->debug('Add New IfthenpayAccount: Email add new account sent with success');
+            $this->logger->debug('Email add new account sent with success', [
+                'paymentMethod' => $requestData['paymentMethod'],
+                'storeEmail' => $storeEmail,
+                'userToken' => $userToken
+            ]);
             return $this->resultJsonFactory->create()->setData(['success' => true]);
         } catch (\Throwable $th) {
-            $this->logger->debug('Add New IfthenpayAccount: Error sending add new account email - ' . $th->getMessage());
+            $this->logger->debug('Error sending add new account email',[
+                'error' => $th,
+                'errorMessage' => $th->getMessage(),
+                'paymentMethod' => $requestData['paymentMethod'],
+                'storeEmail' => $storeEmail,
+                'userToken' => $userToken
+            ]);
             return $this->resultJsonFactory->create()->setData(['error' => true]);
         }
     }

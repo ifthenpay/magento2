@@ -41,10 +41,18 @@ class ChooseNewEntidadeSubEntidade extends Action
         try {
             $requestData = $this->getRequest()->getParams();
             $this->dataFactory->setType($requestData['paymentMethod'])->build()->deleteConfig();
-            $this->logger->debug('ChooseNewEntidadeSubEntidade: Choosing New Entidade/SubEntidade with success');
+            $this->logger->debug('Choosing New Entidade/SubEntidade with success', [
+                'paymentMethod' => $requestData['paymentMethod'],
+                'requestData' => $requestData
+            ]);
             return $this->resultJsonFactory->create()->setData(['success' => true]);
         } catch (\Throwable $th) {
-            $this->logger->debug('ChooseNewEntidadeSubEntidade: Error Choosing New Entidade/SubEntidade - ' . $th->getMessage());
+            $this->logger->debug('Error Choosing New Entidade/SubEntidade', [
+                'error' => $th,
+                'errorMessage' => $th->getMessage(),
+                'paymentMethod' => $requestData['paymentMethod'],
+                'requestData' => $requestData
+            ]);
             return $this->resultJsonFactory->create()->setData(['error' => __('changeEntidadeSubEntidade')]);
         }
     }

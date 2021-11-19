@@ -12,26 +12,28 @@
 namespace Ifthenpay\Payment\Helper;
 
 use Ifthenpay\Payment\Helper\Data;
-use Ifthenpay\Payment\Helper\Contracts\IfthenpayDataInterface;
+use Ifthenpay\Payment\Lib\Payments\Gateway;
+use Ifthenpay\Payment\Lib\Payments\Payment;
 use Magento\Framework\App\Config\ScopeConfigInterface;
+use Ifthenpay\Payment\Helper\Contracts\IfthenpayDataInterface;
 
 class MultibancoData extends Data implements IfthenpayDataInterface
 {
     const USER_ENTIDADE = 'payment/ifthenpay/multibanco/entidade';
     const USER_SUBENTIDADE = 'payment/ifthenpay/multibanco/subEntidade';
 
-    protected $paymentMethod = 'multibanco';
+    protected $paymentMethod = Gateway::MULTIBANCO;
 
     public function getConfig(): array
     {
         $dataEntidade = $this->scopeConfig->getValue(self::USER_ENTIDADE, ScopeConfigInterface::SCOPE_TYPE_DEFAULT, $this->getStoreCode());
         $dataSubEntidade = $this->scopeConfig->getValue(self::USER_SUBENTIDADE, ScopeConfigInterface::SCOPE_TYPE_DEFAULT, $this->getStoreCode());
-
         if ($dataEntidade && $dataSubEntidade) {
 
             return array_merge(parent::getConfig(), [
                 'entidade' => $dataEntidade,
                 'subEntidade' => $dataSubEntidade,
+
             ]);
         } else {
             return [];

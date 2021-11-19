@@ -44,4 +44,11 @@ class MultibancoRepository implements MultibancoRepositoryInterface
 
         return $multibancoModel;
     }
+
+    public function getByOrderId(string $orderId)
+    {
+        $multibancoModel = $this->multibancoFactory->create();
+        $this->multibancoResource->load($multibancoModel, $orderId, 'order_id');
+        return $multibancoModel;
+    }
 }

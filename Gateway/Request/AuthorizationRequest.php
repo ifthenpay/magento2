@@ -11,23 +11,11 @@
 
 namespace Ifthenpay\Payment\Gateway\Request;
 
-use Magento\Payment\Gateway\ConfigInterface;
-use Ifthenpay\Payment\Helper\Factory\DataFactory;
 use Magento\Payment\Gateway\Request\BuilderInterface;
 use Magento\Payment\Gateway\Data\PaymentDataObjectInterface;
 
 class AuthorizationRequest implements BuilderInterface
 {
-
-    private $dataFactory;
-
-    public function __construct(
-        DataFactory $dataFactory
-    )
-    {
-        $this->dataFactory = $dataFactory;
-    }
-
     public function build(array $buildSubject)
     {
         if (!isset($buildSubject['payment'])

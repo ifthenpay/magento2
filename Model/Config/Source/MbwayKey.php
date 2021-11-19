@@ -11,9 +11,10 @@
 
 namespace Ifthenpay\Payment\Model\Config\Source;
 
+use Ifthenpay\Payment\Lib\Payments\Gateway;
 use Ifthenpay\Payment\Model\Config\Source\Entidade;
 
 class MbwayKey extends Entidade
 {
-    protected $paymentMethod = 'mbway';
+    protected $paymentMethod = Gateway::MBWAY;
 }

@@ -51,7 +51,7 @@
                                                                 <item name="mbway" xsi:type="array">
                                                                     <item name="component" xsi:type="string">Ifthenpay_Payment/js/view/payment/ifthenpay-payments</item>
                                                                     <item name="methods" xsi:type="array">
-                                                                        <item name="multibanco" xsi:type="array">
+                                                                        <item name="mbway" xsi:type="array">
                                                                             <item name="isBillingAddressRequired" xsi:type="boolean">true</item>
                                                                         </item>
                                                                     </item>
@@ -59,7 +59,7 @@
                                                                 <item name="payshop" xsi:type="array">
                                                                     <item name="component" xsi:type="string">Ifthenpay_Payment/js/view/payment/ifthenpay-payments</item>
                                                                     <item name="methods" xsi:type="array">
-                                                                        <item name="multibanco" xsi:type="array">
+                                                                        <item name="payshop" xsi:type="array">
                                                                             <item name="isBillingAddressRequired" xsi:type="boolean">true</item>
                                                                         </item>
                                                                     </item>

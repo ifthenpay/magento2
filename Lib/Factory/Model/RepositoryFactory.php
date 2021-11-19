@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Ifthenpay\Payment\Lib\Factory\Model;
 
 use Ifthenpay\Payment\Lib\Factory\Factory;
+use Ifthenpay\Payment\Lib\Payments\Gateway;
 use Ifthenpay\Payment\Api\CCardRepositoryInterface;
 use Ifthenpay\Payment\Api\MbwayRepositoryInterface;
 use Ifthenpay\Payment\Api\PayshopRepositoryInterface;
@@ -42,13 +43,13 @@ class RepositoryFactory extends Factory
     public function build()
     {
         switch ($this->type) {
-            case 'multibanco':
+            case Gateway::MULTIBANCO:
                 return $this->multibancoRepository;
-            case 'mbway':
+            case Gateway::MBWAY:
                 return $this->mbwayRepository;
-            case 'payshop':
+            case Gateway::PAYSHOP:
                 return $this->payshopRepository;
-            case 'ccard':
+            case Gateway::CCARD:
                 return $this->ccardRepository;
             default:
                 throw new \Exception("Unknown Repository Class");
