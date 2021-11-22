@@ -23,7 +23,7 @@ class CancelPayshopOrder extends CancelOrder {
     public function cancelOrder(): void
     {
         try {
-            if ($this->configData['cancelPayshopOrder']) {
+            if ($this->configData['cancelPayshopOrder'] && ($this->configData['validade'] || $this->configData['validade'] !== '0')) {
                 $this->setPendingOrders();
                 if ($this->pendingOrders->getSize()) {
                     foreach ($this->pendingOrders as $order) {
