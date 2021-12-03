@@ -11,11 +11,14 @@
 
 namespace Ifthenpay\Payment\Block\Adminhtml\System\Config\Form;
 
+use Ifthenpay\Payment\Lib\Payments\Gateway;
 use Magento\Backend\Block\Template\Context;
 use Ifthenpay\Payment\Logger\IfthenpayLogger;
+use Ifthenpay\Payment\Helper\Factory\DataFactory;
 use Ifthenpay\Payment\Lib\Factory\Config\IfthenpayConfigFormFactory;
+use Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\IfthenpayField;
 
-class CallbackInfo extends \Magento\Config\Block\System\Config\Form\Field
+class CallbackInfo extends IfthenpayField
 {
     /**
      * Template path
@@ -28,17 +31,18 @@ class CallbackInfo extends \Magento\Config\Block\System\Config\Form\Field
 
     public $configData;
 
-    private $logger;
+    protected $paymentMethodFinder = '_callbackInfo';
 
     public function __construct(
         Context $context,
         IfthenpayConfigFormFactory $ifthenpayConfigFormFactory,
+        DataFactory $dataFactory,
+        Gateway $gateway,
         IfthenpayLogger $logger,
         array $data = []
     ) {
-        parent::__construct($context, $data);
+        parent::__construct($context, $dataFactory, $gateway, $logger, $data);
         $this->ifthenpayConfigFormFactory = $ifthenpayConfigFormFactory;
-        $this->logger = $logger;
     }
 
     /**
@@ -50,7 +54,7 @@ class CallbackInfo extends \Magento\Config\Block\System\Config\Form\Field
     public function render(\Magento\Framework\Data\Form\Element\AbstractElement $element)
     {
         try {
-            $paymentMethod = str_replace('_callbackInfo', '', explode("_ifthenpay_", $element->getHtmlId())[1]);
+            $paymentMethod = $this->findPaymentMethod($element);
             $ifthenpayConfigForm = $this->ifthenpayConfigFormFactory->setType($paymentMethod)->build();
 
             if (!$ifthenpayConfigForm->displayCallbackInfo()) {
@@ -61,11 +65,11 @@ class CallbackInfo extends \Magento\Config\Block\System\Config\Form\Field
                 $html =  $this->toHtml();
             }
 
-            return $this->_decorateRowHtml($element, "<td colspan='5'>" . $html . '</td>');    
+            return $this->_decorateRowHtml($element, "<td colspan='5'>" . $html . '</td>');
         } catch (\Throwable $th) {
             $this->logger->debug('callback form: Error creating callback info', ['error' => $th, 'errorMessage' => $th->getMessage()]);
             throw $th;
         }
-        
+
     }
 }

@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Ifthenpay\Payment\Lib\Payments;
 
 use Ifthenpay\Payment\Lib\Request\WebService;
+use Ifthenpay\Payment\Lib\Payments\Multibanco;
 use Ifthenpay\Payment\Lib\Builders\DataBuilder;
 use Ifthenpay\Payment\Lib\Builders\GatewayDataBuilder;
 use Ifthenpay\Payment\Lib\Factory\Payment\PaymentFactory;
@@ -29,7 +30,7 @@ class Gateway
     private $paymentFactory;
     private $account;
     private $paymentMethods = [self::MULTIBANCO, self::MBWAY, self::PAYSHOP, self::CCARD];
-    private $paymentMethodsCanCancel = [self::MBWAY, self::CCARD, self::PAYSHOP];
+    private $paymentMethodsCanCancel = [self::MULTIBANCO, self::MBWAY, self::CCARD, self::PAYSHOP];
 
     public function __construct(WebService $webService, PaymentFactory $paymentFactory)
     {
@@ -113,7 +114,7 @@ class Gateway
             $list = array_filter(
                 array_column($this->account, 'Entidade'),
                 function ($value) {
-                    return is_numeric($value);
+                    return is_numeric($value) || $value === Multibanco::DYNAMIC_MB_ENTIDADE;
                 }
             );
         } else {
@@ -125,6 +126,19 @@ class Gateway
             }
         }
         return $list;
+    }
+
+    public function checkDynamicMb(array $userAccount): bool
+    {
+        $multibancoDynamicKey = array_filter(array_column($userAccount, 'Entidade'),
+            function ($value) {
+                return $value === Multibanco::DYNAMIC_MB_ENTIDADE;
+            }
+        );
+        if ($multibancoDynamicKey) {
+            return true;
+        }
+        return false;
     }
 
     public function execute(string $paymentMethod, GatewayDataBuilder $data, string $orderId, string $valor): DataBuilder

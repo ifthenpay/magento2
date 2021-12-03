@@ -57,6 +57,12 @@ if ($block->isIfthenpayPayment()) {
                                 <?= __('Reference') ?>:
                                 <span class="badge"><?php echo $block->formatReference($block->ifthenpayGatewayResult['referencia']) ?></span>
                             </li>
+                            <?php if ($block->ifthenpayGatewayResult['validade']) { ?>
+                                <li class="list-group-item">
+                                    <?= __('Deadline') ?>:
+                                    <span class="badge"><?php echo $block->ifthenpayGatewayResult['validade'] !== '' ? (new \DateTime($block->ifthenpayGatewayResult['validade']))->format('d-m-Y') : '' ?></span>
+                                </li>
+                            <?php } ?>
                             <li class="list-group-item">
                                 <?= __('Total to Pay') ?>:
                                 <span class="badge"><?php echo $block->ifthenpayGatewayResult['totalToPay'] . $block->getStoreCurency() ?></span>
@@ -93,7 +99,7 @@ if ($block->isIfthenpayPayment()) {
                                 <span class="badge"><?php echo $block->formatReference($block->ifthenpayGatewayResult['referencia']) ?></span>
                             </li>
                             <li class="list-group-item">
-                                <?= __('Validity') ?>:
+                                <?= __('Deadline') ?>:
                                 <span class="badge"><?php echo $block->ifthenpayGatewayResult['validade'] !== '' ? (new \DateTime($block->ifthenpayGatewayResult['validade']))->format('d-m-Y') : '' ?></span>
                             </li>
                             <li class="list-group-item">

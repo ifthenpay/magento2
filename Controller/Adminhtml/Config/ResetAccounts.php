@@ -15,27 +15,27 @@ use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
 use Ifthenpay\Payment\Lib\Payments\Gateway;
 use Ifthenpay\Payment\Logger\IfthenpayLogger;
-use Ifthenpay\Payment\Helper\Factory\DataFactory;
+use Ifthenpay\Payment\Helper\Data;
 use Magento\Framework\Controller\Result\JsonFactory;
 
 
 class ResetAccounts extends Action
 {
     private $resultJsonFactory;
-    private $dataFactory;
+    private $helperData;
     private $gateway;
     private $logger;
 
     public function __construct(
         Context $context,
         JsonFactory $resultJsonFactory,
-        DataFactory $dataFactory,
+        Data $helperData,
         Gateway $gateway,
         IfthenpayLogger $logger
     ) {
         parent::__construct($context);
         $this->resultJsonFactory = $resultJsonFactory;
-        $this->dataFactory = $dataFactory;
+        $this->helperData = $helperData;
         $this->gateway = $gateway;
         $this->logger = $logger;
     }
@@ -44,25 +44,22 @@ class ResetAccounts extends Action
     {
         try {
             $requestData = $this->getRequest()->getParams();
-            $configData = $this->dataFactory->setType($requestData['paymentMethod'])->build();
-            $backofficeKey = $configData->getBackofficeKey();
+            $backofficeKey = $this->helperData->getBackofficeKey();
 
             if (!$backofficeKey) {
                 $this->logger->debug('Backoffice key is required for Reseting accounts', [
                     'errorMessage' => __('backofficeKeyRequired'),
                     'backofficeKey' => $backofficeKey,
-                    'requestData' => $requestData,
-                    'configData' => $configData
+                    'requestData' => $requestData
                 ]);
                 return $this->resultJsonFactory->create()->setData(['error' => __('backofficeKeyRequired')]);
             }
             $this->gateway->authenticate($backofficeKey);
-            $configData->saveUserPaymentMethods($this->gateway->getPaymentMethods());
-            $configData->saveUserAccount($this->gateway->getAccount());
+            $this->helperData->saveUserPaymentMethods($this->gateway->getPaymentMethods());
+            $this->helperData->saveUserAccount($this->gateway->getAccount());
             $this->logger->debug('Reseting accounts with success', [
                 'backofficeKey' => $backofficeKey,
-                'requestData' => $requestData,
-                'configData' => $configData
+                'requestData' => $requestData
             ]);
             return $this->resultJsonFactory->create()->setData(['success' => true]);
         } catch (\Throwable $th) {
@@ -70,8 +67,7 @@ class ResetAccounts extends Action
                 'error' => $th,
                 'errorMessage' => $th->getMessage(),
                 'backofficeKey' => $backofficeKey,
-                'requestData' => $requestData,
-                'configData' => $configData
+                'requestData' => $requestData
             ]);
             return $this->resultJsonFactory->create()->setData(['error' => true]);
         }

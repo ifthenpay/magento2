@@ -14,6 +14,7 @@ namespace Ifthenpay\Payment\Helper;
 use Magento\Framework\DB\Ddl\Table;
 use Magento\Framework\App\Helper\Context;
 use Ifthenpay\Payment\Lib\Payments\Gateway;
+use Magento\Framework\App\ResourceConnection;
 use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Framework\Setup\SchemaSetupInterface;
 
@@ -54,6 +55,19 @@ class DataPaymentMethodTable extends AbstractHelper
               ['nullable' => false]
             )
             ->addColumn(
+                'requestId',
+                Table::TYPE_TEXT,
+                50,
+                ['nullable' => true]
+            )
+            ->addColumn(
+                'validade',
+                Table::TYPE_TEXT,
+                15,
+                ['nullable' => true]
+
+              )
+            ->addColumn(
                 'order_id',
                 Table::TYPE_TEXT,
                 250,
@@ -68,6 +82,10 @@ class DataPaymentMethodTable extends AbstractHelper
             ->addIndex(
                 $this->setup->getIdxName('ifthenpay_multibanco', ['referencia']),
                 ['referencia']
+            )
+            ->addIndex(
+                $this->setup->getIdxName('ifthenpay_multibanco', ['requestId']),
+                ['requestId']
             );
             $this->connection->createTable($table);
         }
@@ -184,12 +202,6 @@ class DataPaymentMethodTable extends AbstractHelper
                 ['nullable' => false]
             )
             ->addColumn(
-              'paymentUrl',
-              Table::TYPE_TEXT,
-              1000,
-              ['nullable' => false]
-            )
-            ->addColumn(
               'order_id',
               Table::TYPE_TEXT,
               250,
@@ -209,6 +221,7 @@ class DataPaymentMethodTable extends AbstractHelper
         }
 
     }
+
     public function createDatabaseTables(array $userPaymentMethods) : void
     {
         $this->setup->startSetup();

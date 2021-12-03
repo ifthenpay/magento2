@@ -32,8 +32,7 @@ class MultibancoData extends Data implements IfthenpayDataInterface
 
             return array_merge(parent::getConfig(), [
                 'entidade' => $dataEntidade,
-                'subEntidade' => $dataSubEntidade,
-
+                'subEntidade' => $dataSubEntidade
             ]);
         } else {
             return [];

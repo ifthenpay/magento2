@@ -14,31 +14,26 @@ declare(strict_types=1);
 namespace Ifthenpay\Payment\Model\Ui;
 
 use Ifthenpay\Payment\Lib\Payments\Gateway;
-use Magento\Framework\View\Asset\Repository;
 use Magento\Checkout\Model\ConfigProviderInterface;
+use Ifthenpay\Payment\Model\Ui\IfthenpayMasterConfigProvider;
 
-class IfthenpayConfigProvider implements ConfigProviderInterface
+class IfthenpayConfigProvider extends IfthenpayMasterConfigProvider implements ConfigProviderInterface
 {
-    private $assetRepository;
-
-    public function __construct(
-        Repository $assetRepository
-    ) {
-        $this->assetRepository = $assetRepository;
-    }
-
     public function getConfig(): array
     {
         return [
             'payment' => [
                 Gateway::MULTIBANCO => [
                     'logoUrl' => $this->assetRepository->getUrlWithParams('Ifthenpay_Payment::svg/multibanco.svg', []),
+                    'showPaymentIcon' => isset($this->dataFactory->setType(Gateway::MULTIBANCO)->build()->getConfig()['showPaymentIcon']) ? $this->dataFactory->setType(Gateway::MULTIBANCO)->build()->getConfig()['showPaymentIcon'] : null
                 ],
                 Gateway::MBWAY => [
                     'logoUrl' => $this->assetRepository->getUrlWithParams('Ifthenpay_Payment::svg/mbway.svg', []),
+                    'showPaymentIcon' => isset($this->dataFactory->setType(Gateway::MBWAY)->build()->getConfig()['showPaymentIcon']) ? $this->dataFactory->setType(Gateway::MBWAY)->build()->getConfig()['showPaymentIcon'] : null
                 ],
                 Gateway::PAYSHOP => [
                     'logoUrl' => $this->assetRepository->getUrlWithParams('Ifthenpay_Payment::svg/payshop.svg', []),
+                    'showPaymentIcon' => isset($this->dataFactory->setType(Gateway::PAYSHOP)->build()->getConfig()['showPaymentIcon']) ? $this->dataFactory->setType(Gateway::PAYSHOP)->build()->getConfig()['showPaymentIcon'] : null
                 ],
             ]
         ];

@@ -11,57 +11,16 @@
 
 namespace Ifthenpay\Payment\Block\Adminhtml\System\Config\Form;
 
-use Magento\Backend\Block\Template\Context;
-use Ifthenpay\Payment\Helper\Factory\DataFactory;
-use Ifthenpay\Payment\Lib\Payments\Gateway;
-use Magento\Config\Block\System\Config\Form\Field;
 use Magento\Framework\Data\Form\Element\AbstractElement;
-use Ifthenpay\Payment\Logger\IfthenpayLogger;
+use Ifthenpay\Payment\Lib\Traits\Admin\CheckIfnotRenderElement;
+use Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\IfthenpayField;
 
-class AddNewAccountBtn extends Field
+class AddNewAccountBtn extends IfthenpayField
 {
+    use CheckIfnotRenderElement;
+
     protected $_template = 'Ifthenpay_Payment::system/config/AddNewAccountBtn.phtml';
-    protected $dataFactory;
-    private $paymentMethod;
-    private $gateway;
-    private $logger;
-
-    public function __construct(
-        Context $context,
-        DataFactory $dataFactory,
-        Gateway $gateway,
-        IfthenpayLogger $logger,
-        array $data = []
-    )
-    {
-        parent::__construct($context, $data);
-        $this->dataFactory = $dataFactory;
-        $this->gateway = $gateway;
-        $this->logger = $logger;
-    }
-
-    public function render(AbstractElement $element)
-    {
-        try {
-            $this->paymentMethod = str_replace('_addNewAccount', '', explode("_ifthenpay_", $element->getHtmlId())[1]);
-            $configData = $this->dataFactory->setType($this->paymentMethod)->build();
-            $userPaymentMethods = $configData->getUserPaymentMethods();
-            $ifthenpayPaymentMethods = $this->gateway->getPaymentMethodsType();
-            $this->logger->debug('addNewAccountBtn: user payment methods retrieved with success', [
-                'ifthenpayPaymentMethods' => $ifthenpayPaymentMethods,
-                'userPaymentMethods' => $userPaymentMethods
-            ]);
-            if (!empty(array_diff($ifthenpayPaymentMethods, $userPaymentMethods))) {
-                $element->unsScope()->unsCanUseWebsiteValue()->unsCanUseDefaultValue();
-                return parent::render($element);
-            } else {
-                $this->_decorateRowHtml($element, '');
-            }
-        } catch (\Throwable $th) {
-            $this->logger->debug('error addNewAccountBtn', ['error' => $th, 'errorMessage' => $th->getMessage()]);
-            throw $th;
-        }
-    }
+    protected $paymentMethodFinder = '_addNewAccount';
 
     protected function _getElementHtml(AbstractElement $element)
     {

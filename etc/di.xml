@@ -38,6 +38,7 @@
         <arguments>
             <argument name="dataBuilder" xsi:type="object">dataBuilder</argument>
             <argument name="webService" xsi:type="object">webService</argument>
+            <argument name="ifthenpayLogger" xsi:type="object">Ifthenpay\Payment\Logger\IfthenpayLogger</argument>
         </arguments>
     </virtualType>
     <virtualType name="gateway" type="Ifthenpay\Payment\Lib\Payments\Gateway">

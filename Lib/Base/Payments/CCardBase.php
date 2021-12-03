@@ -80,7 +80,6 @@ class CCardBase extends PaymentBase
     {
         $this->paymentModel->setData([
             'requestId' => $this->paymentGatewayResultData['idPedido'],
-            'paymentUrl' => $this->paymentGatewayResultData['paymentUrl'],
             'order_id' => !is_null($this->paymentDefaultData->order->getOrderIncrementId()) ? $this->paymentDefaultData->order->getOrderIncrementId() : $this->paymentDefaultData->order->getIncrementId(),
             'status' => 'pending'
         ]);

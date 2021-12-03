@@ -13,8 +13,9 @@ declare(strict_types=1);
 
 namespace Ifthenpay\Payment\Lib\Payments;
 
-use Ifthenpay\Payment\Lib\Builders\DataBuilder;
 use Ifthenpay\Payment\Lib\Request\WebService;
+use Ifthenpay\Payment\Logger\IfthenpayLogger;
+use Ifthenpay\Payment\Lib\Builders\DataBuilder;
 use Ifthenpay\Payment\Lib\Contracts\Models\PaymentModelInterface;
 
 class Payment
@@ -24,13 +25,15 @@ class Payment
     protected $valor;
     protected $dataBuilder;
     protected $webService;
+    protected $logger;
 
-    public function __construct(string $orderId, string $valor, DataBuilder $dataBuilder, WebService $webService = null)
+    public function __construct(string $orderId, string $valor, DataBuilder $dataBuilder, WebService $webService, IfthenpayLogger $ifthenpayLogger)
     {
         $this->orderId = $orderId;
         $this->valor = $this->formatNumber(number_format(floatval($valor), 2, '.', ''));
         $this->dataBuilder = $dataBuilder;
         $this->webService = $webService;
+        $this->logger = $ifthenpayLogger;
     }
 
     protected function formatNumber(string $number) : string
@@ -85,5 +88,14 @@ class Payment
     {
         $paymentData = $paymentModel->getByOrderId($orderId);
         return !empty($paymentData) ? $paymentData : false;
+    }
+
+    protected function logWebserviceRequestError(string $paymentMethod, \Throwable $error, array $webServiceRequestData): void
+    {
+        $this->logger->debug('error making ' . $paymentMethod . ' webservice request', [
+            'error' => $error,
+            'errorMessage' => $error->getMessage(),
+            'webserviceDataRequest' => $webServiceRequestData
+        ]);
     }
 }

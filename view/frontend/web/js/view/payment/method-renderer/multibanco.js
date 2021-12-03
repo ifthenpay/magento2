@@ -18,6 +18,9 @@ define([
         },
         getLogoUrl: function () {
                 return window.checkoutConfig.payment.multibanco.logoUrl;
+        },
+        getShowPaymentIcon: function () {
+            return window.checkoutConfig.payment.multibanco.showPaymentIcon ? window.checkoutConfig.payment.multibanco.showPaymentIcon : false;
         }
     });
 });

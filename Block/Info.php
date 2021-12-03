@@ -13,10 +13,13 @@ namespace Ifthenpay\Payment\Block;
 
 use Ifthenpay\Payment\Lib\Payments\Gateway;
 use Ifthenpay\Payment\Helper\Factory\DataFactory;
+use Ifthenpay\Payment\Lib\Traits\Payments\FormatReference;
 use Magento\Framework\View\Element\Template\Context;
 
 class Info extends \Magento\Payment\Block\Info
 {
+    use FormatReference;
+
     protected $dataFactory;
 
     public function __construct(Context $context, DataFactory $dataFactory,array $data = [])
@@ -30,7 +33,16 @@ class Info extends \Magento\Payment\Block\Info
         switch ($this->getMethodCode()) {
             case Gateway::MULTIBANCO:
                 $informations[__('Entity')->render()] = $this->getInfo()->getAdditionalInformation('entidade');
-                $informations[__('Reference')->render()] = $this->getInfo()->getAdditionalInformation('referencia');
+                $informations[__('Reference')->render()] = $this->formatReference($this->getInfo()->getAdditionalInformation('referencia'));
+                $validade = $this->getInfo()->getAdditionalInformation('validade');
+                $requestId = $this->getInfo()->getAdditionalInformation('idPedido');
+                if ($requestId) {
+                    $informations[__('Request ID')->render()] = $requestId;
+                }
+                if ($validade) {
+                    $informations[__('Deadline')->render()] = (new \DateTime($validade))->format('d-m-Y');
+                }
+
                 break;
             case Gateway::MBWAY:
                 $informations[__('Request ID')->render()] = $this->getInfo()->getAdditionalInformation('idPedido');
@@ -38,8 +50,8 @@ class Info extends \Magento\Payment\Block\Info
                 break;
             case Gateway::PAYSHOP:
                 $informations[__('Request ID')->render()] = $this->getInfo()->getAdditionalInformation('idPedido');
-                $informations[__('Reference')->render()] = $this->getInfo()->getAdditionalInformation('referencia');
-                $informations[__('Validity')->render()] = $this->getInfo()->getAdditionalInformation('validade') !== '' ? (new \DateTime($this->getInfo()->getAdditionalInformation('validade')))->format('d-m-Y') : '';
+                $informations[__('Reference')->render()] = $this->formatReference($this->getInfo()->getAdditionalInformation('referencia'));
+                $informations[__('Deadline')->render()] = $this->getInfo()->getAdditionalInformation('validade') !== '' ? (new \DateTime($this->getInfo()->getAdditionalInformation('validade')))->format('d-m-Y') : '';
 
                 break;
             case Gateway::CCARD:

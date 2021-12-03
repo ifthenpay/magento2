@@ -21,6 +21,9 @@ define([
         getLogoUrl: function () {
             return window.checkoutConfig.payment.ccard.logoUrl;
         },
+        getShowPaymentIcon: function () {
+            return window.checkoutConfig.payment.ccard.showPaymentIcon ? window.checkoutConfig.payment.ccard.showPaymentIcon : false;
+        },
         afterPlaceOrder: function () {
             window.location.replace(url.build('ifthenpay/Frontend/CCardRedirectToProvider'));
         }

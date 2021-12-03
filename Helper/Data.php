@@ -28,7 +28,10 @@ class Data extends AbstractHelper
     const CALLBACK_URL = 'payment/ifthenpay/{paymentMethod}/callbackUrl';
     const CHAVE_ANTI_PHISHING = 'payment/ifthenpay/{paymentMethod}/chaveAntiPhishing';
     const CALLBACK_ACTIVATED = 'payment/ifthenpay/{paymentMethod}/callbackActivated';
+    const CANCEL_ORDER = 'payment/ifthenpay/{paymentMethod}/cancelOrder';
     const UPDATE_USER_ACCOUNT_TOKEN = 'payment/ifthenpay/updateUserAccountToken';
+    const SHOW_PAYMENT_ICON = 'payment/ifthenpay/{paymentMethod}/showPaymentIcon';
+    const PAYMENT_VALIDADE = 'payment/ifthenpay/{paymentMethod}/validade';
 
     protected $configWriter;
     protected $storeManager;
@@ -107,13 +110,19 @@ class Data extends AbstractHelper
         $dataCallbackUrl = $this->scopeConfig->getValue($this->replacePaymentMethodIndPath(self::CALLBACK_URL), ScopeConfigInterface::SCOPE_TYPE_DEFAULT, $this->getStoreCode());
         $dataChaveAntiPhishing = $this->scopeConfig->getValue($this->replacePaymentMethodIndPath(self::CHAVE_ANTI_PHISHING), ScopeConfigInterface::SCOPE_TYPE_DEFAULT, $this->getStoreCode());
         $dataCallbackActivated = $this->scopeConfig->getValue($this->replacePaymentMethodIndPath(self::CALLBACK_ACTIVATED), ScopeConfigInterface::SCOPE_TYPE_DEFAULT, $this->getStoreCode());
-
+        $dataCancelOrder = $this->scopeConfig->getValue($this->replacePaymentMethodIndPath(self::CANCEL_ORDER), ScopeConfigInterface::SCOPE_TYPE_DEFAULT, $this->getStoreCode());
+        $showPaymentIcon = $this->scopeConfig->getValue($this->replacePaymentMethodIndPath(self::SHOW_PAYMENT_ICON), ScopeConfigInterface::SCOPE_TYPE_DEFAULT, $this->getStoreCode());
+        $paymentValidade = $this->scopeConfig->getValue($this->replacePaymentMethodIndPath(self::PAYMENT_VALIDADE), ScopeConfigInterface::SCOPE_TYPE_DEFAULT, $this->getStoreCode());
+        
         return [
             'backofficeKey' => $this->getBackofficeKey(),
             'activateCallback' => $dataActivateCallback,
             'callbackUrl' => $dataCallbackUrl,
             'chaveAntiPhishing' => $dataChaveAntiPhishing,
-            'callbackActivated' => $dataCallbackActivated
+            'callbackActivated' => $dataCallbackActivated,
+            'cancelOrder' => $dataCancelOrder,
+            'showPaymentIcon' => $showPaymentIcon,
+            'validade' => $paymentValidade
         ];
     }
 
@@ -131,6 +140,17 @@ class Data extends AbstractHelper
         $this->configWriter->delete($this->replacePaymentMethodIndPath(self::CALLBACK_URL), ScopeConfigInterface::SCOPE_TYPE_DEFAULT, 0);
         $this->configWriter->delete($this->replacePaymentMethodIndPath(self::CHAVE_ANTI_PHISHING), ScopeConfigInterface::SCOPE_TYPE_DEFAULT, 0);
         $this->configWriter->delete($this->replacePaymentMethodIndPath(self::CALLBACK_ACTIVATED), ScopeConfigInterface::SCOPE_TYPE_DEFAULT, 0);
+        $this->configWriter->delete($this->replacePaymentMethodIndPath(self::CANCEL_ORDER), ScopeConfigInterface::SCOPE_TYPE_DEFAULT, 0);
+        $this->configWriter->delete($this->replacePaymentMethodIndPath(self::SHOW_PAYMENT_ICON), ScopeConfigInterface::SCOPE_TYPE_DEFAULT, 0);
+        $this->configWriter->delete($this->replacePaymentMethodIndPath(self::PAYMENT_VALIDADE), ScopeConfigInterface::SCOPE_TYPE_DEFAULT, 0);
+        $this->scopeConfig->clean();
+    }
+
+    public function deleteBackofficeKey(): void
+    {
+        $this->configWriter->delete(self::IFTHENPAY_BACKOFFICE_KEY, ScopeConfigInterface::SCOPE_TYPE_DEFAULT, 0);
+        $this->configWriter->delete(self::USER_PAYMENT_METHODS, ScopeConfigInterface::SCOPE_TYPE_DEFAULT, 0);
+        $this->configWriter->delete(self::USER_ACCOUNT, ScopeConfigInterface::SCOPE_TYPE_DEFAULT, 0);
         $this->scopeConfig->clean();
     }
 

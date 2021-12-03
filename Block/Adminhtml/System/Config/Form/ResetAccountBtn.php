@@ -11,66 +11,23 @@
 
 namespace Ifthenpay\Payment\Block\Adminhtml\System\Config\Form;
 
-use Ifthenpay\Payment\Lib\Payments\Gateway;
-use Magento\Backend\Block\Template\Context;
-use Ifthenpay\Payment\Logger\IfthenpayLogger;
-use Ifthenpay\Payment\Helper\Factory\DataFactory;
-use Magento\Config\Block\System\Config\Form\Field;
 use Magento\Framework\Data\Form\Element\AbstractElement;
+use Magento\Config\Block\System\Config\Form\Field;
+use Magento\Backend\Block\Template\Context;
+use Ifthenpay\Payment\Helper\Data;
 
 class ResetAccountBtn extends Field
 {
     protected $_template = 'Ifthenpay_Payment::system/config/ResetAccountsBtn.phtml';
-    protected $dataFactory;
-    private $paymentMethod;
-    private $gateway;
-    private $logger;
+    protected $helperData;
 
     public function __construct(
         Context $context,
-        DataFactory $dataFactory,
-        Gateway $gateway,
-        IfthenpayLogger $logger,
+        Data $helperData,
         array $data = []
-    )
-    {
+    ) {
         parent::__construct($context, $data);
-        $this->dataFactory = $dataFactory;
-        $this->gateway = $gateway;
-        $this->logger = $logger;
-    }
-
-    public function render(AbstractElement $element)
-    {
-        try {
-            $this->paymentMethod = str_replace('_resetAccounts', '', explode("_ifthenpay_", $element->getHtmlId())[1]);
-            $configData = $this->dataFactory->setType($this->paymentMethod)->build();
-            $userPaymentMethods = $configData->getUserPaymentMethods();
-            $ifthenpayPaymentMethods = $this->gateway->getPaymentMethodsType();
-
-            if (!empty(array_diff($userPaymentMethods, $ifthenpayPaymentMethods))) {
-                $element->unsScope()->unsCanUseWebsiteValue()->unsCanUseDefaultValue();
-                $this->logger->debug('ResetAccountBtn render with success', [
-                    'paymentMethod' => $this->paymentMethod,
-                    'configData' => $configData,
-                    'userPaymentMethods' => $userPaymentMethods,
-                    'ifthenpayPaymentMethods' => $ifthenpayPaymentMethods
-                ]);
-                return parent::render($element);
-            } else {
-                $this->_decorateRowHtml($element, '');
-            }
-        } catch (\Throwable $th) {
-            $this->logger->debug('Error render resetAccountBtn', [
-                'error' => $th,
-                'errorMessage' => $th->getMessage(),
-                'paymentMethod' => $this->paymentMethod,
-                'configData' => $configData,
-                'userPaymentMethods' => $userPaymentMethods,
-                'ifthenpayPaymentMethods' => $ifthenpayPaymentMethods
-            ]);
-            throw $th;
-        }
+        $this->helperData = $helperData;
     }
 
     protected function _getElementHtml(AbstractElement $element)
@@ -89,11 +46,19 @@ class ResetAccountBtn extends Field
             ->createBlock('Magento\Backend\Block\Widget\Button')
             ->setData([
                 'class' => 'resetIfthenpayAccounts',
-                'label' => __('Reset Accounts'),
-                'data_attribute' => [
-                    'paymentMethod' => $this->paymentMethod,
-                ],
+                'label' => __('Reset Accounts')
         ]);
         return $button->toHtml();
+    }
+
+    public function render(AbstractElement $element)
+    {
+       $html = '';
+       $backofficeKey = $this->helperData->getBackofficeKey();
+
+        if (is_null($backofficeKey)) {
+            return $this->_decorateRowHtml($element, '');
+        }
+        return parent::render($element);
     }
 }

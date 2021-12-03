@@ -22,18 +22,15 @@ class MbwayData extends Data implements IfthenpayDataInterface
     const CALLBACK_URL = 'payment/ifthenpay/mbway/callbackUrl';
     const CHAVE_ANTI_PHISHING = 'payment/ifthenpay/mbway/chaveAntiPhishing';
     const CALLBACK_ACTIVATED = 'payment/ifthenpay/mbway/callbackActivated';
-    const CANCEL_MBWAY_ORDER = 'payment/ifthenpay/mbway/cancelMbwayOrder';
 
     protected $paymentMethod = Gateway::MBWAY;
 
     public function getConfig(): array
     {
         $dataMbwayKey = $this->scopeConfig->getValue(self::USER_MBWAY_KEY, ScopeConfigInterface::SCOPE_TYPE_DEFAULT, $this->getStoreCode());
-        $cancelMbwayOrder = $this->scopeConfig->getValue(self::CANCEL_MBWAY_ORDER, ScopeConfigInterface::SCOPE_TYPE_DEFAULT, $this->getStoreCode());
-        if ($dataMbwayKey && $cancelMbwayOrder) {
+        if ($dataMbwayKey) {
             return array_merge(parent::getConfig(), [
                 'mbwayKey' => $dataMbwayKey,
-                'cancelMbwayOrder' => $cancelMbwayOrder
             ]);
         }
         return [];

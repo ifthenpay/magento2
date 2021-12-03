@@ -56,7 +56,7 @@ class CancelCCardOrder extends CancelOrder {
     public function cancelOrder(): void
     {
         try {
-            if ($this->configData['cancelCCardOrder']) {
+            if ($this->configData['cancelOrder']) {
                 $this->setPendingOrders();
                 if ($this->pendingOrders->getSize()) {
                     foreach ($this->pendingOrders as $order) {
@@ -73,7 +73,6 @@ class CancelCCardOrder extends CancelOrder {
                             );
                             if (!$this->paymentStatus->setData($this->gatewayDataBuilder)->getPaymentStatus()) {
                                 $this->checkTimeChangeStatus($order);
-                                $this->changeIfthenpayPaymentStatus($order->getIncrementId());
                             }
                         }
                         $this->logCancelOrder(Gateway::CCARD, $idPedido, $order->getData());

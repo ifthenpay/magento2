@@ -1,0 +1,11 @@
+{
+    "ifthenpay_multibanco": {
+        "column": {
+            "requestId": true,
+            "validade": true
+        },
+        "index": {
+            "IFTHENPAY_MULTIBANCO_REQUESTID": true
+        }
+    }
+}

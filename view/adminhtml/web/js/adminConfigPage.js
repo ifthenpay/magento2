@@ -50,31 +50,6 @@ require([
         });
     });
 
-    $('.chooseNewEntidadeBtn').click(function(event) {
-        $.ajax({
-            url: window.urlChooseNewEntidadeSubEntidade,
-            data: {
-                form_key: window.FORM_KEY,
-                paymentMethod: $(event.target).parent().attr('data-paymentmethod')
-            },
-            showLoader: true,
-            type: 'GET',
-            dataType: 'json',
-            success: function(data, status, xhr) {
-                location.reload();
-            },
-            error: function (xhr, status, errorThrown) {
-                alert({
-                    title: 'Error!',
-                    content: $t('errorResetingEntidadeSubEntidade'),
-                    actions: {
-                        always: function(){}
-                    }
-                });
-            }
-        });
-    });
-
     $('.addNewAccountBtn').click(function(event) {
         $.ajax({
             url: window.urlAddNewAccount,
@@ -134,6 +109,69 @@ require([
                 alert({
                     title: 'Error!',
                     content: $t('errorResetingAccounts'),
+                    actions: {
+                        always: function(){}
+                    }
+                });
+            }
+        });
+    });
+    $('.resetBackOfficeKey').click(function(event) {
+        $.ajax({
+            url: window.urlResetBackofficeKey,
+            data: {
+                form_key: window.FORM_KEY,
+            },
+            showLoader: true,
+            type: 'GET',
+            dataType: 'json',
+            success: function(data, status, xhr) {
+                if (data.success) {
+                    location.reload();
+                } else {
+                    alert({
+                        title: 'Error!',
+                        content: $t('errorResetingBackofficeKey'),
+                        actions: {
+                            always: function(){}
+                        }
+                    });
+                }
+
+            },
+            error: function (xhr, status, errorThrown) {
+                alert({
+                    title: 'Error!',
+                    content: $t('errorResetingBackofficeKey'),
+                    actions: {
+                        always: function(){}
+                    }
+                });
+            }
+        });
+    });
+    $('.requestDynamicMb').click(function(event) {
+        $.ajax({
+            url: window.urlAddMultibancoDeadline,
+            data: {
+                form_key: window.FORM_KEY,
+            },
+            showLoader: true,
+            type: 'GET',
+            dataType: 'json',
+            success: function(data, status, xhr) {
+                alert({
+                    title: 'Success!',
+                    content: $t('emailRequestDynamicMbAccount'),
+                    actions: {
+                        always: function(){}
+                    }
+                });
+            },
+            error: function (xhr, status, errorThrown) {
+                alert({
+                    title: 'Error!',
+                    content: $t('errorRequestMultibancoDeadline'),
                     actions: {
                         always: function(){}
                     }

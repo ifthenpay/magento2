@@ -19,7 +19,7 @@ use Magento\Framework\Data\Form\Element\AbstractElement;
 
 class IsVisible extends Field
 {
-    private $helperData;
+    protected $helperData;
 
     public function __construct(
         Context $context,

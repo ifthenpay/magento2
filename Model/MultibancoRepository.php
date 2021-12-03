@@ -20,10 +20,10 @@ class MultibancoRepository implements MultibancoRepositoryInterface
         $this->multibancoResource = $multibancoResource;
     }
 
-    public function save(Multibanco $mbway)
+    public function save(Multibanco $multibanco)
     {
         try {
-            $this->multibancoResource->save($mbway);
+            $this->multibancoResource->save($multibanco);
         } catch (\Exception $e) {
             throw $e;
         }

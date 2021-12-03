@@ -13,11 +13,13 @@ declare(strict_types=1);
 
 namespace Ifthenpay\Payment\Lib\Payments;
 
+use Ifthenpay\Payment\Lib\Payments\Gateway;
 use Ifthenpay\Payment\Lib\Payments\Payment;
+use Ifthenpay\Payment\Lib\Request\WebService;
+use Ifthenpay\Payment\Logger\IfthenpayLogger;
 use Ifthenpay\Payment\Lib\Builders\DataBuilder;
 use Ifthenpay\Payment\Lib\Builders\GatewayDataBuilder;
 use Ifthenpay\Payment\Lib\Contracts\Payments\PaymentMethodInterface;
-use Ifthenpay\Payment\Lib\Request\WebService;
 
 
 class MbWay extends Payment implements PaymentMethodInterface
@@ -26,9 +28,9 @@ class MbWay extends Payment implements PaymentMethodInterface
     private $telemovel;
     private $mbwayPedido;
 
-    public function __construct(GatewayDataBuilder $data, string $orderId, string $valor, WebService $webService = null)
+    public function __construct(GatewayDataBuilder $data, string $orderId, string $valor, WebService $webService, IfthenpayLogger $ifthenpayLogger)
     {
-        parent::__construct($orderId, $valor, $data, $webService);
+        parent::__construct($orderId, $valor, $data, $webService, $ifthenpayLogger);
         $this->mbwayKey = $data->getData()->mbwayKey;
         $this->telemovel = $data->getData()->telemovel;
     }
@@ -49,9 +51,10 @@ class MbWay extends Payment implements PaymentMethodInterface
 
     private function setReferencia(): void
     {
-        $this->mbwayPedido = $this->webService->postRequest(
-            'https://mbway.ifthenpay.com/IfthenPayMBW.asmx/SetPedidoJSON',
-            [
+        try {
+            $this->mbwayPedido = $this->webService->postRequest(
+                'https://mbway.ifthenpay.com/IfthenPayMBW.asmx/SetPedidoJSON',
+                [
                     'MbWayKey' => $this->mbwayKey,
                     'canal' => '03',
                     'referencia' => $this->orderId,
@@ -60,7 +63,19 @@ class MbWay extends Payment implements PaymentMethodInterface
                     'email' => '',
                     'descricao' => '',
                 ]
-        )->getResponseJson();
+            )->getResponseJson();
+        } catch (\Throwable $th) {
+            $this->logWebserviceRequestError(Gateway::MBWAY, $th, [
+                'MbWayKey' => $this->mbwayKey,
+                'canal' => '03',
+                'referencia' => $this->orderId,
+                'valor' => $this->valor,
+                'nrtlm' => $this->telemovel,
+                'email' => '',
+                'descricao' => '',
+            ]);
+            throw $th;
+        }
     }
 
     private function getReferencia(): DataBuilder

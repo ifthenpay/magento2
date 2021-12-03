@@ -55,6 +55,10 @@ class IfthenpayBeforeOrderPaymentSaveObserver implements ObserverInterface
                             $this->ifthenpayGatewayResult = $this->ifthenpayPaymentReturn->setOrder($order)->execute()->getPaymentGatewayResultData();
                             $payment->setAdditionalInformation('entidade', $this->ifthenpayGatewayResult->entidade);
                             $payment->setAdditionalInformation('referencia', $this->ifthenpayGatewayResult->referencia);
+                            if ($this->ifthenpayGatewayResult->idPedido) {
+                                $payment->setAdditionalInformation('idPedido', $this->ifthenpayGatewayResult->idPedido);
+                                $payment->setAdditionalInformation('validade', $this->ifthenpayGatewayResult->validade);
+                            }
                         }
                         break;
                     case Gateway::MBWAY:

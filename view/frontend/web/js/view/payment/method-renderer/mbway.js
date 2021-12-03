@@ -21,6 +21,9 @@ define([
         getLogoUrl: function () {
             return window.checkoutConfig.payment.mbway.logoUrl;
         },
+        getShowPaymentIcon: function () {
+            return window.checkoutConfig.payment.mbway.showPaymentIcon ? window.checkoutConfig.payment.mbway.showPaymentIcon : false;
+        },
         getData: function () {
             return {
                 'method': this.item.method,

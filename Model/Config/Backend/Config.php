@@ -70,7 +70,7 @@ class Config extends \Magento\Framework\App\Config\Value
             $this->dataPaymentMethodTable->createDatabaseTables($userPaymentMethods);
             $this->logger->debug('Ifthenpay Database Tabels: Database tables created with success');
         } catch (\Throwable $th) {
-            $this->logger->debug('Ifthenpay Database Tabels: Error Creatind Ifthenpay Database tables - ' . $th->getMessage());
+            $this->logger->debug('Ifthenpay Database Tabels: Error Creating Ifthenpay Database tables - ' . $th->getMessage());
             throw new \Magento\Framework\Exception\ValidatorException(__('errorIfthenpayDatabaseTables'));
         }
 

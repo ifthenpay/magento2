@@ -15,7 +15,14 @@
                name="payment[method]"
                class="radio"
                data-bind="attr: {'id': getCode()}, value: getCode(), checked: isChecked, click: selectPaymentMethod, visible: isRadioButtonVisible()" />
-        <img data-bind="attr: {src: getLogoUrl(), height: '39', width: '163'}" class="payment-icon mbwayIcon" />
+        <!-- ko if: getShowPaymentIcon() -->
+            <img data-bind="attr: {src: getLogoUrl(), height: '39', width: '163'}" class="payment-icon mbwayIcon" />
+        <!-- /ko -->
+        <!-- ko ifnot: getShowPaymentIcon() -->
+            <label class="label" data-bind="attr: {'for': getCode()}">
+                <span data-bind="text: getTitle()"></span>
+            </label>
+        <!-- /ko -->
     </div>
 
     <div class="payment-method-content">

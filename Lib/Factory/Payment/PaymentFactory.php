@@ -23,7 +23,7 @@ use Ifthenpay\Payment\Lib\Payments\Multibanco;
 use Ifthenpay\Payment\Lib\Builders\DataBuilder;
 use Ifthenpay\Payment\Lib\Factory\Factory as BaseFactory;
 use Ifthenpay\Payment\Lib\Contracts\Payments\PaymentMethodInterface;
-
+use Ifthenpay\Payment\Logger\IfthenpayLogger;
 
 class PaymentFactory extends BaseFactory
 {
@@ -32,24 +32,26 @@ class PaymentFactory extends BaseFactory
     private $valor;
     private $dataBuilder;
     private $webService;
+    private $logger;
 
-    public function __construct(DataBuilder $dataBuilder, WebService $webService)
+    public function __construct(DataBuilder $dataBuilder, WebService $webService, IfthenpayLogger $ifthenpayLogger)
 	{
         $this->dataBuilder = $dataBuilder;
         $this->webService = $webService;
+        $this->logger = $ifthenpayLogger;
     }
 
     public function build(): PaymentMethodInterface
     {
         switch ($this->type) {
             case Gateway::MULTIBANCO:
-                return new Multibanco($this->data, $this->orderId, $this->valor, $this->dataBuilder);
+                return new Multibanco($this->data, $this->orderId, $this->valor, $this->webService, $this->logger, $this->dataBuilder);
             case Gateway::MBWAY:
-                return new MbWay($this->data, $this->orderId, $this->valor, $this->webService, $this->dataBuilder);
+                return new MbWay($this->data, $this->orderId, $this->valor, $this->webService, $this->logger, $this->dataBuilder);
             case Gateway::PAYSHOP:
-                return new Payshop($this->data, $this->orderId, $this->valor, $this->webService, $this->dataBuilder);
+                return new Payshop($this->data, $this->orderId, $this->valor, $this->webService, $this->logger, $this->dataBuilder);
             case Gateway::CCARD:
-                return new CCard($this->data, $this->orderId, $this->valor, $this->webService, $this->dataBuilder);
+                return new CCard($this->data, $this->orderId, $this->valor, $this->webService, $this->logger, $this->dataBuilder);
             default:
                 throw new \Exception("Unknown Payment Class");
         }

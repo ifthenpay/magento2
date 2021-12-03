@@ -13,22 +13,14 @@ declare(strict_types=1);
 
 namespace Ifthenpay\Payment\Model\Ui;
 
-use Magento\Checkout\Model\ConfigProviderInterface;
-use Magento\Framework\View\Asset\Repository;
 use Ifthenpay\Payment\Lib\Payments\Gateway;
+use Magento\Checkout\Model\ConfigProviderInterface;
+use Ifthenpay\Payment\Model\Ui\IfthenpayMasterConfigProvider;
 
 
-class IfthenpayCCardConfigProvider implements ConfigProviderInterface
+class IfthenpayCCardConfigProvider extends IfthenpayMasterConfigProvider implements ConfigProviderInterface
 {
     const CODE = Gateway::CCARD;
-
-    private $assetRepository;
-
-    public function __construct(
-        Repository $assetRepository
-    ) {
-        $this->assetRepository = $assetRepository;
-    }
 
     public function getConfig()
     {
@@ -36,6 +28,7 @@ class IfthenpayCCardConfigProvider implements ConfigProviderInterface
             'payment' => [
                 Gateway::CCARD => [
                     'logoUrl' => $this->assetRepository->getUrlWithParams('Ifthenpay_Payment::svg/ccard.svg', []),
+                    'showPaymentIcon' => isset($this->dataFactory->setType(Gateway::CCARD)->build()->getConfig()['showPaymentIcon']) ? $this->dataFactory->setType(Gateway::CCARD)->build()->getConfig()['showPaymentIcon'] : null
                 ],
             ]
         ];

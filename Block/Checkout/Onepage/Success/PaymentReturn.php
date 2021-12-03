@@ -16,10 +16,12 @@ use \Magento\Checkout\Model\Session;
 use Ifthenpay\Payment\Lib\Payments\Gateway;
 use Ifthenpay\Payment\Helper\Factory\DataFactory;
 use Magento\Framework\View\Element\Template\Context;
+use Ifthenpay\Payment\Lib\Traits\Payments\FormatReference;
 
 class PaymentReturn extends \Magento\Framework\View\Element\Template
 {
-    
+    use FormatReference;
+
     public $_checkoutSession;
     private $gateway;
     private $urlBuilder;
@@ -111,10 +113,5 @@ class PaymentReturn extends \Magento\Framework\View\Element\Template
     public function getStoreCurency(): string
     {
         return $this->dataFactory->setType($this->getPaymentMethod())->build()->getCurrentCurrencySymbol();
-    }
-
-    public function formatReference(string $reference): string
-    {
-        return trim(strrev(chunk_split(strrev($reference),3, ' ')));
     }
 }

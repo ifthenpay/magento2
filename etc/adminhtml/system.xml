@@ -22,6 +22,16 @@
                             <comment>Activate sandbox mode to test the module without activate callback.</comment>
                             <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                     </field>
+                    <field id="resetBackofficeKey" translate="label comment" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" type="text">
+                        <label>Reset Backoffice Key</label>
+                        <comment>Click to insert new backoffice key</comment>
+                        <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\ResetBackOfficeKeyBtn</frontend_model>
+                    </field>
+                    <field id="resetAccounts" translate="label comment" type="button" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Reset Accounts</label>
+                            <comment>Add new account? Click to reset your accounts</comment>
+                            <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\ResetAccountBtn</frontend_model>
+                    </field>
                     <field id="backofficeKey" translate="label comment" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" type="text">
                         <label>Backoffice key</label>
                         <comment>Insert Backoffice key provided by Ifthenpay.</comment>
@@ -34,46 +44,66 @@
                         <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\FieldSet</frontend_model>
                         <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                             <label>Enable</label>
+                            <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\ActiveVisibleField</frontend_model>
                             <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                             <config_path>payment/multibanco/active</config_path>
                         </field>
+                        <field id="showPaymentIcon" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                            <label>Show Payment Icon on Checkout</label>
+                            <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\ActiveShowPaymentIconField</frontend_model>
+                            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        </field>
                         <field id="activeCallback" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Activate Callback</label>
+                            <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\ActiveCallbackVisibleField</frontend_model>
                             <comment>Activate callback automatically. If sandbox mode is enabled, callback will not activate.</comment>
+                            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        </field>
+                        <field id="cancelOrder" translate="label comment tooltip" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Cancel Multibanco Order</label>
+                            <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\CancelMultibancoOrderVisibleField</frontend_model>
+                            <comment>Automatically cancel Multibanco order when payment notification expired.</comment>
+                            <tooltip>Configure Cron Job on your server.</tooltip>
                             <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                         </field>
                         <field id="entidade" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" type="select">
                             <label>Entity</label>
+                            <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\EntidadeVisibleField</frontend_model>
                             <source_model>Ifthenpay\Payment\Model\Config\Source\Entidade</source_model>
+                            <backend_model>Ifthenpay\Payment\Model\Config\Backend\ConfigEntidade</backend_model>
                         </field>
                         <field id="subEntidade" translate="label comment" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" type="select">
                             <label>Sub Entity</label>
+                            <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\SubEntidadeVisibleField</frontend_model>
                             <comment>Choose the entity and sub entity will appear automatically</comment>
                             <source_model>Ifthenpay\Payment\Model\Config\Source\SubEntidade</source_model>
                         </field>
-                        <field id="chooseNewEntidadeSubEntidade" translate="label" type="button" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
-                            <label>Choose New Entidade/SubEntidade</label>
-                            <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\ChooseNewEntidadeSubEntidadeBtn</frontend_model>
+                        <field id="validade" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" type="select">
+                            <label>Deadline</label>
+                            <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\MultibancoValidadeVisibleField</frontend_model>
+                            <source_model>Ifthenpay\Payment\Model\Config\Source\MultibancoValidity</source_model>
+                        </field>
+                        <field id="requestDynamicMb" translate="label comment" type="button" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Request Multibanco Deadline</label>
+                            <comment>Don't have a deadline associated to your multibanco account? Click to add an deadline to your multibanco account</comment>
+                            <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\RequestDynamicMbAccountBtn</frontend_model>
                         </field>
                         <field id="addNewAccount" translate="label comment" type="button" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Request Multibanco Account</label>
                             <comment>Don't have multibanco account? Click to add multibanco account</comment>
                             <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\AddNewAccountBtn</frontend_model>
                         </field>
-                        <field id="resetAccounts" translate="label comment" type="button" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
-                            <label>Reset Accounts</label>
-                            <comment>Add new account? Click to reset your accounts</comment>
-                            <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\ResetAccountBtn</frontend_model>
-                        </field>
                         <field id="callbackInfo" sortOrder="161" showInDefault="1" showInWebsite="1" showInStore="1">
                             <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\CallbackInfo</frontend_model>
                         </field>
                         <field id="allowspecific" translate="label" type="allowspecific" sortOrder="50" showInDefault="1" showInWebsite="1" canRestore="1">
                             <label>Payment from Applicable Countries</label>
+                            <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\PaymentAplicableCountriesVisibleField</frontend_model>
                             <source_model>Magento\Payment\Model\Config\Source\Allspecificcountries</source_model>
                         </field>
                         <field id="specificcountry" translate="label" type="multiselect" sortOrder="51" showInDefault="1" showInWebsite="1">
                             <label>Payment from Specific Countries</label>
+                            <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\PaymentSpecificCountriesVisibleField</frontend_model>
                             <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
                             <can_be_empty>1</can_be_empty>
                         </field>
@@ -84,27 +114,32 @@
                         <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\FieldSet</frontend_model>
                         <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                             <label>Enable</label>
+                            <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\ActiveVisibleField</frontend_model>
                             <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                             <config_path>payment/mbway/active</config_path>
                         </field>
+                        <field id="showPaymentIcon" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                            <label>Show Payment Icon on Checkout</label>
+                            <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\ActiveShowPaymentIconField</frontend_model>
+                            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        </field>
                         <field id="activeCallback" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Activate Callback</label>
+                            <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\ActiveCallbackVisibleField</frontend_model>
                             <comment>Activate callback automatically. If sandbox mode is enabled, callback will not activate.</comment>
                             <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                         </field>
-                        <field id="cancelMbwayOrder" translate="label comment tooltip" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <field id="cancelOrder" translate="label comment tooltip" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Cancel MB WAY Order</label>
+                            <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\CancelOrderVisibleField</frontend_model>
                             <comment>Automatically cancel MB WAY order when payment notification expired.</comment>
                             <tooltip>Configure Cron Job on your server.</tooltip>
                             <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                         </field>
                         <field id="mbwayKey" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" type="select">
                             <label>MB WAY Key</label>
+                            <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\MbwayKeyVisibleField</frontend_model>
                             <source_model>Ifthenpay\Payment\Model\Config\Source\MbwayKey</source_model>
-                        </field>
-                        <field id="chooseNewEntidadeSubEntidade" translate="label" type="button" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
-                            <label>Choose New Entidade/SubEntidade</label>
-                            <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\ChooseNewEntidadeSubEntidadeBtn</frontend_model>
                         </field>
                         <field id="addNewAccount" translate="label comment" type="button" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Request MB WAY Account</label>
@@ -116,10 +151,12 @@
                         </field>
                         <field id="allowspecific" translate="label" type="allowspecific" sortOrder="50" showInDefault="1" showInWebsite="1" canRestore="1">
                             <label>Payment from Applicable Countries</label>
+                            <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\PaymentAplicableCountriesVisibleField</frontend_model>
                             <source_model>Magento\Payment\Model\Config\Source\Allspecificcountries</source_model>
                         </field>
                         <field id="specificcountry" translate="label" type="multiselect" sortOrder="51" showInDefault="1" showInWebsite="1">
                             <label>Payment from Specific Countries</label>
+                            <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\PaymentSpecificCountriesVisibleField</frontend_model>
                             <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
                             <can_be_empty>1</can_be_empty>
                         </field>
@@ -130,30 +167,36 @@
                         <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\FieldSet</frontend_model>
                         <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                             <label>Enable</label>
+                            <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\ActiveVisibleField</frontend_model>
                             <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                             <config_path>payment/payshop/active</config_path>
                         </field>
+                        <field id="showPaymentIcon" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                            <label>Show Payment Icon on Checkout</label>
+                            <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\ActiveShowPaymentIconField</frontend_model>
+                            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        </field>
                         <field id="activeCallback" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Activate Callback</label>
+                            <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\ActiveCallbackVisibleField</frontend_model>
                             <comment>Activate callback automatically. If sandbox mode is enabled, callback will not activate.</comment>
                             <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                         </field>
-                        <field id="cancelPayshopOrder" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <field id="cancelOrder" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Cancel Payshop Order</label>
+                            <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\CancelOrderVisibleField</frontend_model>
                             <comment>Automatically cancel Payshop order when payment expired.</comment>
                             <tooltip>Configure Cron Job on your server.</tooltip>
                             <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                         </field>
                         <field id="payshopKey" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" type="select">
                             <label>Payshop Key</label>
+                            <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\PayshopKeyVisibleField</frontend_model>
                             <source_model>Ifthenpay\Payment\Model\Config\Source\PayshopKey</source_model>
                         </field>
                         <field id="validade" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
-                            <label>Payshop Validaty</label>
-                        </field>
-                        <field id="chooseNewEntidadeSubEntidade" translate="label" type="button" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
-                            <label>Choose New Entidade/SubEntidade</label>
-                            <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\ChooseNewEntidadeSubEntidadeBtn</frontend_model>
+                            <label>Payshop Deadline</label>
+                            <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\PayshopValidadeVisibleField</frontend_model>
                         </field>
                         <field id="addNewAccount" translate="label comment" type="button" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Request Payshop Account</label>
@@ -165,10 +208,12 @@
                         </field>
                         <field id="allowspecific" translate="label" type="allowspecific" sortOrder="50" showInDefault="1" showInWebsite="1" canRestore="1">
                             <label>Payment from Applicable Countries</label>
+                            <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\PaymentAplicableCountriesVisibleField</frontend_model>
                             <source_model>Magento\Payment\Model\Config\Source\Allspecificcountries</source_model>
                         </field>
                         <field id="specificcountry" translate="label" type="multiselect" sortOrder="51" showInDefault="1" showInWebsite="1">
                             <label>Payment from Specific Countries</label>
+                            <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\PaymentSpecificCountriesVisibleField</frontend_model>
                             <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
                             <can_be_empty>1</can_be_empty>
                         </field>
@@ -179,27 +224,32 @@
                         <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\FieldSet</frontend_model>
                         <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                             <label>Enable</label>
+                            <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\ActiveVisibleField</frontend_model>
                             <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                             <config_path>payment/ccard/active</config_path>
                         </field>
+                        <field id="showPaymentIcon" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                            <label>Show Payment Icon on Checkout</label>
+                            <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\ActiveShowPaymentIconField</frontend_model>
+                            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        </field>
                         <field id="activeCallback" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Activate Callback</label>
+                            <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\ActiveCallbackVisibleField</frontend_model>
                             <comment>Activate callback automatically. If sandbox mode is enabled, callback will not activate.</comment>
                             <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                         </field>
-                        <field id="cancelCCardOrder" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <field id="cancelOrder" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Cancel Credit Card Order</label>
+                            <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\CancelOrderVisibleField</frontend_model>
                             <comment>Automatically cancel Credit Card order when payment expired.</comment>
                             <tooltip>Configure Cron Job on your server.</tooltip>
                             <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                         </field>
                         <field id="ccardKey" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" type="select">
                             <label>CCard Key</label>
+                            <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\CCardKeyVisibleField</frontend_model>
                             <source_model>Ifthenpay\Payment\Model\Config\Source\CCardKey</source_model>
-                        </field>
-                        <field id="chooseNewEntidadeSubEntidade" translate="label" type="button" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
-                            <label>Choose New Entidade/SubEntidade</label>
-                            <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\ChooseNewEntidadeSubEntidadeBtn</frontend_model>
                         </field>
                         <field id="addNewAccount" translate="label comment" type="button" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Request Credit Card Account</label>
@@ -211,10 +261,12 @@
                         </field>
                         <field id="allowspecific" translate="label" type="allowspecific" sortOrder="50" showInDefault="1" showInWebsite="1" canRestore="1">
                             <label>Payment from Applicable Countries</label>
+                            <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\PaymentAplicableCountriesVisibleField</frontend_model>
                             <source_model>Magento\Payment\Model\Config\Source\Allspecificcountries</source_model>
                         </field>
                         <field id="specificcountry" translate="label" type="multiselect" sortOrder="51" showInDefault="1" showInWebsite="1">
                             <label>Payment from Specific Countries</label>
+                            <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\PaymentSpecificCountriesVisibleField</frontend_model>
                             <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
                             <can_be_empty>1</can_be_empty>
                         </field>

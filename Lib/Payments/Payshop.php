@@ -14,7 +14,9 @@ declare(strict_types=1);
 namespace Ifthenpay\Payment\Lib\Payments;
 
 
+use Ifthenpay\Payment\Lib\Payments\Gateway;
 use Ifthenpay\Payment\Lib\Request\WebService;
+use Ifthenpay\Payment\Logger\IfthenpayLogger;
 use Ifthenpay\Payment\Lib\Builders\DataBuilder;
 use Ifthenpay\Payment\Lib\Builders\GatewayDataBuilder;
 use Ifthenpay\Payment\Lib\Contracts\Payments\PaymentMethodInterface;
@@ -26,9 +28,9 @@ class Payshop extends Payment implements PaymentMethodInterface
     protected $validade;
     private $payshopPedido;
 
-    public function __construct(GatewayDataBuilder $data, string $orderId, string $valor, WebService $webService = null)
+    public function __construct(GatewayDataBuilder $data, string $orderId, string $valor, WebService $webService, IfthenpayLogger $ifthenpayLogger)
     {
-        parent::__construct($orderId, $valor, $data, $webService);
+        parent::__construct($orderId, $valor, $data, $webService, $ifthenpayLogger);
         $this->payshopKey = $data->getData()->payshopKey;
         $this->validade = $this->makeValidade($data->getData()->validade);
     }
@@ -59,16 +61,26 @@ class Payshop extends Payment implements PaymentMethodInterface
 
     private function setReferencia(): void
     {
-        $this->payshopPedido = $this->webService->postRequest(
-            'https://ifthenpay.com/api/payshop/reference/',
-            [
-                    'payshopkey' => $this->payshopKey,
-                    'id' => $this->orderId,
-                    'valor' => $this->valor,
-                    'validade' => $this->validade,
+        try {
+            $this->payshopPedido = $this->webService->postRequest(
+                'https://ifthenpay.com/api/payshop/reference/',
+                [
+                        'payshopkey' => $this->payshopKey,
+                        'id' => $this->orderId,
+                        'valor' => $this->valor,
+                        'validade' => $this->validade,
                 ],
-            true
-        )->getResponseJson();
+                true
+            )->getResponseJson();
+        } catch (\Throwable $th) {
+            $this->logWebserviceRequestError(Gateway::PAYSHOP, $th, [
+                'payshopkey' => $this->payshopKey,
+                'id' => $this->orderId,
+                'valor' => $this->valor,
+                'validade' => $this->validade,
+            ]);
+            throw $th;
+        }
     }
 
     private function getReferencia(): DataBuilder

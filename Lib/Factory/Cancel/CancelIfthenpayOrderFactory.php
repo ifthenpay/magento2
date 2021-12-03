@@ -27,6 +27,7 @@ use Ifthenpay\Payment\Lib\Payments\Cancel\CancelMbwayOrder;
 use Ifthenpay\Payment\Lib\Payments\Cancel\CancelPayshopOrder;
 use Magento\Sales\Model\ResourceModel\Order\CollectionFactory;
 use Ifthenpay\Payment\Lib\Factory\Payment\PaymentStatusFactory;
+use Ifthenpay\Payment\Lib\Payments\Cancel\CancelMultibancoOrder;
 
 class CancelIfthenpayOrderFactory extends Factory
 {
@@ -63,6 +64,16 @@ class CancelIfthenpayOrderFactory extends Factory
     public function build(
         ): CancelOrder {
             switch ($this->type) {
+                case Gateway::MULTIBANCO:
+                    return new CancelMultibancoOrder(
+                        $this->orderCollectionFactory,
+                        $this->dataFactory,
+                        $this->paymentStatusFactory,
+                        $this->repositoryFactory,
+                        $this->gatewayDataBuilder,
+                        $this->logger,
+                        $this->orderRepository
+                );
                 case Gateway::MBWAY:
                     return new CancelMbwayOrder(
                         $this->orderCollectionFactory,

@@ -13,6 +13,9 @@ declare(strict_types=1);
 
 namespace Ifthenpay\Payment\Lib\Payments;
 
+use Ifthenpay\Payment\Lib\Payments\Gateway;
+use Ifthenpay\Payment\Lib\Request\WebService;
+use Ifthenpay\Payment\Logger\IfthenpayLogger;
 use Ifthenpay\Payment\Lib\Builders\DataBuilder;
 use Ifthenpay\Payment\Lib\Builders\GatewayDataBuilder;
 use Ifthenpay\Payment\Lib\Payments\Payment as MasterPayment;
@@ -20,15 +23,18 @@ use Ifthenpay\Payment\Lib\Contracts\Payments\PaymentMethodInterface;
 
 class Multibanco extends MasterPayment implements PaymentMethodInterface
 {
-
+    const DYNAMIC_MB_ENTIDADE = 'MB';
     private $entidade;
     private $subEntidade;
+    private $validade;
+    private $multibancoPedido;
 
-    public function __construct(GatewayDataBuilder $data, string $orderId, string $valor)
+    public function __construct(GatewayDataBuilder $data, string $orderId, string $valor, WebService $webService, IfthenpayLogger $ifthenpayLogger)
     {
-        parent::__construct($orderId, $valor, $data);
+        parent::__construct($orderId, $valor, $data, $webService, $ifthenpayLogger);
         $this->entidade = $data->getData()->entidade;
         $this->subEntidade = $data->getData()->subEntidade;
+        $this->validade = isset($data->getData()->validade) ? $data->getData()->validade : '999999';
     }
 
     public function checkValue(): void
@@ -38,9 +44,53 @@ class Multibanco extends MasterPayment implements PaymentMethodInterface
         }
     }
 
+    private function checkEstado(): void
+    {
+        if ($this->multibancoPedido['Status'] !== '0') {
+            throw new \Exception($this->multibancoPedido['Message']);
+        }
+    }
+
+    private function setDynamicReferencia(): void
+    {
+        try {
+            $this->multibancoPedido = $this->webService->postRequest(
+                'https://ifthenpay.com/api/multibanco/reference/sandbox',
+                [
+                        'mbKey' => $this->subEntidade,
+                        "orderId" => $this->orderId,
+                        "amount" => $this->valor,
+                        "description" => '',
+                        "url" => '',
+                        "clientCode" => '',
+                        "clientName" => '',
+                        "clientEmail" => '',
+                        "clientUsername" => '',
+                        "clientPhone" => '',
+                        "expiryDays" => $this->validade
+                ],
+                true
+            )->getResponseJson();
+        } catch (\Throwable $th) {
+            $this->logWebserviceRequestError(Gateway::MULTIBANCO, $th, [
+                'mbKey' => $this->subEntidade,
+                "orderId" => $this->orderId,
+                "amount" => $this->valor,
+                "description" => '',
+                "url" => '',
+                "clientCode" => '',
+                "clientName" => '',
+                "clientEmail" => '',
+                "clientUsername" => '',
+                "clientPhone" => '',
+                "expiryDays" => $this->validade
+            ]);
+            throw $th;
+        }
+    }
+
     private function setReferencia(): string
     {
-
         $this->orderId = "0000" . $this->orderId;
 
         if(strlen($this->subEntidade) === 2){
@@ -67,7 +117,16 @@ class Multibanco extends MasterPayment implements PaymentMethodInterface
     private function getReferencia(): DataBuilder
     {
         $this->dataBuilder->setEntidade($this->entidade);
-        $this->dataBuilder->setReferencia($this->setReferencia());
+        if ($this->entidade === self::DYNAMIC_MB_ENTIDADE) {
+            $this->setDynamicReferencia();
+            $this->checkEstado();
+            $this->dataBuilder->setEntidade($this->multibancoPedido['Entity']);
+            $this->dataBuilder->setReferencia($this->multibancoPedido['Reference']);
+            $this->dataBuilder->setIdPedido($this->multibancoPedido['RequestId']);
+            $this->dataBuilder->setValidade($this->multibancoPedido['ExpiryDate']);
+        } else {
+            $this->dataBuilder->setReferencia($this->setReferencia());
+        }
         $this->dataBuilder->setTotalToPay((string)$this->valor);
         return $this->dataBuilder;
     }

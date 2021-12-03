@@ -25,4 +25,16 @@
             <argument name="dataFactory" xsi:type="object">dataFactory</argument>
         </arguments>
     </type>
+    <virtualType name="upgradeModuleNotification" type="Ifthenpay\Payment\Model\Message\UpgradeModuleNotification">
+        <arguments>
+            <argument name="webService" xsi:type="object">webService</argument>
+        </arguments>
+    </virtualType>
+    <type name="Magento\Framework\Notification\MessageList">
+       <arguments>
+           <argument name="messages" xsi:type="array">
+               <item name="Notification" xsi:type="string">upgradeModuleNotification</item>
+           </argument>
+       </arguments>
+   </type>
 </config>

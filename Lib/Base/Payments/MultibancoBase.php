@@ -25,6 +25,7 @@ class MultibancoBase extends PaymentBase
     {
         $this->gatewayDataBuilder->setEntidade($this->dataConfig['entidade']);
         $this->gatewayDataBuilder->setSubEntidade($this->dataConfig['subEntidade']);
+        $this->gatewayDataBuilder->setValidade($this->dataConfig['validade'] !== 'Choose Deadline' ? $this->dataConfig['validade'] : '999999');
         $this->logGatewayBuilderData();
     }
 
@@ -34,6 +35,8 @@ class MultibancoBase extends PaymentBase
             'entidade' => $this->paymentGatewayResultData->entidade,
             'referencia' => $this->paymentGatewayResultData->referencia,
             'order_id' => !is_null($this->paymentDefaultData->order->getOrderIncrementId()) ? $this->paymentDefaultData->order->getOrderIncrementId() : $this->paymentDefaultData->order->getIncrementId(),
+            'requestId' => $this->paymentGatewayResultData->idPedido ? $this->paymentGatewayResultData->idPedido : null,
+            'validade' => $this->paymentGatewayResultData->validade ? $this->paymentGatewayResultData->validade : null,
             'status' => 'pending'
         ]);
         $this->paymentRepository->save($this->paymentModel);

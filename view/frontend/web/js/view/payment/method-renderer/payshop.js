@@ -18,6 +18,9 @@ define([
         },
         getLogoUrl: function () {
                 return window.checkoutConfig.payment.payshop.logoUrl;
+        },
+        getShowPaymentIcon: function () {
+            return window.checkoutConfig.payment.payshop.showPaymentIcon ? window.checkoutConfig.payment.payshop.showPaymentIcon : false;
         }
     });
 });

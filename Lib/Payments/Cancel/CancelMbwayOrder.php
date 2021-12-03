@@ -23,7 +23,7 @@ class CancelMbwayOrder extends CancelOrder {
     public function cancelOrder(): void
     {
         try {
-            if ($this->configData['cancelMbwayOrder']) {
+            if ($this->configData['cancelOrder']) {
                 $this->setPendingOrders();
                 if ($this->pendingOrders->getSize()) {
                     foreach ($this->pendingOrders as $order) {
@@ -34,7 +34,6 @@ class CancelMbwayOrder extends CancelOrder {
                             $this->gatewayDataBuilder->setIdPedido((string) $order->getPayment()->getAdditionalInformation('idPedido'));
                             if (!$this->paymentStatus->setData($this->gatewayDataBuilder)->getPaymentStatus()) {
                                 $this->checkTimeChangeStatus($order);
-                                $this->changeIfthenpayPaymentStatus($order->getIncrementId());
                             }
                         }
                         $this->logCancelOrder(Gateway::MBWAY, $idPedido, $order->getData());

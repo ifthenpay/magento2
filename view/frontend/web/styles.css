@@ -68,24 +68,25 @@
 }
 
 #paymentReturnPanel .multibancoIcon {
-    width: 30%
+    width: 15%
 }
 
 #paymentReturnPanel .mbwayIcon {
-    width: 35%
+    width: 15%
 }
 
 #paymentReturnPanel .payshopIcon {
-    width: 40%
+    width: 20%
 }
 
 #paymentReturnPanel .ccardIcon {
-    width: 30%
+    width: 20%
 }
 
 #paymentReturnPanel .paymentData {
     float: right;
-    margin-top: 10px
+    margin-top: 10px;
+    width: 75%;
 }
 
 #paymentReturnPanel .paymentData .list-group {
@@ -100,7 +101,9 @@
     margin-bottom: -1px;
     background-color: #fff;
     border: 1px solid #ddd;
-    font-weight: 700
+}
+#paymentReturnPanel .paymentData .list-group .list-group-item .badge {
+    font-weight: 700;
 }
 
 #paymentReturnPanel h5 {

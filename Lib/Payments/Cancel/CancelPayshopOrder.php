@@ -12,8 +12,6 @@
 namespace Ifthenpay\Payment\Lib\Payments\Cancel;
 
 use Ifthenpay\Payment\Lib\Payments\Gateway;
-use Ifthenpay\Payment\Lib\Payments\Payment;
-use Ifthenpay\Payment\Lib\Base\Payments\PayshopBase;
 use Ifthenpay\Payment\Lib\Payments\Cancel\CancelOrder;
 
 class CancelPayshopOrder extends CancelOrder {
@@ -23,19 +21,19 @@ class CancelPayshopOrder extends CancelOrder {
     public function cancelOrder(): void
     {
         try {
-            if ($this->configData['cancelPayshopOrder'] && ($this->configData['validade'] || $this->configData['validade'] !== '0')) {
+            if ($this->configData['cancelOrder'] && $this->configData['validade']) {
                 $this->setPendingOrders();
                 if ($this->pendingOrders->getSize()) {
                     foreach ($this->pendingOrders as $order) {
                         $referencia = $order->getPayment()->getAdditionalInformation('referencia');
-                        if ($referencia) {
+                        $validade = $order->getPayment()->getAdditionalInformation('validade');
+                        if ($referencia && $validade) {
                             $this->setGatewayDataBuilderBackofficeKey();
                             $this->gatewayDataBuilder->setPayshopKey($this->configData['payshopKey']);
                             $this->gatewayDataBuilder->setReferencia($order->getPayment()->getAdditionalInformation('referencia'));
                             $this->gatewayDataBuilder->setTotalToPay($order->getGrandTotal());
                             if (!$this->paymentStatus->setData($this->gatewayDataBuilder)->getPaymentStatus()) {
                                 $this->checkTimeChangeStatus($order, null, $this->configData['validade']);
-                                $this->changeIfthenpayPaymentStatus($order->getIncrementId());
                             }
                         }
                         $this->logCancelOrder(Gateway::PAYSHOP, $referencia, $order->getData());

@@ -79,11 +79,14 @@ abstract class CancelOrder {
         } else {
             $time->add(new \DateInterval('PT' . 30 . 'M'));
         }
+        $time->settime(0,0);
         $today = new \DateTime(date("Y-m-d G:i"));
+        $today->settime(0,0);
         if ($time < $today) {
             $order->setState(Order::STATE_CANCELED)
             ->setStatus($order->getConfig()->getStateDefaultStatus(Order::STATE_CANCELED));
             $this->orderRepository->save($order);
+            $this->changeIfthenpayPaymentStatus($order->getIncrementId());
         }
     }
 

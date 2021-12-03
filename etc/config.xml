@@ -18,6 +18,7 @@
                     <subEntidade>Choose Entity</subEntidade>
                     <allowspecific>0</allowspecific>
                     <active>0</active>
+                    <showPaymentIcon>1</showPaymentIcon>
                     <order_status>pending_payment</order_status>
                     <model>Ifthenpay\Payment\Model\MultibancoPayment</model>
                 </multibanco>
@@ -25,6 +26,7 @@
                     <title>MB WAY</title>
                     <allowspecific>0</allowspecific>
                     <active>0</active>
+                    <showPaymentIcon>1</showPaymentIcon>
                     <order_status>pending_payment</order_status>
                     <model>Ifthenpay\Payment\Model\MbwayPayment</model>
                 </mbway>
@@ -32,12 +34,14 @@
                     <title>Payshop</title>
                     <allowspecific>0</allowspecific>
                     <active>0</active>
+                    <showPaymentIcon>1</showPaymentIcon>
                     <order_status>pending_payment</order_status>
                     <model>Ifthenpay\Payment\Model\PayshopPayment</model>
                 </payshop>
                 <ccard>
                     <title>Credit Card</title>
                     <active>0</active>
+                    <showPaymentIcon>1</showPaymentIcon>
                     <model>IfthenpayCCardFacade</model>
                     <order_status>pending_payment</order_status>
                     <can_use_checkout>1</can_use_checkout>
