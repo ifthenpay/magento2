@@ -65,7 +65,7 @@ class CancelCCardOrder extends CancelOrder {
                         if ($idPedido) {
                             $this->setGatewayDataBuilderBackofficeKey();
                             $this->gatewayDataBuilder->setCCardKey($this->configData['ccardKey']);
-                            $this->gatewayDataBuilder->setReferencia((string) $payment->getAdditionalInformation('idPedido'));
+                            $this->gatewayDataBuilder->setReferencia((string) $order->getIncrementId());
                             $this->gatewayDataBuilder->setTotalToPay($this->convertEuros->execute(
                                     $order->getOrderCurrencyCode(),
                                     $order->getGrandTotal()
