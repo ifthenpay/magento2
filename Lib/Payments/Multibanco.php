@@ -55,7 +55,7 @@ class Multibanco extends MasterPayment implements PaymentMethodInterface
     {
         try {
             $this->multibancoPedido = $this->webService->postRequest(
-                'https://ifthenpay.com/api/multibanco/reference/sandbox',
+                'https://ifthenpay.com/api/multibanco/reference/init',
                 [
                         'mbKey' => $this->subEntidade,
                         "orderId" => $this->orderId,
