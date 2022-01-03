@@ -41,7 +41,9 @@
         "psr-4": {
             "Ifthenpay\\Payment\\": ""
         }
-    }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable" : true
 }
 
 
