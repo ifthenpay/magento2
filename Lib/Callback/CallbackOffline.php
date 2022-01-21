@@ -94,7 +94,7 @@ class CallbackOffline extends CallbackProcess implements CallbackProcessInterfac
                         'antiPhishingKey' => $antiPhishingKey
                     ]);
                     return $this->callbackController->getResponse()
-                    ->setStatusCode(Http::STATUS_CODE_400)
+                    ->setStatusCode(Http::STATUS_CODE_200)
                     ->setContent('ok');
 
             }

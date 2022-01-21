@@ -22,7 +22,7 @@ class CancelMultibancoOrderVisibleField extends CancelOrderVisibleField
         try {
             $this->paymentMethod = $this->findPaymentMethod($element);
             $configData = $this->dataFactory->setType($this->paymentMethod)->build();
-            if ($configData->getConfig()['entidade'] !== Multibanco::DYNAMIC_MB_ENTIDADE) {
+            if (isset($configData->getConfig()['entidade']) && $configData->getConfig()['entidade']  !== Multibanco::DYNAMIC_MB_ENTIDADE) {
                 $this->_decorateRowHtml($element, '');
             } else {
                 parent::render($element);
