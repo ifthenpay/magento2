@@ -57,7 +57,7 @@ class AddNewAccount extends Action
 
             $from = $storeEmail;
             $nameFrom = $storeName;
-            $to = "ricardocarvalho@ifthenpay.com";
+            $to = "suporte@ifthenpay.com";
             $nameTo = "Ifthenpay";
 
             $email = new \Zend_Mail();
