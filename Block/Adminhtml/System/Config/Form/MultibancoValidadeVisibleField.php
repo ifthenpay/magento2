@@ -36,7 +36,7 @@ class MultibancoValidadeVisibleField extends IfthenpayField
             }
             $userAccount = $configData->getUserAccount();
 
-            if (!$this->gateway->checkDynamicMb($userAccount) || $configData->getConfig()['entidade'] !== Multibanco::DYNAMIC_MB_ENTIDADE) {
+            if (!$this->gateway->checkDynamicMb($userAccount) || isset($configData->getConfig()['entidade']) && $configData->getConfig()['entidade'] !== Multibanco::DYNAMIC_MB_ENTIDADE) {
                 return $this->_decorateRowHtml($element, '');
             }
             return parent::render($element);
