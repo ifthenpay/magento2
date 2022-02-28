@@ -45,6 +45,7 @@ class IfthenpayBeforeOrderPaymentSaveObserver implements ObserverInterface
         $payment = $observer->getEvent()->getPayment();
         $paymentMethod = $payment->getMethod();
         $order = $payment->getOrder();
+
         $ifthenpayPayment = $this->repositoryFactory->setType($paymentMethod)->build()->getByOrderId($order->getIncrementId())->getData();
         try {
             if ($this->gateway->checkIfthenpayPaymentMethod($paymentMethod) && $paymentMethod !== Gateway::CCARD && empty($ifthenpayPayment)) {
@@ -55,7 +56,7 @@ class IfthenpayBeforeOrderPaymentSaveObserver implements ObserverInterface
                             $this->ifthenpayGatewayResult = $this->ifthenpayPaymentReturn->setOrder($order)->execute()->getPaymentGatewayResultData();
                             $payment->setAdditionalInformation('entidade', $this->ifthenpayGatewayResult->entidade);
                             $payment->setAdditionalInformation('referencia', $this->ifthenpayGatewayResult->referencia);
-                            if ($this->ifthenpayGatewayResult->idPedido) {
+                            if (isset($this->ifthenpayGatewayResult->idPedido) && $this->ifthenpayGatewayResult->idPedido) {
                                 $payment->setAdditionalInformation('idPedido', $this->ifthenpayGatewayResult->idPedido);
                                 $payment->setAdditionalInformation('validade', $this->ifthenpayGatewayResult->validade);
                             }

@@ -2,10 +2,64 @@
     "ifthenpay_multibanco": {
         "column": {
             "requestId": true,
-            "validade": true
+            "validade": true,
+            "id": true,
+            "entidade": true,
+            "referencia": true,
+            "order_id": true,
+            "status": true
         },
         "index": {
-            "IFTHENPAY_MULTIBANCO_REQUESTID": true
+            "IFTHENPAY_MULTIBANCO_REQUESTID": true,
+            "IFTHENPAY_MULTIBANCO_REFERENCIA": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    },
+    "ifthenpay_mbway": {
+        "column": {
+            "id": true,
+            "id_transacao": true,
+            "telemovel": true,
+            "order_id": true,
+            "status": true
+        },
+        "index": {
+            "IFTHENPAY_MBWAY_ID_TRANSACAO": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    },
+    "ifthenpay_payshop": {
+        "column": {
+            "id": true,
+            "id_transacao": true,
+            "referencia": true,
+            "validade": true,
+            "order_id": true,
+            "status": true
+        },
+        "index": {
+            "IFTHENPAY_PAYSHOP_ID_TRANSACAO": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    },
+    "ifthenpay_ccard": {
+        "column": {
+            "id": true,
+            "requestId": true,
+            "order_id": true,
+            "status": true
+        },
+        "index": {
+            "IFTHENPAY_CCARD_REQUESTID": true
+        },
+        "constraint": {
+            "PRIMARY": true
         }
     }
 }

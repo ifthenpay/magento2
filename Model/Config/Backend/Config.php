@@ -18,7 +18,6 @@ use Ifthenpay\Payment\Lib\Payments\Gateway;
 use Ifthenpay\Payment\Logger\IfthenpayLogger;
 use Magento\Framework\Data\Collection\AbstractDb;
 use Magento\Framework\App\Cache\TypeListInterface;
-use Ifthenpay\Payment\Helper\DataPaymentMethodTable;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Model\ResourceModel\AbstractResource;
 
@@ -28,13 +27,11 @@ class Config extends \Magento\Framework\App\Config\Value
     const USER_ACCOUNT = 'payment/ifthenpay/userAccount';
 
     private $gateway;
-    private $dataPaymentMethodTable;
     private $logger;
 
     public function __construct(
         Data $helperData,
         Gateway $gateway,
-        DataPaymentMethodTable $dataPaymentMethodTable,
         Context $context,
         Registry $registry,
         ScopeConfigInterface $config,
@@ -48,7 +45,6 @@ class Config extends \Magento\Framework\App\Config\Value
         parent::__construct($context, $registry, $config, $cacheTypeList, $resource, $resourceCollection, $data);
         $this->gateway = $gateway;
         $this->dataHelper = $helperData;
-        $this->dataPaymentMethodTable = $dataPaymentMethodTable;
         $this->logger = $logger;
     }
 
@@ -67,10 +63,15 @@ class Config extends \Magento\Framework\App\Config\Value
             $this->dataHelper->saveUserPaymentMethods($userPaymentMethods);
             $this->dataHelper->saveUserAccount($userAccount);
 
-            $this->dataPaymentMethodTable->createDatabaseTables($userPaymentMethods);
-            $this->logger->debug('Ifthenpay Database Tabels: Database tables created with success');
+            $this->logger->debug('User payment methods and user account saved with success', [
+                'userPaymentMethods' => $userPaymentMethods,
+                'userAccount' => $userAccount
+            ]);
         } catch (\Throwable $th) {
-            $this->logger->debug('Ifthenpay Database Tabels: Error Creating Ifthenpay Database tables - ' . $th->getMessage());
+            $this->logger->debug('Error saving user payment methods and account', [
+                'error' => $th,
+                'errorMessage' => $th->getMessage()
+            ]);
             throw new \Magento\Framework\Exception\ValidatorException(__('errorIfthenpayDatabaseTables'));
         }
 

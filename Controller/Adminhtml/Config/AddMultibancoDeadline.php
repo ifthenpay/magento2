@@ -62,7 +62,7 @@ class AddMultibancoDeadline extends Action
 
             $email = new \Zend_Mail();
             $email->setSubject('Adicionar conta multibanco dinâmica ao contracto.');
-            $email->setBodyText($msg);  
+            $email->setBodyText($msg);
             $email->setFrom($from, $nameFrom);
             $email->addTo($to, $nameTo);
             $email->send();

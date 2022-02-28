@@ -70,7 +70,6 @@
                             <label>Entity</label>
                             <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\EntidadeVisibleField</frontend_model>
                             <source_model>Ifthenpay\Payment\Model\Config\Source\Entidade</source_model>
-                            <backend_model>Ifthenpay\Payment\Model\Config\Backend\ConfigEntidade</backend_model>
                         </field>
                         <field id="subEntidade" translate="label comment" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" type="select">
                             <label>Sub Entity</label>

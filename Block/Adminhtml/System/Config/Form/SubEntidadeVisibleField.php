@@ -17,5 +17,4 @@ class SubEntidadeVisibleField extends IfthenpayField
 {
 
     protected $paymentMethodFinder = '_subEntidade';
-
 }

@@ -35,7 +35,12 @@ class CancelMultibancoOrder extends CancelOrder {
                             $this->gatewayDataBuilder->setReferencia($order->getPayment()->getAdditionalInformation('referencia'));
                             $this->gatewayDataBuilder->setTotalToPay($order->getGrandTotal());
                             if (!$this->paymentStatus->setData($this->gatewayDataBuilder)->getPaymentStatus()) {
-                                $this->checkTimeChangeStatus($order, null, $this->configData['validade']);
+                                if ($validade) {
+                                    $this->checkTimeChangeStatus($order, null, $validade, 'd-m-Y');
+
+                                } else {
+                                    $this->checkTimeChangeStatus($order, $this->configData['validade'], null, null);
+                                }
                             }
                             $this->logCancelOrder(Gateway::MULTIBANCO, $referencia, $order->getData());
                         }

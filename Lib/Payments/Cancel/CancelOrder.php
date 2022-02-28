@@ -70,18 +70,22 @@ abstract class CancelOrder {
         $this->paymentRepository->save($paymentModel);
     }
 
-    protected function checkTimeChangeStatus(Order $order, int $minutes = null, int $days = null)
+    protected function checkTimeChangeStatus(Order $order, string $days = null, string $paymentDeadline = null, string $dateFormat = null)
     {
         date_default_timezone_set('Europe/Lisbon');
+        $today = new \DateTime(date("Y-m-d G:i"));
         $time = new \DateTime($order->getCreatedAt());
-        if (!is_null($days)) {
+        if (!is_null($days) && is_null($paymentDeadline) && is_null($dateFormat)) {
             $time->add(new \DateInterval('P' . $days . 'D'));
+            $time->settime(0,0);
+            $today->settime(0,0);
+        } else if (!is_null($paymentDeadline) && !is_null($dateFormat) && is_null($days)) {
+            $time = \DateTime::createFromFormat($dateFormat, $paymentDeadline);
+            $time->settime(0,0);
+            $today->settime(0,0);
         } else {
             $time->add(new \DateInterval('PT' . 30 . 'M'));
         }
-        $time->settime(0,0);
-        $today = new \DateTime(date("Y-m-d G:i"));
-        $today->settime(0,0);
         if ($time < $today) {
             $order->setState(Order::STATE_CANCELED)
             ->setStatus($order->getConfig()->getStateDefaultStatus(Order::STATE_CANCELED));

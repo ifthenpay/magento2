@@ -1,7 +1,7 @@
 "Place Order","Place Order"
 "<div class=""ifthenpay-payment-logo""></div><div class=""ifthenpay-payment-text"">Payments by Multibanco, MB WAY, Payshop and Credit Card</div>","<div class=""ifthenpay-payment-logo""></div><div class=""ifthenpay-payment-text"">Payments by Multibanco, MB WAY, Payshop and Credit Card</div>."
 "Sandbox Mode","Sandbox Mode"
-"Activate sandbox mode to test the module without activate callback.","Activate sandbox mode to test the module withou activate callback."
+"Activate sandbox mode to test the module without activating the callback.","Activate sandbox mode to test the module without activating the callback."
 "Backoffice key","Backoffice key"
 "Insert Backoffice key provided by Ifthenpay.","Insert Backoffice key provided by Ifthenpay."
 "Multibanco Configuration","Multibanco Configuration"

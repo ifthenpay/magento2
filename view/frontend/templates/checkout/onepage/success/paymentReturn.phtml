@@ -57,7 +57,7 @@ if ($block->isIfthenpayPayment()) {
                                 <?= __('Reference') ?>:
                                 <span class="badge"><?php echo $block->formatReference($block->ifthenpayGatewayResult['referencia']) ?></span>
                             </li>
-                            <?php if ($block->ifthenpayGatewayResult['validade']) { ?>
+                            <?php if (isset($block->ifthenpayGatewayResult['validade']) && $block->ifthenpayGatewayResult['validade']) { ?>
                                 <li class="list-group-item">
                                     <?= __('Deadline') ?>:
                                     <span class="badge"><?php echo $block->ifthenpayGatewayResult['validade'] !== '' ? (new \DateTime($block->ifthenpayGatewayResult['validade']))->format('d-m-Y') : '' ?></span>

@@ -62,7 +62,7 @@ class AddNewAccount extends Action
 
             $email = new \Zend_Mail();
             $email->setSubject('Adicionar conta ' . $requestData['paymentMethod'] . ' ao contracto.');
-            $email->setBodyText($msg);  
+            $email->setBodyText($msg);
             $email->setFrom($from, $nameFrom);
             $email->addTo($to, $nameTo);
             $email->send();
