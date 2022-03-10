@@ -25,7 +25,7 @@ class MultibancoBase extends PaymentBase
     {
         $this->gatewayDataBuilder->setEntidade($this->dataConfig['entidade']);
         $this->gatewayDataBuilder->setSubEntidade($this->dataConfig['subEntidade']);
-        $this->gatewayDataBuilder->setValidade($this->dataConfig['validade'] !== 'Choose Deadline' ? $this->dataConfig['validade'] : '999999');
+        $this->gatewayDataBuilder->setValidade(isset($this->dataConfig['validade']) && $this->dataConfig['validade'] !== 'Choose Deadline' ? $this->dataConfig['validade'] : '999999');
         $this->logGatewayBuilderData();
     }
 
