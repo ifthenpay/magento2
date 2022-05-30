@@ -1,5 +1,7 @@
 Ifthenpay module for Magento 2
 ==============
+Compatible with Magento [2.4.0 - 2.4.3]
+
 ![Ifthenpay](https://ifthenpay.com/images/all_payments_logo_final.png)
 
 **This is the Ifthenpay module for Magento CMS**
@@ -27,3 +29,8 @@ How to install?
 * php bin/magento setup:upgrade
 * php bin/magento setup:di:compile
 * php bin/magento cache:clean
+
+Known issues:
+==============
+
+* when integrated with latest magento update (2.4.4), mbway causes an error after payment.
