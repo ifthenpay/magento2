@@ -42,6 +42,8 @@ class IfthenpayBeforeOrderPaymentSaveObserver implements ObserverInterface
 
     public function execute(Observer $observer)
     {
+
+
         $payment = $observer->getEvent()->getPayment();
         $paymentMethod = $payment->getMethod();
 
@@ -53,16 +55,17 @@ class IfthenpayBeforeOrderPaymentSaveObserver implements ObserverInterface
 
         $order = $payment->getOrder();
 
+
+
         $ifthenpayPayment = $this->repositoryFactory->setType($paymentMethod)->build()->getByOrderId($order->getIncrementId())->getData();
         try {
 
             if ($isIfthenpayMethod) {
 
-                $this->ifthenpayGatewayResult = $this->ifthenpayPaymentReturn->setOrder($order)->execute()->getPaymentGatewayResultData();
-
                 switch ($paymentMethod) {
                     case Gateway::MULTIBANCO:
                         if (!$payment->getAdditionalInformation('referencia')) {
+                            $this->ifthenpayGatewayResult = $this->ifthenpayPaymentReturn->setOrder($order)->execute()->getPaymentGatewayResultData();
                             $payment->setAdditionalInformation('entidade', $this->ifthenpayGatewayResult->entidade);
                             $payment->setAdditionalInformation('referencia', $this->ifthenpayGatewayResult->referencia);
                             if (isset($this->ifthenpayGatewayResult->idPedido) && $this->ifthenpayGatewayResult->idPedido) {
@@ -73,6 +76,7 @@ class IfthenpayBeforeOrderPaymentSaveObserver implements ObserverInterface
                         break;
                     case Gateway::MBWAY:
                         if (!$payment->getAdditionalInformation('idPedido')) {
+                            $this->ifthenpayGatewayResult = $this->ifthenpayPaymentReturn->setOrder($order)->execute()->getPaymentGatewayResultData();
                             $payment->setAdditionalInformation('idPedido', $this->ifthenpayGatewayResult->idPedido);
                             $payment->setAdditionalInformation('telemovel', $this->ifthenpayGatewayResult->telemovel);
                             $payment->setAdditionalInformation('mbwayCountdownShow', true);
@@ -80,23 +84,31 @@ class IfthenpayBeforeOrderPaymentSaveObserver implements ObserverInterface
                         break;
                     case Gateway::PAYSHOP:
                         if (!$payment->getAdditionalInformation('referencia')) {
+                            $this->ifthenpayGatewayResult = $this->ifthenpayPaymentReturn->setOrder($order)->execute()->getPaymentGatewayResultData();
                             $payment->setAdditionalInformation('idPedido', $this->ifthenpayGatewayResult->idPedido);
                             $payment->setAdditionalInformation('referencia', $this->ifthenpayGatewayResult->referencia);
                             $payment->setAdditionalInformation('validade', $this->ifthenpayGatewayResult->validade);
                         }
                         break;
-
                     default:
                         break;
                 }
+                if (isset($this->ifthenpayGatewayResult->totalToPay)) {
+                    $payment->setAdditionalInformation('totalToPay', $this->ifthenpayGatewayResult->totalToPay);
+                    $payment->setAdditionalInformation('status', 'success');
+                    $this->logger->debug('Payment return offline payment executed with success', [
+                        'paymentMethod' => $paymentMethod,
+                        'order' => $order->getData(),
+                        'ifthenpayGatewayResult' => $this->ifthenpayGatewayResult
+                    ]);
+                }else{
+                    $payment->setAdditionalInformation('status', 'success');
+                    $this->logger->debug('Payment return offline payment executed with success', [
+                        'paymentMethod' => $paymentMethod,
+                        'order' => $order->getData()
+                    ]);
+                }
 
-                $payment->setAdditionalInformation('totalToPay', $this->ifthenpayGatewayResult->totalToPay);
-                $payment->setAdditionalInformation('status', 'success');
-                $this->logger->debug('Payment return offline payment executed with success', [
-                    'paymentMethod' => $paymentMethod,
-                    'order' => $order->getData(),
-                    'ifthenpayGatewayResult' => $this->ifthenpayGatewayResult
-                ]);
             }
         } catch (\Throwable $th) {
             $payment->setAdditionalInformation('status', 'error');
