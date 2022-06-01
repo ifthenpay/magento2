@@ -32,5 +32,4 @@ How to install?
 
 Known issues:
 ==============
-
-* when integrated with latest magento update (2.4.4), mbway causes an error after payment.
+n/a
