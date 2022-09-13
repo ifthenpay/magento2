@@ -24,7 +24,7 @@ class CCardData extends Data implements IfthenpayDataInterface
 
     public function getConfig(): array
     {
-        $ccardKey = $this->scopeConfig->getValue(self::USER_CCARD_KEY, ScopeConfigInterface::SCOPE_TYPE_DEFAULT, $this->getStoreCode());
+        $ccardKey = $this->scopeConfig->getValue(self::USER_CCARD_KEY, $this->scopeType, $this->scopeId);
 
         if ($ccardKey) {
             return array_merge(parent::getConfig(), [
@@ -38,7 +38,7 @@ class CCardData extends Data implements IfthenpayDataInterface
 
     public function deleteConfig(): void
     {
-        $this->configWriter->delete(self::USER_CCARD_KEY, ScopeConfigInterface::SCOPE_TYPE_DEFAULT, 0);
+        $this->configWriter->delete(self::USER_CCARD_KEY, $this->scopeType, $this->scopeId);
         parent::deleteConfig();
     }
 }

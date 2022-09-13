@@ -101,14 +101,12 @@ class Payment extends Fieldset
     {
         $urlChangeEntidade = $this->urlBuilder->getUrl('ifthenpay/Config/ChangeEntidade');
         $urlAddNewAccount = $this->urlBuilder->getUrl('ifthenpay/Config/AddNewAccount');
-        $urlResetAccounts = $this->urlBuilder->getUrl('ifthenpay/Config/ResetAccounts');
         $urlResetBackofficeKey = $this->urlBuilder->getUrl('ifthenpay/Config/ResetBackofficeKey');
         $urlAddMultibancoDeadline = $this->urlBuilder->getUrl('ifthenpay/Config/AddMultibancoDeadline');
 
         $script = "require(['jquery', 'prototype'], function(jQuery){
             window.urlChangeEntidade =" . json_encode($urlChangeEntidade) . ";
             window.urlAddNewAccount =" . json_encode($urlAddNewAccount) . "; 
-            window.urlResetAccounts =" . json_encode($urlResetAccounts) . ";
             window.urlResetBackofficeKey =" . json_encode($urlResetBackofficeKey) . ";
             window.urlAddMultibancoDeadline =" . json_encode($urlAddMultibancoDeadline) . ";
             window.IfthenpayToggleSolution = function (id, url) {

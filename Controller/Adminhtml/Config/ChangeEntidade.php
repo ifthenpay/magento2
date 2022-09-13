@@ -1,13 +1,14 @@
 <?php
+
 /**
-* Ifthenpay_Payment module dependency
-*
-* @category    Gateway Payment
-* @package     Ifthenpay_Payment
-* @author      Ifthenpay
-* @copyright   Ifthenpay (http://www.ifthenpay.com)
-* @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
-*/
+ * Ifthenpay_Payment module dependency
+ *
+ * @category    Gateway Payment
+ * @package     Ifthenpay_Payment
+ * @author      Ifthenpay
+ * @copyright   Ifthenpay (http://www.ifthenpay.com)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
 
 namespace Ifthenpay\Payment\Controller\Adminhtml\Config;
 
@@ -42,11 +43,17 @@ class ChangeEntidade extends Action
 
     public function execute()
     {
-
         try {
-            $userAccount = $this->helperData->getUserAccount();
-            $this->gateway->setAccount($userAccount);
             $requestData = $this->getRequest()->getParams();
+
+            if (isset($requestData['scope_id'])) {
+                $userAccount = $this->helperData->getUserAccountByScopeId($requestData['scope_id']);
+            } else {
+
+                $userAccount = $this->helperData->getUserAccount();
+            }
+            $this->gateway->setAccount($userAccount);
+            // $requestData = $this->getRequest()->getParams();
             $this->logger->debug('Change Entidade with success', [
                 'userAccount' => $userAccount,
                 'requestData' => $requestData

@@ -26,8 +26,14 @@ class MultibancoData extends Data implements IfthenpayDataInterface
 
     public function getConfig(): array
     {
-        $dataEntidade = $this->scopeConfig->getValue(self::USER_ENTIDADE, ScopeConfigInterface::SCOPE_TYPE_DEFAULT, $this->getStoreCode());
-        $dataSubEntidade = $this->scopeConfig->getValue(self::USER_SUBENTIDADE, ScopeConfigInterface::SCOPE_TYPE_DEFAULT, $this->getStoreCode());
+
+    // $websiteId = $this->storeManager->getStore()->getWebsiteId();;
+
+    //     $dataEntidade = $this->scopeConfig->getValue(self::USER_ENTIDADE, 'website', $websiteId);
+    //     $dataSubEntidade = $this->scopeConfig->getValue(self::USER_SUBENTIDADE, 'website', $websiteId);
+
+        $dataEntidade = $this->scopeConfig->getValue(self::USER_ENTIDADE, $this->scopeType, $this->scopeId);
+        $dataSubEntidade = $this->scopeConfig->getValue(self::USER_SUBENTIDADE, $this->scopeType, $this->scopeId);
         if ($dataEntidade && $dataSubEntidade) {
 
             return array_merge(parent::getConfig(), [
@@ -42,8 +48,8 @@ class MultibancoData extends Data implements IfthenpayDataInterface
 
     public function deleteConfig(): void
     {
-        $this->configWriter->delete(self::USER_ENTIDADE, ScopeConfigInterface::SCOPE_TYPE_DEFAULT, 0);
-        $this->configWriter->delete(self::USER_SUBENTIDADE, ScopeConfigInterface::SCOPE_TYPE_DEFAULT, 0);
+        $this->configWriter->delete(self::USER_ENTIDADE, $this->scopeType, $this->scopeId);
+        $this->configWriter->delete(self::USER_SUBENTIDADE, $this->scopeType, $this->scopeId);
         parent::deleteConfig();
     }
 }

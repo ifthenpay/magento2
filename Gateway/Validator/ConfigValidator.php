@@ -32,10 +32,10 @@ class ConfigValidator extends AbstractValidator
     public function validate(array $validationSubject)
     {
         $isValid = true;
-        $ccardKey = $this->configData['ccardKey'];
+        $ccardKey = $this->configData['ccardKey'] ?? null;
 
         if (!$ccardKey || $ccardKey === 'Choose Account') {
-            $this->logger->debug('ccard key is not set', ['configData' => $this->configData]);
+            // $this->logger->debug('ccard key is not set', ['configData' => $this->configData]);
             $isValid = false;
         }
 

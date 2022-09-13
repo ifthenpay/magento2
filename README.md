@@ -1,6 +1,6 @@
 Ifthenpay module for Magento 2
 ==============
-Compatible with Magento [2.4.0 - 2.4.3]
+Compatible with Magento [2.4.0 - 2.4.4]
 
 ![Ifthenpay](https://ifthenpay.com/images/all_payments_logo_final.png)
 

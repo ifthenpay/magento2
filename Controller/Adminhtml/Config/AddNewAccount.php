@@ -1,13 +1,14 @@
 <?php
+
 /**
-* Ifthenpay_Payment module dependency
-*
-* @category    Gateway Payment
-* @package     Ifthenpay_Payment
-* @author      Ifthenpay
-* @copyright   Ifthenpay (http://www.ifthenpay.com)
-* @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
-*/
+ * Ifthenpay_Payment module dependency
+ *
+ * @category    Gateway Payment
+ * @package     Ifthenpay_Payment
+ * @author      Ifthenpay
+ * @copyright   Ifthenpay (http://www.ifthenpay.com)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
 
 namespace Ifthenpay\Payment\Controller\Adminhtml\Config;
 
@@ -17,6 +18,7 @@ use Ifthenpay\Payment\Logger\IfthenpayLogger;
 use Magento\Store\Model\StoreManagerInterface;
 use Ifthenpay\Payment\Helper\Factory\DataFactory;
 use Magento\Framework\Controller\Result\JsonFactory;
+use Magento\Framework\Mail\Template\TransportBuilder;
 
 
 class AddNewAccount extends Action
@@ -31,53 +33,65 @@ class AddNewAccount extends Action
         JsonFactory $resultJsonFactory,
         DataFactory $dataFactory,
         StoreManagerInterface $storeManager,
-        IfthenpayLogger $logger
+        IfthenpayLogger $logger,
+        TransportBuilder $transportBuilder
     ) {
         parent::__construct($context);
         $this->resultJsonFactory = $resultJsonFactory;
         $this->dataFactory = $dataFactory;
         $this->storeManager = $storeManager;
         $this->logger = $logger;
+        $this->transportBuilder = $transportBuilder;
     }
 
     public function execute()
     {
         try {
             $requestData = $this->getRequest()->getParams();
-            $configData = $this->dataFactory->setType($requestData['paymentMethod'])->build();
-            $storeEmail = $configData->getStoreEmail();
-            $storeName = $configData->getStorename();
+            $configData = $this->dataFactory->setType($requestData['paymentMethod'])->build()->setScope($requestData['scope_id'] ?? '');
             $userToken = $configData->saveUpdateUserAccountToken();
-
-            $msg = "Associar conta " . $requestData['paymentMethod'] . " ao contrato \n\n";
-            $msg .= "backofficeKey: " . $configData->getBackofficeKey() .  "\n\n";
-            $msg .= "Email Cliente: " .  $storeEmail . "\n\n";
-            $msg .= "Update User Account: " .  $this->storeManager->getStore()->getBaseUrl() . 'ifthenpay/Frontend/UpdateUserAccount?updateUserToken=' . $userToken . '&paymentMethod=' . $requestData['paymentMethod'] . "\n\n";
-            $msg .= "Pedido enviado automaticamente pelo sistema Magento da loja [" . $storeName . "]";
-
-            $from = $storeEmail;
-            $nameFrom = $storeName;
+            $from = [
+                "name" => $configData->getStorename(),
+                "email" => $configData->getStoreEmail()
+            ];
             $to = "suporte@ifthenpay.com";
-            $nameTo = "Ifthenpay";
 
-            $email = new \Zend_Mail();
-            $email->setSubject('Adicionar conta ' . $requestData['paymentMethod'] . ' ao contracto.');
-            $email->setBodyText($msg);
-            $email->setFrom($from, $nameFrom);
-            $email->addTo($to, $nameTo);
-            $email->send();
+
+            $templateVars = [
+                "backofficeKey" => $configData->getBackofficeKey(),
+                "customerEmail" => $from['email'],
+                "paymentMethod" => ucFirst($requestData['paymentMethod']),
+                "ecommercePlatform" => "Magento 2",
+                "updateUserAccountUrl" => $this->storeManager->getStore()->getBaseUrl() . 'ifthenpay/Frontend/UpdateUserAccount?updateUserToken=' . $userToken . '&paymentMethod=' . $requestData['paymentMethod'],
+                "storeName" => $from['name']
+            ];
+
+
+            $this->transportBuilder
+                ->setTemplateIdentifier('add_new_account')
+                ->setTemplateOptions(['area' => 'frontend', 'store' => 0])
+                ->setTemplateVars($templateVars)
+                ->setFrom($from)
+                ->addTo($to);
+
+
+            $this->transportBuilder->getTransport()->sendMessage();
+
+
             $this->logger->debug('Email add new account sent with success', [
                 'paymentMethod' => $requestData['paymentMethod'],
-                'storeEmail' => $storeEmail,
+                'storeEmail' => "test",
                 'userToken' => $userToken
             ]);
+
             return $this->resultJsonFactory->create()->setData(['success' => true]);
+
         } catch (\Throwable $th) {
-            $this->logger->debug('Error sending add new account email',[
+            $this->logger->debug('Error sending add new account email', [
                 'error' => $th,
                 'errorMessage' => $th->getMessage(),
-                'paymentMethod' => $requestData['paymentMethod'],
-                'storeEmail' => $storeEmail,
+                'paymentMethod' => isset($requestData['paymentMethod']) ? $requestData['paymentMethod'] : 'undefined',
+                'storeEmail' => isset($from['email']) ? $from['email'] : 'undefined',
                 'userToken' => $userToken
             ]);
             return $this->resultJsonFactory->create()->setData(['error' => true]);

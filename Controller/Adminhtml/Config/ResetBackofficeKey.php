@@ -1,13 +1,14 @@
 <?php
+
 /**
-* Ifthenpay_Payment module dependency
-*
-* @category    Gateway Payment
-* @package     Ifthenpay_Payment
-* @author      Ifthenpay
-* @copyright   Ifthenpay (http://www.ifthenpay.com)
-* @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
-*/
+ * Ifthenpay_Payment module dependency
+ *
+ * @category    Gateway Payment
+ * @package     Ifthenpay_Payment
+ * @author      Ifthenpay
+ * @copyright   Ifthenpay (http://www.ifthenpay.com)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
 
 namespace Ifthenpay\Payment\Controller\Adminhtml\Config;
 
@@ -40,9 +41,16 @@ class ResetBackofficeKey extends Action
     public function execute()
     {
         try {
-            $data = $this->dataFactory->setType(Gateway::MULTIBANCO)->build();
+            $requestData = $this->getRequest()->getParams();
+            $data = $this->dataFactory->setType(Gateway::MULTIBANCO)->build()->setScope($requestData['scope_id'] ?? '');
+
             foreach ($data->getUserPaymentMethods() as $paymentMethod) {
-                $this->dataFactory->setType($paymentMethod)->build()->deleteConfig();
+                if (isset($requestData['scope_id'])) {
+                    $this->dataFactory->setType($paymentMethod)->build()->setScope($requestData['scope_id'])->deleteConfig();
+                } else {
+                    $this->dataFactory->setType($paymentMethod)->build()->deleteConfig();
+                }
+
                 $this->logger->debug($paymentMethod . ' configuration deleted with success');
             }
             $data->deleteBackofficeKey();

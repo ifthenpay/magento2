@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Email:etc/email_templates.xsd">
+    <template id="add_new_account" label="Request New Account" file="add_new_account.html" type="html" module="Ifthenpay_Payment" area="frontend"/>
+</config>

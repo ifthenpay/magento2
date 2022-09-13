@@ -44,7 +44,9 @@ class AddMultibancoDeadline extends Action
     public function execute()
     {
         try {
-            $configData = $this->dataFactory->setType(Gateway::MULTIBANCO)->build();
+
+            $requestData = $this->getRequest()->getParams();
+            $configData = $this->dataFactory->setType(Gateway::MULTIBANCO)->build()->setScope($requestData['scope_id'] ?? '');
             $storeEmail = $configData->getStoreEmail();
             $storeName = $configData->getStorename();
             $userToken = $configData->saveUpdateUserAccountToken();

@@ -24,7 +24,7 @@ class PayshopData extends Data implements IfthenpayDataInterface
 
     public function getConfig(): array
     {
-        $dataPayshopKey = $this->scopeConfig->getValue(self::USER_PAYSHOP_KEY, ScopeConfigInterface::SCOPE_TYPE_DEFAULT, $this->getStoreCode());
+        $dataPayshopKey = $this->scopeConfig->getValue(self::USER_PAYSHOP_KEY, $this->scopeType, $this->scopeId);
 
         if ($dataPayshopKey) {
             return array_merge(parent::getConfig(), [
@@ -38,7 +38,7 @@ class PayshopData extends Data implements IfthenpayDataInterface
 
     public function deleteConfig(): void
     {
-        $this->configWriter->delete(self::USER_PAYSHOP_KEY, ScopeConfigInterface::SCOPE_TYPE_DEFAULT, 0);
+        $this->configWriter->delete(self::USER_PAYSHOP_KEY, $this->scopeType, $this->scopeId);
         parent::deleteConfig();
     }
 }

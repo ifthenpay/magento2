@@ -1,13 +1,14 @@
 <?php
+
 /**
-* Ifthenpay_Payment module dependency
-*
-* @category    Gateway Payment
-* @package     Ifthenpay_Payment
-* @author      Ifthenpay
-* @copyright   Ifthenpay (http://www.ifthenpay.com)
-* @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
-*/
+ * Ifthenpay_Payment module dependency
+ *
+ * @category    Gateway Payment
+ * @package     Ifthenpay_Payment
+ * @author      Ifthenpay
+ * @copyright   Ifthenpay (http://www.ifthenpay.com)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
 
 declare(strict_types=1);
 
@@ -19,7 +20,6 @@ use Magento\Store\Model\StoreManagerInterface;
 use Ifthenpay\Payment\Helper\Factory\DataFactory;
 use Ifthenpay\Payment\Lib\Callback\CallbackFactory;
 use Ifthenpay\Payment\Lib\Builders\GatewayDataBuilder;
-
 abstract class ConfigForm
 {
     protected $paymentMethod;
@@ -41,8 +41,7 @@ abstract class ConfigForm
         WebService $webService,
         StoreManagerInterface $storeManager,
         CallbackFactory $callbackFactory
-    )
-    {
+    ) {
         $this->gatewayDataBuilder = $gatewayDataBuilder;
         $this->gateway = $gateway;
         $this->dataFactory = $dataFactory;
@@ -63,7 +62,7 @@ abstract class ConfigForm
 
     protected function getCallbackControllerUrl(): string
     {
-        return $this->storeManager->getStore()->getBaseUrl() . 'ifthenpay/Frontend/Callback';
+        return $this->helperData->getWebsiteBaseUrl(). 'ifthenpay/Frontend/Callback';
     }
 
     public function getOptions($useEntidade = true): array

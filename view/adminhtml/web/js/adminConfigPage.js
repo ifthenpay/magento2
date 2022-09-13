@@ -8,6 +8,20 @@
 * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
 */
 
+function extractScopeId(){
+    let needle = 'website';
+    let scopeId = '0';
+    let currUrl = window.location.href
+
+    let scopeStrIndex = currUrl.indexOf(needle);
+
+    if (scopeStrIndex !== -1) {
+        scopeId = currUrl.substring(scopeStrIndex + needle.length).replace(/^\/|\/$/g, '');
+    }
+
+    return scopeId;
+}
+
 require([
     'jquery',
     'domReady!',
@@ -20,9 +34,13 @@ require([
 
     $('select[id*="ifthenpay_multibanco_entidade"]').change(function (event) {
         var eventTarget = $(event.target);
+
+        let scopeId = extractScopeId();
+
         $.ajax({
             url: window.urlChangeEntidade,
             data: {
+                scope_id: scopeId,
                 form_key: window.FORM_KEY,
                 entidade: eventTarget.val()
             },
@@ -31,12 +49,16 @@ require([
             dataType: 'json',
             success: function(data, status, xhr) {
                 subEntidadeInput.empty();
-                Object.keys(data).forEach(key => {
-                    data[key][0].SubEntidade.forEach((subEntidade) => {
-                        documentFragment.append($(`<option value="${subEntidade}">${subEntidade}</option>`));
+                if (Array.isArray(data) && data.length && data[0][0]) {
+                    
+                    Object.keys(data).forEach(key => {
+                        data[key][0].SubEntidade.forEach((subEntidade) => {
+                            documentFragment.append($(`<option value="${subEntidade}">${subEntidade}</option>`));
+                        });
                     });
-                });
-                subEntidadeInput.append(documentFragment);
+                    subEntidadeInput.append(documentFragment);
+                }
+
             },
             error: function (xhr, status, errorThrown) {
                 alert({
@@ -51,9 +73,12 @@ require([
     });
 
     $('.addNewAccountBtn').click(function(event) {
+        let scopeId = extractScopeId();
+
         $.ajax({
             url: window.urlAddNewAccount,
             data: {
+                scope_id: scopeId,
                 form_key: window.FORM_KEY,
                 paymentMethod: $(event.target).parent().attr('data-paymentmethod')
             },
@@ -61,13 +86,24 @@ require([
             type: 'GET',
             dataType: 'json',
             success: function(data, status, xhr) {
-                alert({
-                    title: 'Success!',
-                    content: $t('emailRequestNewAccount'),
-                    actions: {
-                        always: function(){}
-                    }
-                });
+                if (data.error) {
+                    alert({
+                        title: 'Error!',
+                        content: $t('errorRequestNewAccount'),
+                        actions: {
+                            always: function(){}
+                        }
+                    });
+                }
+                else{
+                    alert({
+                        title: 'Success!',
+                        content: $t('emailRequestNewAccount'),
+                        actions: {
+                            always: function(){}
+                        }
+                    });
+                }
             },
             error: function (xhr, status, errorThrown) {
                 alert({
@@ -81,45 +117,15 @@ require([
         });
     });
 
-    $('.resetIfthenpayAccounts').click(function(event) {
-        $.ajax({
-            url: window.urlResetAccounts,
-            data: {
-                form_key: window.FORM_KEY,
-                paymentMethod: $(event.target).parent().attr('data-paymentmethod')
-            },
-            showLoader: true,
-            type: 'GET',
-            dataType: 'json',
-            success: function(data, status, xhr) {
-                if (data.success) {
-                    location.reload();
-                } else {
-                    alert({
-                        title: 'Error!',
-                        content: $t('errorResetingAccounts'),
-                        actions: {
-                            always: function(){}
-                        }
-                    });
-                }
-
-            },
-            error: function (xhr, status, errorThrown) {
-                alert({
-                    title: 'Error!',
-                    content: $t('errorResetingAccounts'),
-                    actions: {
-                        always: function(){}
-                    }
-                });
-            }
-        });
-    });
+    
     $('.resetBackOfficeKey').click(function(event) {
+
+        let scopeId = extractScopeId();
+
         $.ajax({
             url: window.urlResetBackofficeKey,
             data: {
+                scope_id: scopeId,
                 form_key: window.FORM_KEY,
             },
             showLoader: true,
@@ -151,9 +157,13 @@ require([
         });
     });
     $('.requestDynamicMb').click(function(event) {
+
+        let scopeId = extractScopeId();
+
         $.ajax({
             url: window.urlAddMultibancoDeadline,
             data: {
+                scope_id: scopeId,
                 form_key: window.FORM_KEY,
             },
             showLoader: true,

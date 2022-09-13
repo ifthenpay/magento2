@@ -26,6 +26,13 @@
     width: 50%
 }
 
+.ifthenpay-section .ifthenpay-version {
+    display: inline-block;
+    vertical-align: middle;
+    color: #777;
+    padding-right: 10px;
+}
+
 .ifthenpay-multibanco-payment-logo {
     background: url(images/multibanco.png) no-repeat 0 50%/18rem auto;
     height: 100px;
