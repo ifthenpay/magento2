@@ -14,7 +14,7 @@
     <system>
         <section id="payment" translate="label" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
             <group id="ifthenpay" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
-                <label><![CDATA[<div class="ifthenpay-payment-logo"></div><div class="ifthenpay-version">V 1.2.11</div><div class="ifthenpay-payment-text">Payments by Multibanco, MB WAY, Payshop and Credit Card</div>]]></label>
+                <label><![CDATA[<div class="ifthenpay-payment-logo"></div><div class="ifthenpay-version">V 1.2.9</div><div class="ifthenpay-payment-text">Payments by Multibanco, MB WAY, Payshop and Credit Card</div>]]></label>
                 <fieldset_css>complex ifthenpay-section</fieldset_css>
                 <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\Payment</frontend_model>
                 <field id="sandboxMode" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
@@ -73,8 +73,10 @@
                     </field>
                     <field id="validade" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" type="select">
                         <label>Deadline</label>
-                        <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\MultibancoValidadeVisibleField</frontend_model>
                         <source_model>Ifthenpay\Payment\Model\Config\Source\MultibancoValidity</source_model>
+                        <depends>
+                            <field id="entidade">MB</field>
+                        </depends>
                     </field>
                     <field id="requestDynamicMb" translate="label comment" type="button" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
                         <label>Request Multibanco Deadline</label>

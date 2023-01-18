@@ -1,13 +1,13 @@
 <?php
 /**
-* Ifthenpay_Payment module dependency
-*
-* @category    Gateway Payment
-* @package     Ifthenpay_Payment
-* @author      Ifthenpay
-* @copyright   Ifthenpay (http://www.ifthenpay.com)
-* @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
-*/
+ * Ifthenpay_Payment module dependency
+ *
+ * @category    Gateway Payment
+ * @package     Ifthenpay_Payment
+ * @author      Ifthenpay
+ * @copyright   Ifthenpay (http://www.ifthenpay.com)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
 
 declare(strict_types=1);
 
@@ -58,13 +58,13 @@ class Gateway
 
     public function authenticate(string $backofficeKey): void
     {
-            $authenticate = $this->webService->postRequest(
-                'https://www.ifthenpay.com/IfmbWS/ifmbws.asmx/' .
-                'getEntidadeSubentidadeJsonV2',
-                [
-                   'chavebackoffice' => $backofficeKey,
-                ]
-            )->getResponseJson();
+        $authenticate = $this->webService->postRequest(
+            'https://www.ifthenpay.com/IfmbWS/ifmbws.asmx/' .
+            'getEntidadeSubentidadeJsonV2',
+            [
+                'chavebackoffice' => $backofficeKey,
+            ]
+        )->getResponseJson();
 
         if (!$authenticate[0]['Entidade'] && empty($authenticate[0]['SubEntidade'])) {
             throw new \Exception('Backoffice key is invalid');
@@ -90,7 +90,7 @@ class Gateway
         foreach ($this->account as $account) {
             if (in_array(strtolower($account['Entidade']), $this->paymentMethods)) {
                 $userPaymentMethods[] = strtolower($account['Entidade']);
-            } elseif (is_numeric($account['Entidade'])) {
+            } elseif (is_numeric($account['Entidade']) || $account['Entidade'] === Multibanco::DYNAMIC_MB_ENTIDADE) {
                 $userPaymentMethods[] = $this->paymentMethods[0];
             }
         }
@@ -99,12 +99,14 @@ class Gateway
 
     public function getSubEntidadeInEntidade(string $entidade): array
     {
-        return array_values(array_filter(
-            $this->account,
-            function ($value) use ($entidade) {
-                return $value['Entidade'] === $entidade;
-            }
-        ));
+        return array_values(
+            array_filter(
+                $this->account,
+                function ($value) use ($entidade) {
+                    return $value['Entidade'] === $entidade;
+                }
+            )
+        );
     }
 
     public function getEntidadeSubEntidade(string $paymentMethod): array
@@ -130,7 +132,8 @@ class Gateway
 
     public function checkDynamicMb(array $userAccount): bool
     {
-        $multibancoDynamicKey = array_filter(array_column($userAccount, 'Entidade'),
+        $multibancoDynamicKey = array_filter(
+            array_column($userAccount, 'Entidade'),
             function ($value) {
                 return $value === Multibanco::DYNAMIC_MB_ENTIDADE;
             }

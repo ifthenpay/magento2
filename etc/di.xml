@@ -310,7 +310,6 @@
             <argument name="ifthenpayLogger" xsi:type="object">Ifthenpay\Payment\Logger\IfthenpayLogger</argument>
         </arguments>
     </type>
-    <preference for="PayPal\Braintree\Gateway\Data\Order\OrderAdapter" type="Ifthenpay\Payment\Gateway\Data\Order\OrderAdapter"/>
     <preference for="Ifthenpay\Payment\Api\MultibancoRepositoryInterface" type="Ifthenpay\Payment\Model\MultibancoRepository"/>
     <preference for="Ifthenpay\Payment\Api\MbwayRepositoryInterface" type="Ifthenpay\Payment\Model\MbwayRepository"/>
     <preference for="Ifthenpay\Payment\Api\PayshopRepositoryInterface" type="Ifthenpay\Payment\Model\PayshopRepository"/>
