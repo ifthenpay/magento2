@@ -17,7 +17,4 @@
     <event name="sales_order_payment_save_before">
         <observer name="payment_before_save" instance="Ifthenpay\Payment\Observer\IfthenpayBeforeOrderPaymentSaveObserver" />
     </event>
-    <event name="sales_order_save_after">
-        <observer name="sales_order_save_after" instance="Ifthenpay\Payment\Observer\OrderSaveAfter"/>
-    </event>
 </config>

@@ -1,13 +1,13 @@
 <?php
 /**
-* Ifthenpay_Payment module dependency
-*
-* @category    Gateway Payment
-* @package     Ifthenpay_Payment
-* @author      Ifthenpay
-* @copyright   Ifthenpay (http://www.ifthenpay.com)
-* @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
-*/
+ * Ifthenpay_Payment module dependency
+ *
+ * @category    Gateway Payment
+ * @package     Ifthenpay_Payment
+ * @author      Ifthenpay
+ * @copyright   Ifthenpay (http://www.ifthenpay.com)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
 
 declare(strict_types=1);
 
@@ -32,8 +32,7 @@ class Callback
     private $urlCallbackParameters = [
         Gateway::MULTIBANCO => '?type=offline&payment={paymentMethod}&chave=[CHAVE_ANTI_PHISHING]&entidade=[ENTIDADE]&referencia=[REFERENCIA]&valor=[VALOR]',
         Gateway::MBWAY => '?type=offline&payment={paymentMethod}&chave=[CHAVE_ANTI_PHISHING]&referencia=[REFERENCIA]&id_pedido=[ID_TRANSACAO]&valor=[VALOR]&estado=[ESTADO]',
-        Gateway::PAYSHOP => '?type=offline&payment={paymentMethod}&chave=[CHAVE_ANTI_PHISHING]&id_cliente=[ID_CLIENTE]&id_transacao=[ID_TRANSACAO]&referencia=[REFERENCIA]&valor=[VALOR]&estado=[ESTADO]',
-        Gateway::CCARD => '?type=offline&payment={paymentMethod}&chave=[CHAVE_ANTI_PHISHING]&requestId=[REQUEST_ID]&orderId=[ORDER_ID]&valor=[VALOR]'
+        Gateway::PAYSHOP => '?type=offline&payment={paymentMethod}&chave=[CHAVE_ANTI_PHISHING]&id_cliente=[ID_CLIENTE]&id_transacao=[ID_TRANSACAO]&referencia=[REFERENCIA]&valor=[VALOR]&estado=[ESTADO]'
     ];
 
     public function __construct(GatewayDataBuilder $data, WebService $webService)
@@ -59,11 +58,11 @@ class Callback
         $request = $this->webService->postRequest(
             $this->activateEndpoint,
             [
-            'chave' => $this->backofficeKey,
-            'entidade' => $this->entidade,
-            'subentidade' => $this->subEntidade,
-            'apKey' => $this->chaveAntiPhishing,
-            'urlCb' => $this->urlCallback,
+                'chave' => $this->backofficeKey,
+                'entidade' => $this->entidade,
+                'subentidade' => $this->subEntidade,
+                'apKey' => $this->chaveAntiPhishing,
+                'urlCb' => $this->urlCallback,
             ],
             true
         );

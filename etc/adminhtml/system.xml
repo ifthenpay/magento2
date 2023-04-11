@@ -14,7 +14,7 @@
     <system>
         <section id="payment" translate="label" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
             <group id="ifthenpay" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
-                <label><![CDATA[<div class="ifthenpay-payment-logo"></div><div class="ifthenpay-version">V 1.2.9</div><div class="ifthenpay-payment-text">Payments by Multibanco, MB WAY, Payshop and Credit Card</div>]]></label>
+                <label><![CDATA[<div class="ifthenpay-payment-logo"></div><div class="ifthenpay-version">V 1.2.13</div><div class="ifthenpay-payment-text">Payments by Multibanco, MB WAY, Payshop and Credit Card</div>]]></label>
                 <fieldset_css>complex ifthenpay-section</fieldset_css>
                 <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\Payment</frontend_model>
                 <field id="sandboxMode" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
@@ -225,12 +225,6 @@
                         <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\ActiveShowPaymentIconField</frontend_model>
                         <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                     </field>
-                    <field id="activeCallback" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
-                        <label>Activate Callback</label>
-                        <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\ActiveCallbackVisibleField</frontend_model>
-                        <comment>Activate callback automatically. If sandbox mode is enabled, callback will not activate.</comment>
-                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                    </field>
                     <field id="cancelOrder" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
                         <label>Cancel Credit Card Order</label>
                         <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\CancelOrderVisibleField</frontend_model>
@@ -247,9 +241,6 @@
                         <label>Request Credit Card Account</label>
                         <comment>Don't have credit card account? Click to request an credit card account</comment>
                         <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\AddNewAccountBtn</frontend_model>
-                    </field>
-                    <field id="callbackInfo" sortOrder="161" showInDefault="1" showInWebsite="1" showInStore="1">
-                        <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\CallbackInfo</frontend_model>
                     </field>
                     <field id="allowspecific" translate="label" type="allowspecific" sortOrder="50" showInDefault="1" showInWebsite="1" canRestore="1">
                         <label>Payment from Applicable Countries</label>

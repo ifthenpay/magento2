@@ -1,13 +1,13 @@
 <?php
 /**
-* Ifthenpay_Payment module dependency
-*
-* @category    Gateway Payment
-* @package     Ifthenpay_Payment
-* @author      Ifthenpay
-* @copyright   Ifthenpay (http://www.ifthenpay.com)
-* @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
-*/
+ * Ifthenpay_Payment module dependency
+ *
+ * @category    Gateway Payment
+ * @package     Ifthenpay_Payment
+ * @author      Ifthenpay
+ * @copyright   Ifthenpay (http://www.ifthenpay.com)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
 
 namespace Ifthenpay\Payment\Lib\Payments\Cancel;
 
@@ -21,7 +21,8 @@ use Magento\Sales\Model\ResourceModel\Order\CollectionFactory;
 use Ifthenpay\Payment\Lib\Factory\Payment\PaymentStatusFactory;
 use Ifthenpay\Payment\Lib\Traits\Payments\GatewayDataBuilderBackofficeKey;
 
-abstract class CancelOrder {
+abstract class CancelOrder
+{
 
     use GatewayDataBuilderBackofficeKey;
 
@@ -32,6 +33,7 @@ abstract class CancelOrder {
     protected $gatewayDataBuilder;
     protected $logger;
     protected $pendingOrders;
+    protected $paymentReviewOrders;
     protected $payment;
     protected $orderRepository;
 
@@ -55,12 +57,24 @@ abstract class CancelOrder {
 
     protected function setPendingOrders(): void
     {
-        $colection = $this->orderCollectionFactory->create()->addFieldToFilter('status',  'pending');
-        $colection->getSelect()->join(["sop" => "sales_order_payment"],
-                'main_table.entity_id = sop.parent_id',
-                array('method')
+        $colection = $this->orderCollectionFactory->create()->addFieldToFilter('status', 'pending');
+        $colection->getSelect()->join(
+            ["sop" => "sales_order_payment"],
+            'main_table.entity_id = sop.parent_id',
+            array('method')
         )->where('sop.method = ?', $this->paymentMethod);
         $this->pendingOrders = $colection;
+    }
+
+    protected function setPaymentReviewOrders(): void
+    {
+        $colection = $this->orderCollectionFactory->create()->addFieldToFilter('status', 'payment_review');
+        $colection->getSelect()->join(
+            ["sop" => "sales_order_payment"],
+            'main_table.entity_id = sop.parent_id',
+            array('method')
+        )->where('sop.method = ?', $this->paymentMethod);
+        $this->paymentReviewOrders = $colection;
     }
 
     protected function changeIfthenpayPaymentStatus(string $orderId): void
@@ -77,18 +91,18 @@ abstract class CancelOrder {
         $time = new \DateTime($order->getCreatedAt());
         if (!is_null($days) && is_null($paymentDeadline) && is_null($dateFormat)) {
             $time->add(new \DateInterval('P' . $days . 'D'));
-            $time->settime(0,0);
-            $today->settime(0,0);
+            $time->settime(0, 0);
+            $today->settime(0, 0);
         } else if (!is_null($paymentDeadline) && !is_null($dateFormat) && is_null($days)) {
             $time = \DateTime::createFromFormat($dateFormat, $paymentDeadline);
-            $time->settime(0,0);
-            $today->settime(0,0);
+            $time->settime(0, 0);
+            $today->settime(0, 0);
         } else {
             $time->add(new \DateInterval('PT' . 30 . 'M'));
         }
         if ($time < $today) {
             $order->setState(Order::STATE_CANCELED)
-            ->setStatus($order->getConfig()->getStateDefaultStatus(Order::STATE_CANCELED));
+                ->setStatus($order->getConfig()->getStateDefaultStatus(Order::STATE_CANCELED));
             $this->orderRepository->save($order);
             $this->changeIfthenpayPaymentStatus($order->getIncrementId());
         }
@@ -96,7 +110,7 @@ abstract class CancelOrder {
 
     protected function logCancelOrder(string $paymentMethod, string $idPedido, array $orderData): void
     {
-        $this->logger->debug('Cancel ' . $paymentMethod .  ' order executed with success', [
+        $this->logger->debug('Cancel ' . $paymentMethod . ' order executed with success', [
             'gatewayDataBuilder' => $this->gatewayDataBuilder,
             'idPedido' => $idPedido,
             'order' => $orderData

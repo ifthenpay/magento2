@@ -1,13 +1,13 @@
 <?php
 /**
-* Ifthenpay_Payment module dependency
-*
-* @category    Gateway Payment
-* @package     Ifthenpay_Payment
-* @author      Ifthenpay
-* @copyright   Ifthenpay (http://www.ifthenpay.com)
-* @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
-*/
+ * Ifthenpay_Payment module dependency
+ *
+ * @category    Gateway Payment
+ * @package     Ifthenpay_Payment
+ * @author      Ifthenpay
+ * @copyright   Ifthenpay (http://www.ifthenpay.com)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
 
 namespace Ifthenpay\Payment\Lib\Payments\Cancel;
 
@@ -23,7 +23,8 @@ use Ifthenpay\Payment\Lib\Factory\Model\RepositoryFactory;
 use Magento\Sales\Model\ResourceModel\Order\CollectionFactory;
 use Ifthenpay\Payment\Lib\Factory\Payment\PaymentStatusFactory;
 
-class CancelCCardOrder extends CancelOrder {
+class CancelCCardOrder extends CancelOrder
+{
 
     protected $paymentMethod = Gateway::CCARD;
     private $convertEuros;
@@ -37,8 +38,7 @@ class CancelCCardOrder extends CancelOrder {
         IfthenpayLogger $logger,
         ConvertEuros $convertEuros,
         OrderRepositoryInterface $orderRepository
-    )
-	{
+    ) {
         parent::__construct(
             $orderCollectionFactory,
             $dataFactory,
@@ -49,7 +49,7 @@ class CancelCCardOrder extends CancelOrder {
             $orderRepository
         );
         $this->convertEuros = $convertEuros;
-	}
+    }
 
 
 
@@ -57,16 +57,18 @@ class CancelCCardOrder extends CancelOrder {
     {
         try {
             if ($this->configData['cancelOrder']) {
-                $this->setPendingOrders();
-                if ($this->pendingOrders->getSize()) {
-                    foreach ($this->pendingOrders as $order) {
+                $this->setPaymentReviewOrders();
+
+                if ($this->paymentReviewOrders->getSize()) {
+                    foreach ($this->paymentReviewOrders as $order) {
                         $payment = $order->getPayment();
                         $idPedido = $payment->getAdditionalInformation('idPedido');
                         if ($idPedido) {
                             $this->setGatewayDataBuilderBackofficeKey();
                             $this->gatewayDataBuilder->setCCardKey($this->configData['ccardKey']);
                             $this->gatewayDataBuilder->setReferencia((string) $order->getIncrementId());
-                            $this->gatewayDataBuilder->setTotalToPay($this->convertEuros->execute(
+                            $this->gatewayDataBuilder->setTotalToPay(
+                                $this->convertEuros->execute(
                                     $order->getOrderCurrencyCode(),
                                     $order->getGrandTotal()
                                 )
@@ -76,7 +78,7 @@ class CancelCCardOrder extends CancelOrder {
                             }
                         }
                         $this->logCancelOrder(Gateway::CCARD, $idPedido, $order->getData());
-                    };
+                    }
                 }
 
             }
