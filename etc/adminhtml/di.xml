@@ -1,40 +1,26 @@
 <?xml version="1.0"?>
 <!--
 /**
-* Ifthenpay_Payment module dependency
-*
-* @category    Gateway Payment
-* @package     Ifthenpay_Payment
-* @author      Ifthenpay
-* @copyright   Ifthenpay (http://www.ifthenpay.com)
-* @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
-*/
+ * @category    Gateway Payment
+ * @package     Ifthenpay_Payment
+ * @author      Ifthenpay
+ * @copyright   Ifthenpay (https://www.ifthenpay.com)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
 -->
+
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
-    <virtualType name="gateway" type="Ifthenpay\Payment\Lib\Payments\Gateway">
-    </virtualType>
-    <preference for="Magento\Framework\Data\OptionSourceInterface" type="Ifthenpay\Payment\Model\Config\Source\Entidade"/>
-    <type name="Ifthenpay\Payment\Model\Config\Backend\Config">
+    <type name="Ifthenpay\Payment\Logger\Handler">
         <arguments>
-            <argument name="gateway" xsi:type="object">gateway</argument>
+            <argument name="filesystem" xsi:type="object">Magento\Framework\Filesystem\Driver\File</argument>
         </arguments>
     </type>
-    <type name="Ifthenpay\Payment\Model\Config\Source\Entidade">
+    <type name="Ifthenpay\Payment\Logger\Logger">
         <arguments>
-            <argument name="gateway" xsi:type="object">gateway</argument>
-            <argument name="dataFactory" xsi:type="object">dataFactory</argument>
+            <argument name="name" xsi:type="string">ifThenPayLogger</argument>
+            <argument name="handlers"  xsi:type="array">
+                <item name="system" xsi:type="object">Ifthenpay\Payment\Logger\Handler</item>
+            </argument>
         </arguments>
     </type>
-    <virtualType name="upgradeModuleNotification" type="Ifthenpay\Payment\Model\Message\UpgradeModuleNotification">
-        <arguments>
-            <argument name="webService" xsi:type="object">webService</argument>
-        </arguments>
-    </virtualType>
-    <type name="Magento\Framework\Notification\MessageList">
-       <arguments>
-           <argument name="messages" xsi:type="array">
-               <item name="Notification" xsi:type="string">upgradeModuleNotification</item>
-           </argument>
-       </arguments>
-   </type>
 </config>

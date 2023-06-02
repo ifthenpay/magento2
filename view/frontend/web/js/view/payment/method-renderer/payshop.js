@@ -17,10 +17,13 @@ define([
             template: 'Ifthenpay_Payment/payment/payshopForm'
         },
         getLogoUrl: function () {
-                return window.checkoutConfig.payment.payshop.logoUrl;
+                return window.checkoutConfig.payment.ifthenpay_payshop.logoUrl;
         },
         getShowPaymentIcon: function () {
-            return window.checkoutConfig.payment.payshop.showPaymentIcon ? window.checkoutConfig.payment.payshop.showPaymentIcon : false;
-        }
+            return window.checkoutConfig.payment.ifthenpay_payshop.showPaymentIcon ? window.checkoutConfig.payment.ifthenpay_payshop.showPaymentIcon : false;
+        },
+        getTitle: function () {
+            return window.checkoutConfig.payment.ifthenpay_payshop.title;
+        },
     });
 });

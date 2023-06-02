@@ -1,317 +1,461 @@
 <?xml version="1.0"?>
 <!--
 /**
-* Ifthenpay_Payment module dependency
-*
-* @category    Gateway Payment
-* @package     Ifthenpay_Payment
-* @author      Ifthenpay
-* @copyright   Ifthenpay (http://www.ifthenpay.com)
-* @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
-*/
+ * @category    Gateway Payment
+ * @package     Ifthenpay_Payment
+ * @author      Ifthenpay
+ * @copyright   Ifthenpay (https://www.ifthenpay.com)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
-    <type name="Ifthenpay\Payment\Logger\Handler\IfthenpayLogHandler">
+    <type name="Ifthenpay\Payment\Logger\Handler">
         <arguments>
             <argument name="filesystem" xsi:type="object">Magento\Framework\Filesystem\Driver\File</argument>
         </arguments>
     </type>
-    <type name="Ifthenpay\Payment\Logger\IfthenpayLogger">
+    <type name="Ifthenpay\Payment\Logger\Logger">
         <arguments>
-            <argument name="name" xsi:type="string">ifthenpayLogger</argument>
+            <argument name="name" xsi:type="string">ifThenPayLogger</argument>
             <argument name="handlers" xsi:type="array">
-                <item name="system" xsi:type="object">Ifthenpay\Payment\Logger\Handler\IfthenpayLogHandler</item>
+                <item name="system" xsi:type="object">Ifthenpay\Payment\Logger\Handler</item>
             </argument>
         </arguments>
     </type>
-    <virtualType name="ifthenpayConfigFormFactory" type="Ifthenpay\Payment\Lib\Factory\Config\IfthenpayConfigFormFactory"></virtualType>
-    <virtualType name="dataFactory" type="Ifthenpay\Payment\Helper\Factory\DataFactory"></virtualType>
-    <virtualType name="client" type="GuzzleHttp\Client"></virtualType>
-    <virtualType name="dataBuilder" type="Ifthenpay\Payment\Lib\Builders\DataBuilder"></virtualType>
-    <virtualType name="gatewayDataBuilder" type="Ifthenpay\Payment\Lib\Builders\GatewayDataBuilder"></virtualType>
-    <virtualType name="webService" type="Ifthenpay\Payment\Lib\Request\WebService">
-        <arguments>
-            <argument name="client" xsi:type="object">client</argument>
-        </arguments>
-    </virtualType>
-    <virtualType name="paymentFactory" type="Ifthenpay\Payment\Lib\Factory\Payment\PaymentFactory">
-        <arguments>
-            <argument name="dataBuilder" xsi:type="object">dataBuilder</argument>
-            <argument name="webService" xsi:type="object">webService</argument>
-            <argument name="ifthenpayLogger" xsi:type="object">Ifthenpay\Payment\Logger\IfthenpayLogger</argument>
-        </arguments>
-    </virtualType>
-    <virtualType name="gateway" type="Ifthenpay\Payment\Lib\Payments\Gateway">
-        <arguments>
-            <argument name="webService" xsi:type="object">webService</argument>
-            <argument name="paymentFactory" xsi:type="object">paymentFactory</argument>
-        </arguments>
-    </virtualType>
-    <virtualType name="token" type="Ifthenpay\Payment\Lib\Utility\Token"></virtualType>
-    <virtualType name="status" type="Ifthenpay\Payment\Lib\Utility\Status"></virtualType>
-    <virtualType name="tokenExtra" type="Ifthenpay\Payment\Lib\Utility\TokenExtra"></virtualType>
-    <virtualType name="modelFactory" type="Ifthenpay\Payment\Lib\Factory\Model\ModelFactory"></virtualType>
-    <virtualType name="repositoryFactory" type="Ifthenpay\Payment\Lib\Factory\Model\RepositoryFactory">
-        <arguments>
-            <argument name="multibancoRepository" xsi:type="object">Ifthenpay\Payment\Model\MultibancoRepository</argument>
-            <argument name="mbwayRepository" xsi:type="object">Ifthenpay\Payment\Model\MbwayRepository</argument>
-            <argument name="payshopRepository" xsi:type="object">Ifthenpay\Payment\Model\PayshopRepository</argument>
-            <argument name="ccardRepository" xsi:type="object">Ifthenpay\Payment\Model\CCardRepository</argument>
-        </arguments>
-    </virtualType>
-    <virtualType name="paymentReturnFactory" type="Ifthenpay\Payment\Lib\Factory\Payment\PaymentReturnFactory">
-        <arguments>
-            <argument name="modelFactory" xsi:type="object">modelFactory</argument>
-            <argument name="gatewayDataBuilder" xsi:type="object">gatewayDataBuilder</argument>
-            <argument name="gateway" xsi:type="object">gateway</argument>
-            <argument name="token" xsi:type="object">token</argument>
-            <argument name="status" xsi:type="object">status</argument>
-            <argument name="repositoryFactory" xsi:type="object">repositoryFactory</argument>
-            <argument name="convertEuros" xsi:type="object">convertEuros</argument>
-            <argument name="ifthenpayLogger" xsi:type="object">Ifthenpay\Payment\Logger\IfthenpayLogger</argument>
-        </arguments>
-    </virtualType>
-    <type name="Ifthenpay\Payment\Lib\Strategy\Payments\IfthenpayPaymentReturn">
-        <arguments>
-            <argument name="dataBuilder" xsi:type="object">dataBuilder</argument>
-            <argument name="paymentReturnFactory" xsi:type="object">factory</argument>
-        </arguments>
-    </type>
-    <virtualType name="createInvoiceService" type="Ifthenpay\Payment\Model\Service\CreateInvoiceService"></virtualType>
-    <virtualType name="callbackDataFactory" type="Ifthenpay\Payment\Lib\Factory\Callback\CallbackDataFactory">
-        <arguments>
-            <argument name="modelFactory" xsi:type="object">modelFactory</argument>
-        </arguments>
-    </virtualType>
-    <virtualType name="callbackValidate" type="Ifthenpay\Payment\Lib\Callback\CallbackValidate"></virtualType>
-    <virtualType name="callbackOnline" type="Ifthenpay\Payment\Lib\Callback\CallbackOnline">
-        <arguments>
-            <argument name="callbackDataFactory" xsi:type="object">callbackDataFactory</argument>
-            <argument name="callbackValidate" xsi:type="object">callbackValidate</argument>
-            <argument name="status" xsi:type="object">status</argument>
-            <argument name="token" xsi:type="object">token</argument>
-            <argument name="tokenExtra" xsi:type="object">tokenExtra</argument>
-            <argument name="modelFactory" xsi:type="object">modelFactory</argument>
-            <argument name="createInvoiceService" xsi:type="object">createInvoiceService</argument>
-            <argument name="dataFactory" xsi:type="object">dataFactory</argument>
-            <argument name="repositoryFactory" xsi:type="object">repositoryFactory</argument>
-            <argument name="ifthenpayLogger" xsi:type="object">Ifthenpay\Payment\Logger\IfthenpayLogger</argument>
-        </arguments>
-    </virtualType>
-    <virtualType name="callbackOffline" type="Ifthenpay\Payment\Lib\Callback\CallbackOffline">
-        <arguments>
-            <argument name="callbackDataFactory" xsi:type="object">callbackDataFactory</argument>
-            <argument name="callbackValidate" xsi:type="object">callbackValidate</argument>
-            <argument name="modelFactory" xsi:type="object">modelFactory</argument>
-            <argument name="createInvoiceService" xsi:type="object">createInvoiceService</argument>
-            <argument name="dataFactory" xsi:type="object">dataFactory</argument>
-            <argument name="repositoryFactory" xsi:type="object">repositoryFactory</argument>
-            <argument name="ifthenpayLogger" xsi:type="object">Ifthenpay\Payment\Logger\IfthenpayLogger</argument>
-        </arguments>
-    </virtualType>
 
-    <type name="Ifthenpay\Payment\Lib\Strategy\Callback\CallbackStrategy">
-        <arguments>
-            <argument name="callbackOffline" xsi:type="object">callbackOffline</argument>
-            <argument name="callbackOnline" xsi:type="object">callbackOnline</argument>
-        </arguments>
-    </type>
-    <type name="Ifthenpay\Payment\Lib\Payments\MbWayPaymentStatus">
-        <arguments>
-            <argument name="webService" xsi:type="object">webService</argument>
-        </arguments>
-    </type>
-    <virtualType name="convertEuros" type="Ifthenpay\Payment\Lib\Utility\ConvertEuros"></virtualType>
-    <virtualType name="paymentStatusFactory" type="Ifthenpay\Payment\Lib\Factory\Payment\PaymentStatusFactory">
-        <arguments>
-            <argument name="webService" xsi:type="object">webService</argument>
-            <argument name="ifthenpayLogger" xsi:type="object">Ifthenpay\Payment\Logger\IfthenpayLogger</argument>
-        </arguments>
-    </virtualType>
+    <!-- MULTIBANCO start-->
 
-    <virtualType name="paymentChangeStatusFactory" type="Ifthenpay\Payment\Lib\Factory\Payment\PaymentChangeStatusFactory">
+    <!-- Payment Method Facade configuration -->
+    <virtualType name="IfthenpayMultibancoFacade" type="Magento\Payment\Model\Method\Adapter">
         <arguments>
-            <argument name="gatewayDataBuilder" xsi:type="object">gatewayDataBuilder</argument>
-            <argument name="webService" xsi:type="object">webService</argument>
-            <argument name="paymentStatusFactory" xsi:type="object">paymentStatusFactory</argument>
-            <argument name="dataFactory" xsi:type="object">dataFactory</argument>
-            <argument name="repositoryFactory" xsi:type="object">repositoryFactory</argument>
-            <argument name="createInvoiceService" xsi:type="object">createInvoiceService</argument>
-            <argument name="convertEuros" xsi:type="object">convertEuros</argument>
-            <argument name="ifthenpayLogger" xsi:type="object">Ifthenpay\Payment\Logger\IfthenpayLogger</argument>
+            <argument name="code" xsi:type="const">Ifthenpay\Payment\Model\Ui\MultibancoConfigProvider::CODE</argument>
+            <argument name="config" xsi:type="object">IfthenpayMultibancoConfig</argument>
+            <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
+            <argument name="infoBlockType" xsi:type="string">Ifthenpay\Payment\Block\IfthenpayInfo</argument>
+            <argument name="valueHandlerPool" xsi:type="object">IfthenpayMultibancoValueHandlerPool</argument>
+            <argument name="validatorPool" xsi:type="object">IfthenpayMultibancoValidatorPool</argument>
+            <argument name="commandPool" xsi:type="object">IfthenpayMultibancoGatewayCommandPool</argument>
         </arguments>
     </virtualType>
-    <virtualType name="cancelIfthenpayOrderFactory" type="Ifthenpay\Payment\Lib\Factory\Cancel\CancelIfthenpayOrderFactory">
-        <arguments>
-            <argument name="dataFactory" xsi:type="object">dataFactory</argument>
-            <argument name="paymentStatusFactory" xsi:type="object">paymentStatusFactory</argument>
-            <argument name="repositoryFactory" xsi:type="object">repositoryFactory</argument>
-            <argument name="gatewayDataBuilder" xsi:type="object">gatewayDataBuilder</argument>
-            <argument name="ifthenpayLogger" xsi:type="object">Ifthenpay\Payment\Logger\IfthenpayLogger</argument>
-            <argument name="convertEuros" xsi:type="object">convertEuros</argument>
-        </arguments>
-    </virtualType>
-    <virtualType name="ifthenpayPaymentStatus" type="Ifthenpay\Payment\Lib\Strategy\Payments\IfthenpayPaymentStatus">
-        <arguments>
-            <argument name="paymentChangeStatusFactory" xsi:type="object">paymentChangeStatusFactory</argument>
-        </arguments>
-    </virtualType>
-
-    <type name="Ifthenpay\Payment\Cron\CheckIfthenpayPaymentStatus">
-        <arguments>
-            <argument name="ifthenpayPaymentStatus" xsi:type="object">ifthenpayPaymentStatus</argument>
-            <argument name="gateway" xsi:type="object">gateway</argument>
-            <argument name="ifthenpayLogger" xsi:type="object">Ifthenpay\Payment\Logger\IfthenpayLogger</argument>
-        </arguments>
-    </type>
-    <type name="Ifthenpay\Payment\Cron\CancelIfthenpayOrder">
-        <arguments>
-            <argument name="cancelIfthenpayOrderFactory" xsi:type="object">cancelIfthenpayOrderFactory</argument>
-            <argument name="gateway" xsi:type="object">gateway</argument>
-            <argument name="ifthenpayLogger" xsi:type="object">Ifthenpay\Payment\Logger\IfthenpayLogger</argument>
-        </arguments>
-    </type>
 
     <!-- Configuration reader -->
-    <virtualType name="IfthenpayCCardConfig" type="Magento\Payment\Gateway\Config\Config">
+    <virtualType name="IfthenpayMultibancoConfig" type="Magento\Payment\Gateway\Config\Config">
         <arguments>
-            <argument name="methodCode" xsi:type="const">Ifthenpay\Payment\Model\Ui\IfthenpayCCardConfigProvider::CODE</argument>
+            <argument name="methodCode" xsi:type="const">Ifthenpay\Payment\Model\Ui\MultibancoConfigProvider::CODE</argument>
         </arguments>
     </virtualType>
-    <virtualType name="IfthenpayCCardConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
+
+
+    <!-- Validators -->
+    <virtualType name="IfthenpayMultibancoValidatorPool" type="Magento\Payment\Gateway\Validator\ValidatorPool">
         <arguments>
-            <argument name="configInterface" xsi:type="object">IfthenpayCCardConfig</argument>
-        </arguments>
-    </virtualType>
-    <!-- Value handlers infrastructure -->
-    <virtualType name="IfthenpayCCardValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
-        <arguments>
-            <argument name="handlers" xsi:type="array">
-                <item name="default" xsi:type="string">IfthenpayCCardConfigValueHandler</item>
+            <argument name="validators" xsi:type="array">
+                <item name="country" xsi:type="string">IfthenpayMultibancoCountryValidator</item>
+                <item name="currency" xsi:type="string">Ifthenpay\Payment\Gateway\Validator\CurrencyValidator</item>
             </argument>
         </arguments>
     </virtualType>
-
-     <!-- Payment Method Facade configuration -->
-    <virtualType name="IfthenpayCCardFacade" type="Ifthenpay\Payment\Model\Method\IfthenpayAdapter">
+    <virtualType name="IfthenpayMultibancoCountryValidator" type="Magento\Payment\Gateway\Validator\CountryValidator">
         <arguments>
-            <argument name="code" xsi:type="const">Ifthenpay\Payment\Model\Ui\IfthenpayCCardConfigProvider::CODE</argument>
-            <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
-            <argument name="infoBlockType" xsi:type="string">Ifthenpay\Payment\Block\Info</argument>
-            <argument name="valueHandlerPool" xsi:type="object">IfthenpayCCardValueHandlerPool</argument>
-            <argument name="validatorPool" xsi:type="object">IfthenpayCCardValidatorPool</argument>
-            <argument name="commandPool" xsi:type="object">IfthenpayCCardCommandPool</argument>
+            <argument name="config" xsi:type="object">IfthenpayMultibancoConfig</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Value handlers infrastructure -->
+    <virtualType name="IfthenpayMultibancoValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="default" xsi:type="string">IfthenpayMultibancoConfigValueHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="IfthenpayMultibancoConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
+        <arguments>
+            <argument name="configInterface" xsi:type="object">IfthenpayMultibancoConfig</argument>
         </arguments>
     </virtualType>
 
 
-
-    <!-- Logger, initialized with CCardConfig -->
-    <virtualType name="IfthenpayCCardLogger" type="Magento\Payment\Model\Method\Logger">
+    <!-- inject config to gateway config -->
+    <type name="Ifthenpay\Payment\Gateway\Config\MultibancoConfig">
         <arguments>
-            <argument name="config" xsi:type="object">IfthenpayCCardConfig</argument>
-        </arguments>
-    </virtualType>
-
-    <type name="Ifthenpay\Payment\Gateway\Http\Client\Client">
-        <arguments>
-            <argument name="logger" xsi:type="object">Ifthenpay\Payment\Logger\IfthenpayLogger</argument>
+            <argument name="config" xsi:type="object">IfthenpayMultibancoConfig</argument>
         </arguments>
     </type>
 
     <!-- Commands infrastructure -->
-    <virtualType name="IfthenpayCCardCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
+    <virtualType name="IfthenpayMultibancoGatewayCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
         <arguments>
             <argument name="commands" xsi:type="array">
-                <item name="authorize" xsi:type="string">IfthenpayCCardAuthorizeCommand</item>
+                <item name="initialize" xsi:type="string">IfthenpayMultibancoAuthorizeCommand</item>
             </argument>
         </arguments>
     </virtualType>
 
-    <!-- validators infrastructure -->
-    <virtualType name="IfthenpayCCardCountryValidator" type="Magento\Payment\Gateway\Validator\CountryValidator">
+    <!-- Initialize command -->
+    <virtualType name="IfthenpayMultibancoAuthorizeCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
         <arguments>
-            <argument name="config" xsi:type="object">IfthenpayCCardConfig</argument>
-        </arguments>
-    </virtualType>
-
-    <virtualType name="configValidator" type="Ifthenpay\Payment\Gateway\Validator\ConfigValidator">
-        <arguments>
-            <argument name="dataFactory" xsi:type="object">dataFactory</argument>
-            <argument name="logger" xsi:type="object">Ifthenpay\Payment\Logger\IfthenpayLogger</argument>
-        </arguments>
-    </virtualType>
-
-
-    <virtualType name="IfthenpayCCardValidatorPool" type="Magento\Payment\Gateway\Validator\ValidatorPool">
-        <arguments>
-            <argument name="validators" xsi:type="array">
-                <item name="country" xsi:type="string">IfthenpayCCardCountryValidator</item>
-                <item name="availability" xsi:type="string">configValidator</item>
-            </argument>
-        </arguments>
-    </virtualType>
-    <!-- validators infrastructure -->
-
-    <!-- Sale command -->
-    <virtualType name="IfthenpayCCardAuthorizeCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
-        <arguments>
-            <argument name="requestBuilder" xsi:type="object">IfthenpayCCardAuthorizationRequest</argument>
-            <argument name="handler" xsi:type="object">IfthenpayCCardResponseHandlerComposite</argument>
+            <argument name="requestBuilder" xsi:type="object">IfthenpayMultibancoAuthorizationRequest</argument>
+            <argument name="handler" xsi:type="object">Ifthenpay\Payment\Gateway\Response\MultibancoTxnIdHandler</argument>
             <argument name="transferFactory" xsi:type="object">Ifthenpay\Payment\Gateway\Http\TransferFactory</argument>
-            <argument name="client" xsi:type="object">Ifthenpay\Payment\Gateway\Http\Client\Client</argument>
+            <argument name="client" xsi:type="object">Ifthenpay\Payment\Gateway\Http\Client\MultibancoAuthorizationClient</argument>
         </arguments>
     </virtualType>
 
-    <!-- Sale Request -->
-    <virtualType name="IfthenpayCCardAuthorizationRequest" type="Magento\Payment\Gateway\Request\BuilderComposite">
+    <!-- Authorization Request -->
+    <virtualType name="IfthenpayMultibancoAuthorizationRequest" type="Magento\Payment\Gateway\Request\BuilderComposite">
         <arguments>
             <argument name="builders" xsi:type="array">
-                <item name="transaction" xsi:type="string">Ifthenpay\Payment\Gateway\Request\AuthorizationRequest</item>
+                <item name="transaction" xsi:type="string">Ifthenpay\Payment\Gateway\Request\MultibancoAuthorizationRequest</item>
             </argument>
         </arguments>
     </virtualType>
-
-    <type name="Ifthenpay\Payment\Gateway\Request\AuthorizationRequest">
+    <type name="Ifthenpay\Payment\Gateway\Request\MultibancoAuthorizationRequest">
         <arguments>
-            <argument name="config" xsi:type="object">IfthenpayCCardConfig</argument>
+            <argument name="config" xsi:type="object">IfthenpayMultibancoConfig</argument>
         </arguments>
     </type>
 
-    <virtualType name="ifthenpayTxnIdHandler" type="Ifthenpay\Payment\Gateway\Response\TxnIdHandler">
+    <!-- MULTIBANCO end -->
+
+
+
+
+    <!-- PAYSHOP start-->
+
+    <!-- Payment Method Facade configuration -->
+    <virtualType name="IfthenpayPayshopFacade" type="Magento\Payment\Model\Method\Adapter">
         <arguments>
-            <argument name="ifthenpayLogger" xsi:type="object">Ifthenpay\Payment\Logger\IfthenpayLogger</argument>
+            <argument name="code" xsi:type="const">Ifthenpay\Payment\Model\Ui\PayshopConfigProvider::CODE</argument>
+            <argument name="config" xsi:type="object">IfthenpayPayshopConfig</argument>
+            <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
+            <argument name="infoBlockType" xsi:type="string">Ifthenpay\Payment\Block\IfthenpayInfo</argument>
+            <argument name="valueHandlerPool" xsi:type="object">IfthenpayPayshopValueHandlerPool</argument>
+            <argument name="validatorPool" xsi:type="object">IfthenpayPayshopValidatorPool</argument>
+            <argument name="commandPool" xsi:type="object">IfthenpayPayshopGatewayCommandPool</argument>
         </arguments>
     </virtualType>
 
-    <!-- Response handlers -->
-    <virtualType name="IfthenpayCCardResponseHandlerComposite" type="Magento\Payment\Gateway\Response\HandlerChain">
+    <!-- Configuration reader -->
+    <virtualType name="IfthenpayPayshopConfig" type="Magento\Payment\Gateway\Config\Config">
+        <arguments>
+            <argument name="methodCode" xsi:type="const">Ifthenpay\Payment\Model\Ui\PayshopConfigProvider::CODE</argument>
+        </arguments>
+    </virtualType>
+
+
+    <!-- Validators -->
+    <virtualType name="IfthenpayPayshopValidatorPool" type="Magento\Payment\Gateway\Validator\ValidatorPool">
+        <arguments>
+            <argument name="validators" xsi:type="array">
+                <item name="country" xsi:type="string">IfthenpayPayshopCountryValidator</item>
+                <item name="currency" xsi:type="string">Ifthenpay\Payment\Gateway\Validator\CurrencyValidator</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="IfthenpayPayshopCountryValidator" type="Magento\Payment\Gateway\Validator\CountryValidator">
+        <arguments>
+            <argument name="config" xsi:type="object">IfthenpayPayshopConfig</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Value handlers infrastructure -->
+    <virtualType name="IfthenpayPayshopValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
         <arguments>
             <argument name="handlers" xsi:type="array">
-                <item name="txnid" xsi:type="string">ifthenpayTxnIdHandler</item>
+                <item name="default" xsi:type="string">IfthenpayPayshopConfigValueHandler</item>
             </argument>
         </arguments>
     </virtualType>
-    <type name="Ifthenpay\Payment\Model\MultibancoPayment">
+    <virtualType name="IfthenpayPayshopConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
         <arguments>
-            <argument name="dataFactory" xsi:type="object">dataFactory</argument>
-            <argument name="ifthenpayLogger" xsi:type="object">Ifthenpay\Payment\Logger\IfthenpayLogger</argument>
+            <argument name="configInterface" xsi:type="object">IfthenpayPayshopConfig</argument>
+        </arguments>
+    </virtualType>
+
+
+    <!-- inject config to gateway config -->
+    <type name="Ifthenpay\Payment\Gateway\Config\PayshopConfig">
+        <arguments>
+            <argument name="config" xsi:type="object">IfthenpayPayshopConfig</argument>
         </arguments>
     </type>
-    <type name="Ifthenpay\Payment\Model\MbwayPayment">
+
+
+    <!-- Commands infrastructure -->
+    <virtualType name="IfthenpayPayshopGatewayCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
         <arguments>
-            <argument name="dataFactory" xsi:type="object">dataFactory</argument>
-            <argument name="ifthenpayLogger" xsi:type="object">Ifthenpay\Payment\Logger\IfthenpayLogger</argument>
+            <argument name="commands" xsi:type="array">
+                <item name="initialize" xsi:type="string">IfthenpayPayshopAuthorizeCommand</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Initialize command -->
+    <virtualType name="IfthenpayPayshopAuthorizeCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">IfthenpayPayshopAuthorizationRequest</argument>
+            <argument name="handler" xsi:type="object">Ifthenpay\Payment\Gateway\Response\PayshopTxnIdHandler</argument>
+            <argument name="transferFactory" xsi:type="object">Ifthenpay\Payment\Gateway\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">Ifthenpay\Payment\Gateway\Http\Client\PayshopAuthorizationClient</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Authorization Request -->
+    <virtualType name="IfthenpayPayshopAuthorizationRequest" type="Magento\Payment\Gateway\Request\BuilderComposite">
+        <arguments>
+            <argument name="builders" xsi:type="array">
+                <item name="transaction" xsi:type="string">Ifthenpay\Payment\Gateway\Request\PayshopAuthorizationRequest</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <type name="Ifthenpay\Payment\Gateway\Request\PayshopAuthorizationRequest">
+        <arguments>
+            <argument name="config" xsi:type="object">IfthenpayPayshopConfig</argument>
         </arguments>
     </type>
-    <type name="Ifthenpay\Payment\Model\PayshopPayment">
+
+
+    <!-- PAYSHOP end -->
+
+
+    <!-- MBWAY start-->
+
+    <!-- Payment Method Facade configuration -->
+    <virtualType name="IfthenpayMbwayFacade" type="Magento\Payment\Model\Method\Adapter">
         <arguments>
-            <argument name="dataFactory" xsi:type="object">dataFactory</argument>
-            <argument name="ifthenpayLogger" xsi:type="object">Ifthenpay\Payment\Logger\IfthenpayLogger</argument>
+            <argument name="code" xsi:type="const">Ifthenpay\Payment\Model\Ui\MbwayConfigProvider::CODE</argument>
+            <argument name="config" xsi:type="object">IfthenpayMbwayConfig</argument>
+            <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
+            <argument name="infoBlockType" xsi:type="string">Ifthenpay\Payment\Block\IfthenpayInfo</argument>
+            <argument name="valueHandlerPool" xsi:type="object">IfthenpayMbwayValueHandlerPool</argument>
+            <argument name="validatorPool" xsi:type="object">IfthenpayMbwayValidatorPool</argument>
+            <argument name="commandPool" xsi:type="object">IfthenpayMbwayGatewayCommandPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Configuration reader -->
+    <virtualType name="IfthenpayMbwayConfig" type="Magento\Payment\Gateway\Config\Config">
+        <arguments>
+            <argument name="methodCode" xsi:type="const">Ifthenpay\Payment\Model\Ui\MbwayConfigProvider::CODE</argument>
+        </arguments>
+    </virtualType>
+
+
+    <!-- Validators -->
+    <virtualType name="IfthenpayMbwayValidatorPool" type="Magento\Payment\Gateway\Validator\ValidatorPool">
+        <arguments>
+            <argument name="validators" xsi:type="array">
+                <item name="country" xsi:type="string">IfthenpayMbwayCountryValidator</item>
+                <item name="currency" xsi:type="string">Ifthenpay\Payment\Gateway\Validator\CurrencyValidator</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="IfthenpayMbwayCountryValidator" type="Magento\Payment\Gateway\Validator\CountryValidator">
+        <arguments>
+            <argument name="config" xsi:type="object">IfthenpayMbwayConfig</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Value handlers infrastructure -->
+    <virtualType name="IfthenpayMbwayValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="default" xsi:type="string">IfthenpayMbwayConfigValueHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="IfthenpayMbwayConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
+        <arguments>
+            <argument name="configInterface" xsi:type="object">IfthenpayMbwayConfig</argument>
+        </arguments>
+    </virtualType>
+
+
+    <!-- inject config to gateway config -->
+    <type name="Ifthenpay\Payment\Gateway\Config\MbwayConfig">
+        <arguments>
+            <argument name="config" xsi:type="object">IfthenpayMbwayConfig</argument>
         </arguments>
     </type>
-    <preference for="Ifthenpay\Payment\Api\MultibancoRepositoryInterface" type="Ifthenpay\Payment\Model\MultibancoRepository"/>
-    <preference for="Ifthenpay\Payment\Api\MbwayRepositoryInterface" type="Ifthenpay\Payment\Model\MbwayRepository"/>
-    <preference for="Ifthenpay\Payment\Api\PayshopRepositoryInterface" type="Ifthenpay\Payment\Model\PayshopRepository"/>
-    <preference for="Ifthenpay\Payment\Api\CCardRepositoryInterface" type="Ifthenpay\Payment\Model\CCardRepository"/>
+
+
+
+    <!-- Commands infrastructure -->
+    <virtualType name="IfthenpayMbwayGatewayCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="initialize" xsi:type="string">IfthenpayMbwayAuthorizeCommand</item>
+                <item name="refund" xsi:type="string">IfthenpayRefundCommand</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Initialize command -->
+    <virtualType name="IfthenpayMbwayAuthorizeCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">IfthenpayMbwayAuthorizationRequest</argument>
+            <argument name="handler" xsi:type="object">Ifthenpay\Payment\Gateway\Response\MbwayTxnIdHandler</argument>
+            <argument name="transferFactory" xsi:type="object">Ifthenpay\Payment\Gateway\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">Ifthenpay\Payment\Gateway\Http\Client\MbwayAuthorizationClient</argument>
+        </arguments>
+    </virtualType>
+
+
+
+    <!-- Authorization Request -->
+    <virtualType name="IfthenpayMbwayAuthorizationRequest" type="Magento\Payment\Gateway\Request\BuilderComposite">
+        <arguments>
+            <argument name="builders" xsi:type="array">
+                <item name="transaction" xsi:type="string">Ifthenpay\Payment\Gateway\Request\MbwayAuthorizationRequest</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <type name="Ifthenpay\Payment\Gateway\Request\MbwayAuthorizationRequest">
+        <arguments>
+            <argument name="config" xsi:type="object">IfthenpayMbwayConfig</argument>
+        </arguments>
+    </type>
+
+
+
+
+
+
+
+
+    <!-- MBWAY end -->
+
+    <!-- Ccard start -->
+
+    <!-- Payment Method Facade configuration -->
+    <virtualType name="IfthenpayCcardFacade" type="Magento\Payment\Model\Method\Adapter">
+        <arguments>
+            <argument name="code" xsi:type="const">Ifthenpay\Payment\Model\Ui\CcardConfigProvider::CODE</argument>
+            <argument name="config" xsi:type="object">IfthenpayCcardConfig</argument>
+            <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
+            <argument name="infoBlockType" xsi:type="string">Ifthenpay\Payment\Block\IfthenpayInfo</argument>
+            <argument name="valueHandlerPool" xsi:type="object">IfthenpayCcardValueHandlerPool</argument>
+            <argument name="validatorPool" xsi:type="object">IfthenpayCcardValidatorPool</argument>
+            <argument name="commandPool" xsi:type="object">IfthenpayCcardGatewayCommandPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Configuration reader -->
+    <virtualType name="IfthenpayCcardConfig" type="Magento\Payment\Gateway\Config\Config">
+        <arguments>
+            <argument name="methodCode" xsi:type="const">Ifthenpay\Payment\Model\Ui\CcardConfigProvider::CODE</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Value handlers infrastructure -->
+    <virtualType name="IfthenpayCcardValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="default" xsi:type="string">IfthenpayCcardConfigValueHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="IfthenpayCcardConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
+        <arguments>
+            <argument name="configInterface" xsi:type="object">IfthenpayCcardConfig</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Validators -->
+    <virtualType name="IfthenpayCcardValidatorPool" type="Magento\Payment\Gateway\Validator\ValidatorPool">
+        <arguments>
+            <argument name="validators" xsi:type="array">
+                <item name="country" xsi:type="string">IfthenpayCcardCountryValidator</item>
+                <item name="currency" xsi:type="string">Ifthenpay\Payment\Gateway\Validator\CurrencyValidator</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="IfthenpayCcardCountryValidator" type="Magento\Payment\Gateway\Validator\CountryValidator">
+        <arguments>
+            <argument name="config" xsi:type="object">IfthenpayCcardConfig</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- inject config to gateway config -->
+    <type name="Ifthenpay\Payment\Gateway\Config\CcardConfig">
+        <arguments>
+            <argument name="config" xsi:type="object">IfthenpayCcardConfig</argument>
+        </arguments>
+    </type>
+
+
+
+    <!-- Commands infrastructure -->
+    <virtualType name="IfthenpayCcardGatewayCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="authorize" xsi:type="string">IfthenpayCcardAuthorizeCommand</item>
+                <item name="refund" xsi:type="string">IfthenpayRefundCommand</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Authorize command -->
+    <virtualType name="IfthenpayCcardAuthorizeCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">IfthenpayCcardAuthorizationRequest</argument>
+            <argument name="handler" xsi:type="object">Ifthenpay\Payment\Gateway\Response\CcardTxnIdHandler</argument>
+            <argument name="transferFactory" xsi:type="object">Ifthenpay\Payment\Gateway\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">Ifthenpay\Payment\Gateway\Http\Client\CcardAuthorizationClient</argument>
+        </arguments>
+    </virtualType>
+
+
+
+    <!-- Authorization Request -->
+    <virtualType name="IfthenpayCcardAuthorizationRequest" type="Magento\Payment\Gateway\Request\BuilderComposite">
+        <arguments>
+            <argument name="builders" xsi:type="array">
+                <item name="transaction" xsi:type="string">Ifthenpay\Payment\Gateway\Request\CcardAuthorizationRequest</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <type name="Ifthenpay\Payment\Gateway\Request\CcardAuthorizationRequest">
+        <arguments>
+            <argument name="config" xsi:type="object">IfthenpayCcardConfig</argument>
+        </arguments>
+    </type>
+
+
+    <!-- Ccard end -->
+
+
+
+    <!-- Refund command used by mbway and ccard -->
+    <virtualType name="IfthenpayRefundCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">IfthenpayRefundRequest</argument>
+            <argument name="handler" xsi:type="object">Ifthenpay\Payment\Gateway\Response\RefundHandler</argument>
+            <argument name="transferFactory" xsi:type="object">Ifthenpay\Payment\Gateway\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">Ifthenpay\Payment\Gateway\Http\Client\RefundClient</argument>
+        </arguments>
+    </virtualType>
+
+
+    <!-- refund Request -->
+    <virtualType name="IfthenpayRefundRequest" type="Magento\Payment\Gateway\Request\BuilderComposite">
+        <arguments>
+            <argument name="builders" xsi:type="array">
+                <item name="transaction" xsi:type="string">Ifthenpay\Payment\Gateway\Request\RefundRequest</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <type name="Ifthenpay\Payment\Gateway\Request\RefundRequest">
+        <arguments>
+            <argument name="config" xsi:type="object">IfthenpayConfig</argument>
+        </arguments>
+    </type>
+    <virtualType name="IfthenpayConfig" type="Magento\Payment\Gateway\Config\Config">
+        <arguments>
+            <argument name="methodCode" xsi:type="string">ifthenpay</argument>
+        </arguments>
+    </virtualType>
+
+
 </config>

@@ -1,20 +1,18 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
 /**
-* Ifthenpay_Payment module dependency
-*
-* @category    Gateway Payment
-* @package     Ifthenpay_Payment
-* @author      Ifthenpay
-* @copyright   Ifthenpay (http://www.ifthenpay.com)
-* @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
-*/
+ * @category    Gateway Payment
+ * @package     Ifthenpay_Payment
+ * @author      Ifthenpay
+ * @copyright   Ifthenpay (https://www.ifthenpay.com)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
-     <event name="payment_method_assign_data">
-        <observer name="ifthenpay_mb_way_gateway_data_assign" instance="Ifthenpay\Payment\Observer\DataAssignObserver"/>
+    <event name="admin_system_config_changed_section_payment">
+        <observer name="custom_admin_system_config_changed_section_payment" instance="Ifthenpay\Payment\Observer\ConfigSubmitObserver"/>
     </event>
-    <event name="sales_order_payment_save_before">
-        <observer name="payment_before_save" instance="Ifthenpay\Payment\Observer\IfthenpayBeforeOrderPaymentSaveObserver" />
+    <event name="payment_method_assign_data">
+        <observer name="ifthenpay_payment_gateway_data_assign" instance="Ifthenpay\Payment\Observer\DataAssignObserver" />
     </event>
 </config>

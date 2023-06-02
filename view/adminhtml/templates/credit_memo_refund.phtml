@@ -1,0 +1,12 @@
+<?php /** @var \Ifthenpay\Payment\Block\Adminhtml\Sales\Creditmemo\Refund $block */?>
+
+
+<script>
+    window.ifthenpay_storeId = "<?= $block->getStoreId() ?>";
+    window.ifthenpay_urlRequestRefundToken = "<?= $block->getUrlRequestRefundToken() ?>";
+    window.ifthenpay_urlVerifyRefundToken = "<?= $block->getUrlVerifyRefundToken() ?>";
+    window.ifthenpay_IsPaymentMethodRefundable = "<?= $block->getIsPaymentMethodRefundable() ?>";
+    window.ifthenpay_IsPaymentMethodRefundEnabled = "<?= $block->getIsPaymentMethodRefundEnabled() ?>";
+
+    requirejs(['ifth_adminRefund'], function($){});
+</script>

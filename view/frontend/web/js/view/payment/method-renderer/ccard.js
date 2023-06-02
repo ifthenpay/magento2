@@ -19,13 +19,13 @@ define([
         },
         redirectAfterPlaceOrder: false,
         getLogoUrl: function () {
-            return window.checkoutConfig.payment.ccard.logoUrl;
+            return window.checkoutConfig.payment.ifthenpay_ccard.logoUrl;
         },
         getShowPaymentIcon: function () {
-            return window.checkoutConfig.payment.ccard.showPaymentIcon ? window.checkoutConfig.payment.ccard.showPaymentIcon : false;
+            return window.checkoutConfig.payment.ifthenpay_ccard.showPaymentIcon ? window.checkoutConfig.payment.ifthenpay_ccard.showPaymentIcon : false;
         },
         afterPlaceOrder: function () {
-            window.location.replace(url.build('ifthenpay/Frontend/CCardRedirectToProvider'));
+            window.location.replace(url.build('ifthenpay/Frontend/CCardRedirectToProviderCtrl'));
         }
     });
 });

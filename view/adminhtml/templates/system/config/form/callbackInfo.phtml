@@ -1,0 +1,24 @@
+<?php
+
+
+if ($block->data['callbackUrl'] && $block->data['chaveAntiPhishing']) { ?>
+                <div class="ifthenpayCallback panel">
+                    <div class="panel-body">
+                    <?php if ($block->data['callbackActivated']) { ?>
+                                    <span class="label label-success"><?= __('Callback Activated') ?></span>
+                    <?php } else { ?>
+                                    <span class="label label-danger"><?= __('Callback not Activated') ?></span>
+                    <?php } ?>
+                        <ul class="list-group callback-list-group">
+                            <li class="list-group-item">
+                                <?= __('Anti-Phishing Key') ?>:
+                                <span class="badge"><?php echo $block->data['chaveAntiPhishing'] ?></span>
+                            </li>
+                            <li class="list-group-item callback-list">
+                                <?= __('Callback Url') ?>:
+                                <span class="badge callbackUrl"><?php echo $block->data['callbackUrl'] ?></span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+<?php } ?>

@@ -1,55 +1,109 @@
 <?xml version="1.0"?>
 <!--
 /**
-* Ifthenpay_Payment module dependency
-*
-* @category    Gateway Payment
-* @package     Ifthenpay_Payment
-* @author      Ifthenpay
-* @copyright   Ifthenpay (http://www.ifthenpay.com)
-* @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
-*/
+ * @category    Gateway Payment
+ * @package     Ifthenpay_Payment
+ * @author      Ifthenpay
+ * @copyright   Ifthenpay (https://www.ifthenpay.com)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
     <default>
         <payment>
-                <multibanco>
-                    <title>Multibanco</title>
-                    <subEntidade>Choose Entity</subEntidade>
-                    <allowspecific>0</allowspecific>
-                    <active>0</active>
-                    <showPaymentIcon>1</showPaymentIcon>
-                    <order_status>pending_payment</order_status>
-                    <model>Ifthenpay\Payment\Model\MultibancoPayment</model>
-                </multibanco>
-                <mbway>
-                    <title>MB WAY</title>
-                    <allowspecific>0</allowspecific>
-                    <active>0</active>
-                    <showPaymentIcon>1</showPaymentIcon>
-                    <order_status>pending_payment</order_status>
-                    <model>Ifthenpay\Payment\Model\MbwayPayment</model>
-                </mbway>
-                <payshop>
-                    <title>Payshop</title>
-                    <allowspecific>0</allowspecific>
-                    <active>0</active>
-                    <showPaymentIcon>1</showPaymentIcon>
-                    <order_status>pending_payment</order_status>
-                    <model>Ifthenpay\Payment\Model\PayshopPayment</model>
-                </payshop>
-                <ccard>
-                    <title>Credit Card</title>
-                    <active>0</active>
-                    <showPaymentIcon>1</showPaymentIcon>
-                    <model>IfthenpayCCardFacade</model>
-                    <order_status>pending_payment</order_status>
-                    <can_use_checkout>1</can_use_checkout>
-                    <is_gateway>1</is_gateway>
-                    <payment_action>authorize</payment_action>
-                    <can_authorize>1</can_authorize>
-                </ccard>
+            <ifthenpay_multibanco>
+                <model>IfthenpayMultibancoFacade</model>
+                <can_use_internal>1</can_use_internal>
+                <can_use_checkout>1</can_use_checkout>
+                <is_gateway>1</is_gateway>
+                <payment_action>initialize</payment_action>
+                <can_initialize>1</can_initialize>
+                <order_status>pending</order_status>
+                <active>0</active>
+                <title>Multibanco</title>
+                <show_payment_icon>1</show_payment_icon>
+                <activate_callback>0</activate_callback>
+                <entity></entity>
+                <sub_entity></sub_entity>
+                <deadline></deadline>
+                <cancel_order>0</cancel_order>
+                <min_order_total></min_order_total>
+                <max_order_total></max_order_total>
+                <allowspecific>0</allowspecific>
+                <specificcountry></specificcountry>
+                <send_invoice_email>1</send_invoice_email>
+                <sort_order>1</sort_order>
+            </ifthenpay_multibanco>
+            <ifthenpay_mbway>
+                <model>IfthenpayMbwayFacade</model>
+                <can_use_internal>1</can_use_internal>
+                <can_use_checkout>1</can_use_checkout>
+                <is_gateway>1</is_gateway>
+                <order_status>pending</order_status>
+                <currency>EUR</currency>
+                <payment_action>initialize</payment_action>
+                <can_initialize>1</can_initialize>
+                <can_refund>1</can_refund>
+                <show_refund>1</show_refund>
+                <active>0</active>
+                <title>MB WAY</title>
+                <show_payment_icon>1</show_payment_icon>
+                <show_countdown>1</show_countdown>
+                <activate_callback>0</activate_callback>
+                <key></key>
+                <cancel_order>0</cancel_order>
+                <min_order_total></min_order_total>
+                <max_order_total></max_order_total>
+                <allowspecific>0</allowspecific>
+                <specificcountry></specificcountry>
+                <send_invoice_email>1</send_invoice_email>
+                <sort_order>2</sort_order>
+            </ifthenpay_mbway>
+            <ifthenpay_payshop>
+                <model>IfthenpayPayshopFacade</model>
+                <can_use_internal>1</can_use_internal>
+                <can_use_checkout>1</can_use_checkout>
+                <is_gateway>1</is_gateway>
+                <payment_action>initialize</payment_action>
+                <can_initialize>1</can_initialize>
+                <order_status>pending</order_status>
+                <active>0</active>
+                <title>Payshop</title>
+                <show_payment_icon>1</show_payment_icon>
+                <activate_callback>0</activate_callback>
+                <key></key>
+                <deadline></deadline>
+                <cancel_order>0</cancel_order>
+                <min_order_total></min_order_total>
+                <max_order_total></max_order_total>
+                <allowspecific>0</allowspecific>
+                <specificcountry></specificcountry>
+                <send_invoice_email>1</send_invoice_email>
+                <sort_order>3</sort_order>
+            </ifthenpay_payshop>
+            <ifthenpay_ccard>
+                <is_gateway>1</is_gateway>
+                <model>IfthenpayCcardFacade</model>
+                <payment_action>authorize</payment_action>
+                <can_authorize>1</can_authorize>
+                <can_cancel>1</can_cancel>
+                <can_refund>1</can_refund>
+                <show_refund>1</show_refund>
+                <can_use_internal>1</can_use_internal>
+                <can_use_checkout>1</can_use_checkout>
+                <order_status>pending</order_status>
+                <active>0</active>
+                <title>Cartão de Crédito</title>
+                <show_payment_icon>1</show_payment_icon>
+                <key></key>
+                <cancel_order>0</cancel_order>
+                <min_order_total></min_order_total>
+                <max_order_total></max_order_total>
+                <allowspecific>0</allowspecific>
+                <specificcountry></specificcountry>
+                <send_invoice_email>1</send_invoice_email>
+                <sort_order>4</sort_order>
+            </ifthenpay_ccard>
         </payment>
     </default>
 </config>
-

@@ -1,259 +1,623 @@
 <?xml version="1.0"?>
 <!--
 /**
-* Ifthenpay_Payment module dependency
-*
-* @category    Gateway Payment
-* @package     Ifthenpay_Payment
-* @author      Ifthenpay
-* @copyright   Ifthenpay (http://www.ifthenpay.com)
-* @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
-*/
+ * @category    Gateway Payment
+ * @package     Ifthenpay_Payment
+ * @author      Ifthenpay
+ * @copyright   Ifthenpay (https://www.ifthenpay.com)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
     <system>
-        <section id="payment" translate="label" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
-            <group id="ifthenpay" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
-                <label><![CDATA[<div class="ifthenpay-payment-logo"></div><div class="ifthenpay-version">V 1.2.13</div><div class="ifthenpay-payment-text">Payments by Multibanco, MB WAY, Payshop and Credit Card</div>]]></label>
+        <section id="payment" sortOrder="1000" translate="label" showInWebsite="1" showInDefault="1" showInStore="1">
+
+            <group id="ifthenpay" translate="label" sortOrder="10" showInWebsite="1" showInDefault="1" showInStore="1">
+                <label>ifthenpay</label>
                 <fieldset_css>complex ifthenpay-section</fieldset_css>
-                <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\Payment</frontend_model>
-                <field id="sandboxMode" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Sandbox Mode</label>
-                    <comment>Activate sandbox mode to test the module without activating the callback.</comment>
-                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\Main</frontend_model>
+
+                <field id="not_available_in_store_scope" sortOrder="20" type="text" showInStore="1">
+                    <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\NotAvailableInStoreScope</frontend_model>
                 </field>
-                <field id="resetBackofficeKey" translate="label comment" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" type="text">
+
+                <field id="reset_backoffice_key" translate="label comment" sortOrder="20" showInWebsite="1" showInDefault="1" type="text">
                     <label>Reset Backoffice Key</label>
                     <comment>Click to insert new backoffice key, this action will reset the current configuration</comment>
-                    <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\ResetBackOfficeKeyBtn</frontend_model>
+                    <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\ResetBackOfficeKeyButton</frontend_model>
                 </field>
-                <field id="backofficeKey" translate="label comment" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" type="text">
+
+                <field id="backoffice_key" translate="label comment" sortOrder="30" showInWebsite="1" showInDefault="1" type="text">
                     <label>Backoffice key</label>
-                    <comment>Insert Backoffice key provided by Ifthenpay.</comment>
-                    <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\IsVisible</frontend_model>
-                    <backend_model>Ifthenpay\Payment\Model\Config\Backend\Config</backend_model>
+                    <comment>Insert Backoffice Key provided by ifthenpay.</comment>
+                    <backend_model>Ifthenpay\Payment\Model\Config\BeforeSave\BackofficeKey</backend_model>
+                    <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\IfBackofficeKeyHideBackofficeKey</frontend_model>
+                    <config_path>payment/ifthenpay/backoffice_key</config_path>
                 </field>
-                <group id="multibanco" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" translate="label">
-                    <label>Multibanco Configuration</label>
-                    <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\FieldSet</frontend_model>
-                    <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
-                        <label>Enable</label>
-                        <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\ActiveVisibleField</frontend_model>
-                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                        <config_path>payment/multibanco/active</config_path>
-                    </field>
-                    <field id="showPaymentIcon" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
-                        <label>Show Payment Icon on Checkout</label>
-                        <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\ActiveShowPaymentIconField</frontend_model>
-                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                    </field>
-                    <field id="activeCallback" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
-                        <label>Activate Callback</label>
-                        <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\ActiveCallbackVisibleField</frontend_model>
-                        <comment>Activate callback automatically. If sandbox mode is enabled, callback will not activate.</comment>
-                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                    </field>
-                    <field id="cancelOrder" translate="label comment tooltip" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
-                        <label>Cancel Multibanco Order</label>
-                        <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\CancelMultibancoOrderVisibleField</frontend_model>
-                        <comment>Automatically cancel Multibanco order when payment notification expired.</comment>
-                        <tooltip>Configure Cron Job on your server.</tooltip>
-                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                    </field>
-                    <field id="entidade" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" type="select">
-                        <label>Entity</label>
-                        <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\EntidadeVisibleField</frontend_model>
-                        <source_model>Ifthenpay\Payment\Model\Config\Source\Entidade</source_model>
-                    </field>
-                    <field id="subEntidade" translate="label comment" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" type="select">
-                        <label>Sub Entity</label>
-                        <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\SubEntidadeVisibleField</frontend_model>
-                        <comment>Choose the entity and sub entity will appear automatically</comment>
-                        <source_model>Ifthenpay\Payment\Model\Config\Source\SubEntidade</source_model>
-                    </field>
-                    <field id="validade" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" type="select">
-                        <label>Deadline</label>
-                        <source_model>Ifthenpay\Payment\Model\Config\Source\MultibancoValidity</source_model>
+
+
+
+
+
+                <group id="multibanco" sortOrder="40" translate="label" showInWebsite="1" showInDefault="1">
+                    <fieldset_css>if_multibanco</fieldset_css>
+                    <label>Multibanco</label>
+                    <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\IfBackofficeKeyToggleVisibility</frontend_model>
+
+
+                    <field id="add_new_account" translate="label comment" type="button" sortOrder="10" showInDefault="1" showInWebsite="1">
+                        <label>Request Multibanco Account</label>
+                        <comment>Don't have Multibanco account? Click to request Multibanco account.</comment>
+                        <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\RequestNewAccountButton</frontend_model>
                         <depends>
-                            <field id="entidade">MB</field>
+                            <field id="entity">nokey</field>
                         </depends>
                     </field>
-                    <field id="requestDynamicMb" translate="label comment" type="button" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
-                        <label>Request Multibanco Deadline</label>
-                        <comment>Don't have a deadline associated to your multibanco account? Click to add an deadline to your multibanco account</comment>
-                        <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\RequestDynamicMbAccountBtn</frontend_model>
-                    </field>
-                    <field id="addNewAccount" translate="label comment" type="button" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
-                        <label>Request Multibanco Account</label>
-                        <comment>Don't have multibanco account? Click to add multibanco account</comment>
-                        <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\AddNewAccountBtn</frontend_model>
-                    </field>
-                    <field id="callbackInfo" sortOrder="161" showInDefault="1" showInWebsite="1" showInStore="1">
-                        <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\CallbackInfo</frontend_model>
-                    </field>
-                    <field id="allowspecific" translate="label" type="allowspecific" sortOrder="50" showInDefault="1" showInWebsite="1" canRestore="1">
-                        <label>Payment from Applicable Countries</label>
-                        <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\PaymentAplicableCountriesVisibleField</frontend_model>
-                        <source_model>Magento\Payment\Model\Config\Source\Allspecificcountries</source_model>
-                    </field>
-                    <field id="specificcountry" translate="label" type="multiselect" sortOrder="51" showInDefault="1" showInWebsite="1">
-                        <label>Payment from Specific Countries</label>
-                        <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\PaymentSpecificCountriesVisibleField</frontend_model>
-                        <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
-                        <can_be_empty>1</can_be_empty>
-                    </field>
-                </group>
-                <group id="mbway" type="text" sortOrder="11" showInDefault="1" showInWebsite="1" showInStore="1" translate="label">
-                    <label>MB WAY Configuration</label>
-                    <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\FieldSet</frontend_model>
-                    <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
-                        <label>Enable</label>
-                        <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\ActiveVisibleField</frontend_model>
+
+
+                    <field id="active" type="select" sortOrder="10" translate="label" showInWebsite="1" showInDefault="1">
+                        <label>Enabled</label>
                         <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                        <config_path>payment/mbway/active</config_path>
+                        <config_path>payment/ifthenpay_multibanco/active</config_path>
+                        <backend_model>Ifthenpay\Payment\Model\Config\BeforeSave\IsConfigured</backend_model>
+                        <depends>
+                            <field id="entity" negative="1">nokey</field>
+                        </depends>
                     </field>
-                    <field id="showPaymentIcon" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
-                        <label>Show Payment Icon on Checkout</label>
-                        <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\ActiveShowPaymentIconField</frontend_model>
+
+                    <field id="title" type="text" sortOrder="20" translate="label" showInWebsite="1" showInDefault="1">
+                        <label>Title</label>
+                        <config_path>payment/ifthenpay_multibanco/title</config_path>
+                        <depends>
+                            <field id="entity" negative="1">nokey</field>
+                        </depends>
+                    </field>
+
+                    <field id="show_payment_icon" type="select" sortOrder="30" translate="label" showInWebsite="1" showInDefault="1">
+                        <label>Display payment method Icon on Checkout</label>
                         <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <config_path>payment/ifthenpay_multibanco/show_payment_icon</config_path>
+                        <depends>
+                            <field id="entity" negative="1">nokey</field>
+                        </depends>
                     </field>
-                    <field id="activeCallback" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+
+                    <field id="activate_callback" type="select" sortOrder="40" translate="label comment" showInWebsite="1" showInDefault="1">
                         <label>Activate Callback</label>
-                        <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\ActiveCallbackVisibleField</frontend_model>
-                        <comment>Activate callback automatically. If sandbox mode is enabled, callback will not activate.</comment>
                         <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <comment>When Callback is enabled ifthenpay's servers communicate with your store to update order status.</comment>
+                        <config_path>payment/ifthenpay_multibanco/activate_callback</config_path>
+                        <depends>
+                            <field id="entity" negative="1">nokey</field>
+                        </depends>
                     </field>
-                    <field id="cancelOrder" translate="label comment tooltip" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
-                        <label>Cancel MB WAY Order</label>
-                        <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\CancelOrderVisibleField</frontend_model>
-                        <comment>Automatically cancel MB WAY order when payment notification expired.</comment>
-                        <tooltip>Configure Cron Job on your server.</tooltip>
+
+                    <field id="entity" type="select" sortOrder="50" translate="label" showInWebsite="1" showInDefault="1">
+                        <label>Entity</label>
+                        <source_model>Ifthenpay\Payment\Model\Config\Source\MultibancoEntityOptions</source_model>
+                        <config_path>payment/ifthenpay_multibanco/entity</config_path>
+                        <depends>
+                            <field id="entity" negative="1">nokey</field>
+                        </depends>
+                    </field>
+
+                    <field id="sub_entity" type="select" sortOrder="60" translate="label" showInWebsite="1" showInDefault="1">
+                        <label>Sub Entity</label>
+                        <source_model>Ifthenpay\Payment\Model\Config\Source\MultibancoSubEntityOptions</source_model>
+                        <config_path>payment/ifthenpay_multibanco/sub_entity</config_path>
+                        <depends>
+                            <field id="entity" negative="1">nokey</field>
+                        </depends>
+                    </field>
+
+                    <field id="deadline" type="select" sortOrder="70" translate="label" showInWebsite="1" showInDefault="1">
+                        <label>Deadline</label>
+                        <source_model>Ifthenpay\Payment\Model\Config\Source\MultibancoDeadline</source_model>
+                        <config_path>payment/ifthenpay_multibanco/deadline</config_path>
+                        <validate>validate-number validate-zero-or-greater</validate>
+                        <depends>
+                            <field id="entity">MB</field>
+                        </depends>
+                    </field>
+
+                    <field id="request_dynamic_ref_account" translate="label comment" type="button" sortOrder="71" showInDefault="1" showInWebsite="1">
+                        <label>Request Dynamic Multibanco</label>
+                        <comment>Don't have a Dynamic Multibanco account? Click to request Dynamic Multibanco account.</comment>
+                        <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\RequestNewDynamicMultibanco</frontend_model>
+                    </field>
+
+                    <field id="send_invoice_email" translate="label" type="select" sortOrder="80" showInWebsite="1" showInDefault="1">
+                        <label>Send Invoice Email</label>
                         <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <config_path>payment/ifthenpay_multibanco/send_invoice_email</config_path>
+                        <comment>Send invoice email after receiving payment.</comment>
+                        <depends>
+                            <field id="entity" negative="1">nokey</field>
+                        </depends>
                     </field>
-                    <field id="mbwayKey" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" type="select">
-                        <label>MB WAY Key</label>
-                        <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\MbwayKeyVisibleField</frontend_model>
-                        <source_model>Ifthenpay\Payment\Model\Config\Source\MbwayKey</source_model>
+
+                    <field id="min_order_total" type="text" sortOrder="90" translate="label comment" showInWebsite="1" showInDefault="1">
+                        <label>Minimum Order Value</label>
+                        <comment>Display this payment method for orders with value greater or equal to this value. Leave empty to allow any.</comment>
+                        <backend_model>Ifthenpay\Payment\Model\Config\BeforeSave\IsMinLessThanMax</backend_model>
+                        <config_path>payment/ifthenpay_multibanco/min_order_total</config_path>
+                        <validate>validate-number validate-zero-or-greater</validate>
+                        <depends>
+                            <field id="entity" negative="1">nokey</field>
+                        </depends>
                     </field>
-                    <field id="addNewAccount" translate="label comment" type="button" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+
+                    <field id="max_order_total" type="text" sortOrder="100" translate="label comment" showInWebsite="1" showInDefault="1">
+                        <label>Maximum Order Value</label>
+                        <comment>Display this payment method for orders with value lesser or equal to this value. Leave empty to allow any.</comment>
+                        <config_path>payment/ifthenpay_multibanco/max_order_total</config_path>
+                        <validate>validate-number validate-zero-or-greater</validate>
+                        <depends>
+                            <field id="entity" negative="1">nokey</field>
+                        </depends>
+                    </field>
+
+                    <field id="allowspecific" type="allowspecific" translate="label" sortOrder="110" showInWebsite="1" showInDefault="1">
+                        <label>Payment from Applicable Countries</label>
+                        <source_model>Magento\Payment\Model\Config\Source\Allspecificcountries</source_model>
+                        <config_path>payment/ifthenpay_multibanco/allowspecific</config_path>
+                        <depends>
+                            <field id="entity" negative="1">nokey</field>
+                        </depends>
+                    </field>
+
+                    <field id="specificcountry" type="multiselect" translate="label" sortOrder="120" showInWebsite="1" showInDefault="1">
+                        <label>Payment from Specific Countries</label>
+                        <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
+                        <config_path>payment/ifthenpay_multibanco/specificcountry</config_path>
+                        <can_be_empty>1</can_be_empty>
+                        <depends>
+                            <field id="entity" negative="1">nokey</field>
+                        </depends>
+                    </field>
+
+                    <field id="sort_order" type="text" sortOrder="130" translate="label" showInWebsite="1" showInDefault="1">
+                        <label>Sort Order</label>
+                        <config_path>payment/ifthenpay_multibanco/sort_order</config_path>
+                        <validate>validate-number validate-zero-or-greater</validate>
+                        <depends>
+                            <field id="entity" negative="1">nokey</field>
+                        </depends>
+                    </field>
+
+                    <field id="callbackInfo" sortOrder="161" showInDefault="1" showInWebsite="1">
+                        <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\CallbackInfo</frontend_model>
+                        <depends>
+                            <field id="entity" negative="1">nokey</field>
+                        </depends>
+                    </field>
+
+                </group>
+
+
+
+
+
+
+
+                <group id="mbway" sortOrder="50" translate="label" showInWebsite="1" showInDefault="1">
+                    <fieldset_css>if_mbway</fieldset_css>
+                    <label>MB WAY</label>
+                    <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\IfBackofficeKeyToggleVisibility</frontend_model>
+
+                    <field id="add_new_account" translate="label comment" type="button" sortOrder="10" showInDefault="1" showInWebsite="1">
                         <label>Request MB WAY Account</label>
-                        <comment>Don't have mbway account? Click to request an mbway account</comment>
-                        <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\AddNewAccountBtn</frontend_model>
+                        <comment>Don't have MB WAY account? Click to request MB WAY account</comment>
+                        <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\RequestNewAccountButton</frontend_model>
+                        <depends>
+                            <field id="key">nokey</field>
+                        </depends>
                     </field>
-                    <field id="callbackInfo" sortOrder="161" showInDefault="1" showInWebsite="1" showInStore="1">
-                        <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\CallbackInfo</frontend_model>
-                    </field>
-                    <field id="allowspecific" translate="label" type="allowspecific" sortOrder="50" showInDefault="1" showInWebsite="1" canRestore="1">
-                        <label>Payment from Applicable Countries</label>
-                        <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\PaymentAplicableCountriesVisibleField</frontend_model>
-                        <source_model>Magento\Payment\Model\Config\Source\Allspecificcountries</source_model>
-                    </field>
-                    <field id="specificcountry" translate="label" type="multiselect" sortOrder="51" showInDefault="1" showInWebsite="1">
-                        <label>Payment from Specific Countries</label>
-                        <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\PaymentSpecificCountriesVisibleField</frontend_model>
-                        <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
-                        <can_be_empty>1</can_be_empty>
-                    </field>
-                </group>
-                <group id="payshop" type="text" sortOrder="12" showInDefault="1" showInWebsite="1" showInStore="1" translate="label">
-                    <label>Payshop Configuration</label>
-                    <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\FieldSet</frontend_model>
-                    <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
-                        <label>Enable</label>
-                        <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\ActiveVisibleField</frontend_model>
+
+                    <field id="active" type="select" sortOrder="10" translate="label" showInWebsite="1" showInDefault="1">
+                        <label>Enabled</label>
                         <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                        <config_path>payment/payshop/active</config_path>
+                        <config_path>payment/ifthenpay_mbway/active</config_path>
+                        <backend_model>Ifthenpay\Payment\Model\Config\BeforeSave\IsConfigured</backend_model>
+                        <depends>
+                            <field id="key" negative="1">nokey</field>
+                        </depends>
                     </field>
-                    <field id="showPaymentIcon" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
-                        <label>Show Payment Icon on Checkout</label>
-                        <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\ActiveShowPaymentIconField</frontend_model>
+
+                    <field id="title" type="text" sortOrder="20" translate="label" showInWebsite="1" showInDefault="1">
+                        <label>Title</label>
+                        <config_path>payment/ifthenpay_mbway/title</config_path>
+                        <depends>
+                            <field id="key" negative="1">nokey</field>
+                        </depends>
+                    </field>
+
+                    <field id="show_payment_icon" type="select" sortOrder="30" translate="label" showInWebsite="1" showInDefault="1">
+                        <label>Display payment method Icon on Checkout</label>
                         <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <config_path>payment/ifthenpay_mbway/show_payment_icon</config_path>
+                        <depends>
+                            <field id="key" negative="1">nokey</field>
+                        </depends>
                     </field>
-                    <field id="activeCallback" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+
+                    <field id="show_countdown" type="select" sortOrder="31" translate="label" showInWebsite="1" showInDefault="1">
+                        <label>Display Countdown on Checkout</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <config_path>payment/ifthenpay_mbway/show_countdown</config_path>
+                        <comment>Shows countdown of 5 minutes and gives information to user about success or failure of operation.</comment>
+                        <depends>
+                            <field id="key" negative="1">nokey</field>
+                        </depends>
+                    </field>
+
+                    <field id="activate_callback" type="select" sortOrder="40" translate="label comment" showInWebsite="1" showInDefault="1">
                         <label>Activate Callback</label>
-                        <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\ActiveCallbackVisibleField</frontend_model>
-                        <comment>Activate callback automatically. If sandbox mode is enabled, callback will not activate.</comment>
                         <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <comment>When Callback is enabled ifthenpay's servers comunicate with your store to update order status.</comment>
+                        <config_path>payment/ifthenpay_mbway/activate_callback</config_path>
+                        <depends>
+                            <field id="key" negative="1">nokey</field>
+                        </depends>
                     </field>
-                    <field id="cancelOrder" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
-                        <label>Cancel Payshop Order</label>
-                        <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\CancelOrderVisibleField</frontend_model>
-                        <comment>Automatically cancel Payshop order when payment expired.</comment>
-                        <tooltip>Configure Cron Job on your server.</tooltip>
+
+                    <field id="key" type="select" sortOrder="50" translate="label" showInWebsite="1" showInDefault="1">
+                        <label>MB WAY Key</label>
+                        <source_model>Ifthenpay\Payment\Model\Config\Source\MbwayKeyOptions</source_model>
+                        <config_path>payment/ifthenpay_mbway/key</config_path>
+                        <depends>
+                            <field id="key" negative="1">nokey</field>
+                        </depends>
+                    </field>
+
+                    <field id="send_invoice_email" translate="label" type="select" sortOrder="60" showInWebsite="1" showInDefault="1">
+                        <label>Send Invoice Email</label>
                         <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <config_path>payment/ifthenpay_mbway/send_invoice_email</config_path>
+                        <comment>Send invoice email after receiving payment.</comment>
+                        <depends>
+                            <field id="key" negative="1">nokey</field>
+                        </depends>
                     </field>
-                    <field id="payshopKey" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" type="select">
-                        <label>Payshop Key</label>
-                        <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\PayshopKeyVisibleField</frontend_model>
-                        <source_model>Ifthenpay\Payment\Model\Config\Source\PayshopKey</source_model>
+
+                    <field id="show_refund" translate="label" type="select" sortOrder="70" showInWebsite="1" showInDefault="1">
+                        <label>Allow refund</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <config_path>payment/ifthenpay_mbway/show_refund</config_path>
+                        <comment>Enable online refund in order Credit Memo.</comment>
+                        <depends>
+                            <field id="key" negative="1">nokey</field>
+                        </depends>
                     </field>
-                    <field id="validade" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
-                        <label>Payshop Deadline</label>
-                        <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\PayshopValidadeVisibleField</frontend_model>
+
+                    <field id="min_order_total" type="text" sortOrder="80" translate="label comment" showInWebsite="1" showInDefault="1">
+                        <label>Minimum Order Value</label>
+                        <comment>Display this payment method for orders with value greater or equal to this value. Leave empty to allow any.</comment>
+                        <backend_model>Ifthenpay\Payment\Model\Config\BeforeSave\IsMinLessThanMax</backend_model>
+                        <config_path>payment/ifthenpay_mbway/min_order_total</config_path>
+                        <validate>validate-number validate-zero-or-greater</validate>
+                        <depends>
+                            <field id="key" negative="1">nokey</field>
+                        </depends>
                     </field>
-                    <field id="addNewAccount" translate="label comment" type="button" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
-                        <label>Request Payshop Account</label>
-                        <comment>Don't have payshop account? Click to request an payshop account</comment>
-                        <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\AddNewAccountBtn</frontend_model>
+
+                    <field id="max_order_total" type="text" sortOrder="90" translate="label comment" showInWebsite="1" showInDefault="1">
+                        <label>Maximum Order Value</label>
+                        <comment>Display this payment method for orders with value lesser or equal to this value. Leave empty to allow any.</comment>
+                        <config_path>payment/ifthenpay_mbway/max_order_total</config_path>
+                        <validate>validate-number validate-zero-or-greater</validate>
+                        <depends>
+                            <field id="key" negative="1">nokey</field>
+                        </depends>
                     </field>
-                    <field id="callbackInfo" sortOrder="161" showInDefault="1" showInWebsite="1" showInStore="1">
+
+                    <field id="allowspecific" type="allowspecific" translate="label" sortOrder="100" showInWebsite="1" showInDefault="1">
+                        <label>Payment from Applicable Countries</label>
+                        <source_model>Magento\Payment\Model\Config\Source\Allspecificcountries</source_model>
+                        <config_path>payment/ifthenpay_mbway/allowspecific</config_path>
+                        <depends>
+                            <field id="key" negative="1">nokey</field>
+                        </depends>
+                    </field>
+
+                    <field id="specificcountry" type="multiselect" translate="label" sortOrder="110" showInWebsite="1" showInDefault="1">
+                        <label>Payment from Specific Countries</label>
+                        <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
+                        <config_path>payment/ifthenpay_mbway/specificcountry</config_path>
+                        <can_be_empty>1</can_be_empty>
+                        <depends>
+                            <field id="key" negative="1">nokey</field>
+                        </depends>
+                    </field>
+
+                    <field id="sort_order" type="text" sortOrder="120" translate="label" showInWebsite="1" showInDefault="1">
+                        <label>Sort Order</label>
+                        <config_path>payment/ifthenpay_mbway/sort_order</config_path>
+                        <validate>validate-number validate-zero-or-greater</validate>
+                        <depends>
+                            <field id="key" negative="1">nokey</field>
+                        </depends>
+                    </field>
+
+                    <field id="callbackInfo" sortOrder="161" showInDefault="1" showInWebsite="1">
                         <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\CallbackInfo</frontend_model>
+                        <depends>
+                            <field id="key" negative="1">nokey</field>
+                        </depends>
                     </field>
-                    <field id="allowspecific" translate="label" type="allowspecific" sortOrder="50" showInDefault="1" showInWebsite="1" canRestore="1">
+
+                </group>
+
+
+
+
+
+
+
+                <group id="payshop" sortOrder="60" translate="label" showInWebsite="1" showInDefault="1">
+                    <fieldset_css>if_payshop</fieldset_css>
+                    <label>Payshop</label>
+                    <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\IfBackofficeKeyToggleVisibility</frontend_model>
+
+                    <field id="add_new_account" translate="label comment" type="button" sortOrder="10" showInDefault="1" showInWebsite="1">
+                        <label>Request Payshop Account</label>
+                        <comment>Don't have Payshop account? Click to request Payshop account.</comment>
+                        <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\RequestNewAccountButton</frontend_model>
+                        <depends>
+                            <field id="key">nokey</field>
+                        </depends>
+                    </field>
+
+                    <field id="active" type="select" sortOrder="10" translate="label" showInWebsite="1" showInDefault="1">
+                        <label>Enabled</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <config_path>payment/ifthenpay_payshop/active</config_path>
+                        <backend_model>Ifthenpay\Payment\Model\Config\BeforeSave\IsConfigured</backend_model>
+                        <depends>
+                            <field id="key" negative="1">nokey</field>
+                        </depends>
+                    </field>
+
+                    <field id="title" type="text" sortOrder="20" translate="label" showInWebsite="1" showInDefault="1">
+                        <label>Title</label>
+                        <config_path>payment/ifthenpay_payshop/title</config_path>
+                        <depends>
+                            <field id="key" negative="1">nokey</field>
+                        </depends>
+                    </field>
+
+                    <field id="show_payment_icon" type="select" sortOrder="30" translate="label" showInWebsite="1" showInDefault="1">
+                        <label>Display payment method Icon on Checkout</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <config_path>payment/ifthenpay_payshop/show_payment_icon</config_path>
+                        <depends>
+                            <field id="key" negative="1">nokey</field>
+                        </depends>
+                    </field>
+
+                    <field id="activate_callback" type="select" sortOrder="40" translate="label comment" showInWebsite="1" showInDefault="1">
+                        <label>Activate Callback</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <comment>When Callback is enabled ifthenpay's servers communicate with your store to update order status.</comment>
+                        <config_path>payment/ifthenpay_payshop/activate_callback</config_path>
+                        <depends>
+                            <field id="key" negative="1">nokey</field>
+                        </depends>
+                    </field>
+
+                    <field id="key" type="select" sortOrder="50" translate="label" showInWebsite="1" showInDefault="1">
+                        <label>Payshop Key</label>
+                        <source_model>Ifthenpay\Payment\Model\Config\Source\PayshopKeyOptions</source_model>
+                        <config_path>payment/ifthenpay_payshop/key</config_path>
+                        <depends>
+                            <field id="key" negative="1">nokey</field>
+                        </depends>
+                    </field>
+
+                    <field id="deadline" type="text" sortOrder="60" translate="label" showInWebsite="1" showInDefault="1">
+                        <label>Deadline</label>
+                        <config_path>payment/ifthenpay_payshop/deadline</config_path>
+                        <validate>validate-number validate-zero-or-greater</validate>
+                        <depends>
+                            <field id="key" negative="1">nokey</field>
+                        </depends>
+                    </field>
+
+                    <field id="send_invoice_email" translate="label" type="select" sortOrder="61" showInWebsite="1" showInDefault="1">
+                        <label>Send Invoice Email</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <config_path>payment/ifthenpay_payshop/send_invoice_email</config_path>
+                        <comment>Send invoice email after receiving payment.</comment>
+                        <depends>
+                            <field id="key" negative="1">nokey</field>
+                        </depends>
+                    </field>
+
+                    <field id="min_order_total" type="text" sortOrder="80" translate="label comment" showInWebsite="1" showInDefault="1">
+                        <label>Minimum Order Value</label>
+                        <comment>Display this payment method for orders with value greater or equal to this value. Leave empty to allow any.</comment>
+                        <backend_model>Ifthenpay\Payment\Model\Config\BeforeSave\IsMinLessThanMax</backend_model>
+                        <config_path>payment/ifthenpay_payshop/min_order_total</config_path>
+                        <validate>validate-number validate-zero-or-greater</validate>
+                        <depends>
+                            <field id="key" negative="1">nokey</field>
+                        </depends>
+                    </field>
+
+                    <field id="max_order_total" type="text" sortOrder="90" translate="label comment" showInWebsite="1" showInDefault="1">
+                        <label>Maximum Order Value</label>
+                        <comment>Display this payment method for orders with value lesser or equal to this value. Leave empty to allow any.</comment>
+                        <config_path>payment/ifthenpay_payshop/max_order_total</config_path>
+                        <validate>validate-number validate-zero-or-greater</validate>
+                        <depends>
+                            <field id="key" negative="1">nokey</field>
+                        </depends>
+                    </field>
+
+                    <field id="allowspecific" type="allowspecific" translate="label" sortOrder="100" showInWebsite="1" showInDefault="1">
                         <label>Payment from Applicable Countries</label>
-                        <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\PaymentAplicableCountriesVisibleField</frontend_model>
                         <source_model>Magento\Payment\Model\Config\Source\Allspecificcountries</source_model>
+                        <config_path>payment/ifthenpay_payshop/allowspecific</config_path>
+                        <depends>
+                            <field id="key" negative="1">nokey</field>
+                        </depends>
                     </field>
-                    <field id="specificcountry" translate="label" type="multiselect" sortOrder="51" showInDefault="1" showInWebsite="1">
+
+                    <field id="specificcountry" type="multiselect" translate="label" sortOrder="110" showInWebsite="1" showInDefault="1">
                         <label>Payment from Specific Countries</label>
-                        <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\PaymentSpecificCountriesVisibleField</frontend_model>
                         <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
                         <can_be_empty>1</can_be_empty>
+                        <config_path>payment/ifthenpay_payshop/specificcountry</config_path>
+                        <depends>
+                            <field id="key" negative="1">nokey</field>
+                        </depends>
                     </field>
+
+                    <field id="sort_order" type="text" sortOrder="120" translate="label" showInWebsite="1" showInDefault="1">
+                        <label>Sort Order</label>
+                        <config_path>payment/ifthenpay_payshop/sort_order</config_path>
+                        <validate>validate-number validate-zero-or-greater</validate>
+                        <depends>
+                            <field id="key" negative="1">nokey</field>
+                        </depends>
+                    </field>
+
+                    <field id="callbackInfo" sortOrder="161" showInDefault="1" showInWebsite="1">
+                        <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\CallbackInfo</frontend_model>
+                        <depends>
+                            <field id="key" negative="1">nokey</field>
+                        </depends>
+                    </field>
+
                 </group>
-                <group id="ccard" type="text" sortOrder="12" showInDefault="1" showInWebsite="1" showInStore="1" translate="label">
-                    <label>Credit Card Configuration</label>
-                    <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\FieldSet</frontend_model>
-                    <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
-                        <label>Enable</label>
-                        <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\ActiveVisibleField</frontend_model>
-                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                        <config_path>payment/ccard/active</config_path>
-                    </field>
-                    <field id="showPaymentIcon" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
-                        <label>Show Payment Icon on Checkout</label>
-                        <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\ActiveShowPaymentIconField</frontend_model>
-                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                    </field>
-                    <field id="cancelOrder" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
-                        <label>Cancel Credit Card Order</label>
-                        <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\CancelOrderVisibleField</frontend_model>
-                        <comment>Automatically cancel Credit Card order when payment expired.</comment>
-                        <tooltip>Configure Cron Job on your server.</tooltip>
-                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                    </field>
-                    <field id="ccardKey" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" type="select">
-                        <label>CCard Key</label>
-                        <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\CCardKeyVisibleField</frontend_model>
-                        <source_model>Ifthenpay\Payment\Model\Config\Source\CCardKey</source_model>
-                    </field>
-                    <field id="addNewAccount" translate="label comment" type="button" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+
+
+
+
+
+
+                <group id="ccard" sortOrder="70" translate="label" showInWebsite="1" showInDefault="1">
+                    <fieldset_css>if_ccard</fieldset_css>
+                    <label>Credit Card</label>
+                    <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\IfBackofficeKeyToggleVisibility</frontend_model>
+
+                    <field id="add_new_account" translate="label comment" type="button" sortOrder="10" showInDefault="1" showInWebsite="1">
                         <label>Request Credit Card Account</label>
-                        <comment>Don't have credit card account? Click to request an credit card account</comment>
-                        <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\AddNewAccountBtn</frontend_model>
+                        <comment>Don't have Credit Card account? Click to request Credit Card account.</comment>
+                        <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\RequestNewAccountButton</frontend_model>
+                        <depends>
+                            <field id="key">nokey</field>
+                        </depends>
                     </field>
-                    <field id="allowspecific" translate="label" type="allowspecific" sortOrder="50" showInDefault="1" showInWebsite="1" canRestore="1">
+
+                    <field id="active" type="select" sortOrder="10" translate="label" showInWebsite="1" showInDefault="1">
+                        <label>Enabled</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <config_path>payment/ifthenpay_ccard/active</config_path>
+                        <backend_model>Ifthenpay\Payment\Model\Config\BeforeSave\IsConfigured</backend_model>
+                        <depends>
+                            <field id="key" negative="1">nokey</field>
+                        </depends>
+                    </field>
+
+                    <field id="title" type="text" sortOrder="20" translate="label" showInWebsite="1" showInDefault="1">
+                        <label>Title</label>
+                        <config_path>payment/ifthenpay_ccard/title</config_path>
+                        <depends>
+                            <field id="key" negative="1">nokey</field>
+                        </depends>
+                    </field>
+
+                    <field id="show_payment_icon" type="select" sortOrder="30" translate="label" showInWebsite="1" showInDefault="1">
+                        <label>Display payment method Icon on Checkout</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <config_path>payment/ifthenpay_ccard/show_payment_icon</config_path>
+                        <depends>
+                            <field id="key" negative="1">nokey</field>
+                        </depends>
+                    </field>
+
+                    <field id="key" type="select" sortOrder="50" translate="label" showInWebsite="1" showInDefault="1">
+                        <label>Ccard Key</label>
+                        <source_model>Ifthenpay\Payment\Model\Config\Source\CcardKeyOptions</source_model>
+                        <config_path>payment/ifthenpay_ccard/key</config_path>
+                        <depends>
+                            <field id="key" negative="1">nokey</field>
+                        </depends>
+                    </field>
+
+                    <field id="send_invoice_email" translate="label" type="select" sortOrder="51" showInWebsite="1" showInDefault="1">
+                        <label>Send Invoice Email</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <config_path>payment/ifthenpay_ccard/send_invoice_email</config_path>
+                        <comment>Send invoice email after receiving payment.</comment>
+                        <depends>
+                            <field id="key" negative="1">nokey</field>
+                        </depends>
+                    </field>
+
+                    <field id="show_refund" translate="label" type="select" sortOrder="60" showInWebsite="1" showInDefault="1">
+                        <label>Allow refund</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <config_path>payment/ifthenpay_ccard/show_refund</config_path>
+                        <comment>Enable online refund in order Credit Memo.</comment>
+                        <depends>
+                            <field id="key" negative="1">nokey</field>
+                        </depends>
+                    </field>
+
+                    <field id="min_order_total" type="text" sortOrder="70" translate="label comment" showInWebsite="1" showInDefault="1">
+                        <label>Minimum Order Value</label>
+                        <comment>Display this payment method for orders with value greater or equal to this value. Leave empty to allow any.</comment>
+                        <backend_model>Ifthenpay\Payment\Model\Config\BeforeSave\IsMinLessThanMax</backend_model>
+                        <config_path>payment/ifthenpay_ccard/min_order_total</config_path>
+                        <validate>validate-number validate-zero-or-greater</validate>
+                        <depends>
+                            <field id="key" negative="1">nokey</field>
+                        </depends>
+                    </field>
+
+                    <field id="max_order_total" type="text" sortOrder="80" translate="label comment" showInWebsite="1" showInDefault="1">
+                        <label>Maximum Order Value</label>
+                        <comment>Display this payment method for orders with value lesser or equal to this value. Leave empty to allow any.</comment>
+                        <config_path>payment/ifthenpay_ccard/max_order_total</config_path>
+                        <validate>validate-number validate-zero-or-greater</validate>
+                        <depends>
+                            <field id="key" negative="1">nokey</field>
+                        </depends>
+                    </field>
+
+                    <field id="allowspecific" type="allowspecific" translate="label" sortOrder="90" showInWebsite="1" showInDefault="1">
                         <label>Payment from Applicable Countries</label>
-                        <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\PaymentAplicableCountriesVisibleField</frontend_model>
                         <source_model>Magento\Payment\Model\Config\Source\Allspecificcountries</source_model>
+                        <config_path>payment/ifthenpay_ccard/allowspecific</config_path>
+                        <depends>
+                            <field id="key" negative="1">nokey</field>
+                        </depends>
                     </field>
-                    <field id="specificcountry" translate="label" type="multiselect" sortOrder="51" showInDefault="1" showInWebsite="1">
+
+                    <field id="specificcountry" type="multiselect" translate="label" sortOrder="100" showInWebsite="1" showInDefault="1">
                         <label>Payment from Specific Countries</label>
-                        <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\PaymentSpecificCountriesVisibleField</frontend_model>
                         <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
                         <can_be_empty>1</can_be_empty>
+                        <config_path>payment/ifthenpay_ccard/specificcountry</config_path>
+                        <depends>
+                            <field id="key" negative="1">nokey</field>
+                        </depends>
                     </field>
+
+                    <field id="sort_order" type="text" sortOrder="110" translate="label" showInWebsite="1" showInDefault="1">
+                        <label>Sort Order</label>
+                        <config_path>payment/ifthenpay_ccard/sort_order</config_path>
+                        <validate>validate-number validate-zero-or-greater</validate>
+                        <depends>
+                            <field id="key" negative="1">nokey</field>
+                        </depends>
+                    </field>
+
                 </group>
+
+
             </group>
         </section>
     </system>

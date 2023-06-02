@@ -1,0 +1,38 @@
+
+<div id="ifthenpay_payment_return_panel" class="panel">
+
+    <div class="panel-header">
+        <h3><?= __('Pay by Payshop') ?></h3>
+    </div>
+
+    <div class="panel-body">
+
+        <div class="payment_logo">
+            <img src="<?php echo $block->paymentReturnData['paymentLogo'] ?>" alt="<?php echo $block->paymentReturnData['paymentMethod'] . ' ' . __('Logo') ?>">
+        </div>
+
+            <div>
+                <table class="table">
+                    <tbody>
+
+                        <tr>
+                            <td class="if_td_desc"><?= __('Reference') ?>:</td>
+                            <td class="if_td_value copy_no_spaces"><?php echo $block->paymentReturnData['reference'] ?></td>
+                        </tr>
+
+                        <?php if ($block->paymentReturnData['deadline'] != '') { ?>
+                            <tr>
+                                <td class="if_td_desc"><?= __('Deadline') ?>:</td>
+                                <td class="if_td_value"><?php echo $block->paymentReturnData['deadline'] ?></td>
+                            </tr>
+                        <?php } ?>
+                        <tr>
+                            <td class="if_td_desc"><?= __('Total to Pay') ?>:</td>
+                            <td class="if_td_value"><?php echo $block->paymentReturnData['orderTotal'] . $block->paymentReturnData['currencySymbol'] ?></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+    </div>
+</div>

@@ -1,17 +1,17 @@
 {
     "ifthenpay_multibanco": {
         "column": {
-            "requestId": true,
-            "validade": true,
             "id": true,
-            "entidade": true,
-            "referencia": true,
+            "entity": true,
+            "reference": true,
+            "deadline": true,
             "order_id": true,
-            "status": true
+            "status": true,
+            "request_id": true
         },
         "index": {
-            "IFTHENPAY_MULTIBANCO_REQUESTID": true,
-            "IFTHENPAY_MULTIBANCO_REFERENCIA": true
+            "IFTHENPAY_MULTIBANCO_REFERENCE": true,
+            "IFTHENPAY_MULTIBANCO_REQUEST_ID": true
         },
         "constraint": {
             "PRIMARY": true
@@ -20,13 +20,14 @@
     "ifthenpay_mbway": {
         "column": {
             "id": true,
-            "id_transacao": true,
-            "telemovel": true,
+            "transaction_id": true,
+            "phone_number": true,
+            "order_total": true,
             "order_id": true,
             "status": true
         },
         "index": {
-            "IFTHENPAY_MBWAY_ID_TRANSACAO": true
+            "IFTHENPAY_MBWAY_TRANSACTION_ID": true
         },
         "constraint": {
             "PRIMARY": true
@@ -35,14 +36,14 @@
     "ifthenpay_payshop": {
         "column": {
             "id": true,
-            "id_transacao": true,
-            "referencia": true,
-            "validade": true,
+            "transaction_id": true,
+            "reference": true,
+            "deadline": true,
             "order_id": true,
             "status": true
         },
         "index": {
-            "IFTHENPAY_PAYSHOP_ID_TRANSACAO": true
+            "IFTHENPAY_PAYSHOP_TRANSACTION_ID": true
         },
         "constraint": {
             "PRIMARY": true
@@ -51,12 +52,12 @@
     "ifthenpay_ccard": {
         "column": {
             "id": true,
-            "requestId": true,
+            "request_id": true,
             "order_id": true,
             "status": true
         },
         "index": {
-            "IFTHENPAY_CCARD_REQUESTID": true
+            "IFTHENPAY_CCARD_REQUEST_ID": true
         },
         "constraint": {
             "PRIMARY": true

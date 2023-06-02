@@ -1,0 +1,98 @@
+<input type="hidden" id="ifthenpay_order_id" value="<?php echo $block->paymentReturnData['orderId']; ?>"/>
+<input type="hidden" id="ifthenpay_transaction_id" value="<?php echo $block->paymentReturnData['transactionId'] ?>"/>
+<input type="hidden" id="ifthenpay_check_mbway_status_url" value="<?php echo $block->paymentReturnData['checkMbwayPaymentStatusUrl']; ?>"/>
+<input type="hidden" id="ifthenpay_resend_mbway_notification_url" value="<?php echo $block->paymentReturnData['resendMbwayNotificationUrl']; ?>"/>
+<input type="hidden" id="ifthenpay_mbway_phone_number" value="<?php echo $block->paymentReturnData['phoneNumber'] ?>"/>
+<input type="hidden" id="ifthenpay_show_countdown" value="<?php echo $block->paymentReturnData['showCountdown'] ?>"/>
+<input type="hidden" id="ifthenpay_store_id" value="<?php echo $block->paymentReturnData['storeId'] ?>"/>
+
+
+<?php if (isset($block->paymentReturnData['showCountdown']) && $block->paymentReturnData['showCountdown'] === '1') { ?>
+
+    <div class="panel ifthenpay_countdown_panel">
+        <div class="panel-body">
+            <h3><?= __('Confirm payment in MB WAY App') ?></h3>
+            <div id="app_spinner" style="display:none">
+                <img src="<?php echo $block->paymentReturnData['spinnerImg']; ?>" alt="spinner svg"/>
+            </div>
+            <div id="countdown_mbway">
+                <h3 id="ifthenpay_countdown_minutes"></h3>
+                <h3>:</h3>
+                <h3 id="ifthenpay_countdown_seconds"></h3>
+            </div>
+            <p><?= __('If you do not confirm payment within 5 minutes, the payment notification will expire.') ?></p>
+        </div>
+    </div>
+
+<?php } ?>
+
+
+<div id="ifthenpay_mbway_payment_confirmed_panel" class="panel ifthenpay_mbway_payment_response_panel" style="display:none;">
+    <div class="panel-heading mbway_status">
+        <img src="<?php echo $block->paymentReturnData['confirmImg']; ?>" alt="confirm order icon">
+    </div>
+    <div class="panel-body">
+        <h3><?= __('Order Paid!') ?></h3>
+        <p><?= __('Payment confirmed.') ?></p>
+    </div>
+</div>
+<div id="ifthenpay_mbway_payment_refused_panel" class="panel ifthenpay_mbway_payment_response_panel" style="display:none;">
+    <div class="panel-heading mbway_status">
+        <img src="<?php echo $block->paymentReturnData['warningImg']; ?>" alt="refused order icon">
+        </div>
+    <div class="panel-body">
+        <h3><?= __('MB WAY payment refused!') ?></h3>
+        <p><?= __('Order payment refused from MB WAY App.') ?></p>
+    </div>
+</div>
+<div id="ifthenpay_mbway_payment_error_panel" class="panel ifthenpay_mbway_payment_response_panel" style="display:none;">
+    <div class="panel-heading mbway_status">
+        <img src="<?php echo $block->paymentReturnData['failImg']; ?>" alt="error order icon">
+    </div>
+    <div class="panel-body">
+        <h3><?= __('MB WAY payment failed!') ?></h3>
+        <p><?= __('Order payment by MB WAY failed either from incorrect phone number or SIBS downtime.') ?></p>
+    </div>
+</div>
+<div id="ifthenpay_mbway_payment_out_of_time_panel" class="panel ifthenpay_mbway_payment_response_panel" style="display:none;">
+    <div class="panel-heading mbway_status">
+    <img src="<?php echo $block->paymentReturnData['failImg']; ?>" alt="out of time order icon">
+        <h3><?= __('Out of Time!') ?></h3>
+    </div>
+    <div class="panel-body">
+        <p><?= __('Request another payment notification to your smartphone by clicking the Resend MB WAY notification below.') ?></p>
+    </div>
+</div>
+
+
+
+<div id="ifthenpay_payment_return_panel" class="panel">
+    <div class="panel-header">
+        <h3><?= __('Pay by MB WAY') ?></h3>
+    </div>
+    <div class="panel-body">
+        <div class="payment_logo">
+            <img src="<?php echo $block->paymentReturnData['paymentLogo'] ?>" alt="<?php echo $block->paymentReturnData['paymentMethod'] . ' ' . __('Logo') ?>">
+        </div>
+        <table class="table">
+            <tbody>
+                <tr>
+                    <td class="if_td_desc"><?= __('Phone Number') ?>:</td>
+                    <td class="if_td_value"><?php echo $block->paymentReturnData['phoneNumber']; ?></td>
+                </tr>
+                <tr>
+                    <td class="if_td_desc"><?= __('Order') ?>:</td>
+                    <td class="if_td_value"><?php echo $block->paymentReturnData['orderId']; ?></td>
+                </tr>
+                <tr>
+                    <td class="if_td_desc"><?= __('Total to Pay') ?>:</td>
+                    <td class="if_td_value"><?php echo $block->paymentReturnData['orderTotal'] . $block->paymentReturnData['currencySymbol']; ?></td>
+                </tr>
+            </tbody>
+        </table>
+        <div id="ifthenpay_resend_mbway_notification_div" style="display:none;">
+            <h5><?= __('Did not receive MB WAY notification?') ?></h5>
+            <button class="btn btn-primary" id="ifthenpay_resend_mbway_notification_btn"><?= __('Resend MB WAY notification') ?></button>
+        </div>
+    </div>
+</div>

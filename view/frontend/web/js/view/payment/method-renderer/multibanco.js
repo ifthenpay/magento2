@@ -12,15 +12,19 @@ define([
 ], function (Component) {
     'use strict';
 
+
     return Component.extend({
         defaults: {
             template: 'Ifthenpay_Payment/payment/multibancoForm'
         },
         getLogoUrl: function () {
-                return window.checkoutConfig.payment.multibanco.logoUrl;
+            return window.checkoutConfig.payment.ifthenpay_multibanco.logoUrl;
         },
         getShowPaymentIcon: function () {
-            return window.checkoutConfig.payment.multibanco.showPaymentIcon ? window.checkoutConfig.payment.multibanco.showPaymentIcon : false;
-        }
+            return window.checkoutConfig.payment.ifthenpay_multibanco.showPaymentIcon ? window.checkoutConfig.payment.ifthenpay_multibanco.showPaymentIcon : false;
+        },
+        getTitle: function () {
+            return window.checkoutConfig.payment.ifthenpay_multibanco.title;
+        },
     });
 });

@@ -17,19 +17,21 @@ define(
     ],
     function ($t, messageList, $, documentReady) {
         'use strict';
+
         return {
             validate: function () {
+
                 var mbwayPhoneRegex = /^((91|96|92|93)[0-9]{7})$/g;
                 var isValid = true; //Put your validation logic here
                 var paymentMethodSelected = $('input[name="payment[method]"]:checked').attr('id');
-                if (paymentMethodSelected === 'mbway') {
-                    var mbwayPhoneNumber = $('#mbwayPhoneNumber').val();
+                if (paymentMethodSelected === 'ifthenpay_mbway' && $('#ifthenpay_mbway_phone_number').length) {
+                    var mbwayPhoneNumber = $('#ifthenpay_mbway_phone_number').val();
                     if (!mbwayPhoneNumber) {
                         isValid = false;
-                        messageList.addErrorMessage({ message: $t('mbwayPhoneRequired')});
-                    } else if (!mbwayPhoneRegex.test($('#mbwayPhoneNumber').val())) {
+                        messageList.addErrorMessage({ message: $t('mbwayPhoneRequired') });
+                    } else if (!mbwayPhoneRegex.test($('#ifthenpay_mbway_phone_number').val())) {
                         isValid = false;
-                        messageList.addErrorMessage({ message: $t('mbwayPhoneInvalid')});
+                        messageList.addErrorMessage({ message: $t('mbwayPhoneInvalid') });
                     }
                 }
                 return isValid;

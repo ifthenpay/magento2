@@ -1,67 +1,70 @@
 <?xml version="1.0"?>
 <!--
 /**
- * Copyright © Magento, Inc. All rights reserved.
- * See COPYING.txt for license details.
+ * @category    Gateway Payment
+ * @package     Ifthenpay_Payment
+ * @author      Ifthenpay
+ * @copyright   Ifthenpay (https://www.ifthenpay.com)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 -->
-<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
     <table name="ifthenpay_multibanco" resource="default">
         <column xsi:type="int" name="id" unsigned="true" nullable="false" identity="true"/>
-        <column xsi:type="varchar" name="entidade" nullable="false" length="20"/>
-        <column xsi:type="varchar" name="referencia" nullable="false" length="50"/>
-        <column xsi:type="varchar" name="validade" nullable="false" length="15"/>
+        <column xsi:type="varchar" name="entity" nullable="false" length="20" onCreate="migrateDataFrom(entidade)"/>
+        <column xsi:type="varchar" name="reference" nullable="false" length="50" onCreate="migrateDataFrom(referencia)"/>
         <column xsi:type="varchar" name="order_id" nullable="false" length="250"/>
         <column xsi:type="varchar" name="status" nullable="false" length="50"/>
-        <column xsi:type="varchar" name="requestId" nullable="true" length="50"/>
+        <column xsi:type="varchar" name="deadline" nullable="true" length="15" onCreate="migrateDataFrom(validade)"/>
+        <column xsi:type="varchar" name="request_id" nullable="true" length="50" onCreate="migrateDataFrom(requestId)"/>
         <constraint xsi:type="primary" referenceId="PRIMARY">
             <column name="id"/>
         </constraint>
-        <index referenceId="INDEX_REFERENCIA" indexType="btree">
-            <column name="referencia"/>
+        <index referenceId="INDEX_REFERENCE" indexType="btree">
+            <column name="reference"/>
         </index>
         <index referenceId="INDEX_REQUESTID" indexType="btree">
-           <column name="requestId"/>
+            <column name="request_id"/>
         </index>
     </table>
     <table name="ifthenpay_mbway" resource="default">
         <column xsi:type="int" name="id" unsigned="true" nullable="false" identity="true"/>
-        <column xsi:type="varchar" name="id_transacao" nullable="false" length="250"/>
-        <column xsi:type="varchar" name="telemovel" nullable="false" length="20"/>
+        <column xsi:type="varchar" name="transaction_id" nullable="false" length="250" onCreate="migrateDataFrom(id_transacao)"/>
+        <column xsi:type="varchar" name="phone_number" nullable="false" length="20" onCreate="migrateDataFrom(telemovel)"/>
         <column xsi:type="varchar" name="order_id" nullable="false" length="250"/>
+        <column xsi:type="varchar" name="order_total" nullable="false" length="20"/>
         <column xsi:type="varchar" name="status" nullable="false" length="50"/>
         <constraint xsi:type="primary" referenceId="PRIMARY">
             <column name="id"/>
         </constraint>
-        <index referenceId="INDEX_IDTRANSACAO" indexType="btree">
-            <column name="id_transacao"/>
+        <index referenceId="INDEX_IDTRANSACTION" indexType="btree">
+            <column name="transaction_id"/>
         </index>
     </table>
     <table name="ifthenpay_payshop" resource="default">
         <column xsi:type="int" name="id" unsigned="true" nullable="false" identity="true"/>
-        <column xsi:type="varchar" name="id_transacao" nullable="false" length="250"/>
-        <column xsi:type="varchar" name="referencia" nullable="false" length="50"/>
-        <column xsi:type="varchar" name="validade" nullable="false" length="15"/>
+        <column xsi:type="varchar" name="transaction_id" nullable="false" length="250" onCreate="migrateDataFrom(id_transacao)"/>
+        <column xsi:type="varchar" name="reference" nullable="false" length="50" onCreate="migrateDataFrom(referencia)"/>
+        <column xsi:type="varchar" name="deadline" nullable="true" length="15" onCreate="migrateDataFrom(validade)"/>
         <column xsi:type="varchar" name="order_id" nullable="false" length="250"/>
         <column xsi:type="varchar" name="status" nullable="false" length="50"/>
         <constraint xsi:type="primary" referenceId="PRIMARY">
             <column name="id"/>
         </constraint>
-        <index referenceId="INDEX_IDTRANSACAO" indexType="btree">
-            <column name="id_transacao"/>
+        <index referenceId="INDEX_IDTRANSACTION" indexType="btree">
+            <column name="transaction_id"/>
         </index>
     </table>
     <table name="ifthenpay_ccard" resource="default">
         <column xsi:type="int" name="id" unsigned="true" nullable="false" identity="true"/>
-        <column xsi:type="varchar" name="requestId" nullable="false" length="250"/>
+        <column xsi:type="varchar" name="request_id" nullable="false" length="250" onCreate="migrateDataFrom(requestId)"/>
         <column xsi:type="varchar" name="order_id" nullable="false" length="250"/>
         <column xsi:type="varchar" name="status" nullable="false" length="50"/>
         <constraint xsi:type="primary" referenceId="PRIMARY">
             <column name="id"/>
         </constraint>
         <index referenceId="INDEX_REQUESTID" indexType="btree">
-            <column name="requestId"/>
+            <column name="request_id"/>
         </index>
     </table>
 </schema>

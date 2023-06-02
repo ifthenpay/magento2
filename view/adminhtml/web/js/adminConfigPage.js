@@ -1,192 +1,253 @@
-/**
-* Ifthenpay_Payment module dependency
-*
-* @category    Gateway Payment
-* @package     Ifthenpay_Payment
-* @author      Ifthenpay
-* @copyright   Ifthenpay (http://www.ifthenpay.com)
-* @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
-*/
-
-function extractScopeId(){
-    let needle = 'website';
-    let scopeId = '0';
-    let currUrl = window.location.href
-
-    let scopeStrIndex = currUrl.indexOf(needle);
-
-    if (scopeStrIndex !== -1) {
-        scopeId = currUrl.substring(scopeStrIndex + needle.length).replace(/^\/|\/$/g, '');
-    }
-
-    return scopeId;
-}
-
 require([
     'jquery',
-    'domReady!',
-    'mage/url',
-    'Magento_Ui/js/modal/alert',
+    'Magento_Ui/js/modal/confirm',
     'mage/translate'
-], function($, documentReady, url, alert, $t){
-    var subEntidadeInput = $('select[id*="ifthenpay_multibanco_subEntidade"]');
-    var documentFragment = $(document.createDocumentFragment());
+], function ($, mConfirm, $t) {
+    $(document).ready(function () {
 
-    $('select[id*="ifthenpay_multibanco_entidade"]').change(function (event) {
-        var eventTarget = $(event.target);
+        // variables from the block Main _getExtraJs
+        // ifthenpay_scope
+        // ifthenpay_scopeCode
+        // ifthenpay_storeId
+        // ifthenpay_urlResetBackofficeKey
+        // ifthenpay_urlGetSubEntities
+        // ifthenpay_urlRequestAccount
+        // ifthenpay_urlRefreshAccounts
+        // ifthenpay_dynamicMultibancoCode
 
-        let scopeId = extractScopeId();
 
-        $.ajax({
-            url: window.urlChangeEntidade,
-            data: {
-                scope_id: scopeId,
-                form_key: window.FORM_KEY,
-                entidade: eventTarget.val()
-            },
-            showLoader: true,
-            type: 'POST',
-            dataType: 'json',
-            success: function(data, status, xhr) {
-                subEntidadeInput.empty();
-                if (Array.isArray(data) && data.length && data[0][0]) {
-                    
-                    Object.keys(data).forEach(key => {
-                        data[key][0].SubEntidade.forEach((subEntidade) => {
-                            documentFragment.append($(`<option value="${subEntidade}">${subEntidade}</option>`));
-                        });
-                    });
-                    subEntidadeInput.append(documentFragment);
-                }
 
-            },
-            error: function (xhr, status, errorThrown) {
-                alert({
-                    title: 'Error!',
-                    content: $t('errorRetreivingSubEntidade'),
-                    actions: {
-                        always: function(){}
-                    }
-                });
+        // add accounts refresh button
+        addAccountsRefreshButton();
+
+        // set label on load
+        setMultbancoEntityLabel();
+
+
+        // eventlistener: on selected entity will get the corresponding list of subentities
+        $('select[id*="ifthenpay_multibanco_entity"]').on("change", function (event) {
+            let eventTarget = $(event.target);
+            let entity = eventTarget.val();
+
+            if (!entity) {
+                return;
             }
+            ajaxGetSubEntities(entity);
+        });
+
+
+
+
+
+        // eventlistener: on click of the reset backoffice key button displays modal, which when confirmed will reset key through ajax call
+        $("#reset_backoffice_key_btn").on("click", function () {
+            mConfirm({
+                title: $t('resetBackofficeKey'),
+                content: $t('atentionResetBackofficeKey'),
+                actions: {
+                    confirm: function () {
+                        ajaxResetBackofficeKey(ifthenpay_scope, ifthenpay_scopeCode);
+                    },
+                    cancel: function () { } // the cancel does not require any action
+                }
+            });
+        });
+        $(".request_account_btn").on("click", function (event) {
+
+            let paymentMethod = $(event.target).parent().attr('data-paymentmethod');
+
+
+            let content = $t('requestAccountFor') + translatePaymentMethod(paymentMethod) + '?';
+
+            mConfirm({
+                title: $t('requestAccount'),
+                content: content,
+                actions: {
+                    confirm: function () {
+                        ajaxRequestAccount(paymentMethod, ifthenpay_scope, ifthenpay_scopeCode, ifthenpay_storeId);
+                    },
+                    cancel: function () { } // the cancel does not require any action
+                }
+            });
         });
     });
 
-    $('.addNewAccountBtn').click(function(event) {
-        let scopeId = extractScopeId();
+    function addAccountsRefreshButton() {
 
+        let targetElements = $('.ifthenpay-payment-logo');
+
+        if (targetElements.length !== 0) {
+            let targetElement = targetElements[0];
+
+            targetElement.on("click", function (event) {
+                if (event.shiftKey && event.altKey) {
+
+                    mConfirm({
+                        title: $t('refreshAccounts'),
+                        content: $t('actionWillRefresh'),
+                        actions: {
+                            confirm: function () {
+                                ajaxRefreshAccounts(ifthenpay_scope, ifthenpay_scopeCode);
+                            },
+                            cancel: function () { } // the cancel does not require any action
+                        }
+                    });
+                }
+            });
+        }
+    }
+
+
+
+    /**
+     * ajax function to get the available subentities of selected entity will display error message if no subentities are found
+     * @param {*} entity
+     */
+    function ajaxGetSubEntities(entity) {
         $.ajax({
-            url: window.urlAddNewAccount,
-            data: {
-                scope_id: scopeId,
-                form_key: window.FORM_KEY,
-                paymentMethod: $(event.target).parent().attr('data-paymentmethod')
-            },
-            showLoader: true,
-            type: 'GET',
+            method: 'GET',
             dataType: 'json',
-            success: function(data, status, xhr) {
-                if (data.error) {
-                    alert({
-                        title: 'Error!',
-                        content: $t('errorRequestNewAccount'),
-                        actions: {
-                            always: function(){}
-                        }
-                    });
-                }
-                else{
-                    alert({
-                        title: 'Success!',
-                        content: $t('emailRequestNewAccount'),
-                        actions: {
-                            always: function(){}
-                        }
-                    });
-                }
-            },
-            error: function (xhr, status, errorThrown) {
-                alert({
-                    title: 'Error!',
-                    content: $t('errorRequestNewAccount'),
-                    actions: {
-                        always: function(){}
-                    }
-                });
+            url: ifthenpay_urlGetSubEntities,
+            showLoader: true,
+            data: {
+                entity: entity,
+                form_key: window.FORM_KEY,
+                scope: ifthenpay_scope,
+                scopeCode: ifthenpay_scopeCode
             }
-        });
-    });
+        })
+            .done(function (response) {
+                let subEntitiesSelect = $('select[id*="ifthenpay_multibanco_sub_entity"]');
+                subEntitiesSelect.empty();
 
-    
-    $('.resetBackOfficeKey').click(function(event) {
+                ifth_clearErrorMessageInField('select[id*="ifthenpay_multibanco_sub_entity"]');
 
-        let scopeId = extractScopeId();
+                if (response.subEntities) {
+                    if (entity === ifthenpay_dynamicMultibancoCode) {
+                        subEntitiesSelect.append('<option value="">' + $t('selectMultibancoKey') + '</option>');
+                    }
+                    else {
+                        subEntitiesSelect.append('<option value="">' + $t('selectMultibancoSubEntity') + '</option>');
+                    }
 
-        $.ajax({
-            url: window.urlResetBackofficeKey,
-            data: {
-                scope_id: scopeId,
-                form_key: window.FORM_KEY,
-            },
-            showLoader: true,
-            type: 'GET',
-            dataType: 'json',
-            success: function(data, status, xhr) {
-                if (data.success) {
-                    location.reload();
+                    setMultbancoEntityLabel();
+
+                    $.each(response.subEntities, function (key, value) {
+                        subEntitiesSelect.append('<option value="' + value + '">' + value + '</option>');
+                    });
                 } else {
-                    alert({
-                        title: 'Error!',
-                        content: $t('errorResetingBackofficeKey'),
-                        actions: {
-                            always: function(){}
-                        }
-                    });
+                    let errorMessage = response.errorMessage ? response.errorMessage : ifthenpay_standardErrorMessage;
+                    ifth_displayErrorMessageInField('select[id*="ifthenpay_multibanco_sub_entity"]', errorMessage);
                 }
+            })
+            .fail(function () {
+                ifth_displayErrorMessageInField('select[id*="ifthenpay_multibanco_sub_entity"]', ifthenpay_standardErrorMessage);
+            });
+    }
 
-            },
-            error: function (xhr, status, errorThrown) {
-                alert({
-                    title: 'Error!',
-                    content: $t('errorResetingBackofficeKey'),
-                    actions: {
-                        always: function(){}
-                    }
-                });
-            }
-        });
-    });
-    $('.requestDynamicMb').click(function(event) {
-
-        let scopeId = extractScopeId();
-
+    /**
+     * ajax function to reset the backofficeKey, error treatment is dealt with on php side by setting an error message to session
+     */
+    function ajaxResetBackofficeKey(ifthenpay_scope, ifthenpay_scopeCode) {
         $.ajax({
-            url: window.urlAddMultibancoDeadline,
-            data: {
-                scope_id: scopeId,
-                form_key: window.FORM_KEY,
-            },
-            showLoader: true,
-            type: 'GET',
+            method: 'GET',
             dataType: 'json',
-            success: function(data, status, xhr) {
-                alert({
-                    title: 'Success!',
-                    content: $t('emailRequestDynamicMbAccount'),
-                    actions: {
-                        always: function(){}
-                    }
-                });
-            },
-            error: function (xhr, status, errorThrown) {
-                alert({
-                    title: 'Error!',
-                    content: $t('errorRequestMultibancoDeadline'),
-                    actions: {
-                        always: function(){}
-                    }
-                });
+            url: ifthenpay_urlResetBackofficeKey,
+            showLoader: true,
+            data: {
+                form_key: window.FORM_KEY,
+                scope: ifthenpay_scope,
+                scopeCode: ifthenpay_scopeCode
             }
-        });
-    });
+        })
+            .done(function () {
+                location.reload();
+            })
+            .fail(function () {
+                // do nothing
+            });
+    }
+
+    function ajaxRequestAccount(paymentMethod, ifthenpay_scope, ifthenpay_scopeCode, ifthenpay_storeId) {
+        $.ajax({
+            method: 'GET',
+            dataType: 'json',
+            url: ifthenpay_urlRequestAccount,
+            showLoader: true,
+            data: {
+                form_key: window.FORM_KEY,
+                paymentMethod: paymentMethod,
+                scope: ifthenpay_scope,
+                scopeCode: ifthenpay_scopeCode,
+                storeId: ifthenpay_storeId
+            }
+        })
+            .done(function () {
+                location.reload();
+            })
+            .fail(function () {
+                // do nothing
+            });
+    }
+
+    function ajaxRefreshAccounts(ifthenpay_scope, ifthenpay_scopeCode) {
+        $.ajax({
+            method: 'GET',
+            dataType: 'json',
+            url: ifthenpay_urlRefreshAccounts,
+            showLoader: true,
+            data: {
+                form_key: window.FORM_KEY,
+                scope: ifthenpay_scope,
+                scopeCode: ifthenpay_scopeCode
+            }
+        })
+            .done(function () {
+                location.reload();
+            })
+            .fail(function () {
+                // do nothing
+            });
+    }
+
+    /**
+     * updates subentity/key label in configuration acording to selected Entity
+     * example:
+     * MB: Key
+     * 12345: Sub Entity
+     * 10342: Sub Entity
+     */
+    function setMultbancoEntityLabel() {
+        let selectedEntity = $('select[id*="ifthenpay_multibanco_entity"]').val();
+        let subEntityLabel = $('tr[id*="ifthenpay_multibanco_sub_entity"] .label label span');
+
+        if (selectedEntity === ifthenpay_dynamicMultibancoCode) {
+            subEntityLabel.text($t('multibancoKey'));
+        }
+        else{
+            subEntityLabel.text($t('subEntity'));
+        }
+    }
+
+
+
+
+    function translatePaymentMethod(paymentMethod) {
+
+        switch (paymentMethod) {
+            case "multibanco":
+                return $t("multibanco");
+            case "mbway":
+                return $t("mbway");
+            case "payshop":
+                return $t("payshop");
+            case "ccard":
+                return $t("ccard");
+            case "MB":
+                return $t("mb");
+            default:
+                return paymentMethod;
+        }
+    }
+
 });

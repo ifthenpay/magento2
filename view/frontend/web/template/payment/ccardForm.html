@@ -16,7 +16,9 @@
                class="radio"
                data-bind="attr: {'id': getCode()}, value: getCode(), checked: isChecked, click: selectPaymentMethod, visible: isRadioButtonVisible()" />
         <!-- ko if: getShowPaymentIcon() -->
-            <img data-bind="attr: {src: getLogoUrl(), height: '39', width: '163'}" class="payment-icon ccardIcon" />
+        <label class="label" data-bind="attr: {'for': getCode()}">
+            <img data-bind="attr: {src: getLogoUrl(), height: '38'}" class="payment-icon" />
+        </label>
         <!-- /ko -->
         <!-- ko ifnot: getShowPaymentIcon() -->
             <label class="label" data-bind="attr: {'for': getCode()}">
@@ -44,15 +46,14 @@
                         type="submit"
                         data-bind="
                         click: placeOrder,
-                        attr: {title: $t('Place Order')},
+                        attr: {title: $t('placeOrder')},
                         css: {disabled: !isPlaceOrderActionAllowed()},
                         enable: (getCode() == isChecked())
                         "
                         disabled>
-                    <span data-bind="i18n: 'Place Order'"></span>
+                    <span data-bind="i18n: 'placeOrder'"></span>
                 </button>
             </div>
         </div>
     </div>
 </div>
-

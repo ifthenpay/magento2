@@ -1,117 +1,117 @@
 <?php
 /**
-* Ifthenpay_Payment module dependency
-*
-* @category    Gateway Payment
-* @package     Ifthenpay_Payment
-* @author      Ifthenpay
-* @copyright   Ifthenpay (http://www.ifthenpay.com)
-* @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
-*/
+ * @category    Gateway Payment
+ * @package     Ifthenpay_Payment
+ * @author      Ifthenpay
+ * @copyright   Ifthenpay (https://www.ifthenpay.com)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
 
 namespace Ifthenpay\Payment\Block\Checkout\Onepage\Success;
 
+use Ifthenpay\Payment\Config\ConfigVars;
+use Magento\Checkout\Model\Session;
 use Magento\Framework\UrlInterface;
-use \Magento\Checkout\Model\Session;
-use Ifthenpay\Payment\Lib\Payments\Gateway;
-use Ifthenpay\Payment\Helper\Factory\DataFactory;
 use Magento\Framework\View\Element\Template\Context;
-use Ifthenpay\Payment\Lib\Traits\Payments\FormatReference;
+use Magento\Framework\View\Element\Template;
+use Ifthenpay\Payment\Model\ScopeConfigResolver;
 
-class PaymentReturn extends \Magento\Framework\View\Element\Template
+
+
+class PaymentReturn extends Template
 {
-    use FormatReference;
 
-    public $_checkoutSession;
-    private $gateway;
+    public $checkoutSession;
+    public $paymentReturnData;
     private $urlBuilder;
-    private $ifthenpayPaymentStatus;
-    private $payment;
-    private $dataFactory;
-
+    private $scopeConfigResolver;
     public function __construct(
-        Gateway $gateway,
-        DataFactory $dataFactory,
-        UrlInterface $urlBuilder,
         Context $context,
         Session $checkoutSession,
+        UrlInterface $urlBuilder,
+        ScopeConfigResolver $scopeConfigResolver,
         array $data = []
     ) {
-        $this->_checkoutSession = $checkoutSession;
-        $this->gateway = $gateway;
+        $this->checkoutSession = $checkoutSession;
         $this->urlBuilder = $urlBuilder;
-        $this->dataFactory = $dataFactory;
+        $this->scopeConfigResolver = $scopeConfigResolver;
         parent::__construct($context, $data);
-    }
 
-    public function isIfthenpayPayment(){
-        $this->payment = $this->getOrder()->getPayment();
-        if ($this->payment && $this->gateway->checkIfthenpayPaymentMethod($this->getPaymentMethod())){
-            $this->getPaymentReturn();
-            return true;
+
+        $order = $this->checkoutSession->getLastRealOrder();
+        $payment = $order->getPayment();
+        $this->paymentReturnData = $payment->getAdditionalInformation();
+
+
+        // set the correct template for the payment method
+        switch ($this->getMethodCode()) {
+
+            case ConfigVars::MULTIBANCO_CODE:
+                $this->paymentReturnData['paymentLogo'] = $this->getViewFileUrl(ConfigVars::ASSET_PATH_CHECKOUT_LOGO_MULTIBANCO);
+                // set the formatted reference
+                $ref = $this->paymentReturnData['reference'];
+                $this->paymentReturnData['formattedReference'] = substr($ref, 0, 3) . " " . substr($ref, 3, 3) . " " . substr($ref, 6);
+
+                $this->setTemplate('Ifthenpay_Payment::checkout/onepage/success/multibancoPaymentReturn.phtml');
+                break;
+            case ConfigVars::PAYSHOP_CODE:
+                $this->paymentReturnData['paymentLogo'] = $this->getViewFileUrl(ConfigVars::ASSET_PATH_CHECKOUT_LOGO_PAYSHOP);
+                $this->setTemplate('Ifthenpay_Payment::checkout/onepage/success/payshopPaymentReturn.phtml');
+                break;
+
+            case ConfigVars::MBWAY_CODE:
+
+                $store = $this->scopeConfigResolver->storeManager->getStore($this->scopeConfigResolver->storeId);
+
+                $showCountdown = $store->getConfig('payment/ifthenpay_mbway/show_countdown');
+
+                $this->paymentReturnData['storeId'] = $this->scopeConfigResolver->storeId;
+
+                $this->paymentReturnData['paymentLogo'] = $this->getViewFileUrl(ConfigVars::ASSET_PATH_CHECKOUT_LOGO_MBWAY);
+                $this->paymentReturnData['spinnerImg'] = $this->getViewFileUrl(ConfigVars::ASSET_PATH_SPINNER);
+                $this->paymentReturnData['confirmImg'] = $this->getViewFileUrl(ConfigVars::ASSET_PATH_CHECKOUT_CONFIRM);
+                $this->paymentReturnData['failImg'] = $this->getViewFileUrl(ConfigVars::ASSET_PATH_CHECKOUT_FAIL);
+                $this->paymentReturnData['warningImg'] = $this->getViewFileUrl(ConfigVars::ASSET_PATH_CHECKOUT_WARNING);
+                $this->paymentReturnData['checkMbwayPaymentStatusUrl'] = $this->urlBuilder->getUrl(ConfigVars::AJAX_URL_STR_GET_MBWAY_PAYMENT_STATUS);
+                $this->paymentReturnData['resendMbwayNotificationUrl'] = $this->urlBuilder->getUrl(ConfigVars::AJAX_URL_STR_GET_MBWAY_RESEND_NOTIFICATION);
+                $this->paymentReturnData['showCountdown'] = $showCountdown;
+
+                $this->setTemplate('Ifthenpay_Payment::checkout/onepage/success/mbwayPaymentReturn.phtml');
+                break;
+
+            case ConfigVars::CCARD_CODE:
+                $this->paymentReturnData['paymentLogo'] = $this->getViewFileUrl(ConfigVars::ASSET_PATH_CHECKOUT_LOGO_CCARD);
+                $this->setTemplate('Ifthenpay_Payment::checkout/onepage/success/ccardPaymentReturn.phtml');
+                break;
+
+            default:
+                throw new \Exception("Unknown Config Class");
+
         }
-        return false;
+
     }
 
-
-    private function getPaymentReturn(): void
-    {
-        $this->ifthenpayGatewayResult = $this->payment->getAdditionalInformation();
-
-        if ($this->ifthenpayGatewayResult && $this->ifthenpayGatewayResult['status'] === 'success') {
-            $this->ifthenpayPaymentStatus = true;
-        } else {
-            $this->ifthenpayPaymentStatus = false;
-        }
-    }
-
-    public function getValor()
-    {
-        return $this->getOrder()->formatPrice($this->getOrder()->getGrandTotal());
-    }
-
-    public function getOrder()
-    {
-        return $this->_checkoutSession->getLastRealOrder();
-    }
 
     public function getPaymentMethod(): string
     {
         return $this->getOrder()->getPayment()->getMethod();
     }
 
-    public function getMbwayCountdownShow()
+    public function getPayment()
     {
-        return $this->getOrder()->getPayment()->getAdditionalInformation('mbwayCountdownShow');
+        $order = $this->checkoutSession->getLastRealOrder();
+
+        return $order->getPayment()->getMethodInstance();
     }
 
-    public function getResendMbwayNotificationControllerUrl(): string
+    /**
+     * Method Code.
+     *
+     * @return string
+     */
+    public function getMethodCode()
     {
-        return $this->urlBuilder->getUrl('ifthenpay/Frontend/ResendMbwayNotification');
+        return $this->getPayment()->getCode();
     }
 
-    public function getPaymentResultStatus(): bool
-    {
-        return $this->ifthenpayPaymentStatus;
-    }
-
-    public function getOrderId(): string
-    {
-        return $this->getOrder()->getIncrementId();
-    }
-
-    public function getUrlCancelMbwayOrder(): string
-    {
-        return $this->urlBuilder->getUrl('ifthenpay/Frontend/CancelMbwayOrder');
-    }
-
-    public function getUrlCheckMbwayPaymentStatus(): string
-    {
-        return $this->urlBuilder->getUrl('ifthenpay/Frontend/CheckMbwayOrderStatus');
-    }
-
-    public function getStoreCurency(): string
-    {
-        return $this->dataFactory->setType($this->getPaymentMethod())->build()->getCurrentCurrencySymbol();
-    }
 }

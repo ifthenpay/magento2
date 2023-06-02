@@ -1,0 +1,164 @@
+/**
+* Ifthenpay_Payment module dependency
+*
+* @category    Gateway Payment
+* @package     Ifthenpay_Payment
+* @author      Ifthenpay
+* @copyright   Ifthenpay (http://www.ifthenpay.com)
+* @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+*/
+.ifthenpay-section .ifthenpay-payment-logo {
+    background: url(../images/ifthenpay.png) no-repeat 0 50%/18rem auto;
+    height: 100px;
+    width: auto;
+    padding-left: 20rem;
+    display: inline-block;
+    vertical-align: middle
+}
+
+.ifthenpay-section .button-container {
+    float: right
+}
+
+.ifthenpay-section .ifthenpay-payment-text {
+    display: inline-block;
+    vertical-align: middle;
+    width: 50%
+}
+
+.ifthenpay-section .ifthenpay-version {
+    display: inline-block;
+    vertical-align: middle;
+    color: #777;
+    padding-right: 10px;
+}
+
+.ifthenpay-multibanco-payment-logo {
+    background: url(images/multibanco.png) no-repeat 0 50%/18rem auto;
+    height: 100px;
+    width: auto;
+    padding-left: 20rem;
+    display: inline-block;
+    vertical-align: middle
+}
+
+.ifthenpayCallback {
+    margin-bottom: 20px;
+    background-color: #fff;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, .05)
+}
+
+.ifthenpayCallback .panel-body {
+    padding: 15px
+}
+
+.ifthenpayCallback .panel-body .label {
+    border: 1px solid #000;
+    max-width: 100%;
+    margin-bottom: 5px;
+    display: inline;
+    padding: .2em .6em .3em !important;
+    font-size: 75% !important;
+    font-weight: 700 !important;
+    line-height: 1 !important;
+    color: #fff !important;
+    text-align: center !important;
+    white-space: nowrap !important;
+    vertical-align: baseline !important;
+    border-radius: .25em !important;
+}
+
+.ifthenpayCallback .panel-body .label-success {
+    background-color: #5cb85c
+}
+
+.ifthenpayCallback .panel-body .label-danger {
+    background-color: #d9534f
+}
+
+.ifthenpayCallback .panel-body .list-group {
+    padding-left: 0;
+    margin-bottom: 20px
+}
+
+.ifthenpayCallback .panel-body .list-group .list-group-item {
+    position: relative;
+    display: block;
+    padding: 10px 15px;
+    margin-bottom: -1px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    font-weight: 700
+}
+
+.ifthenpayCallback .panel-body .list-group .list-group-item .badge {
+    display: inline;
+    min-width: 10px;
+    padding: 3px 7px;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1;
+    color: #fff;
+    text-align: center;
+    vertical-align: middle;
+    background-color: #777;
+    border-radius:10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius:10px;
+    -ms-border-radius:10px;
+    -o-border-radius:10px;
+    -webkit-border-radius:10px;
+}
+
+.ifthenpayCallback .panel-body .callback-list-group {
+    margin-top: 15px !important
+}
+
+.ifthenpayCallback .panel-body .callback-list-group .callback-list {
+    height: 55px
+}
+
+.ifthenpayCallback .panel-body .callback-list-group .callback-list .callbackUrl {
+    text-align: left
+}
+#ifthenpay_mb_way_control .label {
+    font-weight: 700
+}
+
+#ifthenpay_mb_way_control .input-container {
+    display: flex;
+    width: 50%;
+    margin-top: 20px;
+    margin-bottom: 30px
+}
+
+#ifthenpay_mb_way_control .input-container .icon {
+    text-align: center;
+    max-width: 25%;
+    max-height: 45px;
+    border: 1px solid #c2c2c2;
+    border-right: none;
+}
+
+#ifthenpay_mb_way_control .input-container .input-field {
+    width: 100%;
+    padding: 10px;
+    outline: none;
+    border: 1px solid #c2c2c2;
+}
+
+#ifthenpay_mb_way_control .input-container:focus {
+    box-shadow: 0 0 3px 1px #fff
+}
+input.refund_verify {
+    width: 100%;
+    margin-top: 10px;
+}
+
+.modal_input_div label{
+    padding-top: 15px;
+    display: block;
+    padding-bottom: 5px;
+}

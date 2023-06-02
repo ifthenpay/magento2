@@ -11,17 +11,17 @@
 -->
 <div class="payment-method" data-bind="css: {'_active': (getCode() == isChecked())}">
     <div class="payment-method-title field choice">
-        <input type="radio"
-               name="payment[method]"
-               class="radio"
-               data-bind="attr: {'id': getCode()}, value: getCode(), checked: isChecked, click: selectPaymentMethod, visible: isRadioButtonVisible()" />
+        <input type="radio" name="payment[method]" class="radio"
+            data-bind="attr: {'id': getCode()}, value: getCode(), checked: isChecked, click: selectPaymentMethod, visible: isRadioButtonVisible()" />
         <!-- ko if: getShowPaymentIcon() -->
-            <img data-bind="attr: {src: getLogoUrl(), height: '39', width: '163'}" class="payment-icon mbwayIcon" />
+        <label class="label" data-bind="attr: {'for': getCode()}">
+            <img data-bind="attr: {src: getLogoUrl(), height: '38'}" class="payment-icon" />
+        </label>
         <!-- /ko -->
         <!-- ko ifnot: getShowPaymentIcon() -->
-            <label class="label" data-bind="attr: {'for': getCode()}">
-                <span data-bind="text: getTitle()"></span>
-            </label>
+        <label class="label" data-bind="attr: {'for': getCode()}">
+            <span data-bind="text: getTitle()"></span>
+        </label>
         <!-- /ko -->
     </div>
 
@@ -35,35 +35,36 @@
             <!--/ko-->
         </div>
 
-        <div class="field required" id="ifthenpay_mb_way_control">
-            <label class="label">
-                <span data-bind="i18n: 'MB WAY Phone'"></span>
-            </label>
-            <div class="control input-container">
-                <img data-bind="attr: {src: getLogoUrl(), height: '39', width: '163'}" class="icon" alt="mbway logo">
-                <input name="payment[mbway_phone_number]" class="text input-field" type="number" id="mbwayPhoneNumber"
-                    data-validate="{required:true, 'validate-phone-number': true, 'pattern':/^((91|96|92|93)[0-9]{7})$/g}"/>
-            </div>
+        <div class="ifthenpay_input_wrapper">
+
+            <!-- can use this to add icon -->
+            <!-- <span class="ifthenpay_icon_wrapper">
+                <img data-bind="attr: {src: getMobileIconUrl()}" alt="Phone Number">
+            </span> -->
+
+            <!-- or just a label -->
+            <label class="label ifthenpay_mr_10" for="ifthenpay_mbway_phone_number"><span data-bind="i18n: 'Phone Number'"></span></label>
+
+            <input name="payment[mbway_phone_number]" type="number" placeholder="919999999"
+            id="ifthenpay_mbway_phone_number"
+            data-validate="{required:true, 'validate-phone-number': true, 'pattern':/^((91|96|92|93)[0-9]{7})$/g}" />
         </div>
 
         <div class="checkout-agreements-block">
             <!-- ko foreach: $parent.getRegion('before-place-order') -->
-                <!-- ko template: getTemplate() --><!-- /ko -->
+            <!-- ko template: getTemplate() --><!-- /ko -->
             <!--/ko-->
         </div>
 
         <div class="actions-toolbar">
             <div class="primary">
-                <button class="action primary checkout"
-                        type="submit"
-                        data-bind="
+                <button class="action primary checkout" type="submit" data-bind="
                         click: placeOrder,
-                        attr: {title: $t('Place Order')},
+                        attr: {title: $t('placeOrder')},
                         css: {disabled: !isPlaceOrderActionAllowed()},
                         enable: (getCode() == isChecked())
-                        "
-                        disabled>
-                    <span data-bind="i18n: 'Place Order'"></span>
+                        " disabled>
+                    <span data-bind="i18n: 'placeOrder'"></span>
                 </button>
             </div>
         </div>

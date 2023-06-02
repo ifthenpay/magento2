@@ -1,22 +1,36 @@
 <?xml version="1.0"?>
 <!--
 /**
-* Ifthenpay_Payment module dependency
-*
-* @category    Gateway Payment
-* @package     Ifthenpay_Payment
-* @author      Ifthenpay
-* @copyright   Ifthenpay (http://www.ifthenpay.com)
-* @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
-*/
+ * @category    Gateway Payment
+ * @package     Ifthenpay_Payment
+ * @author      Ifthenpay
+ * @copyright   Ifthenpay (https://www.ifthenpay.com)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
 -->
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <!-- logger -->
+    <type name="Ifthenpay\Payment\Logger\Handler">
+        <arguments>
+            <argument name="filesystem" xsi:type="object">Magento\Framework\Filesystem\Driver\File</argument>
+        </arguments>
+    </type>
+    <type name="Ifthenpay\Payment\Logger\Logger">
+        <arguments>
+            <argument name="name" xsi:type="string">ifThenPayLogger</argument>
+            <argument name="handlers" xsi:type="array">
+                <item name="system" xsi:type="object">Ifthenpay\Payment\Logger\Handler</item>
+            </argument>
+        </arguments>
+    </type>
+    <!-- config provider -->
     <type name="Magento\Checkout\Model\CompositeConfigProvider">
         <arguments>
             <argument name="configProviders" xsi:type="array">
-                <item name="ifthenpay_config_provider" xsi:type="object">Ifthenpay\Payment\Model\Ui\IfthenpayConfigProvider</item>
-                <item name="ifthenpay_ccard_config_provider" xsi:type="object">Ifthenpay\Payment\Model\Ui\IfthenpayCCardConfigProvider</item>
+                <item name="multibanco_config_provider" xsi:type="object">Ifthenpay\Payment\Model\Ui\MultibancoConfigProvider</item>
+                <item name="payshop_config_provider" xsi:type="object">Ifthenpay\Payment\Model\Ui\PayshopConfigProvider</item>
+                <item name="mbway_config_provider" xsi:type="object">Ifthenpay\Payment\Model\Ui\MbwayConfigProvider</item>
+                <item name="ccard_config_provider" xsi:type="object">Ifthenpay\Payment\Model\Ui\CcardConfigProvider</item>
             </argument>
         </arguments>
     </type>

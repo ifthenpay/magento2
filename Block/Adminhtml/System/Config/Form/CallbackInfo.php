@@ -1,48 +1,42 @@
 <?php
 /**
-* Ifthenpay_Payment module dependency
-*
-* @category    Gateway Payment
-* @package     Ifthenpay_Payment
-* @author      Ifthenpay
-* @copyright   Ifthenpay (http://www.ifthenpay.com)
-* @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
-*/
+ * @category    Gateway Payment
+ * @package     Ifthenpay_Payment
+ * @author      Ifthenpay
+ * @copyright   Ifthenpay (https://www.ifthenpay.com)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
 
 namespace Ifthenpay\Payment\Block\Adminhtml\System\Config\Form;
 
-use Ifthenpay\Payment\Lib\Payments\Gateway;
 use Magento\Backend\Block\Template\Context;
-use Ifthenpay\Payment\Logger\IfthenpayLogger;
-use Ifthenpay\Payment\Helper\Factory\DataFactory;
-use Ifthenpay\Payment\Lib\Factory\Config\IfthenpayConfigFormFactory;
-use Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\IfthenpayField;
+use Magento\Config\Block\System\Config\Form\Field;
+use Magento\Framework\Data\Form\Element\AbstractElement;
+use Ifthenpay\Payment\Lib\Factory\ConfigFactory;
+use Ifthenpay\Payment\Logger\Logger;
 
-class CallbackInfo extends IfthenpayField
+
+class CallbackInfo extends field
 {
     /**
      * Template path
      *
      * @var string
      */
-    public $_template = 'Ifthenpay_Payment::system/config/callbackInfo.phtml';
-
-    private $ifthenpayConfigFormFactory;
-
-    public $configData;
-
-    protected $paymentMethodFinder = '_callbackInfo';
-
+    public $_template = 'Ifthenpay_Payment::system/config/form/callbackInfo.phtml';
+    protected $configFactory;
+    protected $logger;
+    public $data;
+    protected $paymentMethod;
     public function __construct(
         Context $context,
-        IfthenpayConfigFormFactory $ifthenpayConfigFormFactory,
-        DataFactory $dataFactory,
-        Gateway $gateway,
-        IfthenpayLogger $logger,
+        ConfigFactory $configFactory,
+        Logger $logger,
         array $data = []
     ) {
-        parent::__construct($context, $dataFactory, $gateway, $logger, $data);
-        $this->ifthenpayConfigFormFactory = $ifthenpayConfigFormFactory;
+        parent::__construct($context, $data);
+        $this->configFactory = $configFactory;
+        $this->logger = $logger;
     }
 
     /**
@@ -51,25 +45,27 @@ class CallbackInfo extends IfthenpayField
      * @param \Magento\Framework\Data\Form\Element\AbstractElement $element
      * @return string
      */
-    public function render(\Magento\Framework\Data\Form\Element\AbstractElement $element)
+    public function render(AbstractElement $element)
     {
         try {
-            $paymentMethod = $this->findPaymentMethod($element);
-            $ifthenpayConfigForm = $this->ifthenpayConfigFormFactory->setType($paymentMethod)->build();
+            $this->paymentMethod = str_replace('_callbackInfo', '', explode("_ifthenpay_", $element->getHtmlId())[1]);
 
-            if (!$ifthenpayConfigForm->displayCallbackInfo()) {
-                $html = '';
-            } else {
-                $this->configData = $ifthenpayConfigForm->createCallback();
-                $this->logger->debug('callback form: Callback Created with success.', ['configData' => $this->configData]);
-                $html =  $this->toHtml();
+            $config = $this->configFactory->createConfig('ifthenpay_' . $this->paymentMethod);
+
+            $this->data['callbackUrl'] = $config->getCallbackUrl();
+            $this->data['chaveAntiPhishing'] = $config->getAntiPhishingKey();
+            $this->data['callbackActivated'] = $config->getIsCallbackActivated();
+
+
+            if ($this->data['callbackUrl'] && $this->data['chaveAntiPhishing']) {
+                return $this->_decorateRowHtml($element, "<td colspan='5'>" . $this->toHtml() . '</td>');
             }
 
-            return $this->_decorateRowHtml($element, "<td colspan='5'>" . $html . '</td>');
         } catch (\Throwable $th) {
-            $this->logger->debug('callback form: Error creating callback info', ['error' => $th, 'errorMessage' => $th->getMessage()]);
-            throw $th;
+            $this->logger->error('config/callback/info', [
+                'error' => $th,
+            ]);
         }
-
+        return $this->_decorateRowHtml($element, '');
     }
 }

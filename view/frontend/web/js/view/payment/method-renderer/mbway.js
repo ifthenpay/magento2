@@ -19,16 +19,19 @@ define([
             template: 'Ifthenpay_Payment/payment/mbwayForm',
         },
         getLogoUrl: function () {
-            return window.checkoutConfig.payment.mbway.logoUrl;
+            return window.checkoutConfig.payment.ifthenpay_mbway.logoUrl;
+        },
+        getMobileIconUrl: function () {
+            return window.checkoutConfig.payment.ifthenpay_mbway.mobileIconUrl;
         },
         getShowPaymentIcon: function () {
-            return window.checkoutConfig.payment.mbway.showPaymentIcon ? window.checkoutConfig.payment.mbway.showPaymentIcon : false;
+            return window.checkoutConfig.payment.ifthenpay_mbway.showPaymentIcon ? window.checkoutConfig.payment.ifthenpay_mbway.showPaymentIcon : false;
         },
         getData: function () {
             return {
                 'method': this.item.method,
                 'additional_data': {
-                    'mbwayPhoneNumber': $('#mbwayPhoneNumber').val()
+                    'phoneNumber': $('#ifthenpay_mbway_phone_number').val()
                 }
             };
         }

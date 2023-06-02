@@ -15,19 +15,19 @@ define([
 
     rendererList.push(
         {
-            type: 'multibanco', // must equals the payment code
+            type: 'ifthenpay_multibanco', // must equals the payment code
             component: 'Ifthenpay_Payment/js/view/payment/method-renderer/multibanco'
         },
         {
-            type: 'mbway', // must equals the payment code
+            type: 'ifthenpay_mbway', // must equals the payment code
             component: 'Ifthenpay_Payment/js/view/payment/method-renderer/mbway'
         },
         {
-            type: 'payshop', // must equals the payment code
+            type: 'ifthenpay_payshop', // must equals the payment code
             component: 'Ifthenpay_Payment/js/view/payment/method-renderer/payshop'
         },
         {
-            type: 'ccard', // must equals the payment code
+            type: 'ifthenpay_ccard', // must equals the payment code
             component: 'Ifthenpay_Payment/js/view/payment/method-renderer/ccard'
         }
     );

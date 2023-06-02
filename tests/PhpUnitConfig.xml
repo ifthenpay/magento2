@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/6.5/phpunit.xsd"
+         backupGlobals="false"
+         colors="true"
+         verbose="true">
+    <testsuites>
+        <testsuite name="Magento Test Suite">
+            <directory suffix="Test.php">./unit</directory>
+        </testsuite>
+    </testsuites>
+    <php>
+        <ini name="error_reporting" value="-1" />
+        <env name="MAGE_DIRS" value='["../../../app"]' />
+        <env name="MAGE_MODE" value="developer" />
+    </php>
+</phpunit>

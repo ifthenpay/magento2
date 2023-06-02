@@ -1,5 +1,14 @@
 <?xml version="1.0"?>
-
+<!--
+/**
+ * @category    Gateway Payment
+ * @package     Ifthenpay_Payment
+ * @author      Ifthenpay
+ * @copyright   Ifthenpay (https://www.ifthenpay.com)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+-->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Email:etc/email_templates.xsd">
-    <template id="add_new_account" label="Request New Account" file="add_new_account.html" type="html" module="Ifthenpay_Payment" area="frontend"/>
+    <template id="request_account" label="Request New Account" file="request_account.html" type="html" module="Ifthenpay_Payment" area="adminhtml"/>
+    <template id="refund_token" label="Refund Token" file="refund_token.html" type="html" module="Ifthenpay_Payment" area="adminhtml"/>
 </config>
