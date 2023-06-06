@@ -114,7 +114,7 @@
 "Credit Card", "Cartão de Crédito"
 "Request Credit Card Account", "Requerer Conta Cartão de Crédito"
 "Don't have Credit Card account? Click to request Credit Card account.", "Não tem conta Cartão de Crédito? Clique para requerer uma conta Cartão de Crédito."
-"Ccard Key*", "Chave Ccard*"
+"Ccard Key", "Chave Ccard"
 "resetBackofficeKey", "Limpar Chave de Backoffice"
 "atentionResetBackofficeKey", "Atenção, esta ação irá limpar não apenas a Chave do Backoffice, mas também as configurações atuais do módulo Ifthenpay associadas à atual Chave."
 "requestAccount", "Requerer Conta"
