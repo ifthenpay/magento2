@@ -1,6 +1,6 @@
 # Módulo de pagamentos Ifthenpay magento 2
 
-Ler em ![Português](https://github.com/ifthenpay/magento2/raw/assets/img/pt.png) [Português](readme.pt.md), e ![Inglês](https://github.com/ifthenpay/magento2/raw/assets/img/en.png) [Inglês](readme.md)
+Ler em ![Português](https://github.com/ifthenpay/magento2/raw/assets/assets/img/pt.png) [Português](readme.pt.md), e ![Inglês](https://github.com/ifthenpay/magento2/raw/assets/assets/img/en.png) [Inglês](readme.md)
 
 [1. Introdução](#Introdução)
 
@@ -118,12 +118,12 @@ php bin/magento cache:clean
 
 1. Faça download da versão mais recente do módulo em [Ifthenpay Github](https://github.com/ifthenpay/magento2/releases).
 
-![download github](https://github.com/ifthenpay/magento2/raw/assets/img/githubDownload.png)
+![download github](https://github.com/ifthenpay/magento2/raw/assets/assets/img/githubDownload.png)
 </br>
 
 2. Caso não exista, crie as seguintes pastas na raiz da sua loja online: app/code/Ifthenpay/Payment e coloque os ficheiros do módulo dentro da pasta criada.
 
-![download github](https://github.com/ifthenpay/magento2/raw/assets/img/folderExample.png)
+![download github](https://github.com/ifthenpay/magento2/raw/assets/assets/img/folderExample.png)
 </br>
 
 3. Execute os seguintes comandos em sequência:
@@ -146,12 +146,12 @@ php bin/magento cache:clean
 
 Após a instalação do módulo, este estará disponivel nas configurações da sua loja online.
 
-![img](https://github.com/ifthenpay/magento2/raw/assets/img/goConfiguracoes.png)
+![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/goConfiguracoes.png)
 </br>
 
 Escolha Vendas -> Métodos de Pagamento e, encontrando o módulo Ifthenpay, clique em Configurar.
 
-![img](https://github.com/ifthenpay/magento2/raw/assets/img/goIfthenpay.png)
+![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/goIfthenpay.png)
 </br>
 
 
@@ -159,13 +159,13 @@ Escolha Vendas -> Métodos de Pagamento e, encontrando o módulo Ifthenpay, cliq
 A Chave Backoffice é dada na conclusão do contrato e é constituída para conjuntos de quatro algarismos separados por um traço (-).
 Introduza a Chave de Backoffice (1) e clique em salvar (2).
 
-![img](https://github.com/ifthenpay/magento2/raw/assets/img/insertBackofficeKey.png)
+![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/insertBackofficeKey.png)
 </br>
 
 ## Multibanco
 Clique em Multibanco (1) para expandir as opções de configuração.
 
-![img](https://github.com/ifthenpay/magento2/raw/assets/img/expandMultibanco.png)
+![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/expandMultibanco.png)
 </br>
 
 
@@ -188,7 +188,7 @@ Configure o método de pagamento, a imagem abaixo mostra um exemplo de configura
 
 Clicar em salvar para guardar as alterações.
 
-![img](https://github.com/ifthenpay/magento2/raw/assets/img/configurationMultibanco.png)
+![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/configurationMultibanco.png)
 </br>
 
 
@@ -205,7 +205,7 @@ Seguir os passos da configuração do Multibanco com a seguinte alteração:
 3. **Validade** - Selecionar o número de dias de validade da referência Multibanco. Ao selecionar 0, a referência Multibanco expira às 23:59 do mesmo dia em que foi gerada. Ao deixar vazio, a referência Multibanco não expira;
 4. clicar em salvar para guardar as alterações.
 
-![img](https://github.com/ifthenpay/magento2/raw/assets/img/configurationMultibancoDynamic.png)
+![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/configurationMultibancoDynamic.png)
 </br>
 
 
@@ -228,7 +228,7 @@ Configure o método de pagamento, a imagem abaixo mostra um exemplo de configura
 12. **Pagamento de países específicos** - (opcional) Apenas exibe este método de pagamento para encomendas com destino de envio dentro dos países selecionados, deixar vazio para permitir todos os países;
 13. **Ordenação** - (opcional) Ordena os métodos de pagamento na página de checkout de forma ascendente. Número mais baixo toma o primeiro lugar;
 
-![img](https://github.com/ifthenpay/magento2/raw/assets/img/configurationMbway.png)
+![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/configurationMbway.png)
 </br>
 
 
@@ -249,7 +249,7 @@ Configure o método de pagamento, a imagem abaixo mostra um exemplo de configura
 10. **Pagamento de países específicos** - (opcional) Apenas exibe este método de pagamento para encomendas com destino de envio dentro dos países selecionados, deixar vazio para permitir todos os países;
 11. **Ordenação** - (opcional) Ordena os métodos de pagamento na página de checkout de forma ascendente. Número mais baixo toma o primeiro lugar;
 
-![img](https://github.com/ifthenpay/magento2/raw/assets/img/configurationCCard.png)
+![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/configurationCCard.png)
 </br>
 
 
@@ -272,7 +272,7 @@ Configure o método de pagamento, a imagem abaixo mostra um exemplo de configura
 11. **Pagamento de países específicos** - (opcional) Apenas exibe este método de pagamento para encomendas com destino de envio dentro dos países selecionados, deixar vazio para permitir todos os países;
 12. **Ordenação** - (opcional) Ordena os métodos de pagamento na página de checkout de forma ascendente. Número mais baixo toma o primeiro lugar;
 
-![img](https://github.com/ifthenpay/magento2/raw/assets/img/configurationPayshop.png)
+![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/configurationPayshop.png)
 </br>
 
 
@@ -282,42 +282,42 @@ Os métodos de pagamento MB WAY e Cartão de Crédito permitem devolução do va
 Para devolver o valor pago pelo consumidor, é necessário que o método de pagamento tenha a opção "Permitir devolução" ativada e que exista uma fatura da encomenda.
 Para proceder à devolução do valor pago pelo consumidor, aceda à página de encomendas.
 
-![img](https://github.com/ifthenpay/magento2/raw/assets/img/goOrders.png)
+![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/goOrders.png)
 </br>
 
 Aceda aos detalhes da encomenda (1).
 
-![img](https://github.com/ifthenpay/magento2/raw/assets/img/orderDetails.png)
+![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/orderDetails.png)
 </br>
 
 E clicar em Faturas (1) e em ver detalhes (2).
 
-![img](https://github.com/ifthenpay/magento2/raw/assets/img/goInvoice.png)
+![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/goInvoice.png)
 </br>
 
 Clicar em Nota de Crédito (1).
 
-![img](https://github.com/ifthenpay/magento2/raw/assets/img/refundCreditMemo.png)
+![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/refundCreditMemo.png)
 </br>
 
 É possivel editar o valor a devolver (1) e clicar em atualizar (2), ou proceder à devolução do valor total pago pelo consumidor clicando em devolver (3).
 
-![img](https://github.com/ifthenpay/magento2/raw/assets/img/refundPage.png)
+![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/refundPage.png)
 </br>
 
 Confirmar o valor a devolver e clicar em OK (1).
 
-![img](https://github.com/ifthenpay/magento2/raw/assets/img/confirmRefund.png)
+![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/confirmRefund.png)
 </br>
 
 Será enviado um email com um token de segurança para o email do utilizador administrador da loja online que iniciou a devolução.
 
-![img](https://github.com/ifthenpay/magento2/raw/assets/img/emailRefund.png)
+![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/emailRefund.png)
 </br>
 
 Introduzir o token de segurança recebido no email (1) e clicar em OK (2).
 
-![img](https://github.com/ifthenpay/magento2/raw/assets/img/confirmToken.png)
+![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/confirmToken.png)
 </br>
 
 A valor selecionado será devolvido ao consumidor e o estado da encomenda será atualizado para fechado. 
@@ -331,7 +331,7 @@ Para configurar diferentes métodos de pagamento para cada loja, aceda à págin
 
 IMPORTANTE: Ao implementar multi loja, não deve configurar a Default Config, pois vai sobrepor-se aos websites das sublojas. Apenas é possível configurar diferentes métodos de pagamento para cada website, não é possível configurar diferentes métodos de pagamento para cada Store View.
 
-![img](https://github.com/ifthenpay/magento2/raw/assets/img/multiStoreScope.png)
+![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/multiStoreScope.png)
 </br>
 
 
@@ -343,18 +343,18 @@ IMPORTANTE: Ao implementar multi loja, não deve configurar a Default Config, po
 Se já tem uma conta Ifthenpay, mas não tem contratou um método de pagamento que agora precisa, pode fazer um pedido automático para a Ifthenpay;
 Para requerer a criação de uma conta adicional, aceda à página de configurações do módulo e clique em Requerer nova conta para o método de pagamento que pretende contratar.
 
-![img](https://github.com/ifthenpay/magento2/raw/assets/img/requesNewAccount.png)
+![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/requesNewAccount.png)
 </br>
 
 No caso de necessitar de uma conta para Multibanco com Referências Dinâmicas, o botão Requerer nova conta estará disponivel dentro da configuração do método de pagamento Multibanco (1).
 
-![img](https://github.com/ifthenpay/magento2/raw/assets/img/requestMultibancoDynamic.png)
+![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/requestMultibancoDynamic.png)
 </br>
 
 
 Ao clicar em requerer nova conta exibirá uma caixa de dialogo na qual pode confirmar a ação clicando em OK (1).
 
-![img](https://github.com/ifthenpay/magento2/raw/assets/img/requestAccountConfirm.png)
+![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/requestAccountConfirm.png)
 </br>
 
 
@@ -370,12 +370,12 @@ Se adquiriu uma nova Chave Backoffice e pretende atribuí-la ao seu site, mas j�
 
 **Atenção, esta ação irá limpar as atuais configurações do módulo**;
 
-![img](https://github.com/ifthenpay/magento2/raw/assets/img/clearBackofficeKey.png)
+![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/clearBackofficeKey.png)
 </br>
 
 Após limpar a chave de backoffice, ser-lhe-á mais uma vez pedido para inserir a Chave Backoffice;
 
-![img](https://github.com/ifthenpay/magento2/raw/assets/img/afterClearBackofficeKey.png)
+![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/afterClearBackofficeKey.png)
 </br>
 
 
@@ -390,7 +390,7 @@ Após salvar as configurações, é executado o processo de associação da sua 
 
 Após ativar o Callback não necessita de tomar mais nenhuma ação, o Callback está ativo e a funcionar.
 
-![img](https://github.com/ifthenpay/magento2/raw/assets/img/callbackElement.png)
+![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/callbackElement.png)
 </br>
 
 
@@ -408,7 +408,7 @@ Um cronjob é uma tarefa programada que é executada automaticamente em interval
 
 O cronjob de cancelamento de encomenda executa a cada minuto. As opções de configuração do cronjob estão disponíveis na página de configurações de cronjobs do magento no grupo ifthenpay_payment.
 
-![img](https://github.com/ifthenpay/magento2/raw/assets/img/cronjobConfiguration.png)
+![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/cronjobConfiguration.png)
 </br>
 
 Para iniciar a execução do cronjob, aceda ao terminal do magento e execute o seguinte comando:
@@ -433,17 +433,17 @@ Na página de checkout, após escolher o método de envio, o consumidor pode esc
 
 Selecionar o método de pagamento Multibanco (1) e clicar em Fazer Encomenda (2).
 
-![img](https://github.com/ifthenpay/magento2/raw/assets/img/checkoutMultibanco.png)
+![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/checkoutMultibanco.png)
 </br>
 
 Será exibida a página de sucesso da encomenda, com a entidade, referência e o valor a pagar.
 
-![img](https://github.com/ifthenpay/magento2/raw/assets/img/thankYouMultibanco.png)
+![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/thankYouMultibanco.png)
 </br>
 
 Se o método de pagamento Multibanco estiver configurado com referências dinâmicas, na página de sucesso da encomenda, será exibido adicionalmente a validade da referência.
 
-![img](https://github.com/ifthenpay/magento2/raw/assets/img/thankYouMultibancoDynamic.png)
+![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/thankYouMultibancoDynamic.png)
 </br>
 
 
@@ -451,12 +451,12 @@ Se o método de pagamento Multibanco estiver configurado com referências dinâm
 
 Selecionar o método de pagamento Payshop (1) e clicar em Fazer Encomenda (2).
 
-![img](https://github.com/ifthenpay/magento2/raw/assets/img/checkoutPayshop.png)
+![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/checkoutPayshop.png)
 </br>
 
 Será exibida a página de sucesso da encomenda, com a referência, validade e o valor a pagar.
 
-![img](https://github.com/ifthenpay/magento2/raw/assets/img/thankYouPayshop.png)
+![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/thankYouPayshop.png)
 </br>
 
 
@@ -465,47 +465,47 @@ Será exibida a página de sucesso da encomenda, com a referência, validade e o
 
 Selecionar o método de pagamento MB WAY (1) preencher o número de telemóvel (2) e clicar em Fazer Encomenda (3).
 
-![img](https://github.com/ifthenpay/magento2/raw/assets/img/checkoutMbway.png)
+![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/checkoutMbway.png)
 </br>
 
 No caso da configuração de Exibir Contagem estar ativa, será exibida a contagem decrescente do tempo limite para pagamento na página de sucesso da encomenda.
 
-![img](https://github.com/ifthenpay/magento2/raw/assets/img/thankYouMbwayCountDown.png)
+![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/thankYouMbwayCountDown.png)
 </br>
 
 O contador atualizará automáticamente o estado do pagamento no caso de sucesso, rejeiçao (por parte do utilizador da App MB WAY), expiração do tempo limite ou erro.
 
 Em caso de sucesso será exibida a mensagem de sucesso.
 
-![img](https://github.com/ifthenpay/magento2/raw/assets/img/thankYouSuccess.png)
+![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/thankYouSuccess.png)
 </br>
 
 Em caso de rejeição pelo utilizador será exibida a mensagem de rejeitado.
 
-![img](https://github.com/ifthenpay/magento2/raw/assets/img/thankYouRejected.png)
+![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/thankYouRejected.png)
 </br>
 
 Em caso de expiração do tempo será exibida a mensagem de expirado.
 
-![img](https://github.com/ifthenpay/magento2/raw/assets/img/thankYouTimeOut.png)
+![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/thankYouTimeOut.png)
 </br>
 
 
 Em caso de falha ao comunicar com a App MB WAY ou introdução de um número de telemóvel inválido, será exibida uma mensagem de erro.
 
-![img](https://github.com/ifthenpay/magento2/raw/assets/img/thankYouError.png)
+![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/thankYouError.png)
 </br>
 
 
 Quando ocorre um erro ou atinge o tempo limite, ou recusa o pagamento na App MB WAY, o consumidor pode tentar novamente clicando em Reenviar notificação MB WAY.
 
-![img](https://github.com/ifthenpay/magento2/raw/assets/img/thankYouMbwayResend.png)
+![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/thankYouMbwayResend.png)
 </br>
 
 
 Se na configuração do método de pagamento MB WAY estiver ativa a opção de não exibir o contador, o consumidor receberá uma notificação na App MB WAY, mas não será exibido o contador nem o botão de reenviar notificação na página de sucesso de encomenda.
 
-![img](https://github.com/ifthenpay/magento2/raw/assets/img/thankYouMbwayNoCountDown.png)
+![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/thankYouMbwayNoCountDown.png)
 </br>
 
 
@@ -513,19 +513,19 @@ Se na configuração do método de pagamento MB WAY estiver ativa a opção de n
 
 Selecionar o método de pagamento Cartão de Crédito (1) e clicar em Fazer Encomenda (2).
 
-![img](https://github.com/ifthenpay/magento2/raw/assets/img/checkoutCcard.png)
+![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/checkoutCcard.png)
 </br>
 
 Preencher os dados do cartão de crédito número do cartão (1), data de validade (2), código de segurança (3), Nome no Cartão (4), e clicar em Pagar (5).
 
 É possível voltar (6), cancelando o pagamento.
 
-![img](https://github.com/ifthenpay/magento2/raw/assets/img/ccardGateway.png)
+![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/ccardGateway.png)
 </br>
 
 Após o pagamento ser processado, será exibida a página de sucesso da encomenda.
 
-![img](https://github.com/ifthenpay/magento2/raw/assets/img/thankYouCcard.png)
+![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/thankYouCcard.png)
 </br>
 
 
