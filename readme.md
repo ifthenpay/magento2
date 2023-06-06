@@ -1,6 +1,6 @@
 # Ifthenpay Magento 2 payment module.
 
-Ler em ![Português](https://github.com/ifthenpay/magento2/raw/assets/assets/img/pt.png) [Português](readme.pt.md), e ![Inglês](https://github.com/ifthenpay/magento2/raw/assets/assets/img/en.png) [Inglês](readme.md)
+Read in ![Portuguese](https://github.com/ifthenpay/magento2/raw/assets/assets/img/pt.png) [Portuguese](readme.pt.md), and ![English](https://github.com/ifthenpay/magento2/raw/assets/assets/img/en.png) [English](readme.md)
 
 [1. Introduction](#Introduction)
 
@@ -8,7 +8,7 @@ Ler em ![Português](https://github.com/ifthenpay/magento2/raw/assets/assets/img
 
 [3. Installation](#Installation)
   * [Installation using composer](#Installation-using-composer)
-  * [Manual instalation](#Manual-instalation)
+  * [Manual installation](#Manual-installation)
 
 [4. Configuration](#Configuration)
   * [Backoffice Key](#Backoffice-Key)
@@ -78,10 +78,10 @@ For support, please create a support ticket at [Support Ifthenpay](https://helpd
 # Compatibility
 
 Use the table below to check the compatibility of the Ifthenpay module with your online store:
-|                            | magento 2.3    | magento 2.4 [2.4.0 - 2.4.6] |
+|                            | Magento 2.3    | Magento 2.4 [2.4.0 - 2.4.6] |
 |----------------------------|----------------|-----------------------------|
-| Ifthenpay v1.0.0 - v1.2.13 | Não compatível | Compatível até 2.4.5        |
-| Ifthenpay v2.0.0           | Não compatível | Compatível                  |
+| Ifthenpay v1.0.0 - v1.2.13 | Not compatible | Compatible up to 2.4.5        |
+| Ifthenpay v2.0.0           | Not compatible | Compatible                  |
 
 
 
@@ -115,7 +115,7 @@ php bin/magento setup:di:compile
 php bin/magento cache:clean
 ```
 
-## Manual instalation
+## Manual installation
 
 1. Download the latest version of the module at [Ifthenpay Github](https://github.com/ifthenpay/magento2/releases).
 
@@ -265,9 +265,9 @@ Click on Save to save the changes.
 
 ## Payshop
 
-O método de pagamento Payshop, gera uma referência que pode ser paga em qualquer agente payshop ou loja aderente.
-As Chaves Payshop  são carregadas automáticamente, na introdução da Chave Backoffice.
-Configure o método de pagamento, a imagem abaixo mostra um exemplo de configuração minimamente funcional.
+The Payshop payment method generates a reference that can be paid at any Payshop agent or affiliated store.
+The Payshop keys are automatically loaded upon entering the Backoffice Key.
+Configure the payment method. The image below shows an example of a minimally functional configuration.
 
 1. **Enabled** - When selected as Yes, it activates the payment method, displaying it on the checkout page of your store.
 2. **Title** - The title that appears to the consumer at checkout, in case you choose not to display the icon.
@@ -379,7 +379,7 @@ IMPORTANT: When requesting an account for the Credit Card payment method, the If
 
 If you have acquired a new Backoffice Key and want to assign it to your website but already have one currently assigned, you can reset the module's configuration. In the Ifthenpay module configuration, click on the "Clear Backoffice Key" button (1) and confirm the action by clicking OK.
 
-**Atenção, esta ação irá limpar as atuais configurações do módulo**;
+**Attention, this action will clear the current module settings**;
 
 ![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/clearBackofficeKey.png)
 </br>
@@ -405,8 +405,6 @@ After enabling Callback, you don't need to take any further action. Callback is 
 
 
 ## Cronjob
-
-Um cronjob é uma tarefa programada que é executada automaticamente em intervalos específicos no sistema. O módulo Ifthenpay disponibiliza um cronjob para verificar o estado dos pagamentos, e cancelar encomendas que não foram pagas dentro do tempo limite configurado. A tabela abaixo mostra o tempo limite para cada método de pagamento, o qual o cronjob verifica e cancela as encomendas que não foram pagas dentro do tempo limite. Este tempo limite pode ser configurado apenas para o método de pagamento Multibanco com Referências Dinâmicas e Payshop.
 
 A cron job is a scheduled task that is automatically executed at specific intervals in the system. The Ifthenpay module provides a cron job to check the status of payments and cancel orders that have not been paid within the configured time limit. The table below shows the time limit for each payment method, which the cron job checks and cancels orders that have not been paid within the time limit. This time limit can only be configured for the Multibanco with Dynamic References and Payshop payment methods.
 

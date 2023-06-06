@@ -76,7 +76,7 @@ Para suporte, por favor crie um ticked para suporte em [Suporte Ifthenpay](https
 # Compatibilidade
 
 Use a tabela abaixo para verificar a compatibilidade do módulo Ifthenpay com a sua loja online.
-|                            | magento 2.3    | magento 2.4 [2.4.0 - 2.4.6] |
+|                            | Magento 2.3    | Magento 2.4 [2.4.0 - 2.4.6] |
 |----------------------------|----------------|-----------------------------|
 | Ifthenpay v1.0.0 - v1.2.13 | Não compatível | Compatível até 2.4.5        |
 | Ifthenpay v2.0.0           | Não compatível | Compatível                  |
