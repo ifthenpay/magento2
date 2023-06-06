@@ -1,6 +1,6 @@
 # Ifthenpay Magento 2 payment module.
 
-Ler em ![Português](_dev/assets/img/pt.png) [Português](readme.pt.md), e ![Inglês](_dev/assets/img/en.png) [Inglês](readme.md)
+Ler em ![Português](https://github.com/ifthenpay/magento2/raw/assets/img/pt.png) [Português](readme.pt.md), e ![Inglês](https://github.com/ifthenpay/magento2/raw/assets/img/en.png) [Inglês](readme.md)
 
 [1. Introduction](#Introduction)
 
@@ -119,12 +119,12 @@ php bin/magento cache:clean
 
 1. Download the latest version of the module at [Ifthenpay Github](https://github.com/ifthenpay/magento2/releases).
 
-![download github](_dev/assets/img/githubDownload.png)
+![download github](https://github.com/ifthenpay/magento2/raw/assets/img/githubDownload.png)
 </br>
 
 2. If it doesn't exist, create the following folders in the root of your online store: app/code/Ifthenpay/Payment, and place the module files inside the created folder.
 
-![download github](_dev/assets/img/folderExample.png)
+![download github](https://github.com/ifthenpay/magento2/raw/assets/img/folderExample.png)
 </br>
 
 3. Execute the following commands in sequence:
@@ -147,12 +147,12 @@ php bin/magento cache:clean
 
 After installing the module, it will be available in the settings of your online store.
 
-![img](_dev/assets/img/goConfiguracoes.png)
+![img](https://github.com/ifthenpay/magento2/raw/assets/img/goConfiguracoes.png)
 </br>
 
 Choose Sales, Payment Methods, and when you find the Ifthenpay module, click on Configure.
 
-![img](_dev/assets/img/goIfthenpay.png)
+![img](https://github.com/ifthenpay/magento2/raw/assets/img/goIfthenpay.png)
 </br>
 
 
@@ -160,13 +160,13 @@ Choose Sales, Payment Methods, and when you find the Ifthenpay module, click on 
 
 The Backoffice Key is provided upon contract completion and consists of sets of four digits separated by a hyphen (-). Enter the Backoffice Key (1) and click Save (2).
 
-![img](_dev/assets/img/insertBackofficeKey.png)
+![img](https://github.com/ifthenpay/magento2/raw/assets/img/insertBackofficeKey.png)
 </br>
 
 ## Multibanco
 Click on Multibanco (1) to expand the configuration options.
 
-![img](_dev/assets/img/expandMultibanco.png)
+![img](https://github.com/ifthenpay/magento2/raw/assets/img/expandMultibanco.png)
 </br>
 
 
@@ -189,7 +189,7 @@ Configure the payment method. The image below shows an example of a minimally fu
 
 Click on Save to save the changes.
 
-![img](_dev/assets/img/configurationMultibanco.png)
+![img](https://github.com/ifthenpay/magento2/raw/assets/img/configurationMultibanco.png)
 </br>
 
 
@@ -208,7 +208,7 @@ Follow the steps from Multibanco payment method with the following modifications
 4. Click on Save to save the changes.
 
 
-![img](_dev/assets/img/configurationMultibancoDynamic.png)
+![img](https://github.com/ifthenpay/magento2/raw/assets/img/configurationMultibancoDynamic.png)
 </br>
 
 
@@ -234,7 +234,7 @@ Configure the payment method. The image below shows an example of a minimally fu
 
 Click on Save to save the changes.
 
-![img](_dev/assets/img/configurationMbway.png)
+![img](https://github.com/ifthenpay/magento2/raw/assets/img/configurationMbway.png)
 </br>
 
 
@@ -259,7 +259,7 @@ Configure the payment method. The image below shows an example of a minimally fu
 
 Click on Save to save the changes.
 
-![img](_dev/assets/img/configurationCCard.png)
+![img](https://github.com/ifthenpay/magento2/raw/assets/img/configurationCCard.png)
 </br>
 
 
@@ -284,7 +284,7 @@ Configure o método de pagamento, a imagem abaixo mostra um exemplo de configura
 
 Click on Save to save the changes.
 
-![img](_dev/assets/img/configurationPayshop.png)
+![img](https://github.com/ifthenpay/magento2/raw/assets/img/configurationPayshop.png)
 </br>
 
 
@@ -294,42 +294,42 @@ The MB WAY and Credit Card payment methods allow for the refund of the total or 
 To refund the amount paid by the consumer, it is necessary for the payment method to have the "Allow Refunds" option enabled, and order must have an invoice.
 To proceed with the refund of the amount paid by the consumer, access the order page.
 
-![img](_dev/assets/img/goOrders.png)
+![img](https://github.com/ifthenpay/magento2/raw/assets/img/goOrders.png)
 </br>
 
 Access the order details (1).
 
-![img](_dev/assets/img/orderDetails.png)
+![img](https://github.com/ifthenpay/magento2/raw/assets/img/orderDetails.png)
 </br>
 
 Click on Invoices (1) and then on View Details (2).
 
-![img](_dev/assets/img/goInvoice.png)
+![img](https://github.com/ifthenpay/magento2/raw/assets/img/goInvoice.png)
 </br>
 
 Click on Credit Memo (1).
 
-![img](_dev/assets/img/refundCreditMemo.png)
+![img](https://github.com/ifthenpay/magento2/raw/assets/img/refundCreditMemo.png)
 </br>
 
 It is possible to edit the refund amount (1) and click on Update (2), or proceed with the refund of the total amount paid by the consumer by clicking on Refund (3).
 
-![img](_dev/assets/img/refundPage.png)
+![img](https://github.com/ifthenpay/magento2/raw/assets/img/refundPage.png)
 </br>
 
 Confirm the refund amount and click on OK (1).
 
-![img](_dev/assets/img/confirmRefund.png)
+![img](https://github.com/ifthenpay/magento2/raw/assets/img/confirmRefund.png)
 </br>
 
 An email with a security token will be sent to the email of the online store's administrator user who initiated the refund.
 
-![img](_dev/assets/img/emailRefund.png)
+![img](https://github.com/ifthenpay/magento2/raw/assets/img/emailRefund.png)
 </br>
 
 Enter the security token received in the email (1) and click on OK (2).
 
-![img](_dev/assets/img/confirmToken.png)
+![img](https://github.com/ifthenpay/magento2/raw/assets/img/confirmToken.png)
 </br>
 
 The selected amount will be refunded to the consumer, and the order status will be updated to closed.
@@ -344,7 +344,7 @@ To configure different payment methods for each store, access the module's confi
 
 IMPORTANT: When implementing multistore, you should not configure the Default Config, as it will override the websites of the sub-stores. It is only possible to configure different payment methods for each website, and it is not possible to configure different payment methods for each Store View.
 
-![img](_dev/assets/img/multiStoreScope.png)
+![img](https://github.com/ifthenpay/magento2/raw/assets/img/multiStoreScope.png)
 </br>
 
 
@@ -356,17 +356,17 @@ If you already have an Ifthenpay account but have not contracted a payment metho
 
 To request the creation of an additional account, access the module's configuration page and click on "Request New Account" for the payment method you wish to contract.
 
-![img](_dev/assets/img/requesNewAccount.png)
+![img](https://github.com/ifthenpay/magento2/raw/assets/img/requesNewAccount.png)
 </br>
 
 In case you need an account for Multibanco with Dynamic References, the "Request New Account" button will be available within the configuration of the Multibanco payment method (1).
 
-![img](_dev/assets/img/requestMultibancoDynamic.png)
+![img](https://github.com/ifthenpay/magento2/raw/assets/img/requestMultibancoDynamic.png)
 </br>
 
 By clicking on Request New Account, a dialog box will appear where you can confirm the action by clicking on OK (1).
 
-![img](_dev/assets/img/requestAccountConfirm.png)
+![img](https://github.com/ifthenpay/magento2/raw/assets/img/requestAccountConfirm.png)
 </br>
 
 As a result, the Ifthenpay team will add the payment method to your account, updating the list of available payment methods in your module.
@@ -381,12 +381,12 @@ If you have acquired a new Backoffice Key and want to assign it to your website 
 
 **Atenção, esta ação irá limpar as atuais configurações do módulo**;
 
-![img](_dev/assets/img/clearBackofficeKey.png)
+![img](https://github.com/ifthenpay/magento2/raw/assets/img/clearBackofficeKey.png)
 </br>
 
 After clearing the Backoffice Key, you will be prompted to enter the Backoffice Key again.
 
-![img](_dev/assets/img/afterClearBackofficeKey.png)
+![img](https://github.com/ifthenpay/magento2/raw/assets/img/afterClearBackofficeKey.png)
 </br>
 
 
@@ -400,7 +400,7 @@ As mentioned above in Configurations, to enable Callback, access the module's co
 
 After enabling Callback, you don't need to take any further action. Callback is active and functioning.
 
-![img](_dev/assets/img/callbackElement.png)
+![img](https://github.com/ifthenpay/magento2/raw/assets/img/callbackElement.png)
 </br>
 
 
@@ -420,7 +420,7 @@ A cron job is a scheduled task that is automatically executed at specific interv
 
 The order cancellation cronjob runs every minute. The configuration options for the cronjob can be found on the Magento cronjobs settings page under the ifthenpay_payment group.
 
-![img](_dev/assets/img/cronjobConfiguration.png)
+![img](https://github.com/ifthenpay/magento2/raw/assets/img/cronjobConfiguration.png)
 </br>
 
 To start the execution of the cronjob, please access the Magento terminal and run the following command:
@@ -443,17 +443,17 @@ On the checkout page, after selecting the shipping method, the consumer can choo
 
 Select the Multibanco payment method (1) and click on Place Order (2).
 
-![img](_dev/assets/img/checkoutMultibanco.png)
+![img](https://github.com/ifthenpay/magento2/raw/assets/img/checkoutMultibanco.png)
 </br>
 
 The order success page will be displayed, showing the entity, reference, and the amount to be paid.
 
-![img](_dev/assets/img/thankYouMultibanco.png)
+![img](https://github.com/ifthenpay/magento2/raw/assets/img/thankYouMultibanco.png)
 </br>
 
 If the Multibanco payment method is configured with dynamic references, the order success page will also display the reference deadline in addition to the entity, reference, and the amount to be paid.
 
-![img](_dev/assets/img/thankYouMultibancoDynamic.png)
+![img](https://github.com/ifthenpay/magento2/raw/assets/img/thankYouMultibancoDynamic.png)
 </br>
 
 
@@ -461,12 +461,12 @@ If the Multibanco payment method is configured with dynamic references, the orde
 
 Select the Payshop payment method (1) and click on Place Order (2).
 
-![img](_dev/assets/img/checkoutPayshop.png)
+![img](https://github.com/ifthenpay/magento2/raw/assets/img/checkoutPayshop.png)
 </br>
 
 The order success page will be displayed, showing the reference, validity, and the amount to be paid.
 
-![img](_dev/assets/img/thankYouPayshop.png)
+![img](https://github.com/ifthenpay/magento2/raw/assets/img/thankYouPayshop.png)
 </br>
 
 
@@ -475,44 +475,44 @@ The order success page will be displayed, showing the reference, validity, and t
 
 Select the MB WAY payment method (1), fill in the mobile phone number (2), and click on Place Order (3).
 
-![img](_dev/assets/img/checkoutMbway.png)
+![img](https://github.com/ifthenpay/magento2/raw/assets/img/checkoutMbway.png)
 </br>
 
 If the Display Countdown configuration is active, the order success page will display a countdown timer showing the remaining time for payment.
 
-![img](_dev/assets/img/thankYouMbwayCountDown.png)
+![img](https://github.com/ifthenpay/magento2/raw/assets/img/thankYouMbwayCountDown.png)
 </br>
 
 The countdown timer will automatically update the payment status in the case of success, rejection (by the MB WAY app user), expiration of the time limit, or error.
 
 In case of success, a success message will be displayed.
 
-![img](_dev/assets/img/thankYouSuccess.png)
+![img](https://github.com/ifthenpay/magento2/raw/assets/img/thankYouSuccess.png)
 </br>
 
 In case of rejection by the user, a rejection message will be displayed.
 
-![img](_dev/assets/img/thankYouRejected.png)
+![img](https://github.com/ifthenpay/magento2/raw/assets/img/thankYouRejected.png)
 </br>
 
 In case of expiration of the time limit, an expiration message will be displayed.
 
-![img](_dev/assets/img/thankYouTimeOut.png)
+![img](https://github.com/ifthenpay/magento2/raw/assets/img/thankYouTimeOut.png)
 </br>
 
 In case of failure to communicate with the MB WAY app or entering an invalid mobile phone number, an error message will be displayed.
 
-![img](_dev/assets/img/thankYouError.png)
+![img](https://github.com/ifthenpay/magento2/raw/assets/img/thankYouError.png)
 </br>
 
 When an error occurs, the time limit is reached, or the payment is declined in the MB WAY app, the consumer can try again by clicking on Resend MB WAY Notification.
 
-![img](_dev/assets/img/thankYouMbwayResend.png)
+![img](https://github.com/ifthenpay/magento2/raw/assets/img/thankYouMbwayResend.png)
 </br>
 
 If the configuration of the MB WAY payment method has the option to not display the countdown active, the consumer will receive a notification in the MB WAY app, but the countdown and the button to resend the notification will not be displayed on the order success page.
 
-![img](_dev/assets/img/thankYouMbwayNoCountDown.png)
+![img](https://github.com/ifthenpay/magento2/raw/assets/img/thankYouMbwayNoCountDown.png)
 </br>
 
 
@@ -520,19 +520,19 @@ If the configuration of the MB WAY payment method has the option to not display 
 
 Select the Credit Card payment method (1) and click on Place Order (2).
 
-![img](_dev/assets/img/checkoutCcard.png)
+![img](https://github.com/ifthenpay/magento2/raw/assets/img/checkoutCcard.png)
 </br>
 
 Fill in the credit card details: card number (1), expiration date (2), security code (3), Cardholder's Name (4), and click on Pay (5).
 
 It is possible to go back (6), canceling the payment.
 
-![img](_dev/assets/img/ccardGateway.png)
+![img](https://github.com/ifthenpay/magento2/raw/assets/img/ccardGateway.png)
 </br>
 
 After the payment is processed, the order success page will be displayed.
 
-![img](_dev/assets/img/thankYouCcard.png)
+![img](https://github.com/ifthenpay/magento2/raw/assets/img/thankYouCcard.png)
 </br>
 
 You made it to the end of the ifthenpay magento 2 module manual. Congratulations!
