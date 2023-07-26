@@ -117,7 +117,7 @@ class CancelUnpaidOrders
                 return '';
             }
 
-            $deadline = \DateTime::createFromFormat('d-m-Y', $deadline);
+            $deadline = \DateTime::createFromFormat('Y-m-d', $deadline);
             $deadline->setTime(ConfigVars::MULTIBANCO_DEADLINE_HOURS, ConfigVars::MULTIBANCO_DEADLINE_MINUTES);
 
             return $deadline->format('Y-m-d H:i:s');
