@@ -20,7 +20,7 @@ use Magento\Framework\Controller\Result\JsonFactory;
 
 
 
-class RefreshUserAccountsinternalyCtrl extends Action
+class RefreshUserAccountsInternalyCtrl extends Action
 {
 
     private $configData;

@@ -2,39 +2,39 @@
 
 Read in ![Portuguese](https://github.com/ifthenpay/magento2/raw/assets/assets/img/pt.png) [Portuguese](readme.pt.md), and ![English](https://github.com/ifthenpay/magento2/raw/assets/assets/img/en.png) [English](readme.md)
 
-[1. Introduction](#Introduction)
+[1. Introduction](#introduction)
 
-[2. Compatibility](#Compatibility)
+[2. Compatibility](#compatibility)
 
-[3. Installation](#Installation)
-  * [Installation using composer](#Installation-using-composer)
-  * [Manual installation](#Manual-installation)
+[3. Installation](#installation)
+  * [Installation using composer](#installation-using-composer)
+  * [Manual installation](#manual-installation)
 
-[4. Configuration](#Configuration)
-  * [Backoffice Key](#Backoffice-Key)
-  * [Multibanco](#Multibanco)
-  * [Multibanco with Dynamic References](#Multibanco-with-Dynamic-References)
-  * [MB WAY](#MB-WAY)
-  * [Credit Card](#Credit-Card)
-  * [Payshop](#Payshop)
+[4. Configuration](#configuration)
+  * [Backoffice Key](#backoffice-key)
+  * [Multibanco](#multibanco)
+  * [Multibanco with Dynamic References](#multibanco-with-dynamic-references)
+  * [MB WAY](#mb-way)
+  * [Credit Card](#credit-card)
+  * [Payshop](#payshop)
 
-[5. Refund](#Refund)
+[5. Refund](#refund)
 
-[6. Multistore](#Multistore)
+[6. Multistore](#multistore)
 
-[7. Other](#Other)
-  * [Request creation of aditional account](#Request-creation-of-aditional-account)
-  * [Reset Configuration](#Reset-Configuration)
-  * [Callback](#Callback)
-  * [Cronjob](#Cronjob)
-  * [Logs](#Logs)
+[7. Other](#other)
+  * [Request creation of aditional account](#request-creation-of-aditional-account)
+  * [Reset Configuration](#reset-configuration)
+  * [Callback](#callback)
+  * [Cronjob](#cronjob)
+  * [Logs](#logs)
 
 
-[8. Consumer User Experience](#Consumer-User-Experience)
-  * [Pay order with Multibanco](#Pay-order-with-Multibanco)
-  * [Pay order with Payshop](#Pay-order-with-Payshop)
-  * [Pay order with MB WAY](#Pay-order-with-MB-WAY)
-  * [Pay order with Credit Card](#Pay-order-with-credit-card)
+[8. Consumer User Experience](#consumer-user-experience)
+  * [Pay order with Multibanco](#pay-order-with-multibanco)
+  * [Pay order with Payshop](#pay-order-with-payshop)
+  * [Pay order with MB WAY](#pay-order-with-mb-way)
+  * [Pay order with Credit Card](#pay-order-with-credit-card)
 
 
 

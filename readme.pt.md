@@ -2,39 +2,39 @@
 
 Ler em ![Português](https://github.com/ifthenpay/magento2/raw/assets/assets/img/pt.png) [Português](readme.pt.md), e ![Inglês](https://github.com/ifthenpay/magento2/raw/assets/assets/img/en.png) [Inglês](readme.md)
 
-[1. Introdução](#Introdução)
+[1. Introdução](#introdução)
 
-[2. Compatibilidade](#Compatibilidade)
+[2. Compatibilidade](#compatibilidade)
 
-[3. Instalação](#Instalação)
-  * [Instalação usando o composer](#Instalação-usando-o-composer)
-  * [Instalação manual](#Instalação-manual)
+[3. Instalação](#instalação)
+  * [Instalação usando o composer](#instalação-usando-o-composer)
+  * [Instalação manual](#instalação-manual)
 
-[4. Configuração](#Configuração)
-  * [Chave Backoffice](#Chave-Backoffice)
-  * [Multibanco](#Multibanco)
-  * [Multibanco com Referências Dinâmicas](#Multibanco-com-Referências-Dinâmicas)
-  * [MB WAY](#MB-WAY)
-  * [Cartão de Crédito](#Cartão-de-Crédito)
-  * [Payshop](#Payshop)
+[4. Configuração](#configuração)
+  * [Chave Backoffice](#chave-backoffice)
+  * [Multibanco](#multibanco)
+  * [Multibanco com Referências Dinâmicas](#multibanco-com-referências-dinâmicas)
+  * [MB WAY](#mb-way)
+  * [Cartão de Crédito](#cartão-de-crédito)
+  * [Payshop](#payshop)
 
-[5. Devoluções](#Devoluções)
+[5. Devoluções](#devoluções)
 
-[6. Multistore](#Multistore)
+[6. Multistore](#multistore)
 
-[7. Outros](#Outros)
-  * [Requerer criação de conta adicional](#Requerer-criação-de-conta-adicional)
-  * [Reset de Configuração](#Reset-de-Configuração)
-  * [Callback](#Callback)
-  * [Cronjob](#Cronjob)
-  * [Logs](#Logs)
+[7. Outros](#outros)
+  * [Requerer criação de conta adicional](#requerer-criação-de-conta-adicional)
+  * [Reset de Configuração](#reset-de-configuração)
+  * [Callback](#callback)
+  * [Cronjob](#cronjob)
+  * [Logs](#logs)
 
 
-[8. Experiência do Utilizador Consumidor](#Experiência-do-Utilizador-Consumidor)
-  * [Pagar encomenda com Multibanco](#Pagar-encomenda-com-Multibanco)
-  * [Pagar encomenda com Payshop](#Pagar-encomenda-com-Payshop)
-  * [Pagar encomenda com MB WAY](#Pagar-encomenda-com-MB-WAY)
-  * [Pagar encomenda com Credit Card](#Pagar-encomenda-com-Cartão-de-Crédito)
+[8. Experiência do Utilizador Consumidor](#experiência-do-utilizador-consumidor)
+  * [Pagar encomenda com Multibanco](#pagar-encomenda-com-multibanco)
+  * [Pagar encomenda com Payshop](#pagar-encomenda-com-payshop)
+  * [Pagar encomenda com MB WAY](#pagar-encomenda-com-mb-way)
+  * [Pagar encomenda com Credit Card](#pagar-encomenda-com-cartão-de-crédito)
 
 
 
