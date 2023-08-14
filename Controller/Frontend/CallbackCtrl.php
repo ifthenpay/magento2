@@ -129,7 +129,7 @@ class CallbackCtrl extends Action
             $storedPaymentData = $service->getPaymentByRequestData($requestData);
 
             // If payment is already paid, return
-            if ($storedPaymentData['status'] === 'paid') {
+            if ($storedPaymentData['status'] !== 'pending') {
                 return;
             }
 
