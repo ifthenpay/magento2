@@ -26,7 +26,7 @@ class CcardConfigProvider implements ConfigProviderInterface
 
     public function __construct(
         CcardConfig $config,
-        Repository $assetRepository,
+        Repository $assetRepository
     ) {
         $this->config = $config;
         $this->assetRepository = $assetRepository;

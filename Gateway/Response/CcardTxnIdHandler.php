@@ -60,6 +60,8 @@ class CcardTxnIdHandler implements HandlerInterface
         $payment->setIsTransactionPending(true);
         $payment->setIsTransactionClosed(false);
 
+        $currentDate = new \DateTime('now', new \DateTimeZone('Europe/Lisbon'));
+        $currentDateStr = $currentDate->format('Y-m-d H:i:s');
 
         // save to ifthenpay_ccard table
         $this->ccardService->setData(
@@ -67,7 +69,8 @@ class CcardTxnIdHandler implements HandlerInterface
                 "request_id" => $requestId,
                 "order_id" => $orderId,
                 "order_total" => (string) $convertedOrderTotal,
-                "status" => 'pending'
+                "status" => 'pending',
+                "created_at" => $currentDateStr
             ]
         );
 

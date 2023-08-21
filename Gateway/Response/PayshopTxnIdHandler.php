@@ -56,7 +56,8 @@ class PayshopTxnIdHandler implements HandlerInterface
             'transaction_id' => $response['RequestId'],
             'deadline' => $deadline,
             "order_id" => $orderId,
-            "status" => 'pending'
+            "status" => 'pending',
+            "created_at" => $currentDateStr
         ];
 
 

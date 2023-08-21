@@ -27,7 +27,7 @@ class IfthenpayConfigProvider implements ConfigProviderInterface
 
     public function __construct(
         IfthenpayConfig $config,
-        Repository $assetRepository,
+        Repository $assetRepository
     ) {
         $this->config = $config;
         $this->assetRepository = $assetRepository;

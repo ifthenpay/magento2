@@ -37,7 +37,7 @@ class CcardConfig extends GatewayConfig
         ScopeConfigResolver $scopeConfigResolver,
         WriterInterface $configWriter,
         ResourceConnection $resourceConnection,
-        string $methodCode = self::METHOD_CODE,
+        string $methodCode = self::METHOD_CODE
     ) {
         parent::__construct($scopeConfig, $methodCode);
         $this->scopeConfigResolver = $scopeConfigResolver;

@@ -52,7 +52,8 @@ class MultibancoTxnIdHandler implements HandlerInterface
 
         $paymentData = [
             "order_id" => $orderId,
-            "status" => 'pending'
+            "status" => 'pending',
+            "created_at" => $currentDateStr
         ];
 
 
@@ -62,7 +63,7 @@ class MultibancoTxnIdHandler implements HandlerInterface
             $paymentData['reference'] = $response['Reference'];
             $paymentData['entity'] = $response['Entity'];
             $paymentData['request_id'] = $response['RequestId'];
-            $paymentData['deadline'] = $this->convertDaysToDate($response['daysToDeadline']);
+            $paymentData['deadline'] = $response['ExpiryDate'];
 
 
             $payment->setAdditionalInformation("entity", $response['Entity']);
@@ -130,15 +131,4 @@ class MultibancoTxnIdHandler implements HandlerInterface
         //referencia
         return $subEntity . $seed . $chk_digits;
     }
-
-
-    private function convertDaysToDate(string $deadline): string
-    {
-        if ($deadline === '') {
-            return '';
-        }
-        return (new \DateTime(date("Y-m-d")))->modify('+' . $deadline . 'day')->format('Y-m-d');
-    }
-
-
 }

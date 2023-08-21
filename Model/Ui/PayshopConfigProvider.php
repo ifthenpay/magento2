@@ -26,7 +26,7 @@ class PayshopConfigProvider implements ConfigProviderInterface
 
     public function __construct(
         PayshopConfig $config,
-        Repository $assetRepository,
+        Repository $assetRepository
     ) {
         $this->config = $config;
         $this->assetRepository = $assetRepository;

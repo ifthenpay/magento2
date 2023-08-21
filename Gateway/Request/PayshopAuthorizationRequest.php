@@ -28,7 +28,7 @@ class PayshopAuthorizationRequest implements BuilderInterface
      */
     public function __construct(
         ConfigInterface $config,
-        Currency $currency,
+        Currency $currency
     ) {
         $this->config = $config;
         $this->currency = $currency;

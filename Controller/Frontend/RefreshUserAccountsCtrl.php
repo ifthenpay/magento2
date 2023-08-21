@@ -30,7 +30,7 @@ class RefreshUserAccountsCtrl extends Action
         Context $context,
         IfthenpayConfig $configData,
         GatewayService $gatewayService,
-        Logger $logger,
+        Logger $logger
     ) {
         parent::__construct($context);
         $this->configData = $configData;

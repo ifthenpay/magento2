@@ -47,7 +47,7 @@ class BackofficeKey extends Value
         \Magento\Framework\App\Request\Http $request,
         \Magento\Framework\Model\ResourceModel\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\AbstractDb $resourceCollection = null,
-        array $data = [],
+        array $data = []
     ) {
         parent::__construct($context, $registry, $config, $cacheTypeList, $resource, $resourceCollection, $data);
         $this->formKeyValidator = $formKeyValidator;

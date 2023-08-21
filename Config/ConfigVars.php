@@ -67,8 +67,8 @@ final class ConfigVars
 
     public const MULTIBANCO_DEADLINE_HOURS = 23;
     public const MULTIBANCO_DEADLINE_MINUTES = 59;
-    public const PAYSHOP_DEADLINE_HOURS = 00;
-    public const PAYSHOP_DEADLINE_MINUTES = 00;
+    public const PAYSHOP_DEADLINE_HOURS = 0;
+    public const PAYSHOP_DEADLINE_MINUTES = 0;
     public const CCARD_DEADLINE_MINUTES = 30;
     public const MBWAY_DEADLINE_MINUTES = 30;
 

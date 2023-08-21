@@ -26,7 +26,7 @@ class MultibancoConfigProvider implements ConfigProviderInterface
 
     public function __construct(
         MultibancoConfig $config,
-        Repository $assetRepository,
+        Repository $assetRepository
     ) {
         $this->config = $config;
         $this->assetRepository = $assetRepository;

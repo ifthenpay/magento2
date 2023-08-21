@@ -66,27 +66,44 @@ class CancelUnpaidOrders
      */
     private function cancelOrderIfPaymentOverdue($paymentMethod): void
     {
-        $service = $this->serviceFactory->createService($paymentMethod);
+        $pmService = $this->serviceFactory->createService($paymentMethod);
+
         $ordersAwaitingPayment = $this->getOrderCollectionAwaitingPayment($paymentMethod);
 
         foreach ($ordersAwaitingPayment as $order) {
 
-
             $orderId = $order->getIncrementId();
-            $orderStoredData = $service->getByOrderId($orderId);
+            $storedPaymentData = $pmService->getByOrderId($orderId);
 
-            $deadline = $this->getDeadlineByPaymentMethod($order, $orderStoredData, $paymentMethod);
+            if (empty($storedPaymentData)) {
+                continue;
+            }
 
-            if ($deadline != '' && strtotime($deadline) < strtotime(date('Y-m-d H:i:s'))) {
+            $deadline = $this->getDeadlineByPaymentMethod($storedPaymentData, $paymentMethod);
+
+            if ($deadline === '') {
+                continue;
+            }
+
+            $timezone = new \DateTimeZone('Europe/Lisbon');
+
+            $currentDate = new \DateTime('now', $timezone);
+            $currentUnixTime = $currentDate->getTimestamp();
+
+            $deadlineDate = new \DateTime($deadline, $timezone);
+            $deadlineUnixTime = $deadlineDate->getTimestamp();
+
+
+            if ($deadlineUnixTime < $currentUnixTime) {
 
                 $order->registerCancellation(__('Order canceled by cronjob because payment was overdue'));
                 $order->save();
 
 
                 // update ifthenpay table data to canceled
-                $orderStoredData['status'] = 'canceled';
-                $service->setData($orderStoredData);
-                $service->save();
+                $storedPaymentData['status'] = 'canceled';
+                $pmService->setData($storedPaymentData);
+                $pmService->save();
 
 
                 $this->logger->info('Order canceled by cronjob because payment was overdue', [
@@ -99,25 +116,25 @@ class CancelUnpaidOrders
 
     /**
      * generates deadline based on payment method
-     * - multibanco deadline is always the date in $orderStoredData['deadline'] at 23:59
-     * - payshop deadline is always the date in $orderStoredData['deadline'] at 00:00
+     * - multibanco deadline is always the date in $storedPaymentData['deadline'] at 23:59
+     * - payshop deadline is always the date in $storedPaymentData['deadline'] at 00:00
      * - mbway deadline is always the order creation date + 30 minutes
      * - ccard deadline is always the order creation date + 30 minutes
      * defaults to empty string
-     * @param array $orderStoredData
+     * @param array $storedPaymentData
      * @param string $paymentMethod
      * @return string $deadline
      */
-    private function getDeadlineByPaymentMethod($order, $orderStoredData, $paymentMethod): string
+    private function getDeadlineByPaymentMethod($storedPaymentData, $paymentMethod): string
     {
         if ($paymentMethod === ConfigVars::MULTIBANCO_CODE) {
 
-            $deadline = $orderStoredData['deadline'] ?? '';
+            $deadline = $storedPaymentData['deadline'] ?? '';
             if ($deadline === '') {
                 return '';
             }
 
-            $deadline = \DateTime::createFromFormat('Y-m-d', $deadline);
+            $deadline = \DateTime::createFromFormat('d-m-Y', $deadline);
             $deadline->setTime(ConfigVars::MULTIBANCO_DEADLINE_HOURS, ConfigVars::MULTIBANCO_DEADLINE_MINUTES);
 
             return $deadline->format('Y-m-d H:i:s');
@@ -125,7 +142,7 @@ class CancelUnpaidOrders
 
         if ($paymentMethod === ConfigVars::PAYSHOP_CODE) {
 
-            $deadline = $orderStoredData['deadline'] ?? '';
+            $deadline = $storedPaymentData['deadline'] ?? '';
             if ($deadline === '') {
                 return '';
             }
@@ -138,9 +155,12 @@ class CancelUnpaidOrders
 
         if ($paymentMethod === ConfigVars::MBWAY_CODE) {
 
-            $deadline = $order->getCreatedAt(); // date of order creation
+            $createdAt = $storedPaymentData['created_at'] ?? '';
+            if ($createdAt === '') {
+                return '';
+            }
 
-            $deadline = \DateTime::createFromFormat('Y-m-d H:i:s', $deadline);
+            $deadline = \DateTime::createFromFormat('Y-m-d H:i:s', $createdAt);
             $deadline->add(new \DateInterval('PT' . ConfigVars::MBWAY_DEADLINE_MINUTES . 'M'));
 
             return $deadline->format('Y-m-d H:i:s');
@@ -148,9 +168,12 @@ class CancelUnpaidOrders
 
         if ($paymentMethod === ConfigVars::CCARD_CODE) {
 
-            $deadline = $order->getCreatedAt(); // date of order creation
+            $createdAt = $storedPaymentData['created_at'] ?? '';
+            if ($createdAt === '') {
+                return '';
+            }
 
-            $deadline = \DateTime::createFromFormat('Y-m-d H:i:s', $deadline);
+            $deadline = \DateTime::createFromFormat('Y-m-d H:i:s', $createdAt);
             $deadline->add(new \DateInterval('PT' . ConfigVars::CCARD_DEADLINE_MINUTES . 'M'));
 
             return $deadline->format('Y-m-d H:i:s');

@@ -28,7 +28,7 @@ class MbwayAuthorizationRequest implements BuilderInterface
      */
     public function __construct(
         ConfigInterface $config,
-        Currency $currency,
+        Currency $currency
     ) {
         $this->config = $config;
         $this->currency = $currency;
@@ -57,7 +57,7 @@ class MbwayAuthorizationRequest implements BuilderInterface
         $orderTotal = $order->getGrandTotalAmount();
         $convertedOrderTotal = $this->currency->convertAndFormatToEuro($currency, $orderTotal);
         $key = $this->config->getValue('key');
-        $tlm = $paymentDO->getPayment()->getAdditionalInformation('phoneNumber');
+        $tlm = $paymentDO->getPayment()->getAdditionalInformation('countryCode') . '#' . $paymentDO->getPayment()->getAdditionalInformation('phoneNumber');
 
 
         $payload = [

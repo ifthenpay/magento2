@@ -38,7 +38,7 @@ class ScopeConfigResolver
      */
     public function __construct(
         RequestHttp $request,
-        StoreManagerInterface $storeManager,
+        StoreManagerInterface $storeManager
     ) {
         $this->request = $request;
         $this->storeManager = $storeManager;

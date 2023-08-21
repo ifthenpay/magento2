@@ -34,7 +34,7 @@ class IfthenpayConfig extends GatewayConfig
         ScopeConfigResolver $scopeConfigResolver,
         StoreManagerInterface $storeManagerInterface,
         WriterInterface $configWriter,
-        string $methodCode = self::METHOD_CODE,
+        string $methodCode = self::METHOD_CODE
     ) {
         parent::__construct($scopeConfig, $methodCode);
         $this->scopeConfigResolver = $scopeConfigResolver;

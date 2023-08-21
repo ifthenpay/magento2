@@ -7,7 +7,8 @@
             "deadline": true,
             "order_id": true,
             "status": true,
-            "request_id": true
+            "request_id": true,
+            "created_at": true
         },
         "index": {
             "IFTHENPAY_MULTIBANCO_REFERENCE": true,
@@ -24,7 +25,8 @@
             "phone_number": true,
             "order_total": true,
             "order_id": true,
-            "status": true
+            "status": true,
+            "created_at": true
         },
         "index": {
             "IFTHENPAY_MBWAY_TRANSACTION_ID": true
@@ -40,7 +42,8 @@
             "reference": true,
             "deadline": true,
             "order_id": true,
-            "status": true
+            "status": true,
+            "created_at": true
         },
         "index": {
             "IFTHENPAY_PAYSHOP_TRANSACTION_ID": true
@@ -54,7 +57,8 @@
             "id": true,
             "request_id": true,
             "order_id": true,
-            "status": true
+            "status": true,
+            "created_at": true
         },
         "index": {
             "IFTHENPAY_CCARD_REQUEST_ID": true

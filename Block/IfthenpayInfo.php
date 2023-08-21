@@ -40,7 +40,7 @@ class IfthenpayInfo extends Info
                 break;
             case ConfigVars::MBWAY_CODE:
                 $informations[__('Transaction ID')->render()] = $this->getInfo()->getAdditionalInformation('transactionId');
-                $informations[__('Phone Number')->render()] = $this->getInfo()->getAdditionalInformation('phoneNumber');
+                $informations[__('Phone Number')->render()] = $this->getInfo()->getAdditionalInformation('countryCode') . ' ' . $this->getInfo()->getAdditionalInformation('phoneNumber');
                 break;
             default:
                 break;

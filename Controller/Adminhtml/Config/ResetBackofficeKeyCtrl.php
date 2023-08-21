@@ -31,7 +31,7 @@ class ResetBackofficeKeyCtrl extends Action
         JsonFactory $resultJsonFactory,
         IfthenpayConfig $configData,
         Logger $logger,
-        ConfigFactory $configFactory,
+        ConfigFactory $configFactory
     ) {
         parent::__construct($context);
         $this->resultJsonFactory = $resultJsonFactory;

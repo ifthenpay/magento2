@@ -22,6 +22,7 @@ require([
     const checkStatusUrl = $('#ifthenpay_check_mbway_status_url').val();
     const resendNotificationUrl = $('#ifthenpay_resend_mbway_notification_url').val();
     const orderId = $('#ifthenpay_order_id').val();
+    const countryCode = $('#ifthenpay_mbway_country_code').val();
     const phoneNumber = $('#ifthenpay_mbway_phone_number').val();
     const dom_transaction = $('#ifthenpay_transaction_id');
     const dom_countdownPanel = $('div.ifthenpay_countdown_panel');
@@ -48,6 +49,7 @@ require([
         checkStatusUrl &&
         resendNotificationUrl &&
         orderId &&
+        countryCode &&
         phoneNumber &&
         dom_transaction.length &&
         dom_countdownPanel.length &&
@@ -172,12 +174,14 @@ require([
             toggleVisibilityOfResponsePanel(false);
             dom_ifthenpayResendMbwayNotificationDiv.hide();
 
+            let fullPhoneNumber = `${countryCode}#${phoneNumber}`;
+
             $.ajax({
                 url: resendNotificationUrl,
                 data: {
                     form_key: window.FORM_KEY,
                     orderId: orderId,
-                    phoneNumber: phoneNumber,
+                    phoneNumber: fullPhoneNumber,
                     storeId: storeId
                 },
                 showLoader: true,

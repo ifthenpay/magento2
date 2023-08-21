@@ -18,6 +18,9 @@ define([
         defaults: {
             template: 'Ifthenpay_Payment/payment/mbwayForm',
         },
+        getCountryCodes: function () {
+            return window.checkoutConfig.payment.ifthenpay_mbway.countryCodeOptions;
+        },
         getLogoUrl: function () {
             return window.checkoutConfig.payment.ifthenpay_mbway.logoUrl;
         },
@@ -31,6 +34,7 @@ define([
             return {
                 'method': this.item.method,
                 'additional_data': {
+                    'countryCode': $('#ifthenpay_mbway_country_code').val(),
                     'phoneNumber': $('#ifthenpay_mbway_phone_number').val()
                 }
             };

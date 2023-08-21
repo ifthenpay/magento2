@@ -37,7 +37,7 @@ class MultibancoConfig extends GatewayConfig
         WriterInterface $configWriter,
         ScopeConfigResolver $scopeConfigResolver,
         ResourceConnection $resourceConnection,
-        string $methodCode = self::METHOD_CODE,
+        string $methodCode = self::METHOD_CODE
     ) {
         parent::__construct($scopeConfig, $methodCode);
         $this->scopeConfigResolver = $scopeConfigResolver;

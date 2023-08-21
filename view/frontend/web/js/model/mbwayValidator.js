@@ -21,7 +21,7 @@ define(
         return {
             validate: function () {
 
-                var mbwayPhoneRegex = /^((91|96|92|93)[0-9]{7})$/g;
+                var mbwayPhoneRegex = /^([0-9]{6,10})$/g;
                 var isValid = true; //Put your validation logic here
                 var paymentMethodSelected = $('input[name="payment[method]"]:checked').attr('id');
                 if (paymentMethodSelected === 'ifthenpay_mbway' && $('#ifthenpay_mbway_phone_number').length) {

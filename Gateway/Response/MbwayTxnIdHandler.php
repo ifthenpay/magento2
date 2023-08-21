@@ -61,7 +61,11 @@ class MbwayTxnIdHandler implements HandlerInterface
         $payment->setIsTransactionClosed(false);
 
 
-        $phoneNumber = $payment->getAdditionalInformation('phoneNumber');
+        $phoneNumber = $payment->getAdditionalInformation('countryCode') . '#' . $payment->getAdditionalInformation('phoneNumber');
+
+        $currentDate = new \DateTime('now', new \DateTimeZone('Europe/Lisbon'));
+        $currentDateStr = $currentDate->format('Y-m-d H:i:s');
+
 
         // save to ifthenpay_mbway table
         $this->mbwayService->setData(
@@ -70,7 +74,8 @@ class MbwayTxnIdHandler implements HandlerInterface
                 "phone_number" => $phoneNumber,
                 "order_id" => $orderId,
                 "order_total" => (string) $convertedOrderTotal,
-                "status" => 'pending'
+                "status" => 'pending',
+                "created_at" => $currentDateStr
             ]
         );
 

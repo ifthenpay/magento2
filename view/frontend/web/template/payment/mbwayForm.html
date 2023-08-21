@@ -45,9 +45,14 @@
             <!-- or just a label -->
             <label class="label ifthenpay_mr_10" for="ifthenpay_mbway_phone_number"><span data-bind="i18n: 'Phone Number'"></span></label>
 
+            <select name="payment[mbway_country_code]" id="ifthenpay_mbway_country_code" data-bind="options: getCountryCodes(),
+            optionsText: 'name',
+            optionsValue : 'value',
+            value: 351"></select>
+
             <input name="payment[mbway_phone_number]" type="number" placeholder="919999999"
             id="ifthenpay_mbway_phone_number"
-            data-validate="{required:true, 'validate-phone-number': true, 'pattern':/^((91|96|92|93)[0-9]{7})$/g}" />
+            data-validate="{required:true, 'validate-phone-number': true, 'pattern':/^([0-9]{6,10})$/g}" />
         </div>
 
         <div class="checkout-agreements-block">

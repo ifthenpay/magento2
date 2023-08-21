@@ -17,6 +17,7 @@
         <column xsi:type="varchar" name="status" nullable="false" length="50"/>
         <column xsi:type="varchar" name="deadline" nullable="true" length="15" onCreate="migrateDataFrom(validade)"/>
         <column xsi:type="varchar" name="request_id" nullable="true" length="50" onCreate="migrateDataFrom(requestId)"/>
+        <column xsi:type="varchar" name="created_at" nullable="false" length="20"/>
         <constraint xsi:type="primary" referenceId="PRIMARY">
             <column name="id"/>
         </constraint>
@@ -34,6 +35,7 @@
         <column xsi:type="varchar" name="order_id" nullable="false" length="250"/>
         <column xsi:type="varchar" name="order_total" nullable="false" length="20"/>
         <column xsi:type="varchar" name="status" nullable="false" length="50"/>
+        <column xsi:type="varchar" name="created_at" nullable="false" length="20"/>
         <constraint xsi:type="primary" referenceId="PRIMARY">
             <column name="id"/>
         </constraint>
@@ -48,6 +50,7 @@
         <column xsi:type="varchar" name="deadline" nullable="true" length="15" onCreate="migrateDataFrom(validade)"/>
         <column xsi:type="varchar" name="order_id" nullable="false" length="250"/>
         <column xsi:type="varchar" name="status" nullable="false" length="50"/>
+        <column xsi:type="varchar" name="created_at" nullable="false" length="20"/>
         <constraint xsi:type="primary" referenceId="PRIMARY">
             <column name="id"/>
         </constraint>
@@ -60,6 +63,7 @@
         <column xsi:type="varchar" name="request_id" nullable="false" length="250" onCreate="migrateDataFrom(requestId)"/>
         <column xsi:type="varchar" name="order_id" nullable="false" length="250"/>
         <column xsi:type="varchar" name="status" nullable="false" length="50"/>
+        <column xsi:type="varchar" name="created_at" nullable="false" length="20"/>
         <constraint xsi:type="primary" referenceId="PRIMARY">
             <column name="id"/>
         </constraint>

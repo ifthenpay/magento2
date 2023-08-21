@@ -130,6 +130,12 @@ class CallbackCtrl extends Action
 
             // If payment is already paid, return
             if ($storedPaymentData['status'] !== 'pending') {
+
+                $this->logger->info('Callback was executed for order with status different of pending', [
+                    'requestData' => $requestData,
+                    'storedPaymentData' => $storedPaymentData
+                ]);
+
                 return;
             }
 

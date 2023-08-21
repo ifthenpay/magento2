@@ -57,6 +57,13 @@
 /* mbway */
 
 
+#ifthenpay_mbway_country_code {
+    max-width: 170px;
+    margin-right: 10px;
+}
+
+
+
 #ifthenpay_mbway_payment_out_of_time_panel,
 #ifthenpay_mbway_payment_confirmed_panel,
 #ifthenpay_mbway_payment_refused_panel,

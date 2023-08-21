@@ -2,6 +2,7 @@
 <input type="hidden" id="ifthenpay_transaction_id" value="<?php echo $block->paymentReturnData['transactionId'] ?>"/>
 <input type="hidden" id="ifthenpay_check_mbway_status_url" value="<?php echo $block->paymentReturnData['checkMbwayPaymentStatusUrl']; ?>"/>
 <input type="hidden" id="ifthenpay_resend_mbway_notification_url" value="<?php echo $block->paymentReturnData['resendMbwayNotificationUrl']; ?>"/>
+<input type="hidden" id="ifthenpay_mbway_country_code" value="<?php echo $block->paymentReturnData['countryCode'] ?>"/>
 <input type="hidden" id="ifthenpay_mbway_phone_number" value="<?php echo $block->paymentReturnData['phoneNumber'] ?>"/>
 <input type="hidden" id="ifthenpay_show_countdown" value="<?php echo $block->paymentReturnData['showCountdown'] ?>"/>
 <input type="hidden" id="ifthenpay_store_id" value="<?php echo $block->paymentReturnData['storeId'] ?>"/>
@@ -78,7 +79,7 @@
             <tbody>
                 <tr>
                     <td class="if_td_desc"><?= __('Phone Number') ?>:</td>
-                    <td class="if_td_value"><?php echo $block->paymentReturnData['phoneNumber']; ?></td>
+                    <td class="if_td_value"><?php echo $block->paymentReturnData['countryCode'] . ' ' . $block->paymentReturnData['phoneNumber']; ?></td>
                 </tr>
                 <tr>
                     <td class="if_td_desc"><?= __('Order') ?>:</td>
