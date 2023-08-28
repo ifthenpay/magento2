@@ -81,7 +81,7 @@ Use the table below to check the compatibility of the Ifthenpay module with your
 |                            | Magento 2.3    | Magento 2.4 [2.4.0 - 2.4.6] |
 |----------------------------|----------------|-----------------------------|
 | Ifthenpay v1.0.0 - v1.2.13 | Not compatible | Compatible up to 2.4.5      |
-| Ifthenpay v2.0.0 - v2.0.4  | Not compatible | Compatible                  |
+| Ifthenpay v2.0.0 - v2.0.5  | Not compatible | Compatible                  |
 
 
 
