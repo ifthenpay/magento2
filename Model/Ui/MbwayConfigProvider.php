@@ -21,42 +21,42 @@ use Ifthenpay\Payment\Gateway\Config\MbwayConfig;
 
 class MbwayConfigProvider implements ConfigProviderInterface
 {
-    const CODE = ConfigVars::MBWAY_CODE;
-    // const COUNTRY_CODES_PATH = __DIR__ . '/CountryCodes.json';
-    const COUNTRY_CODES_PATH = __DIR__ . '/../../Lib/Utility/countryCodes.json';
+	const CODE = ConfigVars::MBWAY_CODE;
+	// const COUNTRY_CODES_PATH = __DIR__ . '/CountryCodes.json';
+	const COUNTRY_CODES_PATH = __DIR__ . '/../../Lib/Utility/countryCodes.json';
 
-    // /home/docker/magento245/src/app/code/Ifthenpay/Payment/Lib/Utility/countryCodes.json
+	// /home/docker/magento245/src/app/code/Ifthenpay/Payment/Lib/Utility/countryCodes.json
 
-    protected $assetRepository;
-    protected $config;
+	protected $assetRepository;
+	protected $config;
 
-    public function __construct(
-        MbwayConfig $config,
-        Repository $assetRepository,
-        Resolver $locale,
-    ) {
-        $this->config = $config;
-        $this->assetRepository = $assetRepository;
-        $this->locale = $locale;
-    }
+	public function __construct(
+		MbwayConfig $config,
+		Repository $assetRepository,
+		Resolver $locale
+	) {
+		$this->config = $config;
+		$this->assetRepository = $assetRepository;
+		$this->locale = $locale;
+	}
 
-    public function getConfig(): array
-    {
+	public function getConfig(): array
+	{
 
-        $langCode = $this->locale->getLocale();
+		$langCode = $this->locale->getLocale();
 
-        return [
-            'payment' => [
-                'ifthenpay_mbway' => [
-                    'logoUrl' => $this->assetRepository->getUrlWithParams(ConfigVars::ASSET_PATH_CHECKOUT_LOGO_MBWAY, []),
-                    'mobileIconUrl' => $this->assetRepository->getUrlWithParams(ConfigVars::ASSET_PATH_CHECKOUT_MBWAY_ICON_MOBILE, []),
-                    'showPaymentIcon' => $this->config->getShowPaymentIcon(),
-                    'title' => $this->config->getTitle(),
-                    'countryCodeOptions' => self::generateCountryCodeOptions($langCode),
-                ],
-            ]
-        ];
-    }
+		return [
+			'payment' => [
+				'ifthenpay_mbway' => [
+					'logoUrl' => $this->assetRepository->getUrlWithParams(ConfigVars::ASSET_PATH_CHECKOUT_LOGO_MBWAY, []),
+					'mobileIconUrl' => $this->assetRepository->getUrlWithParams(ConfigVars::ASSET_PATH_CHECKOUT_MBWAY_ICON_MOBILE, []),
+					'showPaymentIcon' => $this->config->getShowPaymentIcon(),
+					'title' => $this->config->getTitle(),
+					'countryCodeOptions' => self::generateCountryCodeOptions($langCode),
+				],
+			]
+		];
+	}
 
 
 	/**
@@ -66,23 +66,23 @@ class MbwayConfigProvider implements ConfigProviderInterface
 	 */
 	private static function generateCountryCodeOptions(string $lang): array
 	{
-        switch ($lang) {
-            case 'pt_PT':
-                $lang = 'PT';
-                break;
-            case 'pt_BR':
-                $lang = 'PT';
-                break;
-            case 'es_ES':
-                $lang = 'ES';
-                break;
-            case 'fr_FR':
-                $lang = 'FR';
-                break;
-            default:
-                $lang = 'EN';
-                break;
-        }
+		switch ($lang) {
+			case 'pt_PT':
+				$lang = 'PT';
+				break;
+			case 'pt_BR':
+				$lang = 'PT';
+				break;
+			case 'es_ES':
+				$lang = 'ES';
+				break;
+			case 'fr_FR':
+				$lang = 'FR';
+				break;
+			default:
+				$lang = 'EN';
+				break;
+		}
 
 
 		// Read JSON file contents
