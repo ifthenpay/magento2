@@ -48,7 +48,8 @@ class MultibancoTxnIdHandler implements HandlerInterface
         $orderTotal = $order->getGrandTotalAmount();
         $convertedOrderTotal = $this->currency->convertAndFormatToEuro($currency, $orderTotal);
 
-
+        $currentDate = new \DateTime('now', new \DateTimeZone('Europe/Lisbon'));
+        $currentDateStr = $currentDate->format('Y-m-d H:i:s');
 
         $paymentData = [
             "order_id" => $orderId,

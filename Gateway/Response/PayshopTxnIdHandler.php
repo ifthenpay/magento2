@@ -50,6 +50,8 @@ class PayshopTxnIdHandler implements HandlerInterface
         // format deadline date
         $deadline = $response['deadline'] != '' ? date('d-m-Y', strtotime($response['deadline'])) : '';
 
+        $currentDate = new \DateTime('now', new \DateTimeZone('Europe/Lisbon'));
+        $currentDateStr = $currentDate->format('Y-m-d H:i:s');
 
         $paymentData = [
             'reference' => $response['Reference'],
