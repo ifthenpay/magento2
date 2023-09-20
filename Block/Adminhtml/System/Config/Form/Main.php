@@ -28,6 +28,8 @@ class Main extends Fieldset
     private $urlBuilder;
     private $scopeConfigResolver;
     private $moduleResource;
+    private $config;
+    private $assetRepository;
 
 
     public function __construct(
