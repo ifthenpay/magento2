@@ -128,16 +128,6 @@ class CallbackCtrl extends Action
             $service = $this->serviceFactory->createService(ConfigVars::VENDOR . '_' . $requestData['payment']);
             $storedPaymentData = $service->getPaymentByRequestData($requestData);
 
-            // If payment is already paid, return
-            if ($storedPaymentData['status'] !== 'pending') {
-
-                $this->logger->info('Callback was executed for order with status different of pending', [
-                    'requestData' => $requestData,
-                    'storedPaymentData' => $storedPaymentData
-                ]);
-
-                return;
-            }
 
             // Validate callback, throw exception if invalid
             $this->validateCallback($requestData, $storedPaymentData);
