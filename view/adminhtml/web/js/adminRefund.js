@@ -43,7 +43,7 @@ require([
     function placeProxyButton() {
         if (ifthenpay_IsPaymentMethodRefundable === 'true') {
 
-            window.dom_if_refundBtn = $('.order-totals-actions button.refund');
+            const dom_if_refundBtn = $('.order-totals-actions button.refund');
 
             // if payment method has not refundable option in config, then remove the button
             if (ifthenpay_IsPaymentMethodRefundEnabled !== 'true') {
@@ -52,13 +52,13 @@ require([
             }
 
             // if the button is already a proxy, then return
-            if (dom_if_refundBtn.hasClass('refund_proxy')) {
+            if ($('.order-totals-actions button.refund_proxy').length > 0) {
                 return;
             }
 
 
             // create and add the proxy button
-            window.dom_if_proxyBtn = $('<button>');
+            const dom_if_proxyBtn = $('<button>');
 
             const classes = dom_if_refundBtn.attr('class').split(' ');
 
@@ -69,7 +69,7 @@ require([
 
 
             dom_if_refundBtn.after(dom_if_proxyBtn);
-            dom_if_refundBtn.detach();
+            dom_if_refundBtn.hide();
 
 
 
@@ -155,9 +155,7 @@ require([
 
     function resumeRefundProcess() {
         // trigger click event
-        dom_if_proxyBtn.after(dom_if_refundBtn);
-        dom_if_proxyBtn.detach();
-        dom_if_refundBtn.trigger('click');
+        $('.order-totals-actions .action-default.scalable.refund.primary:not(.refund_proxy)').trigger('click');
     }
 
 
