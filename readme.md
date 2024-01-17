@@ -42,7 +42,7 @@ Read in ![Portuguese](https://github.com/ifthenpay/magento2/raw/assets/assets/im
 
 
 # Introduction
-![Ifthenpay](https://ifthenpay.com/images/all_payments_logo_final.png)
+![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/payment_methods_banner.png)
 
 **This is the Ifthenpay plugin for the Magento 2 e-commerce platform.**
 
@@ -581,7 +581,7 @@ After the payment is processed, the order success page will be displayed.
 </br>
 
 
-## Paying order with Cofidis Pay
+## Pay order with Cofidis Pay
 
 Select the Cofidis Pay payment method (1) and click on Place Order (2).
 

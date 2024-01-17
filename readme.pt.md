@@ -42,7 +42,7 @@ Ler em ![Português](https://github.com/ifthenpay/magento2/raw/assets/assets/img
 
 
 # Introdução
-![Ifthenpay](https://ifthenpay.com/images/all_payments_logo_final.png)
+![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/payment_methods_banner.png)
 
 **Este é o plugin Ifthenpay para a plataforma de e-commerce Magento 2**
 
@@ -553,6 +553,61 @@ Preencher os dados do cartão de crédito número do cartão (1), data de valida
 Após o pagamento ser processado, será exibida a página de sucesso da encomenda.
 
 ![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/thankYouCcard.png)
+</br>
+
+
+## Pagar encomenda com Cofidis Pay
+
+Selecionar o método de pagamento Cofidis Pay (1) e clicar em Fazer Encomenda (2).
+
+
+![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/checkoutCofidis.png)
+</br>
+
+
+* Entre ou, se não tiver conta faça o registo com Cofidis Pay:
+1. Clique "Avançar" para registar em Cofidis Pay;
+2. Ou se tiver uma conta Cofidis Pay, preencha as suas credencias de acesso e clique entrar;
+![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/cofidis_payment_1.png)
+</br>
+
+* Número de prestações, faturação e dados pessoais:
+1. Selecione o número de prestações que deseja;
+2. Verifique o sumário do plano de pagamento;
+3. Preencha os seus dados pessoais e de faturação;
+4. Clique em "Avançar" para continuar;
+![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/cofidis_payment_2.png)
+</br>
+
+* Termos e condições:
+1. Selecione "Li e autorizo" para concordar com os termos e condições;
+2. Clique em "Avançar"
+![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/cofidis_payment_3.png)
+</br>
+
+* Formalização do acordo:
+1. Clique em "Enviar código";
+![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/cofidis_payment_4.png)
+</br>
+
+* Código de autenticação da formalização do acordo:
+1. Preencha o com o código que recebeu no telemóvel;
+1. Clique em "Confirmar código";
+![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/cofidis_payment_5.png)
+</br>
+
+* Resumo e Pagamento:
+1. Preencha com os detalhes do seu cartão de crédito(número, data de expiração e CW), e clique em "Validar";
+![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/cofidis_payment_6.png)
+</br>
+
+* Sucesso e voltar à loja:
+1. Clique no icone para voltar à loja;
+![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/cofidis_payment_7.png)
+</br>
+
+* Após o qual será redirecionado de volta para a loja;
+![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/cofidis_payment_return.png)
 </br>
 
 
