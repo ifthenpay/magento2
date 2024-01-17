@@ -21,8 +21,7 @@ class MbwayRepository implements MbwayRepositoryInterface
     public function __construct(
         MbwayFactory $mbwayFactory,
         MbwayResource $mbwayResource
-    )
-    {
+    ) {
         $this->mbwayFactory = $mbwayFactory;
         $this->mbwayResource = $mbwayResource;
     }

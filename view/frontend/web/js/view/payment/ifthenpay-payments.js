@@ -29,6 +29,10 @@ define([
         {
             type: 'ifthenpay_ccard', // must equals the payment code
             component: 'Ifthenpay_Payment/js/view/payment/method-renderer/ccard'
+        },
+        {
+            type: 'ifthenpay_cofidis', // must equals the payment code
+            component: 'Ifthenpay_Payment/js/view/payment/method-renderer/cofidis'
         }
     );
 

@@ -71,4 +71,19 @@
             <column name="request_id"/>
         </index>
     </table>
+    <table name="ifthenpay_cofidis" resource="default">
+        <column xsi:type="int" name="id" unsigned="true" nullable="false" identity="true"/>
+        <column xsi:type="varchar" name="order_id" nullable="false" length="250"/>
+        <column xsi:type="varchar" name="transaction_id" nullable="false" length="250"/>
+        <column xsi:type="varchar" name="hash" nullable="false" length="20"/>
+        <column xsi:type="varchar" name="status" nullable="false" length="50"/>
+        <column xsi:type="varchar" name="created_at" nullable="false" length="20"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="id"/>
+        </constraint>
+        <index referenceId="INDEX_TRANSACTIONID" indexType="btree">
+            <column name="transaction_id"/>
+        </index>
+    </table>
+
 </schema>

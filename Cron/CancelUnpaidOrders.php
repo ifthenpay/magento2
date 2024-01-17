@@ -14,27 +14,27 @@ use Ifthenpay\Payment\Config\ConfigVars;
 use Ifthenpay\Payment\Lib\Factory\ServiceFactory;
 
 use Magento\Sales\Model\ResourceModel\Order\CollectionFactory;
-
-
+use Magento\Framework\App\ResourceConnection;
 
 class CancelUnpaidOrders
 {
-
     private $logger;
     private $configFactory;
     private $serviceFactory;
     private $orderCollectionFactory;
-
+    private $resourceConnection;
 
 
     public function __construct(
         Logger $logger,
         ServiceFactory $serviceFactory,
-        CollectionFactory $orderCollectionFactory
+        CollectionFactory $orderCollectionFactory,
+        ResourceConnection $resourceConnection
     ) {
         $this->logger = $logger;
         $this->serviceFactory = $serviceFactory;
         $this->orderCollectionFactory = $orderCollectionFactory;
+        $this->resourceConnection = $resourceConnection;
     }
 
     public function execute(): void
@@ -181,7 +181,6 @@ class CancelUnpaidOrders
         return '';
     }
 
-
     /**
      * gets collection of orders awaiting payment
      * - credit card orders are in status 'payment_review'
@@ -194,15 +193,14 @@ class CancelUnpaidOrders
         // makes distinction between credit card and other payment methods
         $status = $paymentMethod === ConfigVars::CCARD_CODE ? 'payment_review' : 'pending';
 
+        $salesOrderPaymentTableName = $this->resourceConnection->getTableName('sales_order_payment');
         $collection = $this->orderCollectionFactory->create()->addFieldToFilter('status', $status);
         $collection->getSelect()->join(
-            ["sop" => "sales_order_payment"],
+            ["sop" => $salesOrderPaymentTableName],
             'main_table.entity_id = sop.parent_id',
             array('method')
         )->where('sop.method = ?', $paymentMethod);
 
         return $collection;
     }
-
-
 }

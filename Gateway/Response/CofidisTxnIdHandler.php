@@ -11,20 +11,20 @@ namespace Ifthenpay\Payment\Gateway\Response;
 use Magento\Payment\Gateway\Data\PaymentDataObjectInterface;
 use Magento\Payment\Gateway\Response\HandlerInterface;
 use Ifthenpay\Payment\Config\ConfigVars;
-use Ifthenpay\Payment\Lib\Services\CcardService;
+use Ifthenpay\Payment\Lib\Services\CofidisService;
 use Ifthenpay\Payment\Lib\Utility\Currency;
 
 
-class CcardTxnIdHandler implements HandlerInterface
+class CofidisTxnIdHandler implements HandlerInterface
 {
-    private $ccardService;
+    private $cofidisService;
     private $currency;
 
     public function __construct(
-        CcardService $ccardService,
+        CofidisService $cofidisService,
         Currency $currency
     ) {
-        $this->ccardService = $ccardService;
+        $this->cofidisService = $cofidisService;
         $this->currency = $currency;
     }
 
@@ -46,16 +46,16 @@ class CcardTxnIdHandler implements HandlerInterface
         $convertedOrderTotal = $this->currency->convertAndFormatToEuro($currency, $orderTotal);
 
 
-        $requestId = $response['RequestId'];
+        $transactionId = $response['requestId'];
+        $hash = $response['hash'];
 
-        $payment->setTransactionId($requestId);
-
-        $payment->setAdditionalInformation("requestId", $requestId);
-        $payment->setAdditionalInformation("paymentUrl", $response['PaymentUrl']);
+        $payment->setTransactionId($transactionId);
+        $payment->setAdditionalInformation("transactionId", $transactionId);
+        $payment->setAdditionalInformation("paymentUrl", $response['paymentUrl']);
         $payment->setAdditionalInformation("orderId", $orderId);
         $payment->setAdditionalInformation("orderTotal", $convertedOrderTotal);
         $payment->setAdditionalInformation('currencySymbol', ConfigVars::CURRENCY_SYMBOL_EURO);
-        $payment->setAdditionalInformation('paymentMethod', ConfigVars::CCARD);
+        $payment->setAdditionalInformation('paymentMethod', ConfigVars::COFIDIS);
 
         $payment->setIsTransactionPending(true);
         $payment->setIsTransactionClosed(false);
@@ -63,18 +63,19 @@ class CcardTxnIdHandler implements HandlerInterface
         $currentDate = new \DateTime('now', new \DateTimeZone('Europe/Lisbon'));
         $currentDateStr = $currentDate->format('Y-m-d H:i:s');
 
-        // save to ifthenpay_ccard table
-        $this->ccardService->setData(
+        // save to ifthenpay_cofidis table
+        $this->cofidisService->setData(
             [
-                "request_id" => $requestId,
+                "transaction_id" => $transactionId,
                 "order_id" => $orderId,
-                "order_total" => (string) $convertedOrderTotal,
+                "hash" => $hash,
                 "status" => 'pending',
                 "created_at" => $currentDateStr
             ]
         );
 
-        $this->ccardService->save();
+        $this->cofidisService->save();
 
     }
+
 }

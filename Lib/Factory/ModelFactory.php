@@ -16,40 +16,46 @@ use Ifthenpay\Payment\Model\MultibancoFactory;
 use Ifthenpay\Payment\Model\PayshopFactory;
 use Ifthenpay\Payment\Model\MbwayFactory;
 use Ifthenpay\Payment\Model\CcardFactory;
+use Ifthenpay\Payment\Model\CofidisFactory;
 
 class ModelFactory
 {
-    private $payshopFactory;
-    private $multibancoFactory;
-    private $mbwayFactory;
-    private $ccardFactory;
+	private $payshopFactory;
+	private $multibancoFactory;
+	private $mbwayFactory;
+	private $ccardFactory;
+	private $cofidisFactory;
 
-    public function __construct(
-        MultibancoFactory $multibancoFactory,
-        PayshopFactory $payshopFactory,
-        MbwayFactory $mbwayFactory,
-        CcardFactory $ccardFactory
-    ) {
-        $this->multibancoFactory = $multibancoFactory;
-        $this->payshopFactory = $payshopFactory;
-        $this->mbwayFactory = $mbwayFactory;
-        $this->ccardFactory = $ccardFactory;
-    }
+	public function __construct(
+		MultibancoFactory $multibancoFactory,
+		PayshopFactory $payshopFactory,
+		MbwayFactory $mbwayFactory,
+		CcardFactory $ccardFactory,
+		CofidisFactory $cofidisFactory
+	) {
+		$this->multibancoFactory = $multibancoFactory;
+		$this->payshopFactory = $payshopFactory;
+		$this->mbwayFactory = $mbwayFactory;
+		$this->ccardFactory = $ccardFactory;
+		$this->cofidisFactory = $cofidisFactory;
+	}
 
-    public function createModel(string $paymentMethod)
-    {
-        switch ($paymentMethod) {
-            case ConfigVars::MULTIBANCO:
-                return $this->multibancoFactory->create();
-            case ConfigVars::PAYSHOP:
-                return $this->payshopFactory->create();
-            case ConfigVars::MBWAY:
-                return $this->mbwayFactory->create();
-            case ConfigVars::CCARD:
-                return $this->ccardFactory->create();
-            default:
-                throw new \Exception("Unknown Model Class");
+	public function createModel(string $paymentMethod)
+	{
+		switch ($paymentMethod) {
+			case ConfigVars::MULTIBANCO:
+				return $this->multibancoFactory->create();
+			case ConfigVars::PAYSHOP:
+				return $this->payshopFactory->create();
+			case ConfigVars::MBWAY:
+				return $this->mbwayFactory->create();
+			case ConfigVars::CCARD:
+				return $this->ccardFactory->create();
+			case ConfigVars::COFIDIS:
+				return $this->cofidisFactory->create();
+			default:
+				throw new \Exception("Unknown Model Class");
 
-        }
-    }
+		}
+	}
 }

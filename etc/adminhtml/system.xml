@@ -618,6 +618,137 @@
                 </group>
 
 
+                <group id="cofidis" sortOrder="70" translate="label" showInWebsite="1" showInDefault="1">
+                    <fieldset_css>if_cofidis</fieldset_css>
+                    <label>Cofidis Pay</label>
+                    <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\IfBackofficeKeyToggleVisibility</frontend_model>
+
+                    <field id="add_new_account" translate="label comment" type="button" sortOrder="10" showInDefault="1" showInWebsite="1">
+                        <label>Request Cofidis Pay Account</label>
+                        <comment>Don't have Cofidis Pay account? Click to request Cofidis Pay account.</comment>
+                        <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\RequestNewAccountButton</frontend_model>
+                        <depends>
+                            <field id="key">nokey</field>
+                        </depends>
+                    </field>
+
+                    <field id="active" type="select" sortOrder="10" translate="label" showInWebsite="1" showInDefault="1">
+                        <label>Enabled</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <config_path>payment/ifthenpay_cofidis/active</config_path>
+                        <backend_model>Ifthenpay\Payment\Model\Config\BeforeSave\IsConfigured</backend_model>
+                        <depends>
+                            <field id="key" negative="1">nokey</field>
+                        </depends>
+                    </field>
+
+                    <field id="title" type="text" sortOrder="20" translate="label" showInWebsite="1" showInDefault="1">
+                        <label>Title</label>
+                        <config_path>payment/ifthenpay_cofidis/title</config_path>
+                        <depends>
+                            <field id="key" negative="1">nokey</field>
+                        </depends>
+                    </field>
+
+                    <field id="show_payment_icon" type="select" sortOrder="30" translate="label" showInWebsite="1" showInDefault="1">
+                        <label>Display payment method Icon on Checkout</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <config_path>payment/ifthenpay_cofidis/show_payment_icon</config_path>
+                        <depends>
+                            <field id="key" negative="1">nokey</field>
+                        </depends>
+                    </field>
+
+                    <field id="activate_callback" type="select" sortOrder="40" translate="label comment" showInWebsite="1" showInDefault="1">
+                        <label>Activate Callback</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <comment>When Callback is enabled ifthenpay's servers comunicate with your store to update order status.</comment>
+                        <config_path>payment/ifthenpay_cofidis/activate_callback</config_path>
+                        <depends>
+                            <field id="key" negative="1">nokey</field>
+                        </depends>
+                    </field>
+
+                    <field id="key" type="select" sortOrder="50" translate="label" showInWebsite="1" showInDefault="1">
+                        <label>Cofidis Pay Key</label>
+                        <source_model>Ifthenpay\Payment\Model\Config\Source\CofidisKeyOptions</source_model>
+                        <config_path>payment/ifthenpay_cofidis/key</config_path>
+                        <depends>
+                            <field id="key" negative="1">nokey</field>
+                        </depends>
+                    </field>
+
+                    <field id="send_invoice_email" translate="label" type="select" sortOrder="51" showInWebsite="1" showInDefault="1">
+                        <label>Send Invoice Email</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <config_path>payment/ifthenpay_cofidis/send_invoice_email</config_path>
+                        <comment>Send invoice email after receiving payment.</comment>
+                        <depends>
+                            <field id="key" negative="1">nokey</field>
+                        </depends>
+                    </field>
+
+                    <field id="min_order_total" type="text" sortOrder="70" translate="label comment" showInWebsite="1" showInDefault="1">
+                        <label>Minimum Order Value</label>
+                        <comment>Display this payment method for orders with value greater or equal to this value. This field will load the value set in ifthenpay's backoffice. When editing this value make sure to keep within the limits of the values set in ifthenpay's backoffice.</comment>
+                        <backend_model>Ifthenpay\Payment\Model\Config\BeforeSave\IsMinLessThanIfthenpay</backend_model>
+                        <config_path>payment/ifthenpay_cofidis/min_order_total</config_path>
+                        <validate>validate-number validate-zero-or-greater</validate>
+                        <depends>
+                            <field id="key" negative="1">nokey</field>
+                        </depends>
+                    </field>
+
+                    <field id="max_order_total" type="text" sortOrder="80" translate="label comment" showInWebsite="1" showInDefault="1">
+                        <label>Maximum Order Value</label>
+                        <comment>Display this payment method for orders with value lesser or equal to this value. This field will load the value set in ifthenpay's backoffice. When editing this value make sure to keep within the limits of the values set in ifthenpay's backoffice.</comment>
+                        <backend_model>Ifthenpay\Payment\Model\Config\BeforeSave\IsMaxGreaterThanIfthenpay</backend_model>
+                        <config_path>payment/ifthenpay_cofidis/max_order_total</config_path>
+                        <validate>validate-number validate-zero-or-greater</validate>
+                        <depends>
+                            <field id="key" negative="1">nokey</field>
+                        </depends>
+                    </field>
+
+                    <field id="allowspecific" type="allowspecific" translate="label" sortOrder="90" showInWebsite="1" showInDefault="1">
+                        <label>Payment from Applicable Countries</label>
+                        <source_model>Magento\Payment\Model\Config\Source\Allspecificcountries</source_model>
+                        <config_path>payment/ifthenpay_cofidis/allowspecific</config_path>
+                        <depends>
+                            <field id="key" negative="1">nokey</field>
+                        </depends>
+                    </field>
+
+                    <field id="specificcountry" type="multiselect" translate="label" sortOrder="100" showInWebsite="1" showInDefault="1">
+                        <label>Payment from Specific Countries</label>
+                        <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
+                        <can_be_empty>1</can_be_empty>
+                        <config_path>payment/ifthenpay_cofidis/specificcountry</config_path>
+                        <depends>
+                            <field id="key" negative="1">nokey</field>
+                        </depends>
+                    </field>
+
+                    <field id="sort_order" type="text" sortOrder="110" translate="label" showInWebsite="1" showInDefault="1">
+                        <label>Sort Order</label>
+                        <config_path>payment/ifthenpay_cofidis/sort_order</config_path>
+                        <validate>validate-number validate-zero-or-greater</validate>
+                        <depends>
+                            <field id="key" negative="1">nokey</field>
+                        </depends>
+                    </field>
+
+
+                    <field id="callbackInfo" sortOrder="161" showInDefault="1" showInWebsite="1">
+                        <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\CallbackInfo</frontend_model>
+                        <depends>
+                            <field id="key" negative="1">nokey</field>
+                        </depends>
+                    </field>
+
+                </group>
+
+
             </group>
         </section>
     </system>

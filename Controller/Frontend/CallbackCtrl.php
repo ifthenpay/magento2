@@ -196,7 +196,7 @@ class CallbackCtrl extends Action
         }
 
         // is valid payment method?
-        if (!($requestData['payment'] == 'mbway' || $requestData['payment'] == 'multibanco' || $requestData['payment'] == 'payshop')) {
+        if (!($requestData['payment'] == 'mbway' || $requestData['payment'] == 'multibanco' || $requestData['payment'] == 'payshop' || $requestData['payment'] == 'cofidis')) {
             throw new \Exception('Invalid payment method.', 20);
         }
 

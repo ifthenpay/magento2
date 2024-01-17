@@ -16,6 +16,7 @@ use Magento\Framework\App\ResourceConnection;
 use Ifthenpay\Payment\Config\ConfigVars;
 use Ifthenpay\Payment\Model\ScopeConfigResolver;
 use Magento\Store\Model\ScopeInterface;
+use Ifthenpay\Payment\Lib\Utility\Version;
 
 
 
@@ -27,27 +28,28 @@ class MbwayConfig extends GatewayConfig
     private $scopeConfigResolver;
     private $configWriter;
     private $scopeConfig;
-    private $dbConn;
     private $storeId;
     private $scope;
     private $scopeCode;
-
+    private $resourceConnection;
+    private $version;
 
     public function __construct(
         ScopeConfigInterface $scopeConfig,
         ScopeConfigResolver $scopeConfigResolver,
         WriterInterface $configWriter,
         ResourceConnection $resourceConnection,
+        Version $version,
         string $methodCode = self::METHOD_CODE
     ) {
         parent::__construct($scopeConfig, $methodCode);
         $this->configWriter = $configWriter;
         $this->scopeConfig = $scopeConfig;
         $this->scopeConfigResolver = $scopeConfigResolver;
-        $this->dbConn = $resourceConnection->getConnection();
-
+        $this->resourceConnection = $resourceConnection;
         $this->scope = $this->scopeConfigResolver->scope;
         $this->scopeCode = $this->scopeConfigResolver->scopeCode;
+        $this->version = $version;
     }
 
     public function setScopeAndScopeCode($scope, $scopeCode)
@@ -188,7 +190,7 @@ class MbwayConfig extends GatewayConfig
 
     public function getCallbackUrlPartialStringWithScopeAndScopeCode(): string
     {
-        return ConfigVars::MBWAY_CALLBACK_STRING . '&scp=' . $this->scope . '&scpcd=' . $this->scopeCode;
+        return $this->version->replaceVersionVariables(ConfigVars::MBWAY_CALLBACK_STRING) . '&scp=' . $this->scope . '&scpcd=' . $this->scopeCode;
     }
 
     public function saveCallbackUrl(string $callbackUrl, string $antiPhishingKey): void
@@ -250,13 +252,14 @@ class MbwayConfig extends GatewayConfig
 
     public function getOtherKeysInUse($thisKey)
     {
-        $tableName = $this->dbConn->getTableName('core_config_data');
-        $query = "SELECT value FROM {$tableName} WHERE path = :path";
+        $coreConfigTableName = $this->resourceConnection->getTableName('core_config_data');
+        $dbConn = $this->resourceConnection->getConnection();
+
+        $query = "SELECT value FROM {$coreConfigTableName} WHERE path = :path";
         $binds = [
             ':path' => ConfigVars::DB_CONFIG_PREFIX_MBWAY . ConfigVars::MBWAY_KEY
-
         ];
-        $keyRecords = $this->dbConn->fetchAll($query, $binds);
+        $keyRecords = $dbConn->fetchAll($query, $binds);
 
         $keyArr = [];
         foreach ($keyRecords as $key => $keyRecord) {

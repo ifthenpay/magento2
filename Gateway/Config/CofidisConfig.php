@@ -9,22 +9,21 @@
 
 namespace Ifthenpay\Payment\Gateway\Config;
 
+use Ifthenpay\Payment\Config\ConfigVars;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Payment\Gateway\Config\Config as GatewayConfig;
+use Ifthenpay\Payment\Model\ScopeConfigResolver;
 use Magento\Framework\App\Config\Storage\WriterInterface;
 use Magento\Framework\App\ResourceConnection;
 use Magento\Store\Model\ScopeInterface;
-use Ifthenpay\Payment\Config\ConfigVars;
-use Ifthenpay\Payment\Model\ScopeConfigResolver;
 use Ifthenpay\Payment\Lib\Utility\Version;
 
 
-
-
-class MultibancoConfig extends GatewayConfig
+class CofidisConfig extends GatewayConfig
 {
-    public const METHOD_CODE = ConfigVars::MULTIBANCO_CODE;
-    private const CONFIG_PATH = ConfigVars::MODULE . '/' . ConfigVars::MULTIBANCO_CODE . '/';
+    public const METHOD_CODE = ConfigVars::COFIDIS_CODE;
+    private const CONFIG_PATH = ConfigVars::MODULE . '/' . ConfigVars::COFIDIS_CODE . '/';
+
     private $scopeConfigResolver;
     private $configWriter;
     private $scopeConfig;
@@ -37,8 +36,8 @@ class MultibancoConfig extends GatewayConfig
 
     public function __construct(
         ScopeConfigInterface $scopeConfig,
-        WriterInterface $configWriter,
         ScopeConfigResolver $scopeConfigResolver,
+        WriterInterface $configWriter,
         ResourceConnection $resourceConnection,
         Version $version,
         string $methodCode = self::METHOD_CODE
@@ -58,6 +57,7 @@ class MultibancoConfig extends GatewayConfig
         $this->scope = $scope;
         $this->scopeCode = $scopeCode;
     }
+
     public function getScope()
     {
         return $this->scope;
@@ -78,7 +78,6 @@ class MultibancoConfig extends GatewayConfig
             $this->scope,
             $this->scopeCode
         );
-
         return $result;
     }
 
@@ -107,6 +106,7 @@ class MultibancoConfig extends GatewayConfig
             $this->scope = ScopeInterface::SCOPE_WEBSITES;
         }
 
+
         $this->configWriter->delete(
             self::CONFIG_PATH . $field,
             $this->scope,
@@ -119,22 +119,27 @@ class MultibancoConfig extends GatewayConfig
 
     public function getCanNotifyInvoice(): bool
     {
-        $value = $this->getConfigValue(ConfigVars::MULTIBANCO_SEND_INVOICE_EMAIL);
+        $value = $this->getConfigValue(ConfigVars::COFIDIS_SEND_INVOICE_EMAIL);
 
         return $value === '1' ? true : false;
     }
-    public function getEntity(): string
+
+    public function getKey(): string
     {
-        $value = $this->getConfigValue(ConfigVars::MULTIBANCO_ENTITY);
+        $value = $this->getConfigValue(ConfigVars::COFIDIS_KEY);
 
         return $value ?? '';
+    }
+
+    public function getEntity(): string
+    {
+        // The entity for cofidis is cofidis
+        return ConfigVars::COFIDIS;
     }
 
     public function getSubEntity(): string
     {
-        $value = $this->getConfigValue(ConfigVars::MULTIBANCO_SUB_ENTITY);
-
-        return $value ?? '';
+        return $this->getKey();
     }
 
     public function getIsActive(): bool
@@ -160,64 +165,62 @@ class MultibancoConfig extends GatewayConfig
 
     public function getActivateCallback(): bool
     {
-        $value = $this->getConfigValue(ConfigVars::MULTIBANCO_ACTIVATE_CALLBACK);
+        $value = $this->getConfigValue(ConfigVars::COFIDIS_ACTIVATE_CALLBACK);
 
         return $value === '1' ? true : false;
     }
 
     public function getIsCallbackActivated(): bool
     {
-        $value = $this->getConfigValue(ConfigVars::MULTIBANCO_IS_CALLBACK_ACTIVATED);
+        $value = $this->getConfigValue(ConfigVars::COFIDIS_IS_CALLBACK_ACTIVATED);
 
         return $value === '1' ? true : false;
     }
 
     public function getCallbackUrlPartialStringWithScopeAndScopeCode(): string
     {
-        return $this->version->replaceVersionVariables(ConfigVars::MULTIBANCO_CALLBACK_STRING) . '&scp=' . $this->scope . '&scpcd=' . $this->scopeCode;
+        return $this->version->replaceVersionVariables(ConfigVars::COFIDIS_CALLBACK_STRING) . '&scp=' . $this->scope . '&scpcd=' . $this->scopeCode;
     }
 
 
     public function saveCallbackUrl(string $callbackUrl, string $antiPhishingKey): void
     {
-        $this->saveConfigValue(ConfigVars::MULTIBANCO_CALLBACK_URL, $callbackUrl);
-        $this->saveConfigValue(ConfigVars::MULTIBANCO_ANTI_PHISHING_KEY, $antiPhishingKey);
-        $this->saveConfigValue(ConfigVars::MULTIBANCO_IS_CALLBACK_ACTIVATED, '1');
+        $this->saveConfigValue(ConfigVars::COFIDIS_CALLBACK_URL, $callbackUrl);
+        $this->saveConfigValue(ConfigVars::COFIDIS_ANTI_PHISHING_KEY, $antiPhishingKey);
+        $this->saveConfigValue(ConfigVars::COFIDIS_IS_CALLBACK_ACTIVATED, '1');
         $this->scopeConfig->clean();
     }
 
+
     public function getCallbackUrl(): string
     {
-        $value = $this->getConfigValue(ConfigVars::MULTIBANCO_CALLBACK_URL);
+        $value = $this->getConfigValue(ConfigVars::COFIDIS_CALLBACK_URL);
 
         return $value ?? '';
     }
 
     public function getAntiPhishingKey(): string
     {
-        $value = $this->getConfigValue(ConfigVars::MULTIBANCO_ANTI_PHISHING_KEY);
+        $value = $this->getConfigValue(ConfigVars::COFIDIS_ANTI_PHISHING_KEY);
 
         return $value ?? '';
     }
 
-
     public function deactivateCallback(): void
     {
-        $this->saveConfigValue(ConfigVars::MULTIBANCO_IS_CALLBACK_ACTIVATED, '0');
-        // set flag to 1 to indicate that the callback can be activated again
+        $this->saveConfigValue(ConfigVars::COFIDIS_IS_CALLBACK_ACTIVATED, '0');
         $this->scopeConfig->clean();
     }
 
+
     public function deleteAllPaymentMethodConfig()
     {
-        $this->deleteConfigValue(ConfigVars::MULTIBANCO_ENTITY);
-        $this->deleteConfigValue(ConfigVars::MULTIBANCO_SUB_ENTITY);
-        $this->deleteConfigValue(ConfigVars::MULTIBANCO_DEADLINE);
-        $this->deleteConfigValue(ConfigVars::MULTIBANCO_CALLBACK_URL);
-        $this->deleteConfigValue(ConfigVars::MULTIBANCO_ACTIVATE_CALLBACK);
-        $this->deleteConfigValue(ConfigVars::MULTIBANCO_IS_CALLBACK_ACTIVATED);
-        $this->deleteConfigValue(ConfigVars::MULTIBANCO_ANTI_PHISHING_KEY);
-        $this->deleteConfigValue(ConfigVars::MULTIBANCO_SEND_INVOICE_EMAIL);
+        $this->deleteConfigValue(ConfigVars::COFIDIS_KEY);
+        $this->deleteConfigValue(ConfigVars::COFIDIS_CALLBACK_URL);
+        $this->deleteConfigValue(ConfigVars::COFIDIS_ACTIVATE_CALLBACK);
+        $this->deleteConfigValue(ConfigVars::COFIDIS_IS_CALLBACK_ACTIVATED);
+        $this->deleteConfigValue(ConfigVars::COFIDIS_ANTI_PHISHING_KEY);
+        $this->deleteConfigValue(ConfigVars::COFIDIS_SEND_INVOICE_EMAIL);
         $this->deleteConfigValue(ConfigVars::IS_PAYMENT_METHOD_ACTIVE);
         $this->deleteConfigValue(ConfigVars::TITLE);
         $this->deleteConfigValue(ConfigVars::SHOW_PAYMENT_ICON);
@@ -230,60 +233,24 @@ class MultibancoConfig extends GatewayConfig
     }
 
 
-
-    public function getOtherEntitiesSubEntityPairsInUse($thisEntity, $thisSubEntity)
+    public function getOtherKeysInUse($thisKey)
     {
         $coreConfigTableName = $this->resourceConnection->getTableName('core_config_data');
         $dbConn = $this->resourceConnection->getConnection();
 
-        $query = "SELECT scope, scope_id, value FROM {$coreConfigTableName} WHERE path = :path";
+        $query = "SELECT value FROM {$coreConfigTableName} WHERE path = :path";
         $binds = [
-            ':path' => ConfigVars::DB_CONFIG_PREFIX_MULTIBANCO . ConfigVars::MULTIBANCO_ENTITY
+            ':path' => ConfigVars::DB_CONFIG_PREFIX_COFIDIS . ConfigVars::COFIDIS_KEY
         ];
-        $entityRecords = $dbConn->fetchAll($query, $binds);
+        $keyRecords = $dbConn->fetchAll($query, $binds);
 
-
-
-        $query = "SELECT scope, scope_id, value FROM {$coreConfigTableName} WHERE path = :path";
-        $binds = [
-            ':path' => ConfigVars::DB_CONFIG_PREFIX_MULTIBANCO . ConfigVars::MULTIBANCO_SUB_ENTITY
-        ];
-        $subEntityRecords = $dbConn->fetchAll($query, $binds);
-
-        $listOfUsed = $this->getPairsOfEntityAndSubentity($entityRecords, $subEntityRecords);
-
-
-        foreach ($listOfUsed as $key => $item) {
-            if ($item['entity'] === $thisEntity && $item['subEntity'] === $thisSubEntity) {
-                unset($listOfUsed[$key]);
-                break;
+        $keyArr = [];
+        foreach ($keyRecords as $key => $keyRecord) {
+            if ($thisKey !== $keyRecord['value']) {
+                array_push($keyArr, $keyRecord['value']);
             }
         }
-
-
-        return $listOfUsed;
+        return $keyArr;
     }
-
-    private function getPairsOfEntityAndSubentity($entityArr, $subentityArr)
-    {
-
-        $newArr = [];
-        foreach ($entityArr as $entity) {
-
-
-            foreach ($subentityArr as $subEntity) {
-                if ($entity['scope'] == $subEntity['scope'] && $entity['scope_id'] == $subEntity['scope_id']) {
-                    $group = [
-                        'entity' => $entity['value'],
-                        'subEntity' => $subEntity['value']
-                    ];
-                    array_push($newArr, $group);
-                }
-            }
-        }
-        return $newArr;
-    }
-
-
 
 }

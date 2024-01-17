@@ -16,91 +16,93 @@ use Ifthenpay\Payment\Lib\HttpClient;
 
 class GatewayService
 {
-    const MULTIBANCO = ConfigVars::MULTIBANCO;
-    const MBWAY = ConfigVars::MBWAY;
-    const PAYSHOP = ConfigVars::PAYSHOP;
-    const CCARD = ConfigVars::CCARD;
+	const MULTIBANCO = ConfigVars::MULTIBANCO;
+	const MBWAY = ConfigVars::MBWAY;
+	const PAYSHOP = ConfigVars::PAYSHOP;
+	const CCARD = ConfigVars::CCARD;
+	const COFIDIS = ConfigVars::COFIDIS;
 
-    private $httpClient;
-    private $accounts;
+	private $httpClient;
+	private $accounts;
 
-    public function __construct(HttpClient $httpClient)
-    {
-        $this->httpClient = $httpClient;
-    }
+	public function __construct(HttpClient $httpClient)
+	{
+		$this->httpClient = $httpClient;
+	}
 
-    /**
-     * get all payment methods, this includes the payment methods that are not available for the user
-     * @return array
-     */
-    public function getPaymentMethods(): array
-    {
-        return [
-            self::MULTIBANCO,
-            self::MBWAY,
-            self::PAYSHOP,
-            self::CCARD
-        ];
-    }
+	/**
+	 * get all payment methods, this includes the payment methods that are not available for the user
+	 * @return array
+	 */
+	public function getPaymentMethods(): array
+	{
+		return [
+			self::MULTIBANCO,
+			self::MBWAY,
+			self::PAYSHOP,
+			self::CCARD,
+			self::COFIDIS
+		];
+	}
 
-    /**
-     * makes a request to ifthenpay api with backoffice key and sets the accounts with the response
-     * @param string $backofficeKey
-     * @throws \Exception
-     * @return void
-     */
-    public function setAccountsWithRequest(string $backofficeKey): void
-    {
-        $this->httpClient->doPost(
-            ConfigVars::API_URL_GET_ACCOUNTS_BY_BACKOFFICE,
-            [
-                'chavebackoffice' => $backofficeKey,
-            ],
-            false
-        );
-        $accounts = json_decode($this->httpClient->getBody(), true);
+	/**
+	 * makes a request to ifthenpay api with backoffice key and sets the accounts with the response
+	 * @param string $backofficeKey
+	 * @throws \Exception
+	 * @return void
+	 */
+	public function setAccountsWithRequest(string $backofficeKey): void
+	{
+		$this->httpClient->doPost(
+			ConfigVars::API_URL_GET_ACCOUNTS_BY_BACKOFFICE,
+			[
+				'chavebackoffice' => $backofficeKey,
+			],
+			false
+		);
+		$accounts = json_decode($this->httpClient->getBody(), true);
 
-        if (empty($accounts) || (!$accounts[0]['Entidade'] && empty($authenticate[0]['SubEntidade']))) {
-            throw new \Exception('Backoffice key is invalid');
-        } else {
-            $this->accounts = $accounts;
-        }
-    }
+		if (empty($accounts) || (!$accounts[0]['Entidade'] && empty($authenticate[0]['SubEntidade']))) {
+			throw new \Exception('Backoffice key is invalid');
+		} else {
+			$this->accounts = $accounts;
+		}
+	}
 
-    public function getAccounts(): array
-    {
-        return $this->accounts;
-    }
+	public function getAccounts(): array
+	{
+		return $this->accounts;
+	}
 
-    public function setAccounts(array $account)
-    {
-        $this->accounts = $account;
-    }
+	public function setAccounts(array $account)
+	{
+		$this->accounts = $account;
+	}
 
-    public function getUserPaymentMethods(): array
-    {
-        $userPaymentMethods = [];
+	public function getUserPaymentMethods(): array
+	{
+		$userPaymentMethods = [];
 
-        foreach ($this->accounts as $account) {
-            if (in_array(strtolower($account['Entidade']), $this->getPaymentMethods())) {
-                $userPaymentMethods[] = strtolower($account['Entidade']);
-            } elseif (is_numeric($account['Entidade'])) {
-                $userPaymentMethods[] = self::MULTIBANCO;
-            }
-        }
-        return array_unique($userPaymentMethods);
-    }
+		foreach ($this->accounts as $account) {
+			if (in_array(strtolower($account['Entidade']), $this->getPaymentMethods())) {
+				$userPaymentMethods[] = strtolower($account['Entidade']);
+			} elseif (is_numeric($account['Entidade'])) {
+				$userPaymentMethods[] = self::MULTIBANCO;
+			}
+		}
+		return array_unique($userPaymentMethods);
+	}
 
-    public function getSubEntity(string $entity): array
-    {
-        return array_values(
-            array_filter(
-                $this->accounts,
-                function ($value) use ($entity) {
-                    return $value['Entidade'] === $entity;
-                }
-            )
-        );
-    }
+	public function getSubEntity(string $entity): array
+	{
+		return array_values(
+			array_filter(
+				$this->accounts,
+				function ($value) use ($entity) {
+					return $value['Entidade'] === $entity;
+				}
+			)
+		);
+	}
 
 }

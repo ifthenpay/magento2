@@ -15,36 +15,41 @@ use Ifthenpay\Payment\Config\ConfigVars;
 
 class ServiceFactory
 {
-    private $multibancoService;
-    private $payshopService;
-    private $mbwayService;
-    private $ccardService;
+	private $multibancoService;
+	private $payshopService;
+	private $mbwayService;
+	private $ccardService;
+	private $cofidisService;
 
-    public function __construct(
-        \Ifthenpay\Payment\Lib\Services\MultibancoService $multibancoService,
-        \Ifthenpay\Payment\Lib\Services\PayshopService $payshopService,
-        \Ifthenpay\Payment\Lib\Services\MbwayService $mbwayService,
-        \Ifthenpay\Payment\Lib\Services\CcardService $ccardService
-    ) {
-        $this->multibancoService = $multibancoService;
-        $this->payshopService = $payshopService;
-        $this->mbwayService = $mbwayService;
-        $this->ccardService = $ccardService;
-    }
+	public function __construct(
+		\Ifthenpay\Payment\Lib\Services\MultibancoService $multibancoService,
+		\Ifthenpay\Payment\Lib\Services\PayshopService $payshopService,
+		\Ifthenpay\Payment\Lib\Services\MbwayService $mbwayService,
+		\Ifthenpay\Payment\Lib\Services\CcardService $ccardService,
+		\Ifthenpay\Payment\Lib\Services\CofidisService $cofidisService
+	) {
+		$this->multibancoService = $multibancoService;
+		$this->payshopService = $payshopService;
+		$this->mbwayService = $mbwayService;
+		$this->ccardService = $ccardService;
+		$this->cofidisService = $cofidisService;
+	}
 
-    public function createService(string $paymentMethod)
-    {
-        switch ($paymentMethod) {
-            case ConfigVars::MULTIBANCO_CODE:
-                return $this->multibancoService;
-            case ConfigVars::PAYSHOP_CODE:
-                return $this->payshopService;
-            case ConfigVars::MBWAY_CODE:
-                return $this->mbwayService;
-            case ConfigVars::CCARD_CODE:
-                return $this->ccardService;
-            default:
-                throw new \Exception("Unknown Service Class");
-        }
-    }
+	public function createService(string $paymentMethod)
+	{
+		switch ($paymentMethod) {
+			case ConfigVars::MULTIBANCO_CODE:
+				return $this->multibancoService;
+			case ConfigVars::PAYSHOP_CODE:
+				return $this->payshopService;
+			case ConfigVars::MBWAY_CODE:
+				return $this->mbwayService;
+			case ConfigVars::CCARD_CODE:
+				return $this->ccardService;
+			case ConfigVars::COFIDIS_CODE:
+				return $this->cofidisService;
+			default:
+				throw new \Exception("Unknown Service Class");
+		}
+	}
 }

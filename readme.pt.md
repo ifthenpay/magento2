@@ -17,6 +17,7 @@ Ler em ![Português](https://github.com/ifthenpay/magento2/raw/assets/assets/img
   * [MB WAY](#mb-way)
   * [Cartão de Crédito](#cartão-de-crédito)
   * [Payshop](#payshop)
+  * [Cofidis Pay](#cofidis-pay)
 
 [5. Devoluções](#devoluções)
 
@@ -35,6 +36,7 @@ Ler em ![Português](https://github.com/ifthenpay/magento2/raw/assets/assets/img
   * [Pagar encomenda com Payshop](#pagar-encomenda-com-payshop)
   * [Pagar encomenda com MB WAY](#pagar-encomenda-com-mb-way)
   * [Pagar encomenda com Credit Card](#pagar-encomenda-com-cartão-de-crédito)
+  * [Pagar encomenda com Cofidis Pay](#pagar-encomenda-com-cofidis-pay)
 
 
 
@@ -54,6 +56,8 @@ Este módulo permite gerar um pedido de pagamento ao smartphone do consumidor, e
 Este módulo permite gerar uma referência de pagamento que o consumidor pode usar para pagar a sua encomenda num agente Payshop ou CTT. Este plugin usa a Ifthenpay, uma das várias gateways disponíveis em Portugal.
 
 **Cartão de Crédito** Este módulo permite gerar um pagamento por Visa ou Master card, que o consumidor pode usar para pagar a sua encomenda. Este plugin usa a Ifthenpay, uma das várias gateways disponíveis em Portugal.
+
+**Cofidis Pay** é uma solução de pagamento que facilita o pagamento de compras ao dividir o valor até 12 prestações sem juros. Este módulo utiliza uma das várias gateways/serviços disponíveis em Portugal, a IfthenPay.
 
 **É necessário contrato com a Ifthenpay**
 
@@ -274,6 +278,28 @@ Configure o método de pagamento, a imagem abaixo mostra um exemplo de configura
 12. **Ordenação** - (opcional) Ordena os métodos de pagamento na página de checkout de forma ascendente. Número mais baixo toma o primeiro lugar;
 
 ![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/configurationPayshop.png)
+</br>
+
+
+## Cofidis Pay
+
+O método de pagamento Cofidis Pay permite ao consumidor pagar em prestações.
+As Chaves Cofidis Pay são carregadas automáticamente, na introdução da Chave Backoffice.
+Configure o método de pagamento, a imagem abaixo mostra um exemplo de configuração minimamente funcional.
+
+1. **Habilitado** - Ao selecionar sim, ativa o método de pagamento, exibindo-o no checkout da sua loja.
+2. **Título** - Título que aparece ao consumidor no checkout, no caso de escolher não exibir o ícone.
+3. **Exibir Ícone** - Ao selecionar sim, exibe o ícone do método de pagamento no checkout.
+4. **Ativar Callback** - Ao selecionar sim, o estado da encomenda será atualizado quando o pagamento for recebido;
+5. **Chave Cofidis Pay** - Selecionar uma Chave. Apenas pode selecionar uma das Chaves associadas à Chave Backoffice;
+6. **Enviar Email de Fatura** - Ao selecionar sim, o consumidor recebe automáticamente um email com a fatura da encomenda quando o pagamento for recebido;
+7. **Valor Mínimo** - (opcional) Apenas exibe este método de pagamento para encomendas com valor superior ao valor inserido. **Aviso Importante:** Na seleção da chave Cofidis, este campo é atualizado com o valor configurado no backoffice da ifthenpay, e ao editar, este não pode ser inferior ao valor especificado no backoffice da ifthenpay;
+8. **Valor Máximo** - (opcional) Apenas exibe este método de pagamento para encomendas com valor inferior ao valor inserido. **Aviso Importante:** Na seleção da chave Cofidis, este campo é atualizado com o valor configurado no backoffice da ifthenpay, e ao editar, este não pode ser superior ao valor especificado no backoffice da ifthenpay;
+9. **Restringir Pagamento a Países** - (opcional) Selecionar todos os países ou apenas os países especificos, deixar vazio para permitir todos os países;
+10. **Pagamento de países específicos** - (opcional) Apenas exibe este método de pagamento para encomendas com destino de envio dentro dos países selecionados, deixar vazio para permitir todos os países;
+11. **Ordenação** - (opcional) Ordena os métodos de pagamento na página de checkout de forma ascendente. Número mais baixo toma o primeiro lugar;
+
+![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/configurationCofidis.png)
 </br>
 
 

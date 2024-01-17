@@ -1,0 +1,67 @@
+<!--
+/**
+* Ifthenpay_Payment module dependency
+*
+* @category    Gateway Payment
+* @package     Ifthenpay_Payment
+* @author      Ifthenpay
+* @copyright   Ifthenpay (http://www.ifthenpay.com)
+* @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+*/
+-->
+<div class="payment-method" data-bind="css: {'_active': (getCode() == isChecked())}">
+    <div class="payment-method-title field choice">
+        <input type="radio"
+               name="payment[method]"
+               class="radio"
+               data-bind="attr: {'id': getCode()}, value: getCode(), checked: isChecked, click: selectPaymentMethod, visible: isRadioButtonVisible()" />
+        <!-- ko if: getShowPaymentIcon() -->
+        <label class="label" data-bind="attr: {'for': getCode()}">
+            <img data-bind="attr: {src: getLogoUrl(), height: '38'}" class="payment-icon" />
+        </label>
+        <!-- /ko -->
+        <!-- ko ifnot: getShowPaymentIcon() -->
+            <label class="label" data-bind="attr: {'for': getCode()}">
+                <span data-bind="text: getTitle()"></span>
+            </label>
+        <!-- /ko -->
+    </div>
+    <div class="payment-method-content">
+        <!-- ko foreach: getRegion('messages') -->
+        <!-- ko template: getTemplate() --><!-- /ko -->
+        <!--/ko-->
+        <div class="payment-method-billing-address">
+            <!-- ko foreach: $parent.getRegion(getBillingAddressFormName()) -->
+            <!-- ko template: getTemplate() --><!-- /ko -->
+            <!--/ko-->
+        </div>
+
+        <div class="ifthenpay_cofidis_info_wrapper">
+            <p><strong data-bind="i18n: 'cofidisDescLine1'"></strong><span data-bind="i18n: 'cofidisDescLine2'"></span></p>
+            <p data-bind="i18n: 'cofidisDescLine3'"></p>
+            <p data-bind="i18n: 'cofidisDescLine4'"></p>
+            <p data-bind="i18n: 'cofidisDescLine5'"></p>
+        </div>
+
+        <div class="checkout-agreements-block">
+            <!-- ko foreach: $parent.getRegion('before-place-order') -->
+                <!-- ko template: getTemplate() --><!-- /ko -->
+            <!--/ko-->
+        </div>
+        <div class="actions-toolbar">
+            <div class="primary">
+                <button class="action primary checkout"
+                        type="submit"
+                        data-bind="
+                        click: placeOrder,
+                        attr: {title: $t('placeOrder')},
+                        css: {disabled: !isPlaceOrderActionAllowed()},
+                        enable: (getCode() == isChecked())
+                        "
+                        disabled>
+                    <span data-bind="i18n: 'placeOrder'"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

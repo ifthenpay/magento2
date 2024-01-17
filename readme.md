@@ -17,6 +17,7 @@ Read in ![Portuguese](https://github.com/ifthenpay/magento2/raw/assets/assets/im
   * [MB WAY](#mb-way)
   * [Credit Card](#credit-card)
   * [Payshop](#payshop)
+  * [Cofidis Pay](#cofidis-pay)
 
 [5. Refund](#refund)
 
@@ -35,6 +36,7 @@ Read in ![Portuguese](https://github.com/ifthenpay/magento2/raw/assets/assets/im
   * [Pay order with Payshop](#pay-order-with-payshop)
   * [Pay order with MB WAY](#pay-order-with-mb-way)
   * [Pay order with Credit Card](#pay-order-with-credit-card)
+  * [Pay order with Cofidis Pay](#pay-order-with-cofidis-pay)
 
 
 
@@ -54,8 +56,9 @@ This module will allow you to generate a request payment to the customer mobile 
 **Payshop** is one Portuguese payment method that allows the customer to pay by payshop reference.
 This module will allow you to generate a payment Reference that the customer can then use to pay for his order on the Payshop agent or CTT. This module uses one of the several gateways/services available in Portugal, IfthenPay.
 
-**Credit Card** 
-This module will allow you to generate a payment by Visa or Master card, that the customer can then use to pay for his order. This module uses one of the several gateways/services available in Portugal, IfthenPay.
+**Credit Card** This module will allow you to generate a payment by Visa or Master card, that the customer can then use to pay for his order. This module uses one of the several gateways/services available in Portugal, IfthenPay.
+
+**Cofidis Pay** is a payment solution of up to 12 interest-free installments that makes it easier to pay for purchases by splitting them. This module uses one of the several gateways/services available in Portugal, IfthenPay.
 
 **Contract with Ifthenpay is required.**
 
@@ -288,6 +291,29 @@ Click on Save to save the changes.
 </br>
 
 
+## Cofidis Pay
+
+The Cofidis Pay payment method that allows the consumer to pay in installments.
+The Cofidis Pay keys are automatically loaded upon entering the Backoffice Key.
+Configure the payment method. The image below shows an example of a minimally functional configuration.
+
+1. **Enabled** - When selected as Yes, it activates the payment method, displaying it on the checkout page of your store.
+2. **Title** - The title that appears to the consumer at checkout, in case you choose not to display the icon.
+3. **Display Icon** - When selected as Yes, it displays the payment method's icon at checkout.
+4. **Activate Callback** - When selected as Yes, the order status will be updated when payment is received.
+5. **Cofidis Pay Key** - Select a Cofidis Pay key. You can only select one of the keys associated with the Backoffice Key.
+6. **Send Invoice Email** - When selected as Yes, the consumer automatically receives an email with the order invoice when payment is received.
+7. **Minimum Amount** - (optional) Only displays this payment method for orders with a value higher than the entered amount. **Important Notice:** On Cofidis Key selection, this input is updated with value configured in ifthenpay's backoffice, and when editing, it can not be less then the value specified in ifthenpay's backoffice.;
+8. **Maximum Amount** - (optional) Only displays this payment method for orders with a value lower than the entered amount. **Important Notice:** On Cofidis Key selection, this input is updated with value configured in ifthenpay's backoffice, and when editing, it can not be greater then the value specified in ifthenpay's backoffice.;
+9. **Restrict Payment to Countries** - (optional) Select all countries or only specific countries. Leave it blank to allow all countries.
+10. **Payment from Specific Countries** - (optional) Only displays this payment method for orders with shipping destinations within the selected countries. Leave it blank to allow all countries.
+11. **Sort Order** - (optional) Orders the payment methods on the checkout page in ascending order. The lower the number, the higher the priority.
+
+Click on Save to save the changes.
+
+![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/configurationCofidis.png)
+</br>
+
 ## Refund
 
 The MB WAY and Credit Card payment methods allow for the refund of the total or partial amount paid by the consumer through the order credit note page.
@@ -392,7 +418,7 @@ After clearing the Backoffice Key, you will be prompted to enter the Backoffice 
 
 ## Callback
 
-IMPORTANT: Only the Multibanco, MB WAY, and Payshop payment methods allow enabling Callback. The credit card method automatically changes the order status.
+IMPORTANT: Only the Multibanco, MB WAY, Payshop, and Cofidis Pay payment methods allow enabling Callback. The credit card method automatically changes the order status.
 
 Callback is a feature that, when enabled, allows your store to receive a notification of a successful payment. When enabled, upon receiving a successful payment for an order, the Ifthenpay server communicates with your store, changing the order status to "Processing". You can use Ifthenpay payments without enabling Callback, but your orders will not be automatically updated with the status change.
 
@@ -407,6 +433,7 @@ After enabling Callback, you don't need to take any further action. Callback is 
 ## Cronjob
 
 A cron job is a scheduled task that is automatically executed at specific intervals in the system. The Ifthenpay module provides a cron job to check the status of payments and cancel orders that have not been paid within the configured time limit. The table below shows the time limit for each payment method, which the cron job checks and cancels orders that have not been paid within the time limit. This time limit can only be configured for the Multibanco with Dynamic References and Payshop payment methods.
+Cofidis Pay does not have this functionality because its approval time is not fixed.
 
 | Payment Method     | Payment Deadline           |
 |--------------------|----------------------------|
@@ -531,6 +558,79 @@ It is possible to go back (6), canceling the payment.
 After the payment is processed, the order success page will be displayed.
 
 ![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/thankYouCcard.png)
+</br>
+
+
+## Pay order with credit card
+
+Select the Credit Card payment method (1) and click on Place Order (2).
+
+![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/checkoutCcard.png)
+</br>
+
+Fill in the credit card details: card number (1), expiration date (2), security code (3), Cardholder's Name (4), and click on Pay (5).
+
+It is possible to go back (6), canceling the payment.
+
+![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/ccardGateway.png)
+</br>
+
+After the payment is processed, the order success page will be displayed.
+
+![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/thankYouCcard.png)
+</br>
+
+
+## Paying order with Cofidis Pay
+
+Select the Cofidis Pay payment method (1) and click on Place Order (2).
+
+![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/checkoutCofidis.png)
+</br>
+
+* Login or, if you don't have an account, sign up with Cofidis Pay:
+1. Click "Avançar" to sign up with Cofidis Pay;
+2. Or if you have a Cofidis Pay account, fill in your access credentials and click enter;
+![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/cofidis_payment_1.png)
+</br>
+
+* Number of installments and billing and personal data:
+1. Select the number of installments you wish;
+2. Verify the summary of the the payment plan;
+3. Fill in your personal and billing data;
+4. Click "Avançar" to continue;
+![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/cofidis_payment_2.png)
+</br>
+
+* Terms and Conditions:
+1. Select "Li e autorizo" to agree with terms and conditions;
+2. Click "Avançar"
+![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/cofidis_payment_3.png)
+</br>
+
+* Agreement formalization:
+1. Click "Enviar código";
+![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/cofidis_payment_4.png)
+</br>
+
+* Agreement formalization authentication code:
+1. Fill in the code you received on your phone;
+1. Click "Confirmar código";
+![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/cofidis_payment_5.png)
+</br>
+
+* Summary and Payment:
+1. Fill in your credit card details (number, expiration date and CW), and click "Validar";
+![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/cofidis_payment_6.png)
+</br>
+
+* Success and return to store:
+1. Click the return icon to return to the store;
+![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/cofidis_payment_7.png)
+</br>
+
+* After which you will be redirected back to the store;
+![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/thankYouCofidis.png)
 </br>
 
 You made it to the end of the ifthenpay magento 2 module manual. Congratulations!

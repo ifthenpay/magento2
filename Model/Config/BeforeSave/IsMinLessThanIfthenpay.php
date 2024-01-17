@@ -11,22 +11,25 @@ declare(strict_types=1);
 
 namespace Ifthenpay\Payment\Model\Config\BeforeSave;
 
+use Ifthenpay\Payment\Config\ConfigVars;
 use Magento\Framework\App\Config\Value;
 use Magento\Framework\Exception\LocalizedException;
 use Ifthenpay\Payment\Gateway\Config\IfthenpayConfig;
+use Ifthenpay\Payment\Lib\HttpClient;
 
 
 
 /**
- * Class IsMinLessThanMax
+ * Class IsMinLessThanIfthenpay
  * Validate if min value is less than max value
  * @package Ifthenpay\Payment\Model\Config\Validation
  */
-class IsMinLessThanMax extends Value
+class IsMinLessThanIfthenpay extends Value
 {
     protected $gateway;
     protected $configData;
     protected $validateIf;
+    private $httpClient;
 
     public function __construct(
         \Magento\Framework\Model\Context $context,
@@ -36,10 +39,12 @@ class IsMinLessThanMax extends Value
         IfthenpayConfig $configData,
         \Magento\Framework\Model\ResourceModel\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\AbstractDb $resourceCollection = null,
+        HttpClient $httpClient,
         array $data = []
     ) {
         parent::__construct($context, $registry, $config, $cacheTypeList, $resource, $resourceCollection, $data);
         $this->configData = $configData;
+        $this->httpClient = $httpClient;
     }
 
     /**
@@ -61,6 +66,27 @@ class IsMinLessThanMax extends Value
                 if ($min !== '' && $min != null && $max !== '' && $max != null && $min >= $max) {
                     throw new \Exception('Minimum Order Value must be lesser than Maximum Order Value.');
                 }
+
+                $cofidisKey = $this->getData('fieldset_data/key');
+
+                $url = ConfigVars::API_URL_COFIDIS_GET_MAX_MIN_AMOUNT . '/' . $cofidisKey;
+
+                $this->httpClient->doGet($url, []);
+                $responseArray = $this->httpClient->getBodyArray();
+                $status = $this->httpClient->getStatus();
+
+                if ($status !== 200 || !(isset($responseArray['message']) && $responseArray['message'] == 'success')) {
+                    throw new \Exception('Error: Min Max request failed.');
+                }
+
+                $minIfthenpay = $responseArray['limits']['minAmount'];
+
+                if ($min < $minIfthenpay) {
+                    throw new \Exception('Minimum Order Value must be greater or equal to value defined in ifthenpay backoffice than Maximum Order Value.');
+                }
+
+
+
 
             } catch (\Throwable $th) {
                 throw new LocalizedException(__($MessagePrefix . $th->getMessage()));

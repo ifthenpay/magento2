@@ -106,6 +106,27 @@
                 <send_invoice_email>1</send_invoice_email>
                 <sort_order>4</sort_order>
             </ifthenpay_ccard>
+            <ifthenpay_cofidis>
+                <is_gateway>1</is_gateway>
+                <model>IfthenpayCofidisFacade</model>
+                <payment_action>authorize</payment_action>
+                <can_authorize>1</can_authorize>
+                <can_cancel>1</can_cancel>
+                <can_use_internal>1</can_use_internal>
+                <can_use_checkout>1</can_use_checkout>
+                <order_status>pending</order_status>
+                <active>0</active>
+                <title>Cofidis Pay</title>
+                <show_payment_icon>1</show_payment_icon>
+                <key></key>
+                <cancel_order>0</cancel_order>
+                <min_order_total></min_order_total>
+                <max_order_total></max_order_total>
+                <allowspecific>0</allowspecific>
+                <specificcountry></specificcountry>
+                <send_invoice_email>1</send_invoice_email>
+                <sort_order>5</sort_order>
+            </ifthenpay_cofidis>
         </payment>
     </default>
 </config>

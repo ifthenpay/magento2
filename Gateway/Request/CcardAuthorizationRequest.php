@@ -15,6 +15,7 @@ use Magento\Payment\Gateway\Request\BuilderInterface;
 use Ifthenpay\Payment\Config\ConfigVars;
 use Ifthenpay\Payment\Lib\Utility\Token;
 use Ifthenpay\Payment\Lib\Utility\Currency;
+use Ifthenpay\Payment\Lib\Utility\Version;
 
 class CcardAuthorizationRequest implements BuilderInterface
 {
@@ -25,6 +26,8 @@ class CcardAuthorizationRequest implements BuilderInterface
     private $urlBuilder;
     private $token;
     private $currency;
+    private $version;
+
     /**
      * @param ConfigInterface $config
      */
@@ -32,12 +35,14 @@ class CcardAuthorizationRequest implements BuilderInterface
         ConfigInterface $config,
         UrlInterface $urlBuilder,
         Token $token,
-        Currency $currency
+        Currency $currency,
+        Version $version
     ) {
         $this->config = $config;
         $this->urlBuilder = $urlBuilder;
         $this->token = $token;
         $this->currency = $currency;
+        $this->version = $version;
     }
 
     /**
@@ -73,8 +78,12 @@ class CcardAuthorizationRequest implements BuilderInterface
 
         $key = $this->config->getValue('key');
 
+        $url = ConfigVars::API_URL_CCARD_SET_REQUEST . $key . '?ec={ec}&mv={mv}';
+        $url = $this->version->replaceVersionVariables($url);
+
+
         return [
-            'url' => ConfigVars::API_URL_CCARD_SET_REQUEST . $key,
+            'url' => $url,
             'payload' => $payload,
         ];
 
@@ -86,7 +95,9 @@ class CcardAuthorizationRequest implements BuilderInterface
         $str = str_replace('[ORDER_ID]', $orderId, ConfigVars::CCARD_CALLBACK_STRING);
         $str = str_replace('[QN]', $successToken, $str);
 
-        return $this->urlBuilder->getUrl() . $str;
+        $versionString = $this->version->replaceVersionVariables('&ec={ec}&mv={mv}');
+
+        return $this->urlBuilder->getUrl() . $str . $versionString;
     }
 
     private function getErrorCallbackUrl($orderId)

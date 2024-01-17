@@ -26,10 +26,10 @@ class CcardConfig extends GatewayConfig
     private $scopeConfigResolver;
     private $configWriter;
     private $scopeConfig;
-    private $dbConn;
     private $storeId;
     private $scope;
     private $scopeCode;
+    private $resourceConnection;
 
 
     public function __construct(
@@ -43,8 +43,7 @@ class CcardConfig extends GatewayConfig
         $this->scopeConfigResolver = $scopeConfigResolver;
         $this->configWriter = $configWriter;
         $this->scopeConfig = $scopeConfig;
-        $this->dbConn = $resourceConnection->getConnection();
-
+        $this->resourceConnection = $resourceConnection;
         $this->scope = $this->scopeConfigResolver->scope;
         $this->scopeCode = $this->scopeConfigResolver->scopeCode;
     }
@@ -177,13 +176,14 @@ class CcardConfig extends GatewayConfig
 
     public function getOtherKeysInUse($thisKey)
     {
-        $tableName = $this->dbConn->getTableName('core_config_data');
-        $query = "SELECT value FROM {$tableName} WHERE path = :path";
+        $coreConfigTableName = $this->resourceConnection->getTableName('core_config_data');
+        $dbConn = $this->resourceConnection->getConnection();
+
+        $query = "SELECT value FROM {$coreConfigTableName} WHERE path = :path";
         $binds = [
             ':path' => ConfigVars::DB_CONFIG_PREFIX_CCARD . ConfigVars::CCARD_KEY
-
         ];
-        $keyRecords = $this->dbConn->fetchAll($query, $binds);
+        $keyRecords = $dbConn->fetchAll($query, $binds);
 
         $keyArr = [];
         foreach ($keyRecords as $key => $keyRecord) {

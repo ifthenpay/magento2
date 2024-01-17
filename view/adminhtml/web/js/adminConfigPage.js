@@ -13,6 +13,7 @@ require([
         // ifthenpay_urlGetSubEntities
         // ifthenpay_urlRequestAccount
         // ifthenpay_urlRefreshAccounts
+        // ifthenpay_urlGetMinMax
         // ifthenpay_dynamicMultibancoCode
 
 
@@ -22,7 +23,6 @@ require([
 
         // set label on load
         setMultbancoEntityLabel();
-
 
         // eventlistener: on selected entity will get the corresponding list of subentities
         $('select[id*="ifthenpay_multibanco_entity"]').on("change", function (event) {
@@ -36,7 +36,13 @@ require([
         });
 
 
+        // eventlistener: on selected cofidis key will get the corresponding min max
+        $('select[id*="ifthenpay_cofidis_key"]').on("change", function (event) {
+            let eventTarget = $(event.target);
+            let key = eventTarget.val() ?? '';
 
+            ajaxGetCofidisMinMax(ifthenpay_scope, ifthenpay_scopeCode, key);
+        });
 
 
         // eventlistener: on click of the reset backoffice key button displays modal, which when confirmed will reset key through ajax call
@@ -210,6 +216,37 @@ require([
             });
     }
 
+    function ajaxGetCofidisMinMax(ifthenpay_scope, ifthenpay_scopeCode, key) {
+
+        if (!key) {
+            $('input[id*="ifthenpay_cofidis_min_order_total"]').val('');
+            $('input[id*="ifthenpay_cofidis_max_order_total"]').val('');
+            return;
+        }
+        $.ajax({
+            method: 'GET',
+            dataType: 'json',
+            url: ifthenpay_urlGetMinMax,
+            showLoader: true,
+            data: {
+                form_key: window.FORM_KEY,
+                scope: ifthenpay_scope,
+                scopeCode: ifthenpay_scopeCode,
+                cofidis_key: key
+            }
+        })
+            .done(function (response) {
+
+                if (response.success) {
+                    $('input[id*="ifthenpay_cofidis_min_order_total"]').val(response.min);
+                    $('input[id*="ifthenpay_cofidis_max_order_total"]').val(response.max);
+                }
+            })
+            .fail(function () {
+                // do nothing
+            });
+    }
+
     /**
      * updates subentity/key label in configuration acording to selected Entity
      * example:
@@ -224,7 +261,7 @@ require([
         if (selectedEntity === ifthenpay_dynamicMultibancoCode) {
             subEntityLabel.text($t('multibancoKey'));
         }
-        else{
+        else {
             subEntityLabel.text($t('subEntity'));
         }
     }
