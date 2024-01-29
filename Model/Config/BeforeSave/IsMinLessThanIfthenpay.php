@@ -57,36 +57,36 @@ class IsMinLessThanIfthenpay extends Value
         if ($this->configData->getBackofficeKey() !== '') {
 
             try {
-                // get values to compare
-                $min = $this->getValue();
-                $max = $this->getData('fieldset_data/max_order_total');
-                $paymentMethod = $this->getData('group_id');
-                $MessagePrefix = 'ifthenpay ' . ucfirst($paymentMethod) . ': ';
-
-                if ($min !== '' && $min != null && $max !== '' && $max != null && $min >= $max) {
-                    throw new \Exception('Minimum Order Value must be lesser than Maximum Order Value.');
-                }
-
                 $cofidisKey = $this->getData('fieldset_data/key');
 
-                $url = ConfigVars::API_URL_COFIDIS_GET_MAX_MIN_AMOUNT . '/' . $cofidisKey;
+                if ($cofidisKey != '') {
 
-                $this->httpClient->doGet($url, []);
-                $responseArray = $this->httpClient->getBodyArray();
-                $status = $this->httpClient->getStatus();
+                    // get values to compare
+                    $min = $this->getValue();
+                    $max = $this->getData('fieldset_data/max_order_total');
+                    $paymentMethod = $this->getData('group_id');
+                    $MessagePrefix = 'ifthenpay ' . ucfirst($paymentMethod) . ': ';
 
-                if ($status !== 200 || !(isset($responseArray['message']) && $responseArray['message'] == 'success')) {
-                    throw new \Exception('Error: Min Max request failed.');
+                    if ($min !== '' && $min != null && $max !== '' && $max != null && $min >= $max) {
+                        throw new \Exception('Minimum Order Value must be lesser than Maximum Order Value.');
+                    }
+
+                    $url = ConfigVars::API_URL_COFIDIS_GET_MAX_MIN_AMOUNT . '/' . $cofidisKey;
+
+                    $this->httpClient->doGet($url, []);
+                    $responseArray = $this->httpClient->getBodyArray();
+                    $status = $this->httpClient->getStatus();
+
+                    if ($status !== 200 || !(isset($responseArray['message']) && $responseArray['message'] == 'success')) {
+                        throw new \Exception('Error: Min Max request failed.');
+                    }
+
+                    $minIfthenpay = $responseArray['limits']['minAmount'];
+
+                    if ($min < $minIfthenpay) {
+                        throw new \Exception('Minimum Order Value must be greater or equal to value defined in ifthenpay backoffice than Maximum Order Value.');
+                    }
                 }
-
-                $minIfthenpay = $responseArray['limits']['minAmount'];
-
-                if ($min < $minIfthenpay) {
-                    throw new \Exception('Minimum Order Value must be greater or equal to value defined in ifthenpay backoffice than Maximum Order Value.');
-                }
-
-
-
 
             } catch (\Throwable $th) {
                 throw new LocalizedException(__($MessagePrefix . $th->getMessage()));

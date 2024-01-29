@@ -26,8 +26,12 @@ class IfthenpayInfo extends Info
     {
         switch ($this->getMethodCode()) {
             case ConfigVars::MULTIBANCO_CODE:
+
+                $ref = $this->getInfo()->getAdditionalInformation('reference');
+                $formatedReference = substr($ref, 0, 3) . " " . substr($ref, 3, 3) . " " . substr($ref, 6);
+
                 $informations[__('Entity')->render()] = $this->getInfo()->getAdditionalInformation('entity');
-                $informations[__('Reference')->render()] = $this->getInfo()->getAdditionalInformation('reference');
+                $informations[__('Reference')->render()] = $formatedReference;
 
                 $deadline = $this->getInfo()->getAdditionalInformation('deadline');
                 if ($deadline) {

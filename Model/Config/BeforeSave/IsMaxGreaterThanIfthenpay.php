@@ -57,30 +57,32 @@ class IsMaxGreaterThanIfthenpay extends Value
         if ($this->configData->getBackofficeKey() !== '') {
 
             try {
-                $max = $this->getData('fieldset_data/max_order_total');
-                $paymentMethod = $this->getData('group_id');
-                $MessagePrefix = 'ifthenpay ' . ucfirst($paymentMethod) . ': ';
-
                 $cofidisKey = $this->getData('fieldset_data/key');
 
-                $url = ConfigVars::API_URL_COFIDIS_GET_MAX_MIN_AMOUNT . '/' . $cofidisKey;
+                if ($cofidisKey != '') {
 
-                $this->httpClient->doGet($url, []);
-                $responseArray = $this->httpClient->getBodyArray();
-                $status = $this->httpClient->getStatus();
+                    $max = $this->getData('fieldset_data/max_order_total');
+                    $paymentMethod = $this->getData('group_id');
+                    $MessagePrefix = 'ifthenpay ' . ucfirst($paymentMethod) . ': ';
 
-                if ($status !== 200 || !(isset($responseArray['message']) && $responseArray['message'] == 'success')) {
-                    throw new \Exception('Error: Min Max request failed.');
+                    $cofidisKey = $this->getData('fieldset_data/key');
+
+                    $url = ConfigVars::API_URL_COFIDIS_GET_MAX_MIN_AMOUNT . '/' . $cofidisKey;
+
+                    $this->httpClient->doGet($url, []);
+                    $responseArray = $this->httpClient->getBodyArray();
+                    $status = $this->httpClient->getStatus();
+
+                    if ($status !== 200 || !(isset($responseArray['message']) && $responseArray['message'] == 'success')) {
+                        throw new \Exception('Error: Min Max request failed.');
+                    }
+
+                    $maxIfthenpay = $responseArray['limits']['maxAmount'];
+
+                    if ($max > $maxIfthenpay) {
+                        throw new \Exception('Minimum Order Value must be greater or equal to value defined in ifthenpay backoffice than Maximum Order Value.');
+                    }
                 }
-
-                $maxIfthenpay = $responseArray['limits']['maxAmount'];
-
-                if ($max > $maxIfthenpay) {
-                    throw new \Exception('Minimum Order Value must be greater or equal to value defined in ifthenpay backoffice than Maximum Order Value.');
-                }
-
-
-
 
             } catch (\Throwable $th) {
                 throw new LocalizedException(__($MessagePrefix . $th->getMessage()));

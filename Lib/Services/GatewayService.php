@@ -17,6 +17,7 @@ use Ifthenpay\Payment\Lib\HttpClient;
 class GatewayService
 {
 	const MULTIBANCO = ConfigVars::MULTIBANCO;
+	const MULTIBANCO_DYNAMIC = ConfigVars::MULTIBANCO_DYNAMIC;
 	const MBWAY = ConfigVars::MBWAY;
 	const PAYSHOP = ConfigVars::PAYSHOP;
 	const CCARD = ConfigVars::CCARD;
@@ -86,7 +87,7 @@ class GatewayService
 		foreach ($this->accounts as $account) {
 			if (in_array(strtolower($account['Entidade']), $this->getPaymentMethods())) {
 				$userPaymentMethods[] = strtolower($account['Entidade']);
-			} elseif (is_numeric($account['Entidade'])) {
+			} elseif (is_numeric($account['Entidade']) || $account['Entidade'] == self::MULTIBANCO_DYNAMIC) {
 				$userPaymentMethods[] = self::MULTIBANCO;
 			}
 		}
