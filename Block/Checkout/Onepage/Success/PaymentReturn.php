@@ -87,11 +87,6 @@ class PaymentReturn extends Template
                 $this->paymentReturnData['paymentLogo'] = $this->getViewFileUrl(ConfigVars::ASSET_PATH_CHECKOUT_LOGO_COFIDIS);
                 $this->setTemplate('Ifthenpay_Payment::checkout/onepage/success/cofidisPaymentReturn.phtml');
                 break;
-
-
-            default:
-                throw new \Exception("Unknown Config Class");
-
         }
 
     }
