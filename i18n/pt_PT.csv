@@ -161,3 +161,8 @@
 "cofidisDescLine3", "Será redirecionado para uma página segura a fim de efetuar o pagamento."
 "cofidisDescLine4", "Pague a sua encomenda em prestações sem juros nem encargos através do seu cartão de débito ou crédito."
 "cofidisDescLine5", "O pagamento das prestações será efetuado no cartão de débito ou crédito do cliente através de solução de pagamento assente em contrato de factoring entre a Cofidis e o Comerciante. Informe-se na Cofidis, registada no Banco de Portugal com o n 921."
+"Payment by Cofidis Pay made with success.", "Pagamento por Cofidis Pay feito com sucesso."
+"Payment by Cofidis Pay canceled.", "Pagamento por Cofidis Pay cancelado."
+"Payment by Cofidis Pay Not Approved.", "Pagamento por Cofidis Pay Não Aprovado."
+"Payment by Cofidis Pay canceled due to technical error from Cofidis.", "Pagamento por Cofidis Pay cancelado devido a erro técnico em Cofidis Pay."
+"Error, payment by Cofidis Pay canceled.", "Erro, Pagamento por Cofidis Pay cancelado."

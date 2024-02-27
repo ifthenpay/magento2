@@ -74,6 +74,7 @@
     <table name="ifthenpay_cofidis" resource="default">
         <column xsi:type="int" name="id" unsigned="true" nullable="false" identity="true"/>
         <column xsi:type="varchar" name="order_id" nullable="false" length="250"/>
+        <column xsi:type="varchar" name="cofidis_key" nullable="false" length="10"/>
         <column xsi:type="varchar" name="transaction_id" nullable="false" length="250"/>
         <column xsi:type="varchar" name="hash" nullable="false" length="20"/>
         <column xsi:type="varchar" name="status" nullable="false" length="50"/>

@@ -120,29 +120,53 @@ class ReturnCofidisCtrl extends Action
 
             $transactionId = $storedPaymentData['transaction_id'];
             $cofidisKey = $this->config->getKey();
-            $status = $this->checkCofidisStatus($cofidisKey, $transactionId);
+            $status = $this->getCofidisPaymentStatus($cofidisKey, $transactionId);
 
 
             if ($success === ConfigVars::INIT_STATUS_TRUE && ($status === ConfigVars::COFIDIS_STATUS_INITIATED || $status === ConfigVars::COFIDIS_STATUS_PENDING_INVOICE)) {
-                $this->messageManager->addSuccessMessage(__('Payment by Cofidis made with success.'));
-            } else if ($success === ConfigVars::INIT_STATUS_FALSE && $status === ConfigVars::COFIDIS_STATUS_CANCELED) {
-                $storedPaymentData['status'] = ConfigVars::DB_STATUS_CANCELED;
-                $this->cofidisService->setData($storedPaymentData)->save();
-                $this->handleCancel($transactionId);
-                $this->messageManager->addErrorMessage(__('Payment by Cofidis canceled.'));
-                $this->logger->info('Cofidis Callback', [
-                    'info' => 'payment canceled by user',
-                    'paymentStatus' => $status
-                ]);
+                $this->messageManager->addSuccessMessage(__('Payment by Cofidis Pay made with success.'));
             } else {
-                $storedPaymentData['status'] = ConfigVars::DB_STATUS_CANCELED;
-                $this->cofidisService->setData($storedPaymentData)->save();
-                $this->handleCancel($transactionId);
-                $this->messageManager->addErrorMessage(__('Error, payment by Cofidis canceled.'));
-                $this->logger->error('Error Executing Cofidis Callback', [
-                    'error' => 'paymentStatus not valid',
-                    'paymentStatus' => $status
-                ]);
+
+                if ($status === ConfigVars::COFIDIS_STATUS_CANCELED) {
+                    $storedPaymentData['status'] = ConfigVars::DB_STATUS_CANCELED;
+                    $this->cofidisService->setData($storedPaymentData)->save();
+                    $this->handleCancel($transactionId);
+                    $this->messageManager->addErrorMessage(__('Payment by Cofidis Pay canceled.'));
+                    $this->logger->info('Cofidis Callback', [
+                        'info' => 'payment canceled by user',
+                        'paymentStatus' => $status
+                    ]);
+                }
+                else if ($status === ConfigVars::COFIDIS_STATUS_NOT_APPROVED) {
+                    $storedPaymentData['status'] = ConfigVars::DB_STATUS_NOT_APPROVED;
+                    $this->cofidisService->setData($storedPaymentData)->save();
+                    $this->handleCancel($transactionId);
+                    $this->messageManager->addErrorMessage(__('Payment by Cofidis Pay Not Approved.'));
+                    $this->logger->info('Cofidis Callback', [
+                        'info' => 'payment not approved',
+                        'paymentStatus' => $status
+                    ]);
+                }
+                else if ($status === ConfigVars::COFIDIS_STATUS_TECHNICAL_ERROR) {
+                    $storedPaymentData['status'] = ConfigVars::DB_STATUS_CANCELED;
+                    $this->cofidisService->setData($storedPaymentData)->save();
+                    $this->handleCancel($transactionId);
+                    $this->messageManager->addErrorMessage(__('Payment by Cofidis Pay canceled due to technical error from Cofidis.'));
+                    $this->logger->info('Cofidis Callback', [
+                        'info' => 'payment technical error',
+                        'paymentStatus' => $status
+                    ]);
+                }
+                else {
+                    $storedPaymentData['status'] = ConfigVars::DB_STATUS_CANCELED;
+                    $this->cofidisService->setData($storedPaymentData)->save();
+                    $this->handleCancel($transactionId);
+                    $this->messageManager->addErrorMessage(__('Error, payment by Cofidis Pay canceled.'));
+                    $this->logger->error('Error Executing Cofidis Callback', [
+                        'error' => 'paymentStatus not valid',
+                        'paymentStatus' => $status
+                    ]);
+                }
             }
 
         }
@@ -166,61 +190,60 @@ class ReturnCofidisCtrl extends Action
         $this->_orderRepository->save($this->_order);
     }
 
-    private function handleCapture($transactionId)
-    {
-        $this->_order->setState(Order::STATE_PROCESSING);
-        $this->_order->setStatus($this->_order->getConfig()->getStateDefaultStatus(Order::STATE_PROCESSING));
-
-        $amount = $this->_order->getGrandTotal();
-        $payment = $this->_order->getPayment();
-        $payment->setAdditionalInformation('status', 'success');
-        $payment->setTransactionId($transactionId);
-        $payment->setParentTransactionId($transactionId);
-        $payment->registerCaptureNotification($amount);
 
 
-        $this->_orderRepository->save($this->_order);
-
-
-        $orderId = $this->_order->getStoreId();
-        $store = $this->storeManager->getStore($orderId);
-        $canNotifyInvoice = $store->getConfig('payment/' . ConfigVars::COFIDIS_CODE . '/' . ConfigVars::COFIDIS_SEND_INVOICE_EMAIL);
-
-
-        if ($canNotifyInvoice) {
-            $invoice = $payment->getCreatedInvoice();
-            $this->invoiceNotifier->notify($this->_order, $invoice);
-
-            $latestInvoice = $this->_order->getInvoiceCollection()->getLastItem();
-            $invoiceId = $latestInvoice->getIncrementId();
-            $message = __('Sent invoice email to customer #') . $invoiceId;
-
-            $this->_order->addCommentToStatusHistory($message)->setIsCustomerNotified(true);
-            $this->_order->getStatusHistories();
-
-            $this->_orderRepository->save($this->_order);
-        }
-    }
-
-    private function checkCofidisStatus($cofidisKey, $transactionId)
+    private function getCofidisPaymentStatus(string $cofidisKey, string $transactionId): string
     {
         $url = ConfigVars::API_URL_COFIDIS_GET_PAYMENT_STATUS;
         $payload = [
             'cofidisKey' => $cofidisKey,
             'requestId' => $transactionId,
         ];
+        $responseArray = [];
 
-        $this->httpClient->doPost($url, $payload);
-        $responseArray = $this->httpClient->getBodyArray();
-        $status = $this->httpClient->getStatus();
+        // sleep 5 seconds because error, cancel, not approved may not be present right after returning with error from cofidis
+        for ($i = 0; $i < 2; $i++) {
 
-        if ($status !== 200 || !count($responseArray) > 0) {
-            throw new \Exception('Error: Cofidis request failed.');
+            sleep(5);
+            $this->httpClient->doPost($url, $payload);
+            $responseArray = $this->httpClient->getBodyArray();
+            $status = $this->httpClient->getStatus();
+
+            if ($status !== 200 || !count($responseArray) > 0) {
+                throw new \Exception('Error: Cofidis request failed.');
+            }
+
+            if (count($responseArray) > 1) {
+                break;
+            }
         }
 
-        if (isset($responseArray[0]) && isset($responseArray[0]['statusCode'])) {
-            return $responseArray[0]['statusCode'];
+        if (count($responseArray) < 1) {
+            return 'ERROR';
         }
+
+
+        if ($responseArray[0]['statusCode'] == ConfigVars::COFIDIS_STATUS_INITIATED) {
+            return ConfigVars::COFIDIS_STATUS_INITIATED;
+        }
+        if ($responseArray[0]['statusCode'] == ConfigVars::COFIDIS_STATUS_PENDING_INVOICE) {
+            return ConfigVars::COFIDIS_STATUS_PENDING_INVOICE;
+        }
+        if ($responseArray[0]['statusCode'] == ConfigVars::COFIDIS_STATUS_NOT_APPROVED) {
+            return ConfigVars::COFIDIS_STATUS_NOT_APPROVED;
+        }
+        if ($responseArray[0]['statusCode'] == ConfigVars::COFIDIS_STATUS_TECHNICAL_ERROR) {
+            return ConfigVars::COFIDIS_STATUS_TECHNICAL_ERROR;
+        }
+        if ($responseArray[0]['statusCode'] == ConfigVars::COFIDIS_STATUS_CANCELED) {
+            foreach ($responseArray as $status) {
+                if ($status['statusCode'] == ConfigVars::COFIDIS_STATUS_TECHNICAL_ERROR) {
+                    return ConfigVars::COFIDIS_STATUS_TECHNICAL_ERROR;
+                }
+            }
+            return ConfigVars::COFIDIS_STATUS_CANCELED;
+        }
+
         return 'ERROR';
     }
 

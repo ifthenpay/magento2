@@ -83,7 +83,7 @@ Use a tabela abaixo para verificar a compatibilidade do módulo Ifthenpay com a 
 |                            | Magento 2.3    | Magento 2.4 [2.4.0 - 2.4.6] |
 |----------------------------|----------------|-----------------------------|
 | Ifthenpay v1.0.0 - v1.2.13 | Não compatível | Compatível até 2.4.5        |
-| Ifthenpay v2.0.0 - v2.0.7  | Não compatível | Compatível                  |
+| Ifthenpay v2.0.0 - v2.1.2  | Não compatível | Compatível                  |
 
 
 
@@ -432,6 +432,7 @@ Um cronjob é uma tarefa programada que é executada automaticamente em interval
 | MB WAY              | 30 minutos                  |
 | Payshop             | Configurável de 1 a 99 dias |
 | Cartão de Crédito   | 30 minutos                  |
+| Cofidis Pay         | 60 minutos                  |
 
 O cronjob de cancelamento de encomenda executa a cada minuto. As opções de configuração do cronjob estão disponíveis na página de configurações de cronjobs do magento no grupo ifthenpay_payment.
 

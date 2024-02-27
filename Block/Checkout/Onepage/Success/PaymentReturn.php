@@ -88,10 +88,6 @@ class PaymentReturn extends Template
                 $this->setTemplate('Ifthenpay_Payment::checkout/onepage/success/cofidisPaymentReturn.phtml');
                 break;
 
-
-            default:
-                throw new \Exception("Unknown Config Class");
-
         }
 
     }

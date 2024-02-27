@@ -84,7 +84,7 @@ Use the table below to check the compatibility of the Ifthenpay module with your
 |                            | Magento 2.3    | Magento 2.4 [2.4.0 - 2.4.6] |
 |----------------------------|----------------|-----------------------------|
 | Ifthenpay v1.0.0 - v1.2.13 | Not compatible | Compatible up to 2.4.5      |
-| Ifthenpay v2.0.0 - v2.0.7  | Not compatible | Compatible                  |
+| Ifthenpay v2.0.0 - v2.1.2  | Not compatible | Compatible                  |
 
 
 
@@ -442,6 +442,7 @@ Cofidis Pay does not have this functionality because its approval time is not fi
 | MB WAY             | 30 minutes                 |
 | Payshop            | Configurable, 1 to 99 days |
 | Credit Card        | 30 minutes                 |
+| Cofidis Pay        | 60 minutes                 |
 
 The order cancellation cronjob runs every minute. The configuration options for the cronjob can be found on the Magento cronjobs settings page under the ifthenpay_payment group.
 

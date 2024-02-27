@@ -85,16 +85,7 @@ class CancelUnpaidOrders
                 continue;
             }
 
-            $timezone = new \DateTimeZone('Europe/Lisbon');
-
-            $currentDate = new \DateTime('now', $timezone);
-            $currentUnixTime = $currentDate->getTimestamp();
-
-            $deadlineDate = new \DateTime($deadline, $timezone);
-            $deadlineUnixTime = $deadlineDate->getTimestamp();
-
-
-            if ($deadlineUnixTime < $currentUnixTime) {
+            if ($this->isPaymentOverDeadline($deadline, $paymentMethod, $storedPaymentData, $pmService)) {
 
                 $order->registerCancellation(__('Order canceled by cronjob because payment was overdue'));
                 $order->save();
@@ -113,6 +104,46 @@ class CancelUnpaidOrders
             }
         }
     }
+
+    private function isPaymentOverDeadline(string $deadline, string $paymentMethod, array $storedPaymentData, $pmService): bool
+    {
+
+        $timezone = new \DateTimeZone('Europe/Lisbon');
+
+        $currentDate = new \DateTime('now', $timezone);
+        $currentUnixTime = $currentDate->getTimestamp();
+
+        $deadlineDate = new \DateTime($deadline, $timezone);
+        $deadlineUnixTime = $deadlineDate->getTimestamp();
+
+
+        if ($deadlineUnixTime < $currentUnixTime) {
+
+            // additional check for cofidisPay
+            if ($paymentMethod == ConfigVars::COFIDIS_CODE) {
+
+                $cofidisKey = $storedPaymentData['cofidis_key'];
+                $transactionId = $storedPaymentData['transaction_id'];
+
+                if ($cofidisKey != '') {
+
+                    $statusArray = $pmService->getCofidisPaymentStatusArray($cofidisKey, $transactionId);
+
+                    foreach ($statusArray as $status) {
+                        if ($status['statusCode'] == 'EXPIRED') {
+                            return true;
+                        }
+                    }
+                }
+                return false;
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
 
     /**
      * generates deadline based on payment method
@@ -178,6 +209,18 @@ class CancelUnpaidOrders
 
             return $deadline->format('Y-m-d H:i:s');
         }
+        if ($paymentMethod === ConfigVars::COFIDIS_CODE) {
+
+            $createdAt = $storedPaymentData['created_at'] ?? '';
+            if ($createdAt === '') {
+                return '';
+            }
+
+            $deadline = \DateTime::createFromFormat('Y-m-d H:i:s', $createdAt);
+            $deadline->add(new \DateInterval('PT' . ConfigVars::COFIDIS_DEADLINE_MINUTES . 'M'));
+
+            return $deadline->format('Y-m-d H:i:s');
+        }
         return '';
     }
 
@@ -191,7 +234,11 @@ class CancelUnpaidOrders
     private function getOrderCollectionAwaitingPayment($paymentMethod)
     {
         // makes distinction between credit card and other payment methods
-        $status = $paymentMethod === ConfigVars::CCARD_CODE ? 'payment_review' : 'pending';
+
+        $status = 'pending';
+        if ($paymentMethod === ConfigVars::CCARD_CODE || $paymentMethod === ConfigVars::COFIDIS_CODE) {
+            $status = 'payment_review';
+        }
 
         $salesOrderPaymentTableName = $this->resourceConnection->getTableName('sales_order_payment');
         $collection = $this->orderCollectionFactory->create()->addFieldToFilter('status', $status);
@@ -203,4 +250,6 @@ class CancelUnpaidOrders
 
         return $collection;
     }
+
+
 }

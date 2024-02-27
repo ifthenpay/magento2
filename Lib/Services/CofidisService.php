@@ -13,18 +13,22 @@ namespace Ifthenpay\Payment\Lib\Services;
 use Ifthenpay\Payment\Config\ConfigVars;
 use Ifthenpay\Payment\Lib\Factory\ModelFactory;
 use Ifthenpay\Payment\Lib\Factory\RepositoryFactory;
+use Ifthenpay\Payment\Lib\HttpClient;
 
 class CofidisService
 {
     protected $model;
     protected $repository;
+    protected $httpClient;
 
     public function __construct(
         ModelFactory $modelFactory,
-        RepositoryFactory $repositoryFactory
+        RepositoryFactory $repositoryFactory,
+        HttpClient $httpClient
     ) {
         $this->model = $modelFactory->createModel(ConfigVars::COFIDIS);
         $this->repository = $repositoryFactory->createRepository(ConfigVars::COFIDIS);
+        $this->httpClient = $httpClient;
     }
 
     public function getById($id)
@@ -83,6 +87,27 @@ class CofidisService
     }
 
 
+    public function getCofidisPaymentStatusArray($cofidisKey, $transactionId): array
+    {
+        $url = ConfigVars::API_URL_COFIDIS_GET_PAYMENT_STATUS;
+        $payload = [
+            'cofidisKey' => $cofidisKey,
+            'requestId' => $transactionId,
+        ];
+
+        $this->httpClient->doPost($url, $payload);
+        $responseArray = $this->httpClient->getBodyArray();
+        $status = $this->httpClient->getStatus();
+
+        if ($status !== 200 || !count($responseArray) > 0) {
+            throw new \Exception('Error: Cofidis request failed.');
+        }
+
+        if (count($responseArray) > 0) {
+            return $responseArray;
+        }
+        return [];
+    }
 
 
 

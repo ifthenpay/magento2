@@ -74,6 +74,7 @@ final class ConfigVars
     public const PAYSHOP_DEADLINE_MINUTES = 0;
     public const CCARD_DEADLINE_MINUTES = 30;
     public const MBWAY_DEADLINE_MINUTES = 30;
+    public const COFIDIS_DEADLINE_MINUTES = 60;
 
     // cofidis does not have expiration
 
@@ -97,6 +98,7 @@ final class ConfigVars
     public const DB_STATUS_PAID = 'paid';
     public const DB_STATUS_CANCELED = 'canceled';
     public const DB_STATUS_REFUNDED = 'refunded';
+    public const DB_STATUS_NOT_APPROVED = 'not_approved';
 
 
 

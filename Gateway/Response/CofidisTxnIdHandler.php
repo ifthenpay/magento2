@@ -48,6 +48,7 @@ class CofidisTxnIdHandler implements HandlerInterface
 
         $transactionId = $response['requestId'];
         $hash = $response['hash'];
+        $cofidisKey = $response['cofidis_key'];
 
         $payment->setTransactionId($transactionId);
         $payment->setAdditionalInformation("transactionId", $transactionId);
@@ -66,6 +67,7 @@ class CofidisTxnIdHandler implements HandlerInterface
         // save to ifthenpay_cofidis table
         $this->cofidisService->setData(
             [
+                "cofidis_key" => $cofidisKey,
                 "transaction_id" => $transactionId,
                 "order_id" => $orderId,
                 "hash" => $hash,

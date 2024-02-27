@@ -53,7 +53,8 @@ class CofidisAuthorizationClient implements ClientInterface
 
         $hash = $payload['hash'];
         unset($payload['hash']);
-
+        $cofidisKey = $payload['cofidis_key'];
+        unset($payload['cofidis_key']);
 
         $this->httpClient->doPost($url, $payload);
 
@@ -66,6 +67,7 @@ class CofidisAuthorizationClient implements ClientInterface
         }
 
         $responseArray['hash'] = $hash;
+        $responseArray['cofidis_key'] = $cofidisKey;
 
         return $responseArray;
     }

@@ -70,6 +70,7 @@
     "ifthenpay_cofidis": {
         "column": {
             "id": true,
+            "cofidis_key": true,
             "transaction_id": true,
             "hash": true,
             "order_id": true,

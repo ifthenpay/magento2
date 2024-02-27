@@ -71,13 +71,15 @@ class CofidisAuthorizationRequest implements BuilderInterface
 
         $payload = $customerData;
 
+        $key = $this->config->getValue('key');
+
         $payload['orderid'] = $orderId;
         $payload['amount'] = $convertedOrderTotal;
         $payload['description'] = "Order {$orderId}";
         $payload['hash'] = $hash;
         $payload['returnUrl'] = $returnUrl;
+        $payload['cofidis_key'] = $key;
 
-        $key = $this->config->getValue('key');
 
         return [
             'url' => ConfigVars::API_URL_COFIDIS_SET_REQUEST . $key,

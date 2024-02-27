@@ -161,3 +161,8 @@
 "cofidisDescLine3", "You will be redirected to a secure page to make the payment."
 "cofidisDescLine4", "Pay for your order in installments without interest or charges using your debit or credit card."
 "cofidisDescLine5", "Payment of installments will be made to the customer's debit or credit card through a payment solution based on a factoring contract between Cofidis and the Merchant. Find out more at Cofidis, registered with Banco de Portugal under number 921."
+"Payment by Cofidis Pay made with success.", "Payment by Cofidis Pay made with success."
+"Payment by Cofidis Pay canceled.", "Payment by Cofidis Pay canceled."
+"Payment by Cofidis Pay Not Approved.", "Payment by Cofidis Pay Not Approved."
+"Payment by Cofidis Pay canceled due to technical error from Cofidis.", "Payment by Cofidis Pay canceled due to technical error from Cofidis."
+"Error, payment by Cofidis Pay canceled.", "Error, payment by Cofidis Pay canceled."
