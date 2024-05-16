@@ -9,9 +9,9 @@
 
 namespace Ifthenpay\Payment\Block;
 
+use Ifthenpay\Payment\Config\ConfigVars;
 use Magento\Framework\View\Element\Template\Context;
 use Magento\Payment\Block\Info;
-use Ifthenpay\Payment\Config\ConfigVars;
 
 class IfthenpayInfo extends Info
 {
@@ -28,6 +28,10 @@ class IfthenpayInfo extends Info
             case ConfigVars::MULTIBANCO_CODE:
 
                 $ref = $this->getInfo()->getAdditionalInformation('reference');
+                // minor fix for users that have updated from the older version of ifthenpay_multibanco module, since that version does not store multibanco reference data (courtesy of waterstone consulting dev department)
+                if (!$ref) {
+                    return [];
+                }
                 $formatedReference = substr($ref, 0, 3) . " " . substr($ref, 3, 3) . " " . substr($ref, 6);
 
                 $informations[__('Entity')->render()] = $this->getInfo()->getAdditionalInformation('entity');
@@ -50,7 +54,7 @@ class IfthenpayInfo extends Info
                 break;
         }
         $informations[__('Total to Pay')->render()] = $this->getInfo()->getAdditionalInformation('orderTotal') . $this->getInfo()->getAdditionalInformation('currencySymbol');
-        return (object) $informations;
+        return $informations;
     }
 
     public function getMethodCode()

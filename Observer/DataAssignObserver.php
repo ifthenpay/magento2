@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @category    Gateway Payment
  * @package     Ifthenpay_Payment
@@ -11,6 +12,7 @@ declare(strict_types=1);
 
 namespace Ifthenpay\Payment\Observer;
 
+use Ifthenpay\Payment\Config\ConfigVars;
 use Magento\Framework\Event\Observer;
 use Magento\Payment\Observer\AbstractDataAssignObserver;
 use Magento\Quote\Api\Data\PaymentInterface;
@@ -21,14 +23,19 @@ class DataAssignObserver extends AbstractDataAssignObserver
 
     public function execute(Observer $observer)
     {
+        // check if payment method belongs to ifthenpay module (courtesy of waterstone consulting dev department)
+        $paymentMethod = $observer->getEvent()->getData('method');
+        if (!in_array($paymentMethod->getCode(), ConfigVars::PAYMENT_METHOD_CODES)) {
+            return;
+        }
+
         $data = $this->readDataArgument($observer);
-        $paymentInfo = $this->readPaymentModelArgument($observer);
         $additionalData = $data->getData(PaymentInterface::KEY_ADDITIONAL_DATA);
 
 
         if (!empty($additionalData)) {
+            $paymentInfo = $this->readPaymentModelArgument($observer);
             $paymentInfo->setAdditionalInformation($additionalData);
         }
-
     }
 }
