@@ -9,6 +9,7 @@
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Email:etc/email_templates.xsd">
+    <template id="request_gateway_method" label="Request Gateway Method" file="request_gateway_method.html" type="html" module="Ifthenpay_Payment" area="adminhtml"/>
     <template id="request_account" label="Request New Account" file="request_account.html" type="html" module="Ifthenpay_Payment" area="adminhtml"/>
     <template id="refund_token" label="Refund Token" file="refund_token.html" type="html" module="Ifthenpay_Payment" area="adminhtml"/>
 </config>

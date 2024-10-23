@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @category    Gateway Payment
  * @package     Ifthenpay_Payment
@@ -49,6 +50,10 @@ class IfthenpayInfo extends Info
             case ConfigVars::MBWAY_CODE:
                 $informations[__('Transaction ID')->render()] = $this->getInfo()->getAdditionalInformation('transactionId');
                 $informations[__('Phone Number')->render()] = $this->getInfo()->getAdditionalInformation('countryCode') . ' ' . $this->getInfo()->getAdditionalInformation('phoneNumber');
+                break;
+            case ConfigVars::IFTHENPAYGATEWAY_CODE:
+                $informations[__('Payment URL')->render()] = $this->getInfo()->getAdditionalInformation('paymentUrl');
+                $informations[__('Deadline')->render()] = $this->getInfo()->getAdditionalInformation('deadline');
                 break;
             default:
                 break;

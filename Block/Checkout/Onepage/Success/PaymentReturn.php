@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @category    Gateway Payment
  * @package     Ifthenpay_Payment
@@ -87,9 +88,11 @@ class PaymentReturn extends Template
                 $this->paymentReturnData['paymentLogo'] = $this->getViewFileUrl(ConfigVars::ASSET_PATH_CHECKOUT_LOGO_COFIDIS);
                 $this->setTemplate('Ifthenpay_Payment::checkout/onepage/success/cofidisPaymentReturn.phtml');
                 break;
-
+            case ConfigVars::IFTHENPAYGATEWAY_CODE:
+                $this->paymentReturnData['paymentLogo'] = $this->getViewFileUrl(ConfigVars::ASSET_PATH_CHECKOUT_LOGO_IFTHENPAYGATEWAY);
+                $this->setTemplate('Ifthenpay_Payment::checkout/onepage/success/ifthenpaygatewayPaymentReturn.phtml');
+                break;
         }
-
     }
 
 
@@ -114,5 +117,4 @@ class PaymentReturn extends Template
     {
         return $this->getPayment()->getCode();
     }
-
 }

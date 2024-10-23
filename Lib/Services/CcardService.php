@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @category    Gateway Payment
  * @package     Ifthenpay_Payment
@@ -6,6 +7,7 @@
  * @copyright   Ifthenpay (https://www.ifthenpay.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+
 declare(strict_types=1);
 
 namespace Ifthenpay\Payment\Lib\Services;
@@ -47,10 +49,13 @@ class CcardService
 
     public function getPaymentByRequestData($requestData)
     {
-        if (!$requestData['requestId']) {
-            return [];
+        $data = $this->repository->getByRequestId($requestData[ConfigVars::CB_TRANSACTION_ID])->getData();
+
+        if (!empty($data)) {
+            return $data;
         }
-        return $this->repository->getByRequestId($requestData['requestId'])->getData();
+
+        return $this->repository->getByOrderId($requestData[ConfigVars::CB_ORDER_ID])->getData();
     }
 
     public function getPaymentTransactionIdByOrderId($orderId)
@@ -77,11 +82,4 @@ class CcardService
     {
         $this->repository->save($this->model);
     }
-
-
-
-
-
-
-
 }

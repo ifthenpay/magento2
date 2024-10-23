@@ -18,6 +18,8 @@ Ler em ![Português](https://github.com/ifthenpay/magento2/raw/assets/assets/img
   * [Cartão de Crédito](#cartão-de-crédito)
   * [Payshop](#payshop)
   * [Cofidis Pay](#cofidis-pay)
+  * [Ifthenpay Gateway](#ifthenpay-gateway)
+
 
 [5. Devoluções](#devoluções)
 
@@ -37,6 +39,7 @@ Ler em ![Português](https://github.com/ifthenpay/magento2/raw/assets/assets/img
   * [Pagar encomenda com MB WAY](#pagar-encomenda-com-mb-way)
   * [Pagar encomenda com Credit Card](#pagar-encomenda-com-cartão-de-crédito)
   * [Pagar encomenda com Cofidis Pay](#pagar-encomenda-com-cofidis-pay)
+  * [Pagar encomenda com Ifthenpay Gateway](#pagar-encomenda-com-ifthenpay-gateway)
 
 
 
@@ -83,7 +86,7 @@ Use a tabela abaixo para verificar a compatibilidade do módulo Ifthenpay com a 
 |                            | Magento 2.3    | Magento 2.4 [2.4.0 - 2.4.6] |
 |----------------------------|----------------|-----------------------------|
 | Ifthenpay v1.0.0 - v1.2.13 | Não compatível | Compatível até 2.4.5        |
-| Ifthenpay v2.0.0 - v2.1.2  | Não compatível | Compatível                  |
+| Ifthenpay v2.0.0 - v2.2.0  | Não compatível | Compatível                  |
 
 
 
@@ -303,6 +306,35 @@ Configure o método de pagamento, a imagem abaixo mostra um exemplo de configura
 </br>
 
 
+## Ifthenpay Gateway
+
+O método de pagamento Ifthenpay Gateway permite ao comsumidor, após ser redirecionado para página de gateway de pagamento, escolher um dos métodos de pagamento mencionados acima para pagar a sua encomenda.
+As Chaves Ifthenpay Gateway são carregadas automaticamente, na introdução da Chave Backoffice.
+Configure o método de pagamento, a imagem abaixo mostra um exemplo de configuração minimamente funcional.
+
+1. **Habilitado** - Ao selecionar sim, ativa o método de pagamento, exibindo-o no checkout da sua loja.
+2. **Ativar Callback** - Ao selecionar sim, o estado da encomenda será atualizado quando o pagamento for recebido;
+3. **Chave Ifthenpay Gateway** - Selecionar uma Chave. Apenas pode selecionar uma das Chaves associadas à Chave Backoffice;
+4. **Métodos de Pagamento** - Selecionar uma conta por cada método de pagamento e colocar o visto na checkbox dos métodos que pretende exibir na página de gateway;
+5. **Método de Pagamento por Defeito** - Selecionar um método de pagamento que estará selecionado por defeito na página da gateway quando o consumidor aceder a esta;
+6. **Validade** - Selecionar o número de dias de validade da referência Payshop. De 1 a 99 dias, deixe vazio se não pretender que expire;
+7. **Exibir Ícone** - (opcional) Exibe o logo deste método de pagamento no checkout, escolha uma de três opções:
+    - Por defeito: Exibe o logo ifthenpay gateway;
+    - Título: Exibe o Título do método de pagamento;
+    - Compósito: Exibe uma imagem composta por todos os logos dos métodos de pagamento selecionados;  
+8. **Título** - Título que aparece ao consumidor no checkout, no caso de escolher não exibir o ícone.
+9. **Texto do Botão de Fechar Gateway** - Texto exíbido no botão de "Voltar para loja" na página da gateway;
+10. **Enviar Email de Fatura** - Ao selecionar sim, o consumidor recebe automáticamente um email com a fatura da encomenda quando o pagamento for recebido;
+11. **Valor Mínimo** - (opcional) Apenas exibe este método de pagamento para encomendas com valor superior ao valor inserido;
+12. **Valor Máximo** - (opcional) Apenas exibe este método de pagamento para encomendas com valor inferior ao valor inserido;
+13. **Restringir Pagamento a Países** - (opcional) Selecionar todos os países ou apenas os países especificos, deixar vazio para permitir todos os países;
+14. **Pagamento de países específicos** - (opcional) Apenas exibe este método de pagamento para encomendas com destino de envio dentro dos países selecionados, deixar vazio para permitir todos os países;
+15. **Ordenação** - (opcional) Ordena os métodos de pagamento na página de checkout de forma ascendente. Número mais baixo toma o primeiro lugar;
+
+![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/configurationIfthenpaygateway.png)
+</br>
+
+
 ## Devoluções
 
 Os métodos de pagamento MB WAY e Cartão de Crédito permitem devolução do valor total ou parcial pago pelo consumidor através da página de nota de crédito da encomenda.
@@ -384,6 +416,10 @@ Ao clicar em requerer nova conta exibirá uma caixa de dialogo na qual pode conf
 ![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/requestAccountConfirm.png)
 </br>
 
+Também pode requerer um método para Ifthenpay Gateway, seguindo o mesmo procedimento, clicando num botão de "Requerer" (1).
+
+![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/request_gateway_paymen_method.png)
+</br>
 
 Assim, a equipa da Ifthenpay adicionará o método de pagamento à sua conta, atualizando a lista de métodos de pagamento disponíveis no seu módulo.
 
@@ -611,5 +647,28 @@ Selecionar o método de pagamento Cofidis Pay (1) e clicar em Fazer Encomenda (2
 ![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/cofidis_payment_return.png)
 </br>
 
+
+## Pagar encomenda com Ifthenpay Gateway
+
+Selecionar o método de pagamento Ifthenpay Gateway (1) e clicar em Fazer Encomenda (2).
+
+
+![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/checkoutIfthenpaygateway.png)
+</br>
+
+Selecionar um dos métodos de pagamento disponíveis na página da gateway (1).
+![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/ifthenpaygateway_payment_1.png)
+</br>
+
+No caso do método de pagamento Multibanco, a entidade, referência e valor serão exibidos.
+Aqui o consumidor pode fazer uma das duas ações:
+ - em caso de método de pagamento offline, guardar os dados de pagamento, clicar em fechar a gateway no botão (2) e pagar mais tarde;
+ - pagar no momento e clicar no botão de confirmar pagamento (3) para verificar o pagamento; 
+![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/ifthenpaygateway_payment_2.png)
+</br>
+
+Se o consumidor não pagou no momento e não guardou os dados de pagamento, ainda pode aceder mais tarde a estes através do link de acesso à gateway encontrado no histórico de encomenda na conta de utilizador ou email de confirmação de encomenda. 
+![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/ifthenpaygateway_payment_3.png)
+</br>
 
 Chegou ao final do manual do módulo Ifthenpay para Magento 2. Parabéns!

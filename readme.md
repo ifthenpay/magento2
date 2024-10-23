@@ -18,6 +18,7 @@ Read in ![Portuguese](https://github.com/ifthenpay/magento2/raw/assets/assets/im
   * [Credit Card](#credit-card)
   * [Payshop](#payshop)
   * [Cofidis Pay](#cofidis-pay)
+  * [Ifthenpay Gateway](#ifthenpay-gateway)
 
 [5. Refund](#refund)
 
@@ -37,6 +38,7 @@ Read in ![Portuguese](https://github.com/ifthenpay/magento2/raw/assets/assets/im
   * [Pay order with MB WAY](#pay-order-with-mb-way)
   * [Pay order with Credit Card](#pay-order-with-credit-card)
   * [Pay order with Cofidis Pay](#pay-order-with-cofidis-pay)
+  * [Pay order with Ifthenpay Gateway](#pay-order-with-ifthenpay-gateway)
 
 
 
@@ -84,7 +86,7 @@ Use the table below to check the compatibility of the Ifthenpay module with your
 |                            | Magento 2.3    | Magento 2.4 [2.4.0 - 2.4.6] |
 |----------------------------|----------------|-----------------------------|
 | Ifthenpay v1.0.0 - v1.2.13 | Not compatible | Compatible up to 2.4.5      |
-| Ifthenpay v2.0.0 - v2.1.2  | Not compatible | Compatible                  |
+| Ifthenpay v2.0.0 - v2.2.0  | Not compatible | Compatible                  |
 
 
 
@@ -314,6 +316,37 @@ Click on Save to save the changes.
 ![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/configurationCofidis.png)
 </br>
 
+
+## Ifthenpay Gateway
+
+The Ifthenpay Gateway payment method allows the consumer to be redirected to a payment gateway page where it is possible to select any of the above payment methods to pay for the order. 
+The Ifthenpay Gateway Keys are automatically loaded upon entering the Backoffice Key. 
+Configure the payment method. The image below shows an example of a minimally functional configuration.
+
+1. **Enabled** - When selected as Yes, it activates the payment method, displaying it on the checkout page of your store.
+2. **Activate Callback** - When selected as Yes, the order status will be updated when payment is received.
+3. **Ifthenpay Gateway Key** - Select a Ifthenpay Gateway key. You can only select one of the keys associated with the Backoffice Key.
+4. **Payment Methods** - Select a Payment Method Key per each Method and check the checkbox if you want to display it in the gateway page.
+5. **Default Payment Method** - Select a Payment Method that will be selected in the gateway page by default.
+6. **Deadline** - Select the number of days to deadline for the gateway page link. From 1 to 99 days, leave empty if you don't want it to expire.
+7. **Display Icon** - Display this payment method logo image on checkout, choose from 3 options:
+    -  Default: displays ifthenpay gateway logo;
+    -  Title: displays Payment Method Title;
+    -  Composite: displays a composite image of all the payment method logos you have selected;
+8. **Title** - The title that appears to the consumer during checkout.
+9. **Gateway Close Button Text** - Text displayed in the "Return to Shop" button in the gateway page;
+10. **Send Invoice Email** - When selected as Yes, the consumer automatically receives an email with the order invoice when payment is received.
+11. **Minimum Amount** - (optional) Only displays this payment method for orders with a value higher than the entered amount.
+12. **Maximum Amount** - (optional) Only displays this payment method for orders with a value lower than the entered amount.
+13. **Restrict Payment to Countries** - (optional) Select all countries or only specific countries. Leave it blank to allow all countries.
+14. **Payment from Specific Countries** - (optional) Only displays this payment method for orders with shipping destinations within the selected countries. Leave it blank to allow all countries.
+15. **Sort Order** - (optional) Orders the payment methods on the checkout page in ascending order. The lower the number, the higher the priority.
+Click on Save to save the changes.
+
+![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/configurationIfthenpaygateway.png)
+</br>
+
+
 ## Refund
 
 The MB WAY and Credit Card payment methods allow for the refund of the total or partial amount paid by the consumer through the order credit note page.
@@ -393,6 +426,11 @@ In case you need an account for Multibanco with Dynamic References, the "Request
 By clicking on Request New Account, a dialog box will appear where you can confirm the action by clicking on OK (1).
 
 ![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/requestAccountConfirm.png)
+</br>
+
+You may also request a method for the Ifthenpay Gateway following the same procedure by clicking any of the request buttons (1). 
+
+![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/request_gateway_paymen_method.png)
 </br>
 
 As a result, the Ifthenpay team will add the payment method to your account, updating the list of available payment methods in your module.
@@ -633,5 +671,30 @@ Select the Cofidis Pay payment method (1) and click on Place Order (2).
 * After which you will be redirected back to the store;
 ![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/thankYouCofidis.png)
 </br>
+
+
+
+## Pay order with Ifthenpay Gateway
+
+Select the Ifthenpay Gateway payment method (1) and click on Place Order (2).
+
+![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/checkoutIfthenpaygateway.png)
+</br>
+
+Select one of the payment methods available in the gateway page (1). 
+![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/ifthenpaygateway_payment_1.png)
+</br>
+
+In case of Multibanco method, the entity, reference and amount will be displayed.
+Here the user can do one of the two:
+ - in case of an offline payment method, note down the payment details, click the close gateway button (2) and pay later;
+ - pay at that moment and click the confirm payment button (3) to verify the payment.
+![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/ifthenpaygateway_payment_2.png)
+</br>
+
+If the user did not pay at the moment and did not take note of the payment details, it is also possible to access the Ithenpay Gateway link at a later date in the user account order history or order confirmation email.
+![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/ifthenpaygateway_payment_3.png)
+</br>
+
 
 You made it to the end of the ifthenpay magento 2 module manual. Congratulations!

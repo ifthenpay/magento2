@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @category    Gateway Payment
  * @package     Ifthenpay_Payment
@@ -164,7 +165,14 @@ class IfthenpayConfig extends GatewayConfig
         $userAccounts = $this->getUserAccounts();
         $paymentMethodAccounts = [];
 
-        if ($paymentMethod === ConfigVars::MULTIBANCO) {
+        if ($paymentMethod === ConfigVars::IFTHENPAYGATEWAY) {
+            foreach ($userAccounts as $account) {
+
+                if ($account['Entidade'] == 'IFTHENPAYGATEWAY') {
+                    $paymentMethodAccounts = $account['SubEntidade'] ?? [];
+                }
+            }
+        } else if ($paymentMethod === ConfigVars::MULTIBANCO) {
             foreach ($userAccounts as $account) {
                 if (is_numeric($account['Entidade']) || $account['Entidade'] === ConfigVars::MULTIBANCO_DYNAMIC) {
                     $paymentMethodAccounts[] = $account;
@@ -177,6 +185,7 @@ class IfthenpayConfig extends GatewayConfig
                 }
             }
         }
+
         return $paymentMethodAccounts;
     }
 
@@ -246,5 +255,4 @@ class IfthenpayConfig extends GatewayConfig
         }
         return false;
     }
-
 }

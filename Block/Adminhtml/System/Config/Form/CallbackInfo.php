@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @category    Gateway Payment
  * @package     Ifthenpay_Payment
@@ -60,7 +61,6 @@ class CallbackInfo extends field
             if ($this->data['callbackUrl'] && $this->data['chaveAntiPhishing']) {
                 return $this->_decorateRowHtml($element, "<td colspan='5'>" . $this->toHtml() . '</td>');
             }
-
         } catch (\Throwable $th) {
             $this->logger->error('config/callback/info', [
                 'error' => $th,

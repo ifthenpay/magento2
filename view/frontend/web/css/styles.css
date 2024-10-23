@@ -1,166 +1,167 @@
 #ifthenpay_payment_return_panel {
-    max-width: 440px;
-    padding: 20px;
-    margin-bottom: 20px;
-    position: relative;
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-    -ms-flex-direction: column;
-    flex-direction: column;
-    word-wrap: break-word;
-    background-color: #fff;
-    background-clip: border-box;
-    border: 1px solid rgba(0, 0, 0, .125);
-    border-radius: .25rem;
+  max-width: 440px;
+  padding: 20px;
+  margin-bottom: 20px;
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  word-wrap: break-word;
+  background-color: #fff;
+  background-clip: border-box;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  border-radius: 0.25rem;
 }
 
 #ifthenpay_payment_return_panel h3 {
-    margin-top: 0px;
-    margin-bottom: 20px;
+  margin-top: 0px;
+  margin-bottom: 20px;
 }
 
 #ifthenpay_payment_return_panel .payment_logo {
-    margin-top: 0px;
-    margin-bottom: 20px;
+  margin-top: 0px;
+  margin-bottom: 20px;
 }
 
 #ifthenpay_payment_return_panel .table {
-    margin-bottom: 10px;
+  margin-bottom: 10px;
 }
 
-
 #ifthenpay_payment_return_panel .if_td_desc {
-    width: 40%;
-    border-top: 1px solid #ddd;
-    border-left: 1px solid #ddd;
-    border-bottom: 1px solid #ddd;
+  width: 40%;
+  border-top: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
 }
 
 #ifthenpay_payment_return_panel .if_td_value {
-    font-weight: bold;
-    border-top: 1px solid #ddd;
-    border-right: 1px solid #ddd;
-    border-bottom: 1px solid #ddd;
+  font-weight: bold;
+  border-top: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
 }
 
 #ifthenpay_payment_return_panel .ifthenpay_info {
-    text-align: center;
-    color: #7a7a7a;
-    margin: 0px;
+  text-align: center;
+  color: #7a7a7a;
+  margin: 0px;
 }
-
-
 
 /* mbway */
 
-
 #ifthenpay_mbway_country_code {
-    max-width: 170px;
-    margin-right: 10px;
+  max-width: 170px;
+  margin-right: 10px;
 }
-
-
 
 #ifthenpay_mbway_payment_out_of_time_panel,
 #ifthenpay_mbway_payment_confirmed_panel,
 #ifthenpay_mbway_payment_refused_panel,
 #ifthenpay_mbway_payment_error_panel,
 .ifthenpay_countdown_panel {
-    max-width: 440px;
-    margin-bottom: 20px;
-    margin-top: 20px;
-    padding: 20px;
-    border: 1px solid rgba(0, 0, 0, .125);
-    border-radius: .25rem;
+  max-width: 440px;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  padding: 20px;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  border-radius: 0.25rem;
 }
 
 #ifthenpay_mbway_payment_out_of_time_panel .panel-heading,
 #ifthenpay_mbway_payment_confirmed_panel .panel-heading,
 #ifthenpay_mbway_payment_refused_panel .panel-heading,
 #ifthenpay_mbway_payment_error_panel .panel-heading {
-    text-align: center;
-    margin-bottom: 20px;
+  text-align: center;
+  margin-bottom: 20px;
 }
 
 #ifthenpay_mbway_payment_out_of_time_panel .panel-heading img,
 #ifthenpay_mbway_payment_confirmed_panel .panel-heading img,
 #ifthenpay_mbway_payment_refused_panel .panel-heading img,
 #ifthenpay_mbway_payment_error_panel .panel-heading img {
-    margin: auto;
+  margin: auto;
 }
 
 #ifthenpay_mbway_payment_out_of_time_panel .panel-body,
 #ifthenpay_mbway_payment_confirmed_panel .panel-body,
 #ifthenpay_mbway_payment_refused_panel .panel-body,
 #ifthenpay_mbway_payment_error_panel .panel-body {
-    text-align: center;
-    margin-top: 10px;
+  text-align: center;
+  margin-top: 10px;
 }
 
 .ifthenpay_countdown_panel {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    min-width: 0;
-    word-wrap: break-word;
-    background-color: #fff;
-    background-clip: border-box;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  background-color: #fff;
+  background-clip: border-box;
 }
 
-
 .ifthenpay_countdown_panel .panel-body {
-    text-align: center;
-    padding: 15px;
-    min-height: 200px;
-    background: #fff;
-    border-radius: 5px;
+  text-align: center;
+  padding: 15px;
+  min-height: 200px;
+  background: #fff;
+  border-radius: 5px;
 }
 
 .ifthenpay_countdown_panel .panel-body h3 {
-    margin-top: 20px
+  margin-top: 20px;
 }
 
 .ifthenpay_countdown_panel .panel-body #countdown_mbway {
-    display: flex;
-    align-items: center;
-    justify-content: center
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .ifthenpay_countdown_panel .panel-body #countdown_mbway h3 {
-    font-family: Montserrat, sans-serif;
-    font-size: 100px;
-    text-align: center;
-    font-weight: bolder;
-    color: red
+  font-family: Montserrat, sans-serif;
+  font-size: 100px;
+  text-align: center;
+  font-weight: bolder;
+  color: red;
 }
 
+.ifthenpay_input_wrapper {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
 
-  .ifthenpay_input_wrapper {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-  }
+.ifthenpay_icon_wrapper {
+  height: 100%;
+  width: 28px;
+  margin-right: 5px;
+}
 
-  .ifthenpay_icon_wrapper {
-    height: 100%;
-    width: 28px;
-    margin-right: 5px;
-  }
+.ifthenpay_icon_wrapper img {
+  display: block;
+  height: 100%;
+  width: 100%;
+}
 
-  .ifthenpay_icon_wrapper img {
-    display: block;
-    height: 100%;
-    width: 100%;
-  }
+.ifthenpay_input_wrapper input {
+  max-width: 30%;
+  min-width: 200px;
+}
 
-  .ifthenpay_input_wrapper input {
-    max-width: 30%;
-    min-width: 200px;
-  }
+.ifthenpay_mr_10 {
+  margin-right: 10px;
+}
 
-  .ifthenpay_mr_10 {
-    margin-right: 10px;
-  }
+.ifthenpay_height_38 {
+  height: 38px;
+}
+
+.ifthenpay_padding_h_4 {
+  padding-left: 4px;
+  padding-right: 4px;
+}

@@ -32,6 +32,7 @@
                 <item name="mbway_config_provider" xsi:type="object">Ifthenpay\Payment\Model\Ui\MbwayConfigProvider</item>
                 <item name="ccard_config_provider" xsi:type="object">Ifthenpay\Payment\Model\Ui\CcardConfigProvider</item>
                 <item name="cofidis_config_provider" xsi:type="object">Ifthenpay\Payment\Model\Ui\CofidisConfigProvider</item>
+                <item name="ifthenpaygateway_config_provider" xsi:type="object">Ifthenpay\Payment\Model\Ui\IfthenpaygatewayConfigProvider</item>
             </argument>
         </arguments>
     </type>

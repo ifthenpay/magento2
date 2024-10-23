@@ -26,6 +26,9 @@ define([
         },
         afterPlaceOrder: function () {
             window.location.replace(url.build('ifthenpay/Frontend/CCardRedirectToProviderCtrl'));
+        },
+        getTitle: function () {
+            return window.checkoutConfig.payment.ifthenpay_ccard.title;
         }
     });
 });

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @category    Gateway Payment
  * @package     Ifthenpay_Payment
@@ -12,14 +13,12 @@ namespace Ifthenpay\Payment\Cron;
 use Ifthenpay\Payment\Logger\Logger;
 use Ifthenpay\Payment\Config\ConfigVars;
 use Ifthenpay\Payment\Lib\Factory\ServiceFactory;
-
 use Magento\Sales\Model\ResourceModel\Order\CollectionFactory;
 use Magento\Framework\App\ResourceConnection;
 
 class CancelUnpaidOrders
 {
     private $logger;
-    private $configFactory;
     private $serviceFactory;
     private $orderCollectionFactory;
     private $resourceConnection;
@@ -36,6 +35,7 @@ class CancelUnpaidOrders
         $this->orderCollectionFactory = $orderCollectionFactory;
         $this->resourceConnection = $resourceConnection;
     }
+
 
     public function execute(): void
     {
@@ -221,6 +221,18 @@ class CancelUnpaidOrders
 
             return $deadline->format('Y-m-d H:i:s');
         }
+        if ($paymentMethod === ConfigVars::IFTHENPAYGATEWAY_CODE) {
+
+            $deadline = $storedPaymentData['deadline'] ?? '';
+            if ($deadline === '') {
+                return '';
+            }
+
+            $deadline = \DateTime::createFromFormat('d-m-Y', $deadline);
+            $deadline->setTime(ConfigVars::IFTHENPAYGATEWAY_DEADLINE_HOURS, ConfigVars::IFTHENPAYGATEWAY_DEADLINE_MINUTES);
+
+            return $deadline->format('Y-m-d H:i:s');
+        }
         return '';
     }
 
@@ -250,6 +262,4 @@ class CancelUnpaidOrders
 
         return $collection;
     }
-
-
 }

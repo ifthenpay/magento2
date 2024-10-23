@@ -26,6 +26,9 @@ define([
         },
         afterPlaceOrder: function () {
             window.location.replace(url.build('ifthenpay/Frontend/CofidisRedirectToProviderCtrl'));
+        },
+        getTitle: function () {
+            return window.checkoutConfig.payment.ifthenpay_cofidis.title;
         }
     });
 });

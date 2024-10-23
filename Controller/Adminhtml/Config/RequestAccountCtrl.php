@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @category    Gateway Payment
  * @package     Ifthenpay_Payment
@@ -102,8 +103,9 @@ class RequestAccountCtrl extends Action
                 'userToken' => $token
             ]);
 
-            return $this->resultJsonFactory->create()->setData(['success' => true]);
+            $this->messageManager->addSuccess(__("Account request sent with success."));
 
+            return $this->resultJsonFactory->create()->setData(['success' => true]);
         } catch (\Throwable $th) {
             $this->logger->debug('Error sending add new account email', [
                 'error' => $th,

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @category    Gateway Payment
  * @package     Ifthenpay_Payment
@@ -6,6 +7,7 @@
  * @copyright   Ifthenpay (https://www.ifthenpay.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+
 declare(strict_types=1);
 
 namespace Ifthenpay\Payment\Lib\Services;
@@ -66,11 +68,17 @@ class CallbackService
             if (
                 $isPaymentMethodActive === true &&
                 $isActivatingCallback === true &&
-                $isCallbackActivated !== true
+                ($isCallbackActivated !== true || $paymentMethod === ConfigVars::IFTHENPAYGATEWAY)
             ) {
-                $this->prepareParamsForRequest($paymentMethodConfig);
-                $this->requestCallbackActivation();
-                $paymentMethodConfig->saveCallbackUrl($this->urlCallback, $this->antiPhishingKey);
+
+                if ($paymentMethod === ConfigVars::IFTHENPAYGATEWAY) {
+                    $forceActivation = !$isCallbackActivated;
+                    $this->bulkActivateIfthenpaygatewayCallbacks($forceActivation);
+                } else {
+                    $this->prepareParamsForRequest($paymentMethodConfig);
+                    $this->requestCallbackActivation();
+                    $paymentMethodConfig->saveCallbackUrl($this->urlCallback, $this->antiPhishingKey);
+                }
             }
 
             // if payment method callbackActive is set to
@@ -82,6 +90,71 @@ class CallbackService
             }
         }
     }
+
+    private function bulkActivateIfthenpaygatewayCallbacks(bool $forceActivation)
+    {
+
+        // get methods to activate from config
+        $ifthenpaygatewayConfig = $this->configFactory->createConfig(ConfigVars::IFTHENPAYGATEWAY_CODE);
+        $paymentMethods = $ifthenpaygatewayConfig->getPaymentMethods();
+        $paymentMethods = $paymentMethods != '' ? json_decode($paymentMethods, true) : [];
+
+        if ($forceActivation) {
+            $previousActivatedMethods = [];
+        } else {
+            $previousActivatedMethods = $ifthenpaygatewayConfig->getPreviousActivatedCallbacks();
+            $previousActivatedMethods = $previousActivatedMethods != '' ? json_decode($previousActivatedMethods, true) : [];
+        }
+
+        // loop through them
+        $paymentMethodsToActivate = [];
+
+        if (
+            empty($previousActivatedMethods)
+        ) {
+            $paymentMethodsToActivate = array_filter($paymentMethods, fn($item) => $item['is_active'] === '1');
+        } else {
+            foreach ($paymentMethods as $key => $paymentMethod) {
+
+                if (
+                    (isset($previousActivatedMethods[$key]) && $previousActivatedMethods[$key]['is_active'] === '0' && $paymentMethod['is_active'] === '1') ||
+                    (!isset($previousActivatedMethods[$key]) && $paymentMethod['is_active'] === '1') ||
+                    ((isset($previousActivatedMethods[$key]) && $previousActivatedMethods[$key]['is_active'] === '1' && $paymentMethod['is_active'] === '1') &&
+                        $previousActivatedMethods[$key]['account'] !== $paymentMethod['account'])
+                ) {
+                    $paymentMethodsToActivate[$key] = $paymentMethod;
+                }
+            }
+        }
+
+
+        if (!empty($paymentMethodsToActivate)) {
+
+            $antiPhishingKey = $ifthenpaygatewayConfig->getAntiPhishingKey();
+            $antiPhishingKey = $antiPhishingKey != '' ? $antiPhishingKey : md5((string) rand());
+
+            foreach ($paymentMethodsToActivate as $key => $values) {
+
+                $paymentMethodEntitySubentity = explode('|', $values['account']);
+                $paymentMethodEntity = trim($paymentMethodEntitySubentity[0]);
+                $paymentMethodSubEntity = trim($paymentMethodEntitySubentity[1]);
+
+
+                $this->antiPhishingKey = $antiPhishingKey;
+                $this->urlCallback = $this->configData->getWebsiteBaseUrl() . $ifthenpaygatewayConfig->getCallbackUrlPartialStringWithScopeAndScopeCode();
+                $this->entity = $paymentMethodEntity;
+                $this->subEntity = $paymentMethodSubEntity;
+                $this->backofficeKey = $this->configData->getBackofficeKey();
+
+                $this->requestCallbackActivation();
+            }
+            $ifthenpaygatewayConfig->saveCallbackUrl($this->urlCallback, $this->antiPhishingKey);
+        }
+        // saveActivatedCallbacks to later check which were already activated
+        $ifthenpaygatewayConfig->saveActivatedCallbacks(json_encode($paymentMethods));
+    }
+
+
 
     private function prepareParamsForRequest($paymentMethodConfig): void
     {
@@ -109,11 +182,4 @@ class CallbackService
             throw new \Exception("Error Activating Callback");
         }
     }
-
-
-
-
-
-
-
 }

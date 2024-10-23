@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @category    Gateway Payment
  * @package     Ifthenpay_Payment
@@ -6,6 +7,7 @@
  * @copyright   Ifthenpay (https://www.ifthenpay.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+
 declare(strict_types=1);
 
 
@@ -84,10 +86,9 @@ class IsMinLessThanIfthenpay extends Value
                     $minIfthenpay = $responseArray['limits']['minAmount'];
 
                     if ($min < $minIfthenpay) {
-                        throw new \Exception('Minimum Order Value must be greater or equal to value defined in ifthenpay backoffice than Maximum Order Value.');
+                        throw new \Exception('Minimum Order Value must be greater or equal to value defined in ifthenpay backoffice.');
                     }
                 }
-
             } catch (\Throwable $th) {
                 throw new LocalizedException(__($MessagePrefix . $th->getMessage()));
             }

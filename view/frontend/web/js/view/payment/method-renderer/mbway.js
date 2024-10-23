@@ -38,6 +38,9 @@ define([
                     'phoneNumber': $('#ifthenpay_mbway_phone_number').val()
                 }
             };
+        },
+        getTitle: function () {
+            return window.checkoutConfig.payment.ifthenpay_mbway.title;
         }
     });
 });

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @category    Gateway Payment
  * @package     Ifthenpay_Payment
@@ -59,6 +60,7 @@ class Main extends Fieldset
         $this->moduleResource = $moduleResource;
     }
 
+
     protected function _getFrontendClass($element)
     {
         return parent::_getFrontendClass($element) . ' with-button';
@@ -83,15 +85,15 @@ class Main extends Fieldset
             ' disabled' .
             '" id="' . $htmlId . '-head" >' .
             '<span class="state-closed">' . __(
-            'Configure'
-        ) . '</span><span class="state-opened">' . __(
-            'Close'
-        ) . '</span></button>';
+                'Configure'
+            ) . '</span><span class="state-opened">' . __(
+                'Close'
+            ) . '</span></button>';
 
-        $html .= /* @noEscape */$this->secureRenderer->renderEventListenerAsTag(
+        $html .= /* @noEscape */ $this->secureRenderer->renderEventListenerAsTag(
             'onclick',
             "IfthenpayToggleSolution.call(this, '" . $htmlId . "', '" . $this->getUrl('adminhtml/*/state') .
-            "');event.preventDefault();",
+                "');event.preventDefault();",
             'button#' . $htmlId . '-head'
         );
 
@@ -124,6 +126,8 @@ class Main extends Fieldset
         $urlRequestAccount = $this->urlBuilder->getUrl(ConfigVars::AJAX_URL_STR_GET_REQUEST_ACCOUNT);
         $urlRefreshAccounts = $this->urlBuilder->getUrl(ConfigVars::AJAX_URL_STR_GET_REFRESH_ACCOUNTS);
         $urlGetMinMax = $this->urlBuilder->getUrl(ConfigVars::AJAX_URL_STR_GET_MIN_MAX);
+        $urlGetGatewayMethods =  $this->urlBuilder->getUrl(ConfigVars::AJAX_URL_STR_GET_GATEWAY_METHODS);
+        $urlRequestGatewayMethod =  $this->urlBuilder->getUrl(ConfigVars::AJAX_URL_STR_GET_REQUEST_GATEWAY_METHOD);
         $dynamicMultibancoCode = ConfigVars::MULTIBANCO_DYNAMIC;
 
         $scope = $this->scopeConfigResolver->scope;
@@ -142,6 +146,8 @@ class Main extends Fieldset
             window.ifthenpay_urlResetBackofficeKey =" . json_encode($urlResetBackofficeKey) . ";
             window.ifthenpay_urlGetSubEntities =" . json_encode($urlGetSubEntities) . ";
             window.ifthenpay_urlGetMinMax =" . json_encode($urlGetMinMax) . ";
+            window.ifthenpay_urlGetGatewayMethods =" . json_encode($urlGetGatewayMethods) . ";
+            window.ifthenpay_urlRequestGatewayMethod =" . json_encode($urlRequestGatewayMethod) . ";
             window.ifthenpay_standardErrorMessage =" . json_encode(__('An Error occurred.')) . ";
             window.IfthenpayToggleSolution = function (id, url) {
                 var doScroll = false;
@@ -163,5 +169,4 @@ class Main extends Fieldset
 
         return $this->_jsHelper->getScript($script);
     }
-
 }

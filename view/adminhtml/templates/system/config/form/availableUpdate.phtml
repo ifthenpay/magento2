@@ -1,0 +1,11 @@
+<div style="display: flex; flex-direction: column; align-items: center; padding-top: 20px; padding-bottom: 20px; background-color: #fffbbb;">
+    <div style="text-align: center;">
+        <img src="<?= $block->getViewFileUrl('Ifthenpay_Payment::images/systemUpdate.png') ?>" alt="Updated Image" height="100px" />
+        <h2><?= __('New version %1 update is available!', $block->data['latest_version']) ?></h2>
+    </div>
+    <div style="width: 780px; text-align: left; margin-top: 20px;">
+        <p><?= __('For more information about this upgrade\'s changelog, check the module\'s GitHub release page at ') ?> <a href="<?= $block->data['github_link'] ?>"><?= __('GitHub link') ?></a></p>
+        </br>
+        <?= $block->data['commands_html'] ?>
+    </div>
+</div>

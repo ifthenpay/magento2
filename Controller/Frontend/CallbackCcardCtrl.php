@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @category    Gateway Payment
  * @package     Ifthenpay_Payment
@@ -99,8 +100,9 @@ class CallbackCcardCtrl extends Action
     {
 
         $requestData = $this->getRequest()->getParams();
+        $transactionId = $requestData['requestId'];
 
-        $storedPaymentData = $this->ccardService->getPaymentByRequestData($requestData);
+        $storedPaymentData = $this->ccardService->getByRequestId($transactionId);
 
         $orderId = $storedPaymentData['order_id'];
         $this->_order = $this->_orderFactory->loadByIncrementId($orderId);
@@ -109,7 +111,6 @@ class CallbackCcardCtrl extends Action
             return false;
         }
 
-        $transactionId = $requestData['requestId'];
 
         if ($storedPaymentData['status'] === ConfigVars::DB_STATUS_PENDING) {
             $paymentStatus = $this->token->decrypt($requestData['qn']);
@@ -120,7 +121,6 @@ class CallbackCcardCtrl extends Action
                 $this->ccardService->setData($storedPaymentData)->save();
                 $this->handleCapture($transactionId);
                 $this->messageManager->addSuccessMessage(__('Payment by Credit Card made with success.'));
-
             } else if ($paymentStatus === ConfigVars::CCARD_CANCEL_STATUS) {
                 $storedPaymentData['status'] = ConfigVars::DB_STATUS_CANCELED;
                 $this->ccardService->setData($storedPaymentData)->save();
@@ -130,7 +130,6 @@ class CallbackCcardCtrl extends Action
                     'info' => 'payment canceled by user',
                     'paymentStatus' => $paymentStatus
                 ]);
-
             } else if ($paymentStatus === ConfigVars::CCARD_ERROR_STATUS) {
                 $storedPaymentData['status'] = ConfigVars::DB_STATUS_CANCELED;
                 $this->ccardService->setData($storedPaymentData)->save();
@@ -206,5 +205,4 @@ class CallbackCcardCtrl extends Action
             $this->_orderRepository->save($this->_order);
         }
     }
-
 }

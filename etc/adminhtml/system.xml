@@ -17,6 +17,12 @@
                 <fieldset_css>complex ifthenpay-section</fieldset_css>
                 <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\Main</frontend_model>
 
+                <field id="available_update" translate="label" sortOrder="15" showInWebsite="1" showInDefault="1" type="text">
+                    <label>Available Update</label>
+                    <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\AvailableUpdate</frontend_model>
+                </field>
+
+
                 <field id="not_available_in_store_scope" sortOrder="20" type="text" showInStore="1">
                     <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\NotAvailableInStoreScope</frontend_model>
                 </field>
@@ -34,7 +40,6 @@
                     <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\IfBackofficeKeyHideBackofficeKey</frontend_model>
                     <config_path>payment/ifthenpay/backoffice_key</config_path>
                 </field>
-
 
 
 
@@ -126,7 +131,7 @@
                         <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\RequestNewDynamicMultibanco</frontend_model>
                     </field>
 
-                    <field id="send_invoice_email" translate="label" type="select" sortOrder="80" showInWebsite="1" showInDefault="1">
+                    <field id="send_invoice_email" translate="label comment" type="select" sortOrder="80" showInWebsite="1" showInDefault="1">
                         <label>Send Invoice Email</label>
                         <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                         <config_path>payment/ifthenpay_multibanco/send_invoice_email</config_path>
@@ -280,7 +285,7 @@
                         </depends>
                     </field>
 
-                    <field id="show_refund" translate="label" type="select" sortOrder="70" showInWebsite="1" showInDefault="1">
+                    <field id="show_refund" translate="label comment" type="select" sortOrder="70" showInWebsite="1" showInDefault="1">
                         <label>Allow refund</label>
                         <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                         <config_path>payment/ifthenpay_mbway/show_refund</config_path>
@@ -556,7 +561,7 @@
                         </depends>
                     </field>
 
-                    <field id="show_refund" translate="label" type="select" sortOrder="60" showInWebsite="1" showInDefault="1">
+                    <field id="show_refund" translate="label comment" type="select" sortOrder="60" showInWebsite="1" showInDefault="1">
                         <label>Allow refund</label>
                         <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                         <config_path>payment/ifthenpay_ccard/show_refund</config_path>
@@ -732,6 +737,183 @@
                     <field id="sort_order" type="text" sortOrder="110" translate="label" showInWebsite="1" showInDefault="1">
                         <label>Sort Order</label>
                         <config_path>payment/ifthenpay_cofidis/sort_order</config_path>
+                        <validate>validate-number validate-zero-or-greater</validate>
+                        <depends>
+                            <field id="key" negative="1">nokey</field>
+                        </depends>
+                    </field>
+
+
+                    <field id="callbackInfo" sortOrder="161" showInDefault="1" showInWebsite="1">
+                        <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\CallbackInfo</frontend_model>
+                        <depends>
+                            <field id="key" negative="1">nokey</field>
+                        </depends>
+                    </field>
+
+                </group>
+
+
+
+                <group id="ifthenpaygateway" sortOrder="70" translate="label" showInWebsite="1" showInDefault="1">
+                    <fieldset_css>if_ifthenpaygateway</fieldset_css>
+                    <label>Ifthenpay Gateway</label>
+                    <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\IfBackofficeKeyToggleVisibility</frontend_model>
+
+                    <field id="add_new_account" translate="label comment" type="button" sortOrder="10" showInDefault="1" showInWebsite="1">
+                        <label>Request Ifthenpay Gateway Account</label>
+                        <comment>Don't have Ifthenpay Gateway account? Click to request Ifthenpay Gateway account.</comment>
+                        <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\RequestNewAccountButton</frontend_model>
+                        <depends>
+                            <field id="key">nokey</field>
+                        </depends>
+                    </field>
+
+
+
+
+                    <field id="active" type="select" sortOrder="10" translate="label" showInWebsite="1" showInDefault="1">
+                        <label>Enabled</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <config_path>payment/ifthenpay_ifthenpaygateway/active</config_path>
+                        <backend_model>Ifthenpay\Payment\Model\Config\BeforeSave\IsConfigured</backend_model>
+                        <depends>
+                            <field id="key" negative="1">nokey</field>
+                        </depends>
+                    </field>
+
+                    <field id="activate_callback" type="select" sortOrder="40" translate="label comment" showInWebsite="1" showInDefault="1">
+                        <label>Activate Callback</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <comment>When Callback is enabled ifthenpay's servers comunicate with your store to update order status.</comment>
+                        <config_path>payment/ifthenpay_ifthenpaygateway/activate_callback</config_path>
+                        <depends>
+                            <field id="key" negative="1">nokey</field>
+                        </depends>
+                    </field>
+
+                    <field id="key" type="select" sortOrder="50" translate="label" showInWebsite="1" showInDefault="1">
+                        <label>Ifthenpay Gateway Key</label>
+                        <source_model>Ifthenpay\Payment\Model\Config\Source\IfthenpaygatewayKeyOptions</source_model>
+                        <config_path>payment/ifthenpay_ifthenpaygateway/key</config_path>
+                        <depends>
+                            <field id="key" negative="1">nokey</field>
+                        </depends>
+                    </field>
+
+
+
+
+                    <field id="payment_methods_select" type="text" sortOrder="51" translate="label comment" showInWebsite="1" showInDefault="1">
+                        <label>Gateway Payment Methods</label>
+                        <config_path>payment/ifthenpay_ifthenpaygateway/payment_methods_select</config_path>
+                        <comment>Please select a Ifthenpay Gateway key to view this field.</comment>
+                        <depends>
+                            <field id="key" negative="1">nokey</field>
+                        </depends>
+                    </field>
+
+
+                    <field id="default_payment_method_select" type="select" sortOrder="52" translate="label comment" showInWebsite="1" showInDefault="1">
+                        <label>Gateway Default Payment Method</label>
+                        <config_path>payment/ifthenpay_ifthenpaygateway/default_payment_method_select</config_path>
+                        <comment>Please select a Ifthenpay Gateway key to view this field.</comment>
+                        <depends>
+                            <field id="key" negative="1">nokey</field>
+                        </depends>
+                    </field>
+
+                    <field id="deadline" type="text" sortOrder="53" translate="label comment" showInWebsite="1" showInDefault="1">
+                        <label>Deadline</label>
+                        <config_path>payment/ifthenpay_ifthenpaygateway/deadline</config_path>
+                        <comment>Choose the number of days (from 1 to 99), leave empty if you do not want expiration.</comment>
+                        <validate>validate-digits validate-zero-or-greater validate-greater-than-zero</validate>
+                        <depends>
+                            <field id="key" negative="1">nokey</field>
+                        </depends>
+                    </field>
+
+
+
+                    <field id="show_payment_icon" type="select" sortOrder="54" translate="label" showInWebsite="1" showInDefault="1">
+                        <label>Display payment method Icon on Checkout</label>
+                        <source_model>Ifthenpay\Payment\Model\Config\Source\ShowLogoOptions</source_model>
+                        <config_path>payment/ifthenpay_ifthenpaygateway/show_payment_icon</config_path>
+                        <depends>
+                            <field id="key" negative="1">nokey</field>
+                        </depends>
+                    </field>
+
+                    <field id="title" type="text" sortOrder="55" translate="label" showInWebsite="1" showInDefault="1">
+                        <label>Title</label>
+                        <config_path>payment/ifthenpay_ifthenpaygateway/title</config_path>
+                        <depends>
+                            <field id="key" negative="1">nokey</field>
+                        </depends>
+                    </field>
+
+                    <field id="close_button_label" type="text" sortOrder="56" translate="label comment" showInWebsite="1" showInDefault="1">
+                        <label>Gateway Close Button Text</label>
+                        <config_path>payment/ifthenpay_ifthenpaygateway/close_button_label</config_path>
+                        <comment>Replaces the return button text in the gateway page. Leave empty to use default.</comment>
+                        <depends>
+                            <field id="key" negative="1">nokey</field>
+                        </depends>
+                    </field>
+
+                    <field id="send_invoice_email" translate="label" type="select" sortOrder="57" showInWebsite="1" showInDefault="1">
+                        <label>Send Invoice Email</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <config_path>payment/ifthenpay_ifthenpaygateway/send_invoice_email</config_path>
+                        <comment>Send invoice email after receiving payment.</comment>
+                        <depends>
+                            <field id="key" negative="1">nokey</field>
+                        </depends>
+                    </field>
+
+                    <field id="min_order_total" type="text" sortOrder="80" translate="label comment" showInWebsite="1" showInDefault="1">
+                        <label>Minimum Order Value</label>
+                        <comment>Display this payment method for orders with value greater or equal to this value. Leave empty to allow any.</comment>
+                        <backend_model>Ifthenpay\Payment\Model\Config\BeforeSave\IsMinLessThanMax</backend_model>
+                        <config_path>payment/ifthenpay_ifthenpaygateway/min_order_total</config_path>
+                        <validate>validate-number validate-zero-or-greater</validate>
+                        <depends>
+                            <field id="key" negative="1">nokey</field>
+                        </depends>
+                    </field>
+
+                    <field id="max_order_total" type="text" sortOrder="90" translate="label comment" showInWebsite="1" showInDefault="1">
+                        <label>Maximum Order Value</label>
+                        <comment>Display this payment method for orders with value lesser or equal to this value. Leave empty to allow any.</comment>
+                        <config_path>payment/ifthenpay_ifthenpaygateway/max_order_total</config_path>
+                        <validate>validate-number validate-zero-or-greater</validate>
+                        <depends>
+                            <field id="key" negative="1">nokey</field>
+                        </depends>
+                    </field>
+
+                    <field id="allowspecific" type="allowspecific" translate="label" sortOrder="90" showInWebsite="1" showInDefault="1">
+                        <label>Payment from Applicable Countries</label>
+                        <source_model>Magento\Payment\Model\Config\Source\Allspecificcountries</source_model>
+                        <config_path>payment/ifthenpay_ifthenpaygateway/allowspecific</config_path>
+                        <depends>
+                            <field id="key" negative="1">nokey</field>
+                        </depends>
+                    </field>
+
+                    <field id="specificcountry" type="multiselect" translate="label" sortOrder="100" showInWebsite="1" showInDefault="1">
+                        <label>Payment from Specific Countries</label>
+                        <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
+                        <can_be_empty>1</can_be_empty>
+                        <config_path>payment/ifthenpay_ifthenpaygateway/specificcountry</config_path>
+                        <depends>
+                            <field id="key" negative="1">nokey</field>
+                        </depends>
+                    </field>
+
+                    <field id="sort_order" type="text" sortOrder="110" translate="label" showInWebsite="1" showInDefault="1">
+                        <label>Sort Order</label>
+                        <config_path>payment/ifthenpay_ifthenpaygateway/sort_order</config_path>
                         <validate>validate-number validate-zero-or-greater</validate>
                         <depends>
                             <field id="key" negative="1">nokey</field>

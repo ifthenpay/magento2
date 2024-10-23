@@ -86,5 +86,20 @@
             <column name="transaction_id"/>
         </index>
     </table>
+    <table name="ifthenpay_ifthenpaygateway" resource="default">
+        <column xsi:type="int" name="id" unsigned="true" nullable="false" identity="true"/>
+        <column xsi:type="varchar" name="order_id" nullable="false" length="250"/>
+        <column xsi:type="varchar" name="transaction_id" nullable="false" length="20"/>
+        <column xsi:type="varchar" name="status" nullable="false" length="50"/>
+        <column xsi:type="varchar" name="payment_url" nullable="false" length="255"/>
+        <column xsi:type="varchar" name="deadline" nullable="false" length="10"/>
+        <column xsi:type="varchar" name="created_at" nullable="false" length="20"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="id"/>
+        </constraint>
+        <index referenceId="INDEX_ORDERID" indexType="btree">
+            <column name="order_id"/>
+        </index>
+    </table>
 
 </schema>

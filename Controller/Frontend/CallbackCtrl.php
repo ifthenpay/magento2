@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @category    Gateway Payment
  * @package     Ifthenpay_Payment
@@ -24,8 +25,6 @@ use Magento\Sales\Model\Order;
 use Magento\Sales\Model\Order\Payment\Transaction\BuilderInterface;
 use Ifthenpay\Payment\Lib\Utility\Currency;
 use Magento\Sales\Model\Order\Invoice\NotifierInterface;
-
-
 
 /**
  * Class CallbackCtrl
@@ -100,9 +99,6 @@ class CallbackCtrl extends Action
                 ->setStatusCode(Http::STATUS_CODE_200)
                 ->setContent('ok');
             return $response;
-
-
-
         } catch (\Throwable $th) {
             $this->logger->error('Error Executing offline Callback', [
                 'error' => $th,
@@ -113,6 +109,13 @@ class CallbackCtrl extends Action
             $response = $this->getResponse()
                 ->setStatusCode(Http::STATUS_CODE_400)
                 ->setContent('fail - ' . $code);
+
+            if ($code == '90') {
+                $response = $this->getResponse()
+                    ->setStatusCode(Http::STATUS_CODE_200)
+                    ->setContent('warning - order already paid');
+            }
+
             return $response;
         }
     }
@@ -122,21 +125,54 @@ class CallbackCtrl extends Action
     private function processCallback($requestData)
     {
         try {
-            $this->config = $this->configFactory->createConfig(ConfigVars::VENDOR . '_' . $requestData['payment']);
+            $this->config = $this->configFactory->createConfig(ConfigVars::VENDOR . '_' . $requestData[ConfigVars::CB_PM]);
             $this->config->setScopeAndScopeCode($requestData['scp'], $requestData['scpcd']);
 
-            $service = $this->serviceFactory->createService(ConfigVars::VENDOR . '_' . $requestData['payment']);
+            $callbackMethod = $requestData[ConfigVars::CB_PM];
+
+            $service = $this->serviceFactory->createService(ConfigVars::VENDOR . '_' . $callbackMethod);
             $storedPaymentData = $service->getPaymentByRequestData($requestData);
+
+            // if not found try other tables
+            if (!$storedPaymentData) {
+
+                if ($callbackMethod === ConfigVars::IFTHENPAYGATEWAY) {
+
+                    $methodsWithCallback = array_diff(ConfigVars::PAYMENT_METHODS, [$callbackMethod]);
+
+                    foreach ($methodsWithCallback as $paymentMethod) {
+
+                        // check if method is active
+                        $isActive = $this->config->getConfigValue('payment/' . ConfigVars::VENDOR . '_' . $paymentMethod . '/active', true);
+                        if ($isActive == '1') {
+
+                            $service = $this->serviceFactory->createService(ConfigVars::VENDOR . '_' . $paymentMethod);
+                            $storedPaymentData = $service->getPaymentByRequestData($requestData);
+                            if (!empty($storedPaymentData)) {
+                                // exit loop if payment data found
+                                break;
+                            }
+                        }
+                    }
+                } else {
+                    // check if ifthenpaygateway is active
+                    $isActive = $this->config->getConfigValue('payment/' . ConfigVars::IFTHENPAYGATEWAY_CODE . '/active', true);
+                    if ($isActive == '1') {
+                        $service = $this->serviceFactory->createService(ConfigVars::IFTHENPAYGATEWAY_CODE);
+                        $storedPaymentData = $service->getPaymentByRequestData($requestData);
+                    }
+                }
+            }
+
 
 
             // Validate callback, throw exception if invalid
             $this->validateCallback($requestData, $storedPaymentData);
 
 
-
             if (isset($storedPaymentData['transaction_id']) && $storedPaymentData['transaction_id'] != '') {
                 $transactionId = $storedPaymentData['transaction_id'];
-                $isOnline = $requestData['payment'] == ConfigVars::PAYSHOP ? false : true;
+                $isOnline = $requestData[ConfigVars::CB_PM] == ConfigVars::PAYSHOP ? false : true;
             } else {
                 $transactionId = $this->tokenUtility->generateString(20);
                 $isOnline = false;
@@ -152,12 +188,12 @@ class CallbackCtrl extends Action
                 $storedPaymentData
             );
             $service->save();
-
-
         } catch (\Throwable $th) {
+            $this->logger->error('Error processing Callback', ['error' => $th->getMessage()]);
             throw $th;
         }
     }
+
 
     private function handleCaptureAndInvoice($transactionId, $isOnline)
     {
@@ -195,8 +231,13 @@ class CallbackCtrl extends Action
             throw new \Exception('StoredPaymentData not found in local table.', 10);
         }
 
+
+        if ($storedPaymentData['status'] === ConfigVars::DB_STATUS_PAID) {
+            throw new \Exception('Order already paid.', 90);
+        }
+
         // is valid payment method?
-        if (!($requestData['payment'] == 'mbway' || $requestData['payment'] == 'multibanco' || $requestData['payment'] == 'payshop' || $requestData['payment'] == 'cofidis')) {
+        if (!($requestData[ConfigVars::CB_PM] == 'mbway' || $requestData[ConfigVars::CB_PM] == 'multibanco' || $requestData[ConfigVars::CB_PM] == 'payshop' || $requestData[ConfigVars::CB_PM] == 'cofidis' || $requestData[ConfigVars::CB_PM] == 'ifthenpaygateway')) {
             throw new \Exception('Invalid payment method.', 20);
         }
 
@@ -207,7 +248,7 @@ class CallbackCtrl extends Action
 
         // is anti-phishing key valid?
         $antiPhishingKey = $this->config->getAntiPhishingKey();
-        if ($requestData['phish_key'] != $antiPhishingKey) {
+        if ($requestData[ConfigVars::CB_ANTIPHISH_KEY] != $antiPhishingKey) {
             throw new \Exception('Invalid anti-phishing key.', 40);
         }
 
@@ -218,7 +259,7 @@ class CallbackCtrl extends Action
         }
 
         // is order amount valid?
-        $requestAmount = $requestData['amount'];
+        $requestAmount = $requestData[ConfigVars::CB_AMOUNT];
         $orderTotal = $this->order->getGrandTotal();
         $currency = $this->order->getOrderCurrencyCode();
         $convertedOrderTotal = $this->currency->convertAndFormatToEuro($currency, $orderTotal);
