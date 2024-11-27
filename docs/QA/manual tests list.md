@@ -15,8 +15,8 @@ Removing the extension form the platform.
 ## Update
 Updating the ifthenpay extension in a platform that already has ifthenpay extension installed.
 
-- [x] When an update is available, it shows the notification for the new version update;
-- [x] When an update is available, the link directs to the correct download site (normally github release page);
+- [ ] When an update is available, it shows the notification for the new version update;
+- [ ] When an update is available, the link directs to the correct download site (normally github release page);
 - [x] Update action performs without errors;
 
 
@@ -50,7 +50,7 @@ Some of the following checks need to be applied per payment method.
 Action of the application user confirming the payment method.
 Some of the following checks need to be applied per payment method.
 
-- [x] In case of online payment (mbway, ccard, cofidis, ifthenpaygateway), the user is directed to gateway/online payment page to proceed with payment;
+- [x] In case of online payment (mbway*, ccard, cofidis, ifthenpaygateway, pix), the user is directed to gateway/online payment page to proceed with payment;
 - [x] In case of offline payment (multibanco, payshop), the user is directed to the "thank you" page where the payment details are displayed;
 
 
@@ -69,26 +69,29 @@ Some of the following checks need to be applied per payment method.
 Server callback to store application when the payment has ocurred to update order state (normaly "paid").
 Some of the following checks need to be applied per payment method.
 
-- [x] Order state changes when simulating the callback of the server by calling the URL with the filled query string variables;
-- [x] Callback changes state of order. Check if an order payed with a given method can process the callback from its method or ifthenpaygateway (selected method to pay x callback tha is executed):
+- [ ] Order state changes when simulating the callback of the server by calling the URL with the filled query string variables;
+- [ ] Callback changes state of order. Check if an order payed with a given method can process the callback from its method or ifthenpaygateway (selected method to pay x callback tha is executed):
   - [x] multibanco x multibanco
   - [x] mbway x mbway
   - [x] payshop x payshop
   - [x] cofidis x cofidis
   - [x] ccard x ccard
+  - [x] pix x pix
   - [x] ifthenpay x ifthenpay
 
 
-  - [x] multibanco x ifthenpay
-  - [x] mbway x ifthenpay
-  - [x] payshop x ifthenpay
-  - [x] cofidis x ifthenpay
+  - [ ] multibanco x ifthenpay
+  - [ ] mbway x ifthenpay
+  - [ ] payshop x ifthenpay
+  - [ ] cofidis x ifthenpay
+  - [ ] pix x ifthenpay
 
 
-  - [x] ifthenpay x multibanco
-  - [x] ifthenpay x mbway
-  - [x] ifthenpay x payshop
-  - [x] ifthenpay x cofidis
+  - [ ] ifthenpay x multibanco
+  - [ ] ifthenpay x mbway
+  - [ ] ifthenpay x payshop
+  - [ ] ifthenpay x cofidis
+  - [ ] ifthenpay x pix
 
 
 
