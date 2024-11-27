@@ -127,6 +127,27 @@
                 <send_invoice_email>1</send_invoice_email>
                 <sort_order>5</sort_order>
             </ifthenpay_cofidis>
+            <ifthenpay_pix>
+                <is_gateway>1</is_gateway>
+                <model>IfthenpayPixFacade</model>
+                <payment_action>initialize</payment_action>
+                <can_initialize>1</can_initialize>
+                <can_cancel>1</can_cancel>
+                <can_use_internal>1</can_use_internal>
+                <can_use_checkout>1</can_use_checkout>
+                <order_status>pending</order_status>
+                <active>0</active>
+                <title>Pix</title>
+                <show_payment_icon>1</show_payment_icon>
+                <key></key>
+                <cancel_order>0</cancel_order>
+                <min_order_total></min_order_total>
+                <max_order_total></max_order_total>
+                <allowspecific>0</allowspecific>
+                <specificcountry></specificcountry>
+                <send_invoice_email>1</send_invoice_email>
+                <sort_order>6</sort_order>
+            </ifthenpay_pix>
             <ifthenpay_ifthenpaygateway>
                 <is_gateway>1</is_gateway>
                 <payment_action>initialize</payment_action>
@@ -145,7 +166,7 @@
                 <allowspecific>0</allowspecific>
                 <specificcountry></specificcountry>
                 <send_invoice_email>1</send_invoice_email>
-                <sort_order>6</sort_order>
+                <sort_order>7</sort_order>
             </ifthenpay_ifthenpaygateway>
         </payment>
     </default>

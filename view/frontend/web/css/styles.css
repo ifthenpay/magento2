@@ -165,3 +165,26 @@
   padding-left: 4px;
   padding-right: 4px;
 }
+
+/* pix related */
+
+.ifthenpay_pix_input_wrapper input {
+  max-width: 50%;
+  min-width: 200px;
+}
+
+.width_50 {
+  width: 50%;
+}
+.ifthenpay_separator {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.ifthenpay_separator .separator-line {
+  flex: 1;
+  margin: 0 10px; /* Space between the line and the text */
+}

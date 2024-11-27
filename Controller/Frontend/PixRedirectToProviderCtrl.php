@@ -15,7 +15,7 @@ use Magento\Framework\App\Action\Context;
 use Magento\Framework\Controller\ResultFactory;
 use Ifthenpay\Payment\Logger\Logger;
 
-class IfthenpaygatewayRedirectToProviderCtrl extends Action
+class PixRedirectToProviderCtrl extends Action
 {
 
     protected $resultFactory;
@@ -42,7 +42,7 @@ class IfthenpaygatewayRedirectToProviderCtrl extends Action
             $paymentUrl = $payment->getAdditionalInformation('paymentUrl');
             return $this->resultFactory->create(ResultFactory::TYPE_REDIRECT)->setUrl($paymentUrl);
         } catch (\Throwable $th) {
-            $this->logger->debug('Error redirecting to Ifthenpay Gateway page', [
+            $this->logger->debug('Error redirecting to Pix page', [
                 'error' => $th,
                 'errorMessage' => $th->getMessage(),
                 'paymentUrl' => $paymentUrl ?? null,

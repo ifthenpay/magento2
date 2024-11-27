@@ -18,6 +18,7 @@ Read in ![Portuguese](https://github.com/ifthenpay/magento2/raw/assets/assets/im
   * [Credit Card](#credit-card)
   * [Payshop](#payshop)
   * [Cofidis Pay](#cofidis-pay)
+  * [Pix](#pix)
   * [Ifthenpay Gateway](#ifthenpay-gateway)
 
 [5. Refund](#refund)
@@ -38,6 +39,7 @@ Read in ![Portuguese](https://github.com/ifthenpay/magento2/raw/assets/assets/im
   * [Pay order with MB WAY](#pay-order-with-mb-way)
   * [Pay order with Credit Card](#pay-order-with-credit-card)
   * [Pay order with Cofidis Pay](#pay-order-with-cofidis-pay)
+  * [Pay order with Pix](#pay-order-with-pix)
   * [Pay order with Ifthenpay Gateway](#pay-order-with-ifthenpay-gateway)
 
 
@@ -61,6 +63,8 @@ This module will allow you to generate a payment Reference that the customer can
 **Credit Card** This module will allow you to generate a payment by Visa or Master card, that the customer can then use to pay for his order. This module uses one of the several gateways/services available in Portugal, IfthenPay.
 
 **Cofidis Pay** is a payment solution of up to 12 interest-free installments that makes it easier to pay for purchases by splitting them. This module uses one of the several gateways/services available in Portugal, IfthenPay.
+
+**Pix** is an instant payment solution widely used in the Brazilian financial market. It enables quick and secure transactions for purchases, using details such as CPF, email, and phone number to complete the payment.
 
 **Contract with Ifthenpay is required.**
 
@@ -86,7 +90,7 @@ Use the table below to check the compatibility of the Ifthenpay module with your
 |                            | Magento 2.3    | Magento 2.4 [2.4.0 - 2.4.6] |
 |----------------------------|----------------|-----------------------------|
 | Ifthenpay v1.0.0 - v1.2.13 | Not compatible | Compatible up to 2.4.5      |
-| Ifthenpay v2.0.0 - v2.2.0  | Not compatible | Compatible                  |
+| Ifthenpay v2.0.0 - v2.3.0  | Not compatible | Compatible                  |
 
 
 
@@ -317,6 +321,30 @@ Click on Save to save the changes.
 </br>
 
 
+## Pix
+
+The Pix payment method that allows the consumer to pay in installments.
+The Pix keys are automatically loaded upon entering the Backoffice Key.
+Configure the payment method. The image below shows an example of a minimally functional configuration.
+
+1. **Enabled** - When selected as Yes, it activates the payment method, displaying it on the checkout page of your store.
+2. **Title** - The title that appears to the consumer at checkout, in case you choose not to display the icon.
+3. **Display Icon** - When selected as Yes, it displays the payment method's icon at checkout.
+4. **Activate Callback** - When selected as Yes, the order status will be updated when payment is received.
+5. **Pix Key** - Select a Pix key. You can only select one of the keys associated with the Backoffice Key.
+6. **Send Invoice Email** - When selected as Yes, the consumer automatically receives an email with the order invoice when payment is received.
+7. **Minimum Amount** - (optional) Only displays this payment method for orders with a value higher than the entered amount.
+8. **Maximum Amount** - (optional) Only displays this payment method for orders with a value lower than the entered amount.
+9.  **Restrict Payment to Countries** - (optional) Select all countries or only specific countries. Leave it blank to allow all countries.
+10. **Payment from Specific Countries** - (optional) Only displays this payment method for orders with shipping destinations within the selected countries. Leave it blank to allow all countries.
+11. **Sort Order** - (optional) Orders the payment methods on the checkout page in ascending order. The lower the number, the higher the priority.
+
+Click on Save to save the changes.
+
+![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/configurationPix.png)
+</br>
+
+
 ## Ifthenpay Gateway
 
 The Ifthenpay Gateway payment method allows the consumer to be redirected to a payment gateway page where it is possible to select any of the above payment methods to pay for the order. 
@@ -481,6 +509,7 @@ Cofidis Pay does not have this functionality because its approval time is not fi
 | Payshop            | Configurable, 1 to 99 days |
 | Credit Card        | 30 minutes                 |
 | Cofidis Pay        | 60 minutes                 |
+| Pix        | 30 minutes                 |
 
 The order cancellation cronjob runs every minute. The configuration options for the cronjob can be found on the Magento cronjobs settings page under the ifthenpay_payment group.
 
@@ -654,7 +683,7 @@ Select the Cofidis Pay payment method (1) and click on Place Order (2).
 
 * Agreement formalization authentication code:
 1. Fill in the code you received on your phone;
-1. Click "Confirmar código";
+2. Click "Confirmar código";
 ![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/cofidis_payment_5.png)
 </br>
 
@@ -672,6 +701,23 @@ Select the Cofidis Pay payment method (1) and click on Place Order (2).
 ![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/thankYouCofidis.png)
 </br>
 
+
+## Pay order with Pix
+
+Select the Pix payment method (1), fill in the name, CPF, and Email (2)(address related fields are optional), and click on Place Order (3).
+![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/checkoutPix.png)
+</br>
+
+* Proceed with payment with one of two options:
+1. Reading QR code with mobile phone;
+2. Copy the Pix code and pay with online banking;
+**Important Note:** In order to be redirected back to the store after paying, this page must be left open. If closed the consumer will still be able to pay, as long as he has already read the Pix code, he will only not be redirected back to the store.
+![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/pix_payment_1.png)
+</br>
+
+After the payment is processed, the order success page will be displayed.
+![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/thankYouPix.png)
+</br>
 
 
 ## Pay order with Ifthenpay Gateway

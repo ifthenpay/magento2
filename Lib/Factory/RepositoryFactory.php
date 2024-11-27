@@ -18,6 +18,7 @@ use Ifthenpay\Payment\Model\Repository\PayshopRepository;
 use Ifthenpay\Payment\Model\Repository\MbwayRepository;
 use Ifthenpay\Payment\Model\Repository\CcardRepository;
 use Ifthenpay\Payment\Model\Repository\CofidisRepository;
+use Ifthenpay\Payment\Model\Repository\PixRepository;
 use Ifthenpay\Payment\Model\Repository\IfthenpaygatewayRepository;
 
 class RepositoryFactory
@@ -27,6 +28,7 @@ class RepositoryFactory
     private $mbwayRepository;
     private $ccardRepository;
     private $cofidisRepository;
+    private $pixRepository;
     private $ifthenpaygatewayRepository;
 
     public function __construct(
@@ -35,6 +37,7 @@ class RepositoryFactory
         MbwayRepository $mbwayRepository,
         CcardRepository $ccardRepository,
         CofidisRepository $cofidisRepository,
+        PixRepository $pixRepository,
         IfthenpaygatewayRepository $ifthenpaygatewayRepository
     ) {
         $this->multibancoRepository = $multibancoRepository;
@@ -42,6 +45,7 @@ class RepositoryFactory
         $this->mbwayRepository = $mbwayRepository;
         $this->ccardRepository = $ccardRepository;
         $this->cofidisRepository = $cofidisRepository;
+        $this->pixRepository = $pixRepository;
         $this->ifthenpaygatewayRepository = $ifthenpaygatewayRepository;
     }
 
@@ -58,6 +62,8 @@ class RepositoryFactory
                 return $this->ccardRepository;
             case ConfigVars::COFIDIS:
                 return $this->cofidisRepository;
+            case ConfigVars::PIX:
+                return $this->pixRepository;
             case ConfigVars::IFTHENPAYGATEWAY:
                 return $this->ifthenpaygatewayRepository;
             default:

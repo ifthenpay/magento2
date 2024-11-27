@@ -151,6 +151,7 @@ class CancelUnpaidOrders
      * - payshop deadline is always the date in $storedPaymentData['deadline'] at 00:00
      * - mbway deadline is always the order creation date + 30 minutes
      * - ccard deadline is always the order creation date + 30 minutes
+     * - pix deadline is always the order creation date + 30 minutes
      * defaults to empty string
      * @param array $storedPaymentData
      * @param string $paymentMethod
@@ -218,6 +219,18 @@ class CancelUnpaidOrders
 
             $deadline = \DateTime::createFromFormat('Y-m-d H:i:s', $createdAt);
             $deadline->add(new \DateInterval('PT' . ConfigVars::COFIDIS_DEADLINE_MINUTES . 'M'));
+
+            return $deadline->format('Y-m-d H:i:s');
+        }
+        if ($paymentMethod === ConfigVars::PIX_CODE) {
+
+            $createdAt = $storedPaymentData['created_at'] ?? '';
+            if ($createdAt === '') {
+                return '';
+            }
+
+            $deadline = \DateTime::createFromFormat('Y-m-d H:i:s', $createdAt);
+            $deadline->add(new \DateInterval('PT' . ConfigVars::PIX_DEADLINE_MINUTES . 'M'));
 
             return $deadline->format('Y-m-d H:i:s');
         }

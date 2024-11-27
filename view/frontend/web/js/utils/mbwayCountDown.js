@@ -36,7 +36,7 @@ require([
     const dom_resendMbwayNotificationBtn = $('#ifthenpay_resend_mbway_notification_btn');
     const dom_paymentReturnPanel = $('#ifthenpay_payment_return_panel');
     const checkIntervalMilliseconds = 10000;
-    var timeMinutes = '05';
+    var timeMinutes = '04';
     var timeSeconds = '00';
     var countdownIntervalTimer;
     var checkIntervalTimer;
@@ -204,8 +204,8 @@ require([
                             always: function () { }
                         }
                     });
-                    timeMinutes = '5';
-                    timeSeconds = '00';
+                    timeMinutes = '4';
+                    timeSeconds = '01';
                     dom_countdownPanel.show();
 
 

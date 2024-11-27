@@ -30,6 +30,9 @@
                                                         <item name="mbway-validator" xsi:type="array">
                                                             <item name="component" xsi:type="string">Ifthenpay_Payment/js/view/mbwayValidation</item>
                                                         </item>
+                                                        <item name="pix-validator" xsi:type="array">
+                                                            <item name="component" xsi:type="string">Ifthenpay_Payment/js/view/pixValidation</item>
+                                                        </item>
                                                         <!-- Declare your validation. END -->
                                                     </item>
                                                 </item>
@@ -74,6 +77,14 @@
                                                                     <item name="component" xsi:type="string">Ifthenpay_Payment/js/view/payment/ifthenpay-payments</item>
                                                                     <item name="methods" xsi:type="array">
                                                                         <item name="ifthenpay_cofidis" xsi:type="array">
+                                                                            <item name="isBillingAddressRequired" xsi:type="boolean">true</item>
+                                                                        </item>
+                                                                    </item>
+                                                                </item>
+                                                                <item name="ifthenpay_pix" xsi:type="array">
+                                                                    <item name="component" xsi:type="string">Ifthenpay_Payment/js/view/payment/ifthenpay-payments</item>
+                                                                    <item name="methods" xsi:type="array">
+                                                                        <item name="ifthenpay_pix" xsi:type="array">
                                                                             <item name="isBillingAddressRequired" xsi:type="boolean">true</item>
                                                                         </item>
                                                                     </item>

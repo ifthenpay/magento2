@@ -39,6 +39,38 @@ class CallbackService
         $this->configFactory = $configFactory;
     }
 
+    public function setUrlCallback(string $urlCallback){
+        $this->urlCallback = $urlCallback;
+    }
+
+    public function getUrlCallback(): string{
+        return $this->urlCallback;
+    }
+
+
+    /**
+     * used in update script to reactivate callbacks, since ifthenpaygateway introduced changes to the callback URL
+     */
+    public function reactivateCallback(string $scope, string $scopeId, string $paymentMethod, bool $useHttps) {
+
+        $paymentMethodCode = ConfigVars::IFTHENPAY_CODE . '_' . $paymentMethod;
+
+        $paymentMethodConfig = $this->configFactory->createConfig($paymentMethodCode);
+        $paymentMethodConfig->setScopeAndScopeCode($scope, $scopeId);
+        $this->configData->setScopeAndScopeCode($scope, $scopeId);
+        $this->prepareParamsForRequest($paymentMethodConfig);
+
+        if ($useHttps && !strpos($this->getUrlCallback(), 'https:')) {
+            $safeCallbackUrl = str_replace('http:', 'https:', $this->getUrlCallback());
+            $this->setUrlCallback($safeCallbackUrl);
+        }
+
+        $this->requestCallbackActivation();
+        $paymentMethodConfig->saveCallbackUrl($this->urlCallback, $this->antiPhishingKey);
+
+
+    }
+
     public function toggleCallback()
     {
 
@@ -153,6 +185,8 @@ class CallbackService
         // saveActivatedCallbacks to later check which were already activated
         $ifthenpaygatewayConfig->saveActivatedCallbacks(json_encode($paymentMethods));
     }
+
+
 
 
 

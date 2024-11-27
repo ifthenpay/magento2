@@ -1,0 +1,135 @@
+<!--
+/**
+* Ifthenpay_Payment module dependency
+*
+* @category    Gateway Payment
+* @package     Ifthenpay_Payment
+* @author      Ifthenpay
+* @copyright   Ifthenpay (http://www.ifthenpay.com)
+* @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+*/
+-->
+<div class="payment-method" data-bind="css: {'_active': (getCode() == isChecked())}">
+    <div class="payment-method-title field choice">
+        <input type="radio" name="payment[method]" class="radio"
+            data-bind="attr: {'id': getCode()}, value: getCode(), checked: isChecked, click: selectPaymentMethod, visible: isRadioButtonVisible()" />
+        <!-- ko if: getShowPaymentIcon() -->
+        <label class="label" data-bind="attr: {'for': getCode()}">
+            <img data-bind="attr: {src: getLogoUrl(), height: '38'}" class="payment-icon" />
+        </label>
+        <!-- /ko -->
+        <!-- ko ifnot: getShowPaymentIcon() -->
+        <label class="label" data-bind="attr: {'for': getCode()}">
+            <span data-bind="text: getTitle()"></span>
+        </label>
+        <!-- /ko -->
+    </div>
+
+    <div class="payment-method-content">
+        <!-- ko foreach: getRegion('messages') -->
+        <!-- ko template: getTemplate() --><!-- /ko -->
+        <!--/ko-->
+        <div class="payment-method-billing-address">
+            <!-- ko foreach: $parent.getRegion(getBillingAddressFormName()) -->
+            <!-- ko template: getTemplate() --><!-- /ko -->
+            <!--/ko-->
+        </div>
+
+        <div class="fieldset ifthenpay_pix_input_wrapper">
+
+
+
+            <div class="field required">
+                <label class="label" for="ifthenpay_pix_name"><span data-bind="i18n: 'Name'"></span></label>
+                <div class="control">
+                    <input name="payment[pix_name]" class="input-text" type="text" id="ifthenpay_pix_name" />
+                </div>
+            </div>
+
+            <div class="field required">
+                <label class="label" for="ifthenpay_pix_cpf"><span data-bind="i18n: 'CPF'"></span></label>
+                <div class="control">
+                    <input name="payment[pix_cpf]" class="input-text" type="text" id="ifthenpay_pix_cpf" />
+                </div>
+            </div>
+
+            <div class="field required">
+                <label class="label" for="ifthenpay_pix_email"><span data-bind="i18n: 'Email'"></span></label>
+                <div class="control">
+                    <input name="payment[pix_email]" class="input-text" type="text" id="ifthenpay_pix_email" />
+                </div>
+            </div>
+
+            <div class="ifthenpay_separator width_50">
+                <hr class="separator-line" />
+                <span data-bind="i18n: 'Address'"></span>
+                <hr class="separator-line" />
+            </div>
+
+            <div class="field">
+                <label class="label" for="ifthenpay_pix_phone"><span data-bind="i18n: 'Phone Number'"></span></label>
+                <div class="control">
+                    <input name="payment[pix_phone]" class="input-text" type="text" id="ifthenpay_pix_phone" />
+                </div>
+            </div>
+
+            <div class="field">
+                <label class="label" for="ifthenpay_pix_address"><span data-bind="i18n: 'Address'"></span></label>
+                <div class="control">
+                    <input name="payment[pix_address]" class="input-text" type="text" id="ifthenpay_pix_address" />
+                </div>
+            </div>
+
+            <div class="field">
+                <label class="label" for="ifthenpay_pix_streetNumber"><span
+                        data-bind="i18n: 'Street Number'"></span></label>
+                <div class="control">
+                    <input name="payment[pix_streetNumber]" class="input-text" type="text"
+                        id="ifthenpay_pix_streetNumber" />
+                </div>
+            </div>
+
+            <div class="field">
+                <label class="label" for="ifthenpay_pix_city"><span data-bind="i18n: 'City'"></span></label>
+                <div class="control">
+                    <input name="payment[pix_city]" class="input-text" type="text" id="ifthenpay_pix_city" />
+                </div>
+            </div>
+
+            <div class="field">
+                <label class="label" for="ifthenpay_pix_zipCode"><span
+                        data-bind="i18n: 'Zip/Postal Code'"></span></label>
+                <div class="control">
+                    <input name="payment[pix_zipCode]" class="input-text" type="text" id="ifthenpay_pix_zipCode" />
+                </div>
+            </div>
+
+            <div class="field">
+                <label class="label" for="ifthenpay_pix_state"><span data-bind="i18n: 'State'"></span></label>
+                <div class="control">
+                    <input name="payment[pix_state]" class="input-text" type="text" id="ifthenpay_pix_state" />
+                </div>
+            </div>
+
+        </div>
+
+        <div class="checkout-agreements-block">
+            <!-- ko foreach: $parent.getRegion('before-place-order') -->
+            <!-- ko template: getTemplate() --><!-- /ko -->
+            <!--/ko-->
+        </div>
+
+        <div class="actions-toolbar">
+            <div class="primary">
+                <button class="action primary checkout" type="submit" data-bind="
+                        click: placeOrder,
+                        attr: {title: $t('placeOrder')},
+                        css: {disabled: !isPlaceOrderActionAllowed()},
+                        enable: (getCode() == isChecked())
+                        " disabled>
+                    <span data-bind="i18n: 'placeOrder'"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -92,6 +92,10 @@ class PaymentReturn extends Template
                 $this->paymentReturnData['paymentLogo'] = $this->getViewFileUrl(ConfigVars::ASSET_PATH_CHECKOUT_LOGO_IFTHENPAYGATEWAY);
                 $this->setTemplate('Ifthenpay_Payment::checkout/onepage/success/ifthenpaygatewayPaymentReturn.phtml');
                 break;
+            case ConfigVars::PIX_CODE:
+                $this->paymentReturnData['paymentLogo'] = $this->getViewFileUrl(ConfigVars::ASSET_PATH_CHECKOUT_LOGO_PIX);
+                $this->setTemplate('Ifthenpay_Payment::checkout/onepage/success/pixPaymentReturn.phtml');
+                break;
         }
     }
 

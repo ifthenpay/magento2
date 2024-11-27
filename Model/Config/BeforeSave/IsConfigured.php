@@ -104,6 +104,12 @@ class IsConfigured extends Value
                             throw new \Exception($message);
                         }
                     }
+                    if ($paymentMethod === ConfigVars::PIX) {
+                        if ($key === '') {
+                            $message = $messagePrefix . 'Pix Key is a required field. ' . $message;
+                            throw new \Exception($message);
+                        }
+                    }
                     if ($paymentMethod === ConfigVars::IFTHENPAYGATEWAY) {
                         if ($key === '') {
                             $message = $messagePrefix . 'Ifthenpay Gateway Key is a required field. ' . $message;

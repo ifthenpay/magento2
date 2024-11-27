@@ -14,11 +14,13 @@ namespace Ifthenpay\Payment\Lib\Factory;
 
 
 use Ifthenpay\Payment\Config\ConfigVars;
+use Ifthenpay\Payment\Gateway\Config\PixConfig;
 use Ifthenpay\Payment\Model\MultibancoFactory;
 use Ifthenpay\Payment\Model\PayshopFactory;
 use Ifthenpay\Payment\Model\MbwayFactory;
 use Ifthenpay\Payment\Model\CcardFactory;
 use Ifthenpay\Payment\Model\CofidisFactory;
+use Ifthenpay\Payment\Model\PixFactory;
 use Ifthenpay\Payment\Model\IfthenpaygatewayFactory;
 
 class ModelFactory
@@ -28,6 +30,7 @@ class ModelFactory
     private $mbwayFactory;
     private $ccardFactory;
     private $cofidisFactory;
+    private $pixFactory;
     private $ifthenpaygatewayFactory;
 
     public function __construct(
@@ -36,6 +39,7 @@ class ModelFactory
         MbwayFactory $mbwayFactory,
         CcardFactory $ccardFactory,
         CofidisFactory $cofidisFactory,
+        PixFactory $pixFactory,
         IfthenpaygatewayFactory $ifthenpaygatewayFactory
     ) {
         $this->multibancoFactory = $multibancoFactory;
@@ -43,6 +47,7 @@ class ModelFactory
         $this->mbwayFactory = $mbwayFactory;
         $this->ccardFactory = $ccardFactory;
         $this->cofidisFactory = $cofidisFactory;
+        $this->pixFactory = $pixFactory;
         $this->ifthenpaygatewayFactory = $ifthenpaygatewayFactory;
     }
 
@@ -59,6 +64,8 @@ class ModelFactory
                 return $this->ccardFactory->create();
             case ConfigVars::COFIDIS:
                 return $this->cofidisFactory->create();
+            case ConfigVars::PIX:
+                return $this->pixFactory->create();
             case ConfigVars::IFTHENPAYGATEWAY:
                 return $this->ifthenpaygatewayFactory->create();
             default:

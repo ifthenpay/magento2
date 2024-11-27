@@ -46,6 +46,7 @@ final class ConfigVars
     public const PAYSHOP = 'payshop';
     public const CCARD = 'ccard';
     public const COFIDIS = 'cofidis';
+    public const PIX = 'pix';
     public const IFTHENPAYGATEWAY = 'ifthenpaygateway';
 
     public const PAYMENT_METHODS = [
@@ -54,6 +55,7 @@ final class ConfigVars
         self::PAYSHOP,
         self::CCARD,
         self::COFIDIS,
+        self::PIX,
         self::IFTHENPAYGATEWAY
     ];
 
@@ -63,6 +65,7 @@ final class ConfigVars
         self::PAYSHOP_CODE,
         self::CCARD_CODE,
         self::COFIDIS_CODE,
+        self::PIX_CODE,
         self::IFTHENPAYGATEWAY_CODE
     ];
 
@@ -79,6 +82,7 @@ final class ConfigVars
     public const CCARD_DEADLINE_MINUTES = 30;
     public const MBWAY_DEADLINE_MINUTES = 30;
     public const COFIDIS_DEADLINE_MINUTES = 60;
+    public const PIX_DEADLINE_MINUTES = 30;
     public const IFTHENPAYGATEWAY_DEADLINE_HOURS = 0;
     public const IFTHENPAYGATEWAY_DEADLINE_MINUTES = 0;
 
@@ -94,6 +98,7 @@ final class ConfigVars
     public const DB_MBWAY_TABLE_NAME = 'ifthenpay_mbway';
     public const DB_CCARD_TABLE_NAME = 'ifthenpay_ccard';
     public const DB_COFIDIS_TABLE_NAME = 'ifthenpay_cofidis';
+    public const DB_PIX_TABLE_NAME = 'ifthenpay_pix';
     public const DB_IFTHENPAYGATEWAY_TABLE_NAME = 'ifthenpay_ifthenpaygateway';
 
 
@@ -133,6 +138,7 @@ final class ConfigVars
     public const PAYSHOP_CALLBACK_STRING = 'ifthenpay/Frontend/CallbackCtrl?ec={ec}&mv={mv}&pm=payshop&apk=[ANTI_PHISHING_KEY]&oid=[ID]&tid=[REQUEST_ID]&val=[AMOUNT]';
     public const MBWAY_CALLBACK_STRING = 'ifthenpay/Frontend/CallbackCtrl?ec={ec}&mv={mv}&pm=mbway&apk=[ANTI_PHISHING_KEY]&oid=[ID]&tid=[REQUEST_ID]&val=[AMOUNT]';
     public const COFIDIS_CALLBACK_STRING = 'ifthenpay/Frontend/CallbackCtrl?ec={ec}&mv={mv}&pm=cofidis&apk=[ANTI_PHISHING_KEY]&oid=[ID]&tid=[REQUEST_ID]&val=[AMOUNT]';
+    public const PIX_CALLBACK_STRING = 'ifthenpay/Frontend/CallbackCtrl?ec={ec}&mv={mv}&pm=pix&apk=[ANTI_PHISHING_KEY]&oid=[ID]&tid=[REQUEST_ID]&val=[AMOUNT]';
     public const IFTHENPAYGATEWAY_CALLBACK_STRING = 'ifthenpay/Frontend/CallbackCtrl?ec={ec}&mv={mv}&pm=ifthenpaygateway&apk=[ANTI_PHISHING_KEY]&oid=[ID]&ent=[ENTITY]&ref=[REFERENCE]&tid=[REQUEST_ID]&val=[AMOUNT]';
 
 
@@ -165,7 +171,7 @@ final class ConfigVars
 
 
     /* -------------------------------------------------------------------------- */
-    /*                        IFTHENPAYGATEWAY gateway "callback" url and status                       */
+    /*              IFTHENPAYGATEWAY gateway "callback" url and status            */
     /* -------------------------------------------------------------------------- */
 
     public const IFTHENPAYGATEWAY_RETURN_URL_STRING = 'ifthenpay/Frontend/ReturnIfthenpaygatewayCtrl?oid=[ORDER_ID]&status=success';
@@ -175,6 +181,13 @@ final class ConfigVars
     public const IFTHENPAYGATEWAY_CANCEL_STATUS = 'cancel';
     public const IFTHENPAYGATEWAY_ERROR_STATUS = 'error';
 
+
+
+    /* -------------------------------------------------------------------------- */
+    /*                    Pix gateway "callback" url and status                   */
+    /* -------------------------------------------------------------------------- */
+
+    public const PIX_RETURN_URL_STRING = 'ifthenpay/Frontend/ReturnPixCtrl?oid=[ORDER_ID]&hash=[HASH]';
 
 
 
@@ -187,6 +200,7 @@ final class ConfigVars
     public const PAYSHOP_CODE = self::VENDOR . '_' . self::PAYSHOP;
     public const CCARD_CODE = self::VENDOR . '_' . self::CCARD;
     public const COFIDIS_CODE = self::VENDOR . '_' . self::COFIDIS;
+    public const PIX_CODE = self::VENDOR . '_' . self::PIX;
     public const IFTHENPAYGATEWAY_CODE = self::VENDOR . '_' . self::IFTHENPAYGATEWAY;
     public const IFTHENPAY_CODE = self::VENDOR;
 
@@ -198,6 +212,7 @@ final class ConfigVars
     public const DB_CONFIG_PREFIX_MBWAY = self::DB_CONFIG_PREFIX . self::MBWAY . '/';
     public const DB_CONFIG_PREFIX_CCARD = self::DB_CONFIG_PREFIX . self::CCARD . '/';
     public const DB_CONFIG_PREFIX_COFIDIS = self::DB_CONFIG_PREFIX . self::COFIDIS . '/';
+    public const DB_CONFIG_PREFIX_PIX = self::DB_CONFIG_PREFIX . self::PIX . '/';
     public const DB_CONFIG_PREFIX_IFTHENPAYGATEWAY = self::DB_CONFIG_PREFIX . self::IFTHENPAYGATEWAY . '/';
 
     public const BACKOFFICE_KEY = 'backoffice_key';
@@ -252,6 +267,17 @@ final class ConfigVars
     public const COFIDIS_ACTIVATE_CALLBACK = 'activate_callback';
     public const COFIDIS_IS_CALLBACK_ACTIVATED = 'is_callback_activated';
 
+
+
+
+    /* -------------------------------------------------------------------------- */
+    /*                          Pix writable CONFIGURATION                       */
+    /* -------------------------------------------------------------------------- */
+
+    public const PIX_CALLBACK_URL = 'callback_url';
+    public const PIX_ANTI_PHISHING_KEY = 'anti_phishing_key';
+    public const PIX_ACTIVATE_CALLBACK = 'activate_callback';
+    public const PIX_IS_CALLBACK_ACTIVATED = 'is_callback_activated';
 
 
     /* -------------------------------------------------------------------------- */
@@ -313,6 +339,11 @@ final class ConfigVars
     /* ------------------------------- Cofidis conf ------------------------------- */
     public const COFIDIS_KEY = 'key';
     public const COFIDIS_SEND_INVOICE_EMAIL = 'send_invoice_email';
+
+
+    /* ------------------------------- Pix conf ------------------------------- */
+    public const PIX_KEY = 'key';
+    public const PIX_SEND_INVOICE_EMAIL = 'send_invoice_email';
 
 
 
@@ -379,6 +410,8 @@ final class ConfigVars
     public const API_URL_COFIDIS_GET_PAYMENT_STATUS = 'https://ifthenpay.com/api/cofidis/status';
     public const API_URL_COFIDIS_GET_MAX_MIN_AMOUNT = 'https://ifthenpay.com/api/cofidis/limits';
 
+    public const API_URL_PIX_SET_REQUEST = 'https://api.ifthenpay.com/pix/init/';
+
     public const API_URL_GET_GATEWAYK_KEYS = 'https://ifthenpay.com/IfmbWS/ifthenpaymobile.asmx/GetGatewayKeys';
     public const API_URL_IFTHENPAYGATEWAY_SET_REQUEST = 'https://api.ifthenpay.com/gateway/pinpay/';
 
@@ -423,6 +456,7 @@ final class ConfigVars
     public const ASSET_PATH_CHECKOUT_LOGO_MBWAY = self::MODULE_NAME . '::img/mbway.png';
     public const ASSET_PATH_CHECKOUT_LOGO_CCARD = self::MODULE_NAME . '::img/ccard.png';
     public const ASSET_PATH_CHECKOUT_LOGO_COFIDIS = self::MODULE_NAME . '::img/cofidis.png';
+    public const ASSET_PATH_CHECKOUT_LOGO_PIX = self::MODULE_NAME . '::img/pix.png';
     public const ASSET_PATH_CHECKOUT_LOGO_IFTHENPAYGATEWAY = self::MODULE_NAME . '::img/ifthenpaygateway.png';
 
 

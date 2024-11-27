@@ -18,6 +18,7 @@ Ler em ![Português](https://github.com/ifthenpay/magento2/raw/assets/assets/img
   * [Cartão de Crédito](#cartão-de-crédito)
   * [Payshop](#payshop)
   * [Cofidis Pay](#cofidis-pay)
+  * [Pix](#pix)
   * [Ifthenpay Gateway](#ifthenpay-gateway)
 
 
@@ -39,6 +40,7 @@ Ler em ![Português](https://github.com/ifthenpay/magento2/raw/assets/assets/img
   * [Pagar encomenda com MB WAY](#pagar-encomenda-com-mb-way)
   * [Pagar encomenda com Credit Card](#pagar-encomenda-com-cartão-de-crédito)
   * [Pagar encomenda com Cofidis Pay](#pagar-encomenda-com-cofidis-pay)
+  * [Pagar encomenda com Pix](#Pagar-encomenda-com-Pix)
   * [Pagar encomenda com Ifthenpay Gateway](#pagar-encomenda-com-ifthenpay-gateway)
 
 
@@ -61,6 +63,9 @@ Este módulo permite gerar uma referência de pagamento que o consumidor pode us
 **Cartão de Crédito** Este módulo permite gerar um pagamento por Visa ou Master card, que o consumidor pode usar para pagar a sua encomenda. Este plugin usa a Ifthenpay, uma das várias gateways disponíveis em Portugal.
 
 **Cofidis Pay** é uma solução de pagamento que facilita o pagamento de compras ao dividir o valor até 12 prestações sem juros. Este módulo utiliza uma das várias gateways/serviços disponíveis em Portugal, a IfthenPay.
+
+**Pix** é uma solução de pagamento instantâneo amplamente usada no mercado financeiro brasileiro. Permite realizar compras de forma rápida e segura, utilizando dados como CPF, e-mail e número de telemóvel para efetuar o pagamento.
+
 
 **É necessário contrato com a Ifthenpay**
 
@@ -86,7 +91,7 @@ Use a tabela abaixo para verificar a compatibilidade do módulo Ifthenpay com a 
 |                            | Magento 2.3    | Magento 2.4 [2.4.0 - 2.4.6] |
 |----------------------------|----------------|-----------------------------|
 | Ifthenpay v1.0.0 - v1.2.13 | Não compatível | Compatível até 2.4.5        |
-| Ifthenpay v2.0.0 - v2.2.0  | Não compatível | Compatível                  |
+| Ifthenpay v2.0.0 - v2.3.0  | Não compatível | Compatível                  |
 
 
 
@@ -295,9 +300,31 @@ Configure o método de pagamento, a imagem abaixo mostra um exemplo de configura
 3. **Exibir Ícone** - Ao selecionar sim, exibe o ícone do método de pagamento no checkout.
 4. **Ativar Callback** - Ao selecionar sim, o estado da encomenda será atualizado quando o pagamento for recebido;
 5. **Chave Cofidis Pay** - Selecionar uma Chave. Apenas pode selecionar uma das Chaves associadas à Chave Backoffice;
+8. **Valor Mínimo** - (opcional) Apenas exibe este método de pagamento para encomendas com valor superior ao valor inserido;
 6. **Enviar Email de Fatura** - Ao selecionar sim, o consumidor recebe automáticamente um email com a fatura da encomenda quando o pagamento for recebido;
-7. **Valor Mínimo** - (opcional) Apenas exibe este método de pagamento para encomendas com valor superior ao valor inserido. **Aviso Importante:** Na seleção da chave Cofidis, este campo é atualizado com o valor configurado no backoffice da ifthenpay, e ao editar, este não pode ser inferior ao valor especificado no backoffice da ifthenpay;
-8. **Valor Máximo** - (opcional) Apenas exibe este método de pagamento para encomendas com valor inferior ao valor inserido. **Aviso Importante:** Na seleção da chave Cofidis, este campo é atualizado com o valor configurado no backoffice da ifthenpay, e ao editar, este não pode ser superior ao valor especificado no backoffice da ifthenpay;
+9. **Valor Máximo** - (opcional) Apenas exibe este método de pagamento para encomendas com valor inferior ao valor inserido;
+9. **Restringir Pagamento a Países** - (opcional) Selecionar todos os países ou apenas os países especificos, deixar vazio para permitir todos os países;
+10. **Pagamento de países específicos** - (opcional) Apenas exibe este método de pagamento para encomendas com destino de envio dentro dos países selecionados, deixar vazio para permitir todos os países;
+11. **Ordenação** - (opcional) Ordena os métodos de pagamento na página de checkout de forma ascendente. Número mais baixo toma o primeiro lugar;
+
+![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/configurationCofidis.png)
+</br>
+
+
+## Pix
+
+O método de pagamento Pix permite ao consumidor pagar em prestações.
+As Chaves Pix são carregadas automáticamente, na introdução da Chave Backoffice.
+Configure o método de pagamento, a imagem abaixo mostra um exemplo de configuração minimamente funcional.
+
+1. **Habilitado** - Ao selecionar sim, ativa o método de pagamento, exibindo-o no checkout da sua loja.
+2. **Título** - Título que aparece ao consumidor no checkout, no caso de escolher não exibir o ícone.
+3. **Exibir Ícone** - Ao selecionar sim, exibe o ícone do método de pagamento no checkout.
+4. **Ativar Callback** - Ao selecionar sim, o estado da encomenda será atualizado quando o pagamento for recebido;
+5. **Chave Pix** - Selecionar uma Chave. Apenas pode selecionar uma das Chaves associadas à Chave Backoffice;
+6. **Enviar Email de Fatura** - Ao selecionar sim, o consumidor recebe automáticamente um email com a fatura da encomenda quando o pagamento for recebido;
+7. **Valor Mínimo** - (opcional) Apenas exibe este método de pagamento para encomendas com valor superior ao valor inserido;
+8. **Valor Máximo** - (opcional) Apenas exibe este método de pagamento para encomendas com valor inferior ao valor inserido;
 9. **Restringir Pagamento a Países** - (opcional) Selecionar todos os países ou apenas os países especificos, deixar vazio para permitir todos os países;
 10. **Pagamento de países específicos** - (opcional) Apenas exibe este método de pagamento para encomendas com destino de envio dentro dos países selecionados, deixar vazio para permitir todos os países;
 11. **Ordenação** - (opcional) Ordena os métodos de pagamento na página de checkout de forma ascendente. Número mais baixo toma o primeiro lugar;
@@ -469,6 +496,7 @@ Um cronjob é uma tarefa programada que é executada automaticamente em interval
 | Payshop             | Configurável de 1 a 99 dias |
 | Cartão de Crédito   | 30 minutos                  |
 | Cofidis Pay         | 60 minutos                  |
+| Pix                 | 30 minutos                  |
 
 O cronjob de cancelamento de encomenda executa a cada minuto. As opções de configuração do cronjob estão disponíveis na página de configurações de cronjobs do magento no grupo ifthenpay_payment.
 
@@ -629,7 +657,7 @@ Selecionar o método de pagamento Cofidis Pay (1) e clicar em Fazer Encomenda (2
 
 * Código de autenticação da formalização do acordo:
 1. Preencha o com o código que recebeu no telemóvel;
-1. Clique em "Confirmar código";
+2. Clique em "Confirmar código";
 ![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/cofidis_payment_5.png)
 </br>
 
@@ -645,6 +673,24 @@ Selecionar o método de pagamento Cofidis Pay (1) e clicar em Fazer Encomenda (2
 
 * Após o qual será redirecionado de volta para a loja;
 ![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/cofidis_payment_return.png)
+</br>
+
+
+## Pagar encomenda com Pix
+
+Selecionar o método de pagamento Pix (1) preencher o nome, CPF e Email (2) (campos relacionados com morada são opcionais) e clicar em Fazer Encomenda (3).
+![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/checkoutPix.png)
+</br>
+
+* Proceder com o pagamento de duas formas:
+1. Ler o código QR com o smartphone;
+2. Copiar o código Pix e pagar com online banking;
+**Nota Importante:** De modo a ser redirecionado de volta para a loja após o pagamento, esta página deve permanecer aberta. Se fechada, o consumidor ainda pode proceder ao pagamento desde que já tenha lido o código Pix, apenas não será redirecionado de volta para a loja.
+![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/pix_payment_1.png)
+</br>
+
+Após o pagamento ser processado, será exibida a página de sucesso da encomenda.
+![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/thankYouPix.png)
 </br>
 
 

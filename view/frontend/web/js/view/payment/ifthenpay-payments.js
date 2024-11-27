@@ -35,6 +35,10 @@ define([
             component: 'Ifthenpay_Payment/js/view/payment/method-renderer/cofidis'
         },
         {
+            type: 'ifthenpay_pix', // must equals the payment code
+            component: 'Ifthenpay_Payment/js/view/payment/method-renderer/pix'
+        },
+        {
             type: 'ifthenpay_ifthenpaygateway', // must equals the payment code
             component: 'Ifthenpay_Payment/js/view/payment/method-renderer/ifthenpaygateway'
         }
