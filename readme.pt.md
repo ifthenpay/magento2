@@ -4,7 +4,7 @@ Ler em ![Português](https://github.com/ifthenpay/magento2/raw/assets/assets/img
 
 [1. Introdução](#introdução)
 
-[2. Compatibilidade](#compatibilidade)
+[2. Compatibilidade e suporte](#compatibilidade-e-suporte)
 
 [3. Instalação](#instalação)
   * [Instalação usando o composer](#instalação-usando-o-composer)
@@ -66,6 +66,8 @@ Este módulo permite gerar uma referência de pagamento que o consumidor pode us
 
 **Pix** é uma solução de pagamento instantâneo amplamente usada no mercado financeiro brasileiro. Permite realizar compras de forma rápida e segura, utilizando dados como CPF, e-mail e número de telemóvel para efetuar o pagamento.
 
+**Ifthenpay Gateway** é uma página de gateway que disponibiliza todos os métodos de pagamento acima mencionados. Esta extensão usa a ifthenpay, uma das várias gateways disponíveis em Portugal.
+
 
 **É necessário contrato com a Ifthenpay**
 
@@ -85,16 +87,14 @@ Para suporte, por favor crie um ticked para suporte em [Suporte Ifthenpay](https
 
 
 
-# Compatibilidade
+# Compatibilidade e suporte
 
-Use a tabela abaixo para verificar a compatibilidade do módulo Ifthenpay com a sua loja online.
-|                            | Magento 2.3    | Magento 2.4 [2.4.0 - 2.4.6] |
-|----------------------------|----------------|-----------------------------|
-| Ifthenpay v1.0.0 - v1.2.13 | Não compatível | Compatível até 2.4.5        |
-| Ifthenpay v2.0.0 - v2.3.0  | Não compatível | Compatível                  |
+A tabela abaixo indica a compatibilidade e o supporte disponibilizado para este módulo.
 
-
-
+|                              | Magento 2.4 [2.4.0 - 2.4.6] |
+|------------------------------|-----------------------------|
+| Compatibilidade              | Ifthenpay v2.0.0 - v2.3.0   |
+| LTS (Suporte de Longo Prazo) | Supported until end of 2026 |
 
 
 

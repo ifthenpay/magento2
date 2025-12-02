@@ -4,7 +4,7 @@ Read in ![Portuguese](https://github.com/ifthenpay/magento2/raw/assets/assets/im
 
 [1. Introduction](#introduction)
 
-[2. Compatibility](#compatibility)
+[2. Compatibility and Support](#compatibility-and-support)
 
 [3. Installation](#installation)
   * [Installation using composer](#installation-using-composer)
@@ -66,6 +66,8 @@ This module will allow you to generate a payment Reference that the customer can
 
 **Pix** is an instant payment solution widely used in the Brazilian financial market. It enables quick and secure transactions for purchases, using details such as CPF, email, and phone number to complete the payment.
 
+**Ifthenpay Gateway** is a payment gateway page that provides all the payment methods above in one place. This extension uses ifthenpay, one of the various gateways available in Portugal.
+
 **Contract with Ifthenpay is required.**
 
 See more at [Ifthenpay](https://ifthenpay.com). 
@@ -84,18 +86,14 @@ For support, please create a support ticket at [Support Ifthenpay](https://helpd
 
 
 
-# Compatibility
+# Compatibility and Support
 
-Use the table below to check the compatibility of the Ifthenpay module with your online store:
-|                            | Magento 2.3    | Magento 2.4 [2.4.0 - 2.4.6] |
-|----------------------------|----------------|-----------------------------|
-| Ifthenpay v1.0.0 - v1.2.13 | Not compatible | Compatible up to 2.4.5      |
-| Ifthenpay v2.0.0 - v2.3.0  | Not compatible | Compatible                  |
+The table below indicates the compatibility and the support provided for this module.
 
-
-
-
-
+|                         | Magento 2.4 [2.4.0 - 2.4.6] |
+|-------------------------|-----------------------------|
+| Compatibility           | Ifthenpay v2.0.0 - v2.3.0   |
+| LTS (Long Time Support) | Supported until end of 2026 |
 
 
 # Installation
@@ -509,7 +507,7 @@ Cofidis Pay does not have this functionality because its approval time is not fi
 | Payshop            | Configurable, 1 to 99 days |
 | Credit Card        | 30 minutes                 |
 | Cofidis Pay        | 60 minutes                 |
-| Pix        | 30 minutes                 |
+| Pix                | 30 minutes                 |
 
 The order cancellation cronjob runs every minute. The configuration options for the cronjob can be found on the Magento cronjobs settings page under the ifthenpay_payment group.
 

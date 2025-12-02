@@ -111,8 +111,25 @@ class IsConfigured extends Value
                         }
                     }
                     if ($paymentMethod === ConfigVars::IFTHENPAYGATEWAY) {
+
                         if ($key === '') {
                             $message = $messagePrefix . 'Ifthenpay Gateway Key is a required field. ' . $message;
+                            throw new \Exception($message);
+                        }
+
+                        // validate if has selected at least one gateway method
+                        $paymentMethodsSelected = $this->getData('fieldset_data/payment_methods_select');
+                        $paymentMethodsSelected = $paymentMethodsSelected != '' ? json_decode($paymentMethodsSelected, true) : [];
+                        $hasActiveMethod = false;
+                        foreach ($paymentMethodsSelected as $key => $value) {
+                            if ($value != null && $value['is_active'] === '1') {
+                                $hasActiveMethod = true;
+                                break;
+                            }
+                        }
+
+                        if (!$hasActiveMethod) {
+                            $message = $messagePrefix . 'Ifthenpay Gateway Method must be selected. ' . $message;
                             throw new \Exception($message);
                         }
                     }
