@@ -542,6 +542,16 @@
                         </depends>
                     </field>
 
+					<field id="activate_callback" type="select" sortOrder="40" translate="label comment" showInWebsite="1" showInDefault="1">
+                        <label>Activate Callback</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <comment>When Callback is enabled ifthenpay's servers comunicate with your store to update order status.</comment>
+                        <config_path>payment/ifthenpay_ccard/activate_callback</config_path>
+                        <depends>
+                            <field id="key" negative="1">nokey</field>
+                        </depends>
+                    </field>
+
                     <field id="key" type="select" sortOrder="50" translate="label" showInWebsite="1" showInDefault="1">
                         <label>Ccard Key</label>
                         <source_model>Ifthenpay\Payment\Model\Config\Source\CcardKeyOptions</source_model>
@@ -615,6 +625,13 @@
                         <label>Sort Order</label>
                         <config_path>payment/ifthenpay_ccard/sort_order</config_path>
                         <validate>validate-number validate-zero-or-greater</validate>
+                        <depends>
+                            <field id="key" negative="1">nokey</field>
+                        </depends>
+                    </field>
+
+                    <field id="callbackInfo" sortOrder="161" showInDefault="1" showInWebsite="1">
+                        <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\CallbackInfo</frontend_model>
                         <depends>
                             <field id="key" negative="1">nokey</field>
                         </depends>

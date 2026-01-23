@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @category    Gateway Payment
  * @package     Ifthenpay_Payment
@@ -16,182 +17,253 @@ use Ifthenpay\Payment\Model\ScopeConfigResolver;
 use Magento\Framework\App\Config\Storage\WriterInterface;
 use Magento\Framework\App\ResourceConnection;
 use Magento\Store\Model\ScopeInterface;
+use Ifthenpay\Payment\Lib\Utility\Version;
+
 
 
 class CcardConfig extends GatewayConfig
 {
-    public const METHOD_CODE = ConfigVars::CCARD_CODE;
-    private const CONFIG_PATH = ConfigVars::MODULE . '/' . ConfigVars::CCARD_CODE . '/';
+	public const METHOD_CODE = ConfigVars::CCARD_CODE;
+	private const CONFIG_PATH = ConfigVars::MODULE . '/' . ConfigVars::CCARD_CODE . '/';
 
-    private $scopeConfigResolver;
-    private $configWriter;
-    private $scopeConfig;
-    private $storeId;
-    private $scope;
-    private $scopeCode;
-    private $resourceConnection;
-
-
-    public function __construct(
-        ScopeConfigInterface $scopeConfig,
-        ScopeConfigResolver $scopeConfigResolver,
-        WriterInterface $configWriter,
-        ResourceConnection $resourceConnection,
-        string $methodCode = self::METHOD_CODE
-    ) {
-        parent::__construct($scopeConfig, $methodCode);
-        $this->scopeConfigResolver = $scopeConfigResolver;
-        $this->configWriter = $configWriter;
-        $this->scopeConfig = $scopeConfig;
-        $this->resourceConnection = $resourceConnection;
-        $this->scope = $this->scopeConfigResolver->scope;
-        $this->scopeCode = $this->scopeConfigResolver->scopeCode;
-    }
-
-    public function setScopeAndScopeCode($scope, $scopeCode)
-    {
-        $this->scope = $scope;
-        $this->scopeCode = $scopeCode;
-    }
-
-    public function getScope()
-    {
-        return $this->scope;
-    }
-    public function getScopeCode()
-    {
-        return $this->scopeCode;
-    }
-    public function getConfigValue($field, $isFullPath = false): ?string
-    {
-        $path = self::CONFIG_PATH . $field;
-        if ($isFullPath) {
-            $path = $field;
-        }
-
-        $result = $this->scopeConfig->getValue(
-            $path,
-            $this->scope,
-            $this->scopeCode
-        );
-        return $result;
-    }
-
-    public function saveConfigValue($field, $value)
-    {
-        if ($this->scope === ScopeInterface::SCOPE_WEBSITE) {
-            $this->scope = ScopeInterface::SCOPE_WEBSITES;
-        }
-
-        $this->configWriter->save(
-            self::CONFIG_PATH . $field,
-            $value,
-            $this->scope,
-            $this->scopeCode
-        );
-    }
+	private $scopeConfigResolver;
+	private $configWriter;
+	private $scopeConfig;
+	private $storeId;
+	private $scope;
+	private $scopeCode;
+	private $resourceConnection;
+	private $version;
 
 
-    /**
-     * shorthand for using configwriter delete with scope and scopecode obtained from constructor
-     * it is important to use the "$this->scopeConfig->clean();" after a block or single call
-     */
-    public function deleteConfigValue($field)
-    {
-        if ($this->scope === ScopeInterface::SCOPE_WEBSITE) {
-            $this->scope = ScopeInterface::SCOPE_WEBSITES;
-        }
+	public function __construct(
+		ScopeConfigInterface $scopeConfig,
+		ScopeConfigResolver $scopeConfigResolver,
+		WriterInterface $configWriter,
+		ResourceConnection $resourceConnection,
+		Version $version,
+		string $methodCode = self::METHOD_CODE
+	) {
+		parent::__construct($scopeConfig, $methodCode);
+		$this->scopeConfigResolver = $scopeConfigResolver;
+		$this->configWriter = $configWriter;
+		$this->scopeConfig = $scopeConfig;
+		$this->resourceConnection = $resourceConnection;
+		$this->scope = $this->scopeConfigResolver->scope;
+		$this->scopeCode = $this->scopeConfigResolver->scopeCode;
+		$this->version = $version;
+	}
+
+	public function setScopeAndScopeCode($scope, $scopeCode)
+	{
+		$this->scope = $scope;
+		$this->scopeCode = $scopeCode;
+	}
+
+	public function getScope()
+	{
+		return $this->scope;
+	}
+	public function getScopeCode()
+	{
+		return $this->scopeCode;
+	}
+	public function getConfigValue($field, $isFullPath = false): ?string
+	{
+		$path = self::CONFIG_PATH . $field;
+		if ($isFullPath) {
+			$path = $field;
+		}
+
+		$result = $this->scopeConfig->getValue(
+			$path,
+			$this->scope,
+			$this->scopeCode
+		);
+		return $result;
+	}
+
+	public function saveConfigValue($field, $value)
+	{
+		if ($this->scope === ScopeInterface::SCOPE_WEBSITE) {
+			$this->scope = ScopeInterface::SCOPE_WEBSITES;
+		}
+
+		$this->configWriter->save(
+			self::CONFIG_PATH . $field,
+			$value,
+			$this->scope,
+			$this->scopeCode
+		);
+	}
 
 
-        $this->configWriter->delete(
-            self::CONFIG_PATH . $field,
-            $this->scope,
-            $this->scopeCode
-        );
-    }
+	/**
+	 * shorthand for using configwriter delete with scope and scopecode obtained from constructor
+	 * it is important to use the "$this->scopeConfig->clean();" after a block or single call
+	 */
+	public function deleteConfigValue($field)
+	{
+		if ($this->scope === ScopeInterface::SCOPE_WEBSITE) {
+			$this->scope = ScopeInterface::SCOPE_WEBSITES;
+		}
+
+
+		$this->configWriter->delete(
+			self::CONFIG_PATH . $field,
+			$this->scope,
+			$this->scopeCode
+		);
+	}
 
 
 
 
-    public function getCanNotifyInvoice(): bool
-    {
-        $value = $this->getConfigValue(ConfigVars::CCARD_SEND_INVOICE_EMAIL);
+	public function getCanNotifyInvoice(): bool
+	{
+		$value = $this->getConfigValue(ConfigVars::CCARD_SEND_INVOICE_EMAIL);
 
-        return $value === '1' ? true : false;
-    }
+		return $value === '1' ? true : false;
+	}
 
-    public function getKey(): string
-    {
-        $value = $this->getConfigValue(ConfigVars::CCARD_KEY);
+	public function getKey(): string
+	{
+		$value = $this->getConfigValue(ConfigVars::CCARD_KEY);
 
-        return $value ?? '';
-    }
-
-
-    public function getIsActive(): bool
-    {
-        $value = $this->getConfigValue(ConfigVars::IS_PAYMENT_METHOD_ACTIVE);
-
-        return $value === '1' ? true : false;
-    }
-    public function getShowPaymentIcon(): bool
-    {
-        $value = $this->getConfigValue(ConfigVars::SHOW_PAYMENT_ICON);
-
-        return $value === '1' ? true : false;
-    }
-
-    public function getTitle(): string
-    {
-        $value = $this->getConfigValue(ConfigVars::TITLE);
-
-        return $value ?? '';
-    }
+		return $value ?? '';
+	}
 
 
-    public function getIsRefundEnabled(): bool
-    {
-        $value = $this->getConfigValue(ConfigVars::SHOW_REFUND);
+	public function getIsActive(): bool
+	{
+		$value = $this->getConfigValue(ConfigVars::IS_PAYMENT_METHOD_ACTIVE);
 
-        return $value === '1' ? true : false;
-    }
+		return $value === '1' ? true : false;
+	}
+	public function getShowPaymentIcon(): bool
+	{
+		$value = $this->getConfigValue(ConfigVars::SHOW_PAYMENT_ICON);
 
+		return $value === '1' ? true : false;
+	}
 
-    public function deleteAllPaymentMethodConfig()
-    {
-        $this->deleteConfigValue(ConfigVars::CCARD_KEY);
-        $this->deleteConfigValue(ConfigVars::CCARD_SEND_INVOICE_EMAIL);
-        $this->deleteConfigValue(ConfigVars::SHOW_REFUND);
-        $this->deleteConfigValue(ConfigVars::IS_PAYMENT_METHOD_ACTIVE);
-        $this->deleteConfigValue(ConfigVars::TITLE);
-        $this->deleteConfigValue(ConfigVars::SHOW_PAYMENT_ICON);
-        $this->deleteConfigValue(ConfigVars::MIN_VALUE);
-        $this->deleteConfigValue(ConfigVars::MAX_VALUE);
-        $this->deleteConfigValue(ConfigVars::ALLOWSPECIFIC);
-        $this->deleteConfigValue(ConfigVars::SPECIFICCOUNTRY);
-        $this->deleteConfigValue(ConfigVars::SORT_ORDER);
-        $this->scopeConfig->clean();
-    }
+	public function getTitle(): string
+	{
+		$value = $this->getConfigValue(ConfigVars::TITLE);
+
+		return $value ?? '';
+	}
 
 
-    public function getOtherKeysInUse($thisKey)
-    {
-        $coreConfigTableName = $this->resourceConnection->getTableName('core_config_data');
-        $dbConn = $this->resourceConnection->getConnection();
+	public function getIsRefundEnabled(): bool
+	{
+		$value = $this->getConfigValue(ConfigVars::SHOW_REFUND);
 
-        $query = "SELECT value FROM {$coreConfigTableName} WHERE path = :path";
-        $binds = [
-            ':path' => ConfigVars::DB_CONFIG_PREFIX_CCARD . ConfigVars::CCARD_KEY
-        ];
-        $keyRecords = $dbConn->fetchAll($query, $binds);
+		return $value === '1' ? true : false;
+	}
 
-        $keyArr = [];
-        foreach ($keyRecords as $key => $keyRecord) {
-            if ($thisKey !== $keyRecord['value']) {
-                array_push($keyArr, $keyRecord['value']);
-            }
-        }
-        return $keyArr;
-    }
 
+	public function deleteAllPaymentMethodConfig()
+	{
+		$this->deleteConfigValue(ConfigVars::CCARD_KEY);
+		$this->deleteConfigValue(ConfigVars::CCARD_SEND_INVOICE_EMAIL);
+		$this->deleteConfigValue(ConfigVars::SHOW_REFUND);
+		$this->deleteConfigValue(ConfigVars::IS_PAYMENT_METHOD_ACTIVE);
+		$this->deleteConfigValue(ConfigVars::TITLE);
+		$this->deleteConfigValue(ConfigVars::SHOW_PAYMENT_ICON);
+		$this->deleteConfigValue(ConfigVars::MIN_VALUE);
+		$this->deleteConfigValue(ConfigVars::MAX_VALUE);
+		$this->deleteConfigValue(ConfigVars::ALLOWSPECIFIC);
+		$this->deleteConfigValue(ConfigVars::SPECIFICCOUNTRY);
+		$this->deleteConfigValue(ConfigVars::SORT_ORDER);
+		$this->deleteConfigValue(ConfigVars::CCARD_CALLBACK_URL);
+		$this->deleteConfigValue(ConfigVars::CCARD_ACTIVATE_CALLBACK);
+		$this->deleteConfigValue(ConfigVars::CCARD_IS_CALLBACK_ACTIVATED);
+		$this->deleteConfigValue(ConfigVars::CCARD_ANTI_PHISHING_KEY);
+		$this->scopeConfig->clean();
+	}
+
+
+	public function getOtherKeysInUse($thisKey)
+	{
+		$coreConfigTableName = $this->resourceConnection->getTableName('core_config_data');
+		$dbConn = $this->resourceConnection->getConnection();
+
+		$query = "SELECT value FROM {$coreConfigTableName} WHERE path = :path";
+		$binds = [
+			':path' => ConfigVars::DB_CONFIG_PREFIX_CCARD . ConfigVars::CCARD_KEY
+		];
+		$keyRecords = $dbConn->fetchAll($query, $binds);
+
+		$keyArr = [];
+		foreach ($keyRecords as $key => $keyRecord) {
+			if ($thisKey !== $keyRecord['value']) {
+				array_push($keyArr, $keyRecord['value']);
+			}
+		}
+		return $keyArr;
+	}
+
+
+
+
+
+	public function getActivateCallback(): bool
+	{
+		$value = $this->getConfigValue(ConfigVars::CCARD_ACTIVATE_CALLBACK);
+
+		return $value === '1' ? true : false;
+	}
+
+	public function getIsCallbackActivated(): bool
+	{
+		$value = $this->getConfigValue(ConfigVars::CCARD_IS_CALLBACK_ACTIVATED);
+
+		return $value === '1' ? true : false;
+	}
+
+	public function getCallbackUrlPartialStringWithScopeAndScopeCode(): string
+	{
+		return $this->version->replaceVersionVariables(ConfigVars::CCARD_CALLBACK_STRING) . '&scp=' . $this->scope . '&scpcd=' . $this->scopeCode;
+	}
+
+	public function saveCallbackUrl(string $callbackUrl, string $antiPhishingKey): void
+	{
+		$this->saveConfigValue(ConfigVars::CCARD_CALLBACK_URL, $callbackUrl);
+		$this->saveConfigValue(ConfigVars::CCARD_ANTI_PHISHING_KEY, $antiPhishingKey);
+		$this->saveConfigValue(ConfigVars::CCARD_IS_CALLBACK_ACTIVATED, '1');
+		$this->scopeConfig->clean();
+	}
+
+
+	public function getCallbackUrl(): string
+	{
+		$value = $this->getConfigValue(ConfigVars::CCARD_CALLBACK_URL);
+
+		return $value ?? '';
+	}
+
+	public function getAntiPhishingKey(): string
+	{
+		$value = $this->getConfigValue(ConfigVars::CCARD_ANTI_PHISHING_KEY);
+
+		return $value ?? '';
+	}
+
+	public function getEntity(): string
+	{
+		// The entity for mbway is mbway
+		return ConfigVars::CCARD;
+	}
+
+	public function getSubEntity(): string
+	{
+		return $this->getKey();
+	}
+
+	public function deactivateCallback(): void
+	{
+		$this->saveConfigValue(ConfigVars::CCARD_IS_CALLBACK_ACTIVATED, '0');
+		$this->scopeConfig->clean();
+	}
 }

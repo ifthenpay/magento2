@@ -97,6 +97,7 @@
                 <active>0</active>
                 <title>Cartão de Crédito</title>
                 <show_payment_icon>1</show_payment_icon>
+                <activate_callback>0</activate_callback>
                 <key></key>
                 <cancel_order>0</cancel_order>
                 <min_order_total></min_order_total>

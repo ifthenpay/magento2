@@ -93,7 +93,7 @@ A tabela abaixo indica a compatibilidade e o supporte disponibilizado para este 
 
 |                              | Magento 2.4 [2.4.0 - 2.4.6] |
 |------------------------------|-----------------------------|
-| Compatibilidade              | Ifthenpay v2.0.0 - v2.3.0   |
+| Compatibilidade              | Ifthenpay v2.0.0 - v2.3.1   |
 | LTS (Suporte de Longo Prazo) | Supported until end of 2026 |
 
 
@@ -253,14 +253,15 @@ Configure o método de pagamento, a imagem abaixo mostra um exemplo de configura
 1. **Habilitado** - Ao selecionar sim, ativa o método de pagamento, exibindo-o no checkout da sua loja.
 2. **Título** - Título que aparece ao consumidor no checkout, no caso de escolher não exibir o ícone.
 3. **Exibir Ícone** - Ao selecionar sim, exibe o ícone do método de pagamento no checkout.
-4. **Chave Ccard** - Selecionar uma Chave. Apenas pode selecionar uma das Chaves associadas à Chave Backoffice;
-5. **Enviar Email de Fatura** - Ao selecionar sim, o consumidor recebe automáticamente um email com a fatura da encomenda quando o pagamento for recebido;
-6. **Permitir devolução** - Ao selecionar sim, exibe um botão na página de nota de crédito que permite um administrador da loja online devolver o valor pago pelo consumidor;
-7. **Valor Mínimo** - (opcional) Apenas exibe este método de pagamento para encomendas com valor superior ao valor inserido;
-8. **Valor Máximo** - (opcional) Apenas exibe este método de pagamento para encomendas com valor inferior ao valor inserido;
-9. **Restringir Pagamento a Países** - (opcional) Selecionar todos os países ou apenas os países especificos, deixar vazio para permitir todos os países;
-10. **Pagamento de países específicos** - (opcional) Apenas exibe este método de pagamento para encomendas com destino de envio dentro dos países selecionados, deixar vazio para permitir todos os países;
-11. **Ordenação** - (opcional) Ordena os métodos de pagamento na página de checkout de forma ascendente. Número mais baixo toma o primeiro lugar;
+4. **Ativar Callback** - Ao selecionar sim, o estado da encomenda será atualizado quando o pagamento for recebido;
+5. **Chave Ccard** - Selecionar uma Chave. Apenas pode selecionar uma das Chaves associadas à Chave Backoffice;
+6. **Enviar Email de Fatura** - Ao selecionar sim, o consumidor recebe automáticamente um email com a fatura da encomenda quando o pagamento for recebido;
+7. **Permitir devolução** - Ao selecionar sim, exibe um botão na página de nota de crédito que permite um administrador da loja online devolver o valor pago pelo consumidor;
+8. **Valor Mínimo** - (opcional) Apenas exibe este método de pagamento para encomendas com valor superior ao valor inserido;
+9. **Valor Máximo** - (opcional) Apenas exibe este método de pagamento para encomendas com valor inferior ao valor inserido;
+10. **Restringir Pagamento a Países** - (opcional) Selecionar todos os países ou apenas os países especificos, deixar vazio para permitir todos os países;
+11. **Pagamento de países específicos** - (opcional) Apenas exibe este método de pagamento para encomendas com destino de envio dentro dos países selecionados, deixar vazio para permitir todos os países;
+12. **Ordenação** - (opcional) Ordena os métodos de pagamento na página de checkout de forma ascendente. Número mais baixo toma o primeiro lugar;
 
 ![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/configurationCCard.png)
 </br>

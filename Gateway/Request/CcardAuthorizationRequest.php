@@ -42,7 +42,6 @@ class CcardAuthorizationRequest implements BuilderInterface
         Currency $currency,
         Version $version,
         Locale $localeResolver
-
     ) {
         $this->config = $config;
         $this->urlBuilder = $urlBuilder;
@@ -99,7 +98,7 @@ class CcardAuthorizationRequest implements BuilderInterface
     private function getSuccessCallbackUrl($orderId)
     {
         $successToken = $this->token->encrypt(ConfigVars::CCARD_SUCCESS_STATUS);
-        $str = str_replace('[ORDER_ID]', $orderId, ConfigVars::CCARD_CALLBACK_STRING);
+        $str = str_replace('[ORDER_ID]', $orderId, ConfigVars::CCARD_RETURN_URL_STRING);
         $str = str_replace('[QN]', $successToken, $str);
 
         $versionString = $this->version->replaceVersionVariables('&ec={ec}&mv={mv}');
@@ -110,7 +109,7 @@ class CcardAuthorizationRequest implements BuilderInterface
     private function getErrorCallbackUrl($orderId)
     {
         $successToken = $this->token->encrypt(ConfigVars::CCARD_ERROR_STATUS);
-        $str = str_replace('[ORDER_ID]', $orderId, ConfigVars::CCARD_CALLBACK_STRING);
+        $str = str_replace('[ORDER_ID]', $orderId, ConfigVars::CCARD_RETURN_URL_STRING);
         $str = str_replace('[QN]', $successToken, $str);
 
         return $this->urlBuilder->getUrl() . $str;
@@ -119,7 +118,7 @@ class CcardAuthorizationRequest implements BuilderInterface
     private function getCancelCallbackUrl($orderId)
     {
         $successToken = $this->token->encrypt(ConfigVars::CCARD_CANCEL_STATUS);
-        $str = str_replace('[ORDER_ID]', $orderId, ConfigVars::CCARD_CALLBACK_STRING);
+        $str = str_replace('[ORDER_ID]', $orderId, ConfigVars::CCARD_RETURN_URL_STRING);
         $str = str_replace('[QN]', $successToken, $str);
 
         return $this->urlBuilder->getUrl() . $str;

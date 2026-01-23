@@ -32,7 +32,7 @@ use Magento\Store\Model\StoreManagerInterface;
 
 
 
-class CallbackCcardCtrl extends Action
+class ReturnCcardCtrl extends Action
 {
 
     protected $resultPateFactory;

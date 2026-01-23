@@ -38,7 +38,7 @@ class CcardAuthorizationClient implements ClientInterface
 
 
 
-    public function __construct(Logger $logger, HttpClient $httpClient, ConverterInterface $converter = null)
+    public function __construct(Logger $logger, HttpClient $httpClient, ?ConverterInterface $converter = null)
     {
         $this->httpClient = $httpClient;
         $this->logger = $logger;

@@ -81,11 +81,6 @@ class CallbackService
         // activate or deactivate callback for each payment method
         foreach ($paymentMethods as $paymentMethod) {
 
-            // doesn't run for ccard
-            if ($paymentMethod === ConfigVars::CCARD) {
-                continue;
-            }
-
             $paymentMethodCode = ConfigVars::IFTHENPAY_CODE . '_' . $paymentMethod;
 
             $paymentMethodConfig = $this->configFactory->createConfig($paymentMethodCode);
@@ -94,8 +89,6 @@ class CallbackService
 
             $isActivatingCallback = $paymentMethodConfig->getActivateCallback();
             $isCallbackActivated = $paymentMethodConfig->getIsCallbackActivated();
-
-
 
             if (
                 $isPaymentMethodActive === true &&

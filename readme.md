@@ -92,7 +92,7 @@ The table below indicates the compatibility and the support provided for this mo
 
 |                         | Magento 2.4 [2.4.0 - 2.4.6] |
 |-------------------------|-----------------------------|
-| Compatibility           | Ifthenpay v2.0.0 - v2.3.0   |
+| Compatibility           | Ifthenpay v2.0.0 - v2.3.1   |
 | LTS (Long Time Support) | Supported until end of 2026 |
 
 
@@ -255,14 +255,15 @@ Configure the payment method. The image below shows an example of a minimally fu
 1. **Enabled** - When selected as Yes, it activates the payment method, displaying it on the checkout page of your store.
 2. **Title** - The title that appears to the consumer at checkout, in case you choose not to display the icon.
 3. **Display Icon** - When selected as Yes, it displays the payment method's icon at checkout.
-4. **Ccard Key** - Select an Credit Card key. You can only select one of the keys associated with the Backoffice Key.
-5. **Send Invoice Email** - When selected as Yes, the consumer automatically receives an email with the order invoice when payment is received.
-6. **Allow Refunds** - When selected as Yes, it displays a button on the credit note page that allows an administrator of the online store to refund the amount paid by the consumer.
-7. **Minimum Amount** - (optional) Only displays this payment method for orders with a value higher than the entered amount.
-8. **Maximum Amount** - (optional) Only displays this payment method for orders with a value lower than the entered amount.
-9. **Restrict Payment to Countries** - (optional) Select all countries or only specific countries. Leave it blank to allow all countries.
-10. **Payment from Specific Countries** - (optional) Only displays this payment method for orders with shipping destinations within the selected countries. Leave it blank to allow all countries.
-11. **Sort Order** - (optional) Orders the payment methods on the checkout page in ascending order. The lower the number, the higher the priority.
+4. **Activate Callback** - When selected as Yes, the order status will be updated when payment is received.
+5. **Ccard Key** - Select an Credit Card key. You can only select one of the keys associated with the Backoffice Key.
+6. **Send Invoice Email** - When selected as Yes, the consumer automatically receives an email with the order invoice when payment is received.
+7. **Allow Refunds** - When selected as Yes, it displays a button on the credit note page that allows an administrator of the online store to refund the amount paid by the consumer.
+8. **Minimum Amount** - (optional) Only displays this payment method for orders with a value higher than the entered amount.
+9. **Maximum Amount** - (optional) Only displays this payment method for orders with a value lower than the entered amount.
+10. **Restrict Payment to Countries** - (optional) Select all countries or only specific countries. Leave it blank to allow all countries.
+11. **Payment from Specific Countries** - (optional) Only displays this payment method for orders with shipping destinations within the selected countries. Leave it blank to allow all countries.
+12. **Sort Order** - (optional) Orders the payment methods on the checkout page in ascending order. The lower the number, the higher the priority.
 
 Click on Save to save the changes.
 
@@ -482,7 +483,7 @@ After clearing the Backoffice Key, you will be prompted to enter the Backoffice 
 
 ## Callback
 
-IMPORTANT: Only the Multibanco, MB WAY, Payshop, and Cofidis Pay payment methods allow enabling Callback. The credit card method automatically changes the order status.
+IMPORTANT: The credit card method only uses the callback as a fallback, in case a user fails to be redirected back after completing the payment in the gateway page.
 
 Callback is a feature that, when enabled, allows your store to receive a notification of a successful payment. When enabled, upon receiving a successful payment for an order, the Ifthenpay server communicates with your store, changing the order status to "Processing". You can use Ifthenpay payments without enabling Callback, but your orders will not be automatically updated with the status change.
 
