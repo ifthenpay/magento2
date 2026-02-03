@@ -86,9 +86,6 @@ require([
 
             transactionId = dom_transaction.val();
 
-
-debugger;
-
             $.ajax({
                 url: checkStatusUrl,
                 data: {
