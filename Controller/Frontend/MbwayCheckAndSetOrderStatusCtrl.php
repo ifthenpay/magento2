@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @category    Gateway Payment
  * @package     Ifthenpay_Payment
@@ -25,81 +26,88 @@ use Ifthenpay\Payment\Model\ScopeConfigResolver;
 
 class MbwayCheckAndSetOrderStatusCtrl extends Action
 {
-    private $config;
-    private $resultJsonFactory;
-    private $logger;
-    private $httpClient;
-    private $service;
-    private $scopeConfigResolver;
+	private $config;
+	private $resultJsonFactory;
+	private $logger;
+	private $httpClient;
+	private $service;
+	private $scopeConfigResolver;
 
-    private const SUCCESS = '000';
-    private const REFUSED = '020';
-    private const PAID = '000';
-    private const PENDING = '123';
+	public const PENDING          = '123'; // Transaction pending payment,
+	public const PAID             = '000'; // Transaction successfully completed (Payment confirmed),
+	public const REJECTED_BY_USER = '020'; // Transaction rejected by the user.
+	public const EXPIRED          = '101'; // Transaction expired (the user has 4 minutes to accept the payment in the MB WAY App before expiring).
+	public const DECLINED         = '122'; // Transaction declined to the user.
 
 
+	public function __construct(
+		Context $context,
+		MbwayConfig $config,
+		Logger $logger,
+		JsonFactory $resultJsonFactory,
+		HttpClient $httpClient,
+		ServiceFactory $serviceFactory,
+		ScopeConfigResolver $scopeConfigResolver
+	) {
+		parent::__construct($context);
+		$this->config = $config;
+		$this->service = $serviceFactory->createService(ConfigVars::MBWAY_CODE);
+		$this->httpClient = $httpClient;
+		$this->resultJsonFactory = $resultJsonFactory;
+		$this->logger = $logger;
+		$this->scopeConfigResolver = $scopeConfigResolver;
+	}
 
+	public function execute()
+	{
+		try {
+			$requestData = $this->getRequest()->getParams();
 
-    public function __construct(
-        Context $context,
-        MbwayConfig $config,
-        Logger $logger,
-        JsonFactory $resultJsonFactory,
-        HttpClient $httpClient,
-        ServiceFactory $serviceFactory,
-        ScopeConfigResolver $scopeConfigResolver
-    ) {
-        parent::__construct($context);
-        $this->config = $config;
-        $this->service = $serviceFactory->createService(ConfigVars::MBWAY_CODE);
-        $this->httpClient = $httpClient;
-        $this->resultJsonFactory = $resultJsonFactory;
-        $this->logger = $logger;
-        $this->scopeConfigResolver = $scopeConfigResolver;
-    }
+			$store = $this->scopeConfigResolver->storeManager->getStore($requestData['storeId']);
 
-    public function execute()
-    {
-        try {
-            $requestData = $this->getRequest()->getParams();
+			$mbwayKey = $store->getConfig('payment/ifthenpay_mbway/key');
 
-            $store = $this->scopeConfigResolver->storeManager->getStore($requestData['storeId']);
+			$transactionId = $requestData['transaction_id'];
+			$url = ConfigVars::API_URL_POST_MBWAY_GET_PAYMENT_STATUS;
 
-            $mbwayKey = $store->getConfig('payment/ifthenpay_mbway/key');
+			$payload = [
+				'mbWayKey' => $mbwayKey,
+				'requestId' => $transactionId
+			];
 
-            $transactionId = $requestData['transaction_id'];
-            $url = ConfigVars::API_URL_POST_MBWAY_GET_PAYMENT_STATUS;
-            $payload = [
-                'MbWayKey' => $mbwayKey,
-                'canal' => '03',
-                'idspagamento' => $transactionId
-            ];
+			$this->httpClient->doGet($url, $payload);
+			$responseArray = $this->httpClient->getBodyArray();
+			$status = $this->httpClient->getStatus();
 
-            $this->httpClient->doGet($url, $payload);
-            $responseArray = $this->httpClient->getBodyArray();
-            $status = $this->httpClient->getStatus();
+			if ($status !== 200) {
+				throw new \Exception('Error: MB WAY request failed.');
+			}
 
-            if ($status !== 200 || $responseArray['Estado'] !== self::SUCCESS) {
-                throw new \Exception('Error: MB WAY request failed.');
-            }
+			$PaymentStatusCode = $responseArray['Status'];
 
-            $PaymentStatusCode = $responseArray['EstadoPedidos'][0]['Estado'];
+			if ($PaymentStatusCode === self::PAID) {
 
-            if ($PaymentStatusCode === self::PAID) {
+				return $this->resultJsonFactory->create()->setData(['orderStatus' => 'paid']);
+			}
+			if ($PaymentStatusCode === self::PENDING) {
 
-                return $this->resultJsonFactory->create()->setData(['orderStatus' => 'paid']);
-            }
-            if ($PaymentStatusCode === self::PENDING) {
-                return $this->resultJsonFactory->create()->setData(['orderStatus' => 'pending']);
-            }
-            if ($PaymentStatusCode === self::REFUSED) {
-                return $this->resultJsonFactory->create()->setData(['orderStatus' => 'refused']);
-            }
+				if ($responseArray['Message'] === 'Request not found') { // edgecase transaction not found
+					return $this->resultJsonFactory->create()->setData(['orderStatus' => 'error']);
+				}
 
-            return $this->resultJsonFactory->create()->setData(['orderStatus' => 'error']);
+				return $this->resultJsonFactory->create()->setData(['orderStatus' => 'pending']);
+			}
+			if ($PaymentStatusCode === self::REJECTED_BY_USER) {
+				return $this->resultJsonFactory->create()->setData(['orderStatus' => 'refused']);
+			}
 
-        } catch (\Throwable $th) {
-            return $this->resultJsonFactory->create()->setData(['orderStatus' => $th->getMessage()]);
-        }
-    }
+			if ($PaymentStatusCode === self::EXPIRED) {
+				return $this->resultJsonFactory->create()->setData(['orderStatus' => 'expired']);
+			}
+
+			return $this->resultJsonFactory->create()->setData(['orderStatus' => 'error']);
+		} catch (\Throwable $th) {
+			return $this->resultJsonFactory->create()->setData(['orderStatus' => $th->getMessage()]);
+		}
+	}
 }

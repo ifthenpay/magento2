@@ -47,9 +47,9 @@ class MbwayTxnIdHandler implements HandlerInterface
         $convertedOrderTotal = $this->currency->convertAndFormatToEuro($currency, $orderTotal);
 
 
-        $tansactionId = $response['IdPedido'];
+        $tansactionId = $response['RequestId'];
 
-        $payment->setTransactionId($response['IdPedido']);
+        $payment->setTransactionId($response['RequestId']);
         $payment->setAdditionalInformation("transactionId", $tansactionId);
         $payment->setAdditionalInformation("orderId", $orderId);
         $payment->setAdditionalInformation("orderTotal", $convertedOrderTotal);

@@ -52,6 +52,7 @@
                 <show_countdown>1</show_countdown>
                 <activate_callback>0</activate_callback>
                 <key></key>
+                <notification_description>MB WAY Payment Order {{order_id}}</notification_description>
                 <cancel_order>0</cancel_order>
                 <min_order_total></min_order_total>
                 <max_order_total></max_order_total>

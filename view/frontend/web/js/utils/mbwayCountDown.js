@@ -86,6 +86,9 @@ require([
 
             transactionId = dom_transaction.val();
 
+
+debugger;
+
             $.ajax({
                 url: checkStatusUrl,
                 data: {
@@ -107,6 +110,10 @@ require([
                     }
                     if (response.orderStatus === 'refused') {
                         dom_paymentRefusedPanel.show();
+                        dom_ifthenpayResendMbwayNotificationDiv.show();
+                    }
+                    if (response.orderStatus === 'expired') {
+		                dom_paymentOutOfTimePanel.show();
                         dom_ifthenpayResendMbwayNotificationDiv.show();
                     }
                     if (response.orderStatus === 'error') {

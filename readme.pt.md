@@ -91,9 +91,9 @@ Para suporte, por favor crie um ticked para suporte em [Suporte Ifthenpay](https
 
 A tabela abaixo indica a compatibilidade e o supporte disponibilizado para este módulo.
 
-|                              | Magento 2.4 [2.4.0 - 2.4.6] |
+|                              | Magento 2.4 [2.4.0 - 2.4.8] |
 |------------------------------|-----------------------------|
-| Compatibilidade              | Ifthenpay v2.0.0 - v2.3.1   |
+| Compatibilidade              | Ifthenpay v2.0.0 - v2.3.2   |
 | LTS (Suporte de Longo Prazo) | Supported until end of 2026 |
 
 
@@ -235,11 +235,12 @@ Configure o método de pagamento, a imagem abaixo mostra um exemplo de configura
 6. **Chave MB WAY** - Selecionar uma Chave. Apenas pode selecionar uma das Chaves associadas à Chave Backoffice;
 7. **Enviar Email de Fatura** - Ao selecionar sim, o consumidor recebe automáticamente um email com a fatura da encomenda quando o pagamento for recebido;
 8. **Permitir devolução** - Ao selecionar sim, exibe um botão na página de nota de crédito que permite um administrador da loja online devolver o valor pago pelo consumidor;
-9. **Valor Mínimo** - (opcional) Apenas exibe este método de pagamento para encomendas com valor superior ao valor inserido;
-10. **Valor Máximo** - (opcional) Apenas exibe este método de pagamento para encomendas com valor inferior ao valor inserido;
-11. **Restringir Pagamento a Países** - (opcional) Selecionar todos os países ou apenas os países especificos, deixar vazio para permitir todos os países;
-12. **Pagamento de países específicos** - (opcional) Apenas exibe este método de pagamento para encomendas com destino de envio dentro dos países selecionados, deixar vazio para permitir todos os países;
-13. **Ordenação** - (opcional) Ordena os métodos de pagamento na página de checkout de forma ascendente. Número mais baixo toma o primeiro lugar;
+9. **Descrição da Notificação da App** - Descrição da Notificação na App MB WAY: definido como "Pagamento MB WAY Encomenda {{order_id}}" por defeito, edite este valor para personalizar a pequena descrição apresentada ao cliente na App MB WAY;
+10. **Valor Mínimo** - (opcional) Apenas exibe este método de pagamento para encomendas com valor superior ao valor inserido;
+11. **Valor Máximo** - (opcional) Apenas exibe este método de pagamento para encomendas com valor inferior ao valor inserido;
+12. **Restringir Pagamento a Países** - (opcional) Selecionar todos os países ou apenas os países especificos, deixar vazio para permitir todos os países;
+13. **Pagamento de países específicos** - (opcional) Apenas exibe este método de pagamento para encomendas com destino de envio dentro dos países selecionados, deixar vazio para permitir todos os países;
+14. **Ordenação** - (opcional) Ordena os métodos de pagamento na página de checkout de forma ascendente. Número mais baixo toma o primeiro lugar;
 
 ![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/configurationMbway.png)
 </br>

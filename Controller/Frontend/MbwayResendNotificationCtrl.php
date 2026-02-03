@@ -76,18 +76,19 @@ class MbwayResendNotificationCtrl extends Action
             $orderId = $requestData['orderId'];
             $phoneNumber = $requestData['phoneNumber'];
             $orderTotal = $this->service->getOrderTotalByOrderId($orderId);
+			$description = $this->config->getValue('notification_description');
+			$description = str_replace('{{order_id}}', $orderId, $description);
 
 
             $url = ConfigVars::API_URL_MBWAY_SET_REQUEST;
 
-            $payload = [
-                'MbWayKey' => $mbwayKey,
-                'canal' => '03',
-                'referencia' => $orderId,
-                'valor' => $orderTotal,
-                'nrtlm' => $phoneNumber,
+	        $payload = [
+                'mbWayKey' => $mbwayKey,
+                'orderId' => $orderId,
+                'amount' => $orderTotal,
+                'mobileNumber' => $phoneNumber,
                 'email' => '',
-                'descricao' => '',
+                'description' => $description,
             ];
 
             $this->httpClient->doPost($url, $payload);
@@ -96,11 +97,11 @@ class MbwayResendNotificationCtrl extends Action
 
             $status = $this->httpClient->getStatus();
 
-            if ($status !== 200 || $responseArray['Estado'] !== self::SUCCESS) {
+            if ($status !== 200 || $responseArray['Status'] !== self::SUCCESS) {
                 throw new \Exception('Error: MB WAY request failed.');
             }
 
-            $transactionId = $responseArray['IdPedido'];
+            $transactionId = $responseArray['RequestId'];
 
             $this->updateOrderTransactionId($orderId, $transactionId);
 

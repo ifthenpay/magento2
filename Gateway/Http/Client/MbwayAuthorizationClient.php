@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @category    Gateway Payment
  * @package     Ifthenpay_Payment
@@ -15,6 +16,7 @@ use Magento\Payment\Gateway\Http\ConverterInterface;
 use Magento\Payment\Gateway\Http\TransferInterface;
 use Magento\Payment\Model\Method\Logger;
 use Ifthenpay\Payment\Lib\HttpClient;
+use Magento\Framework\Exception\LocalizedException;
 
 /**
  * Class Soap
@@ -23,47 +25,72 @@ use Ifthenpay\Payment\Lib\HttpClient;
  */
 class MbwayAuthorizationClient implements ClientInterface
 {
-    const SUCCESS = '000';
+	private const SUCCESS         		= '000'; // Request initialized successfully (pending acceptance).
+	private const ERROR           		= '999'; // Error initializing the request. You can try again.
+	private const INVALID_MOBILE_NUMBER = '113'; // Mobile number provided does not exist.
+	private const INCOMPLETE      		= '100'; // The initialization request could not be completed. You can try again.
+	private const DECLINED        		= '122'; // Transaction declined by SIBS to the user.
+	private const INVALID_ACCOUNT 		= '-1'; // The MB WAY key is invalid.
 
-    private $httpClient;
+	private $httpClient;
 
-    /**
-     * @var Logger
-     */
-    private $logger;
-    /**
-     * @var ConverterInterface | null
-     */
-    private $converter;
-
-
-
-    public function __construct(Logger $logger, HttpClient $httpClient, ?ConverterInterface $converter = null)
-    {
-        $this->httpClient = $httpClient;
-        $this->logger = $logger;
-        $this->converter = $converter;
-    }
+	/**
+	 * @var Logger
+	 */
+	private $logger;
+	/**
+	 * @var ConverterInterface | null
+	 */
+	private $converter;
 
 
-    public function placeRequest(TransferInterface $transferObject)
-    {
-        $url = $transferObject->getUri();
-        $payload = $transferObject->getBody();
+
+	public function __construct(Logger $logger, HttpClient $httpClient, ?ConverterInterface $converter = null)
+	{
+		$this->httpClient = $httpClient;
+		$this->logger = $logger;
+		$this->converter = $converter;
+	}
 
 
-        $this->httpClient->doPost($url, $payload);
-
-        $responseArray = $this->httpClient->getBodyArray();
-
-        $status = $this->httpClient->getStatus();
-
-        if ($status !== 200 || $responseArray['Estado'] !== self::SUCCESS) {
-            throw new \Exception('Error: MB WAY request failed.');
-        }
-
-        return $responseArray;
-    }
+	public function placeRequest(TransferInterface $transferObject)
+	{
+		$url = $transferObject->getUri();
+		$payload = $transferObject->getBody();
 
 
+		$this->httpClient->doPost($url, $payload);
+
+		$responseArray = $this->httpClient->getBodyArray();
+
+		$status = $this->httpClient->getStatus();
+
+
+		if ($status !== 200) {
+			throw new LocalizedException(__('Error: MB WAY request failed, please try again later or contact support.'));
+		}
+
+		if ($responseArray['Status'] !== self::SUCCESS) {
+			switch ($responseArray['Status']) {
+				case self::INVALID_MOBILE_NUMBER:
+					throw new LocalizedException(__('Error: The mobile number provided does not exist, please check and try again.'));
+					break;
+				case self::INVALID_ACCOUNT:
+					throw new LocalizedException(__('Error: MB WAY request failed, please contact support.'));
+					break;
+				case self::DECLINED:
+					throw new LocalizedException(__('Error: MB WAY request declined.'));
+					break;
+				case self::INCOMPLETE:
+				case self::ERROR:
+					throw new LocalizedException(__('Error: MB WAY request could not be completed, please try again later or contact support.'));
+					break;
+				default:
+					throw new LocalizedException(__('Error: MB WAY request failed unexpectedly, please try again later or contact support.'));
+					break;
+			}
+		}
+
+		return $responseArray;
+	}
 }

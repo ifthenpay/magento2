@@ -90,9 +90,9 @@ For support, please create a support ticket at [Support Ifthenpay](https://helpd
 
 The table below indicates the compatibility and the support provided for this module.
 
-|                         | Magento 2.4 [2.4.0 - 2.4.6] |
+|                         | Magento 2.4 [2.4.0 - 2.4.8] |
 |-------------------------|-----------------------------|
-| Compatibility           | Ifthenpay v2.0.0 - v2.3.1   |
+| Compatibility           | Ifthenpay v2.0.0 - v2.3.2   |
 | LTS (Long Time Support) | Supported until end of 2026 |
 
 
@@ -233,11 +233,12 @@ Configure the payment method. The image below shows an example of a minimally fu
 6. **MB WAY Key** - Select a MB WAY key. You can only select one of the keys associated with the Backoffice Key.
 7. **Send Invoice Email** - When selected as Yes, the consumer automatically receives an email with the order invoice when payment is received.
 8. **Allow Refunds** - When selected as Yes, it displays a button on the credit note page that allows an administrator of the online store to refund the amount paid by the consumer.
-9. **Minimum Amount** - (optional) Only displays this payment method for orders with a value higher than the entered amount.
-10. **Maximum Amount** - (optional) Only displays this payment method for orders with a value lower than the entered amount.
-11. **Restrict Payment to Countries** - (optional) Select all countries or only specific countries. Leave it blank to allow all countries.
-12. **Payment from Specific Countries** - (optional) Only displays this payment method for orders with shipping destinations within the selected countries. Leave it blank to allow all countries.
-13. **Sort Order** - (optional) Orders the payment methods on the checkout page in ascending order. The lower the number, the higher the priority.
+9. **App Notification Description** - MB WAY App Notification Description, set to "MB WAY Payment Order {{order_id}} by default, edit this value to customize the small description shown to the customer in the MB WAY App.
+10. **Minimum Amount** - (optional) Only displays this payment method for orders with a value higher than the entered amount.
+11. **Maximum Amount** - (optional) Only displays this payment method for orders with a value lower than the entered amount.
+12. **Restrict Payment to Countries** - (optional) Select all countries or only specific countries. Leave it blank to allow all countries.
+13. **Payment from Specific Countries** - (optional) Only displays this payment method for orders with shipping destinations within the selected countries. Leave it blank to allow all countries.
+14. **Sort Order** - (optional) Orders the payment methods on the checkout page in ascending order. The lower the number, the higher the priority.
 
 Click on Save to save the changes.
 

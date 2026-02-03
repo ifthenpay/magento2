@@ -295,6 +295,16 @@
                         </depends>
                     </field>
 
+					<field id="notification_description" type="text" sortOrder="71" translate="label comment" showInWebsite="1" showInDefault="1">
+                        <label>App Notification Description</label>
+                        <config_path>payment/ifthenpay_mbway/notification_description</config_path>
+                        <validate>validate-length maximum-length-90</validate>
+                        <comment>Small description displayed to customer in MB WAY phone App, use the string {{order_id}} to pass teh order_id number.</comment>
+                        <depends>
+                            <field id="key" negative="1">nokey</field>
+                        </depends>
+                    </field>
+
                     <field id="min_order_total" type="text" sortOrder="80" translate="label comment" showInWebsite="1" showInDefault="1">
                         <label>Minimum Order Value</label>
                         <comment>Display this payment method for orders with value greater or equal to this value. Leave empty to allow any.</comment>

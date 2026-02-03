@@ -418,8 +418,8 @@ final class ConfigVars
 
 	public const API_URL_ACTIVATE_CALLBACK = 'https://ifthenpay.com/api/endpoint/callback/activation';
 
-	public const API_URL_MBWAY_SET_REQUEST = 'https://mbway.ifthenpay.com/IfthenPayMBW.asmx/SetPedidoJSON';
-	public const API_URL_POST_MBWAY_GET_PAYMENT_STATUS = 'https://www.ifthenpay.com/mbwayws/ifthenpaymbw.asmx/EstadoPedidosJSON';
+	public const API_URL_MBWAY_SET_REQUEST = 'https://api.ifthenpay.com/spg/payment/mbway';
+	public const API_URL_POST_MBWAY_GET_PAYMENT_STATUS = 'https://api.ifthenpay.com/spg/payment/mbway/status';
 
 
 	public const API_URL_CCARD_SET_REQUEST = 'https://ifthenpay.com/api/creditcard/init/';

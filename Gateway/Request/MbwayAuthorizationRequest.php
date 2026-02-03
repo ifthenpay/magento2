@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @category    Gateway Payment
  * @package     Ifthenpay_Payment
@@ -6,6 +7,7 @@
  * @copyright   Ifthenpay (https://www.ifthenpay.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+
 namespace Ifthenpay\Payment\Gateway\Request;
 
 use Magento\Payment\Gateway\ConfigInterface;
@@ -17,65 +19,64 @@ use Ifthenpay\Payment\Lib\Utility\Currency;
 
 class MbwayAuthorizationRequest implements BuilderInterface
 {
-    /**
-     * @var ConfigInterface
-     */
-    private $config;
-    private $currency;
+	/**
+	 * @var ConfigInterface
+	 */
+	private $config;
+	private $currency;
 
-    /**
-     * @param ConfigInterface $config
-     */
-    public function __construct(
-        ConfigInterface $config,
-        Currency $currency
-    ) {
-        $this->config = $config;
-        $this->currency = $currency;
-    }
+	/**
+	 * @param ConfigInterface $config
+	 */
+	public function __construct(
+		ConfigInterface $config,
+		Currency $currency
+	) {
+		$this->config = $config;
+		$this->currency = $currency;
+	}
 
-    /**
-     * Builds ENV request
-     *
-     * @param array $buildSubject
-     * @return array
-     */
-    public function build(array $buildSubject)
-    {
+	/**
+	 * Builds ENV request
+	 *
+	 * @param array $buildSubject
+	 * @return array
+	 */
+	public function build(array $buildSubject)
+	{
 
-        if (
-            !isset($buildSubject['payment'])
-            || !$buildSubject['payment'] instanceof PaymentDataObjectInterface
-        ) {
-            throw new \InvalidArgumentException('Payment data object should be provided');
-        }
+		if (
+			!isset($buildSubject['payment'])
+			|| !$buildSubject['payment'] instanceof PaymentDataObjectInterface
+		) {
+			throw new \InvalidArgumentException('Payment data object should be provided');
+		}
 
-        $paymentDO = $buildSubject['payment'];
-        $order = $paymentDO->getOrder();
-        $orderId = $order->getOrderIncrementId();
-        $currency = $order->getCurrencyCode();
-        $orderTotal = $order->getGrandTotalAmount();
-        $convertedOrderTotal = $this->currency->convertAndFormatToEuro($currency, $orderTotal);
-        $key = $this->config->getValue('key');
-        $tlm = $paymentDO->getPayment()->getAdditionalInformation('countryCode') . '#' . $paymentDO->getPayment()->getAdditionalInformation('phoneNumber');
-
-
-        $payload = [
-            'MbWayKey' => $key,
-            'canal' => '03',
-            'referencia' => $orderId,
-            'valor' => $convertedOrderTotal,
-            'nrtlm' => $tlm,
-            'email' => '',
-            'descricao' => '',
-        ];
+		$paymentDO = $buildSubject['payment'];
+		$order = $paymentDO->getOrder();
+		$orderId = $order->getOrderIncrementId();
+		$currency = $order->getCurrencyCode();
+		$orderTotal = $order->getGrandTotalAmount();
+		$convertedOrderTotal = $this->currency->convertAndFormatToEuro($currency, $orderTotal);
+		$key = $this->config->getValue('key');
+		$mobileNumber = $paymentDO->getPayment()->getAdditionalInformation('countryCode') . '#' . $paymentDO->getPayment()->getAdditionalInformation('phoneNumber');
 
 
-        return [
-            'url' => ConfigVars::API_URL_MBWAY_SET_REQUEST,
-            'payload' => $payload,
-        ];
+		$description = $this->config->getValue('notification_description');
+		$description = str_replace('{{order_id}}', $orderId, $description);
 
-    }
+		$payload = [
+			'mbWayKey' => $key,
+			'orderId' => $orderId,
+			'amount' => $convertedOrderTotal,
+			'mobileNumber' => $mobileNumber,
+			'email' => '',
+			'description' => $description
+		];
 
+		return [
+			'url' => ConfigVars::API_URL_MBWAY_SET_REQUEST,
+			'payload' => $payload,
+		];
+	}
 }
