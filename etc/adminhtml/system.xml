@@ -41,6 +41,12 @@
                     <config_path>payment/ifthenpay/backoffice_key</config_path>
                 </field>
 
+                <field id="refresh_accounts" translate="label comment" sortOrder="35" showInWebsite="1" showInDefault="1" type="text">
+                    <label>Accounts</label>
+                    <comment>Click to refresh the entities/keys and payment methods retrieved from ifthenpay.</comment>
+                    <frontend_model>Ifthenpay\Payment\Block\Adminhtml\System\Config\Form\RefreshAccountsButton</frontend_model>
+                </field>
+
 
 
 

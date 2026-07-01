@@ -27,6 +27,7 @@ Read in ![Portuguese](https://github.com/ifthenpay/magento2/raw/assets/assets/im
 
 [7. Other](#other)
   * [Request creation of aditional account](#request-creation-of-aditional-account)
+  * [Refresh Accounts](#refresh-accounts)
   * [Reset Configuration](#reset-configuration)
   * [Callback](#callback)
   * [Cronjob](#cronjob)
@@ -92,7 +93,7 @@ The table below indicates the compatibility and the support provided for this mo
 
 |                         | Magento 2.4 [2.4.0 - 2.4.8] |
 |-------------------------|-----------------------------|
-| Compatibility           | Ifthenpay v2.0.0 - v2.3.2   |
+| Compatibility           | Ifthenpay v2.0.0 - v2.3.4   |
 | LTS (Long Time Support) | Supported until end of 2026 |
 
 
@@ -465,6 +466,15 @@ As a result, the Ifthenpay team will add the payment method to your account, upd
 
 IMPORTANT: When requesting an account for the Credit Card payment method, the Ifthenpay team will contact you to request more information about your online store and your business before activating the payment method.
 
+## Refresh Accounts
+
+If you Requested a new account creation by phone or something went wrong and helpdesk team was unable to refresh your accounts, you can do it yourself
+> **Note:** Available from version 2.3.4.
+
+* At the Payment Methods configuration page, there will be a "Refresh" button on top of the ifthenpay group. Click the button (1) and confirm (2) to reload the available accounts assigned to your backoffice key.
+
+![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/refresh_accounts.png)
+</br>
 
 
 ## Reset Configuration

@@ -28,6 +28,7 @@ Ler em ![Português](https://github.com/ifthenpay/magento2/raw/assets/assets/img
 
 [7. Outros](#outros)
   * [Requerer criação de conta adicional](#requerer-criação-de-conta-adicional)
+  * [Recarregar contas](#recarregar-contas)
   * [Reset de Configuração](#reset-de-configuração)
   * [Callback](#callback)
   * [Cronjob](#cronjob)
@@ -93,7 +94,7 @@ A tabela abaixo indica a compatibilidade e o supporte disponibilizado para este 
 
 |                              | Magento 2.4 [2.4.0 - 2.4.8] |
 |------------------------------|-----------------------------|
-| Compatibilidade              | Ifthenpay v2.0.0 - v2.3.2   |
+| Compatibilidade              | Ifthenpay v2.0.0 - v2.3.4   |
 | LTS (Suporte de Longo Prazo) | Supported until end of 2026 |
 
 
@@ -454,7 +455,15 @@ Assim, a equipa da Ifthenpay adicionará o método de pagamento à sua conta, at
 
 IMPORTANTE: Ao pedir uma conta para o método de pagamento por Cartão de Crédito, a equipa da Ifthenpay irá contactá-lo para pedir mais informações sobre a sua loja online e o seu negócio antes de ativar o método de pagamento.
 
+## Recarregar Contas
 
+Se solicitou a criação de uma nova conta por telefone ou algo correu mal e a equipa de helpdesk não conseguiu atualizar as suas contas, pode fazê-lo você mesmo
+> **Nota:** Disponível a partir da versão 2.3.4.
+
+* Na página de configuração dos métodos de paymento, encontrará um botão "Recarregar" no topo do groupo ifthenpay. Clique no botão (1) e confirme (2) para recarregar as contas disponíveis atribuídas à sua chave de backoffice.
+
+![img](https://github.com/ifthenpay/magento2/raw/assets/assets/img/refresh_accounts.png)
+</br>
 
 ## Reset de Configuração
 

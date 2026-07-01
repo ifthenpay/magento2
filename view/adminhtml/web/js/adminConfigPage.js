@@ -168,9 +168,6 @@ require([
         }
 
 
-        // add accounts refresh button
-        addAccountsRefreshButton();
-
         // set label on load
         setMultbancoEntityLabel();
 
@@ -226,32 +223,21 @@ require([
                 }
             });
         });
-    });
 
-    function addAccountsRefreshButton() {
-
-        let targetElements = $('.ifthenpay-payment-logo');
-
-        if (targetElements.length !== 0) {
-            let targetElement = targetElements[0];
-
-            targetElement.on("click", function (event) {
-                if (event.shiftKey && event.altKey) {
-
-                    mConfirm({
-                        title: $t('refreshAccounts'),
-                        content: $t('actionWillRefresh'),
-                        actions: {
-                            confirm: function () {
-                                ajaxRefreshAccounts(ifthenpay_scope, ifthenpay_scopeCode);
-                            },
-                            cancel: function () { } // the cancel does not require any action
-                        }
-                    });
+        // eventlistener: on click of the refresh accounts button displays modal, which when confirmed will refresh accounts through ajax call
+        $("#refresh_accounts_btn").on("click", function () {
+            mConfirm({
+                title: $t('refreshAccounts'),
+                content: $t('actionWillRefresh'),
+                actions: {
+                    confirm: function () {
+                        ajaxRefreshAccounts(ifthenpay_scope, ifthenpay_scopeCode);
+                    },
+                    cancel: function () { } // the cancel does not require any action
                 }
             });
-        }
-    }
+        });
+    });
 
 
 
