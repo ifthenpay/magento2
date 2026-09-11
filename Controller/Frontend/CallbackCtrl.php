@@ -235,7 +235,6 @@ class CallbackCtrl extends Action
 		if (!($requestData[ConfigVars::CB_PM] == 'mbway' ||
 			$requestData[ConfigVars::CB_PM] == 'multibanco' ||
 			$requestData[ConfigVars::CB_PM] == 'payshop' ||
-			$requestData[ConfigVars::CB_PM] == 'cofidis' ||
 			$requestData[ConfigVars::CB_PM] == 'pix' ||
 			$requestData[ConfigVars::CB_PM] == 'ifthenpaygateway' ||
 			$requestData[ConfigVars::CB_PM] == 'ccard')) {

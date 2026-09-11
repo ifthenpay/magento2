@@ -23,7 +23,6 @@ class GatewayService
     const MBWAY = ConfigVars::MBWAY;
     const PAYSHOP = ConfigVars::PAYSHOP;
     const CCARD = ConfigVars::CCARD;
-    const COFIDIS = ConfigVars::COFIDIS;
     const PIX = ConfigVars::PIX;
     const IFTHENPAYGATEWAY = ConfigVars::IFTHENPAYGATEWAY;
 
@@ -47,7 +46,6 @@ class GatewayService
             self::MBWAY,
             self::PAYSHOP,
             self::CCARD,
-            self::COFIDIS,
             self::PIX,
             self::IFTHENPAYGATEWAY
         ];

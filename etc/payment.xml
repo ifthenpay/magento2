@@ -22,9 +22,6 @@
         <method name="ifthenpay_ccard">
             <allow_multiple_address>1</allow_multiple_address>
         </method>
-        <method name="ifthenpay_cofidis">
-            <allow_multiple_address>1</allow_multiple_address>
-        </method>
         <method name="ifthenpay_pix">
             <allow_multiple_address>1</allow_multiple_address>
         </method>

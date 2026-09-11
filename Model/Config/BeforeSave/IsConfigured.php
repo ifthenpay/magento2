@@ -98,12 +98,6 @@ class IsConfigured extends Value
                             throw new \Exception($message);
                         }
                     }
-                    if ($paymentMethod === ConfigVars::COFIDIS) {
-                        if ($key === '') {
-                            $message = $messagePrefix . 'Cofidis Pay Key is a required field. ' . $message;
-                            throw new \Exception($message);
-                        }
-                    }
                     if ($paymentMethod === ConfigVars::PIX) {
                         if ($key === '') {
                             $message = $messagePrefix . 'Pix Key is a required field. ' . $message;

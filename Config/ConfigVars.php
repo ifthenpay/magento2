@@ -45,7 +45,6 @@ final class ConfigVars
 	public const MBWAY = 'mbway';
 	public const PAYSHOP = 'payshop';
 	public const CCARD = 'ccard';
-	public const COFIDIS = 'cofidis';
 	public const PIX = 'pix';
 	public const IFTHENPAYGATEWAY = 'ifthenpaygateway';
 
@@ -54,7 +53,6 @@ final class ConfigVars
 		self::MBWAY,
 		self::PAYSHOP,
 		self::CCARD,
-		self::COFIDIS,
 		self::PIX,
 		self::IFTHENPAYGATEWAY
 	];
@@ -64,7 +62,6 @@ final class ConfigVars
 		self::MBWAY_CODE,
 		self::PAYSHOP_CODE,
 		self::CCARD_CODE,
-		self::COFIDIS_CODE,
 		self::PIX_CODE,
 		self::IFTHENPAYGATEWAY_CODE
 	];
@@ -81,12 +78,9 @@ final class ConfigVars
 	public const PAYSHOP_DEADLINE_MINUTES = 0;
 	public const CCARD_DEADLINE_MINUTES = 30;
 	public const MBWAY_DEADLINE_MINUTES = 30;
-	public const COFIDIS_DEADLINE_MINUTES = 60;
 	public const PIX_DEADLINE_MINUTES = 30;
 	public const IFTHENPAYGATEWAY_DEADLINE_HOURS = 0;
 	public const IFTHENPAYGATEWAY_DEADLINE_MINUTES = 0;
-
-	// cofidis does not have expiration
 
 
 	/* -------------------------------------------------------------------------- */
@@ -97,7 +91,6 @@ final class ConfigVars
 	public const DB_PAYSHOP_TABLE_NAME = 'ifthenpay_payshop';
 	public const DB_MBWAY_TABLE_NAME = 'ifthenpay_mbway';
 	public const DB_CCARD_TABLE_NAME = 'ifthenpay_ccard';
-	public const DB_COFIDIS_TABLE_NAME = 'ifthenpay_cofidis';
 	public const DB_PIX_TABLE_NAME = 'ifthenpay_pix';
 	public const DB_IFTHENPAYGATEWAY_TABLE_NAME = 'ifthenpay_ifthenpaygateway';
 
@@ -151,7 +144,6 @@ final class ConfigVars
 	public const MULTIBANCO_CALLBACK_STRING = 'ifthenpay/Frontend/CallbackCtrl?ec={ec}&mv={mv}&pm=multibanco&apk=[ANTI_PHISHING_KEY]&oid=[ID]&ent=[ENTITY]&ref=[REFERENCE]&val=[AMOUNT]';
 	public const PAYSHOP_CALLBACK_STRING = 'ifthenpay/Frontend/CallbackCtrl?ec={ec}&mv={mv}&pm=payshop&apk=[ANTI_PHISHING_KEY]&oid=[ID]&tid=[REQUEST_ID]&val=[AMOUNT]';
 	public const MBWAY_CALLBACK_STRING = 'ifthenpay/Frontend/CallbackCtrl?ec={ec}&mv={mv}&pm=mbway&apk=[ANTI_PHISHING_KEY]&oid=[ID]&tid=[REQUEST_ID]&val=[AMOUNT]';
-	public const COFIDIS_CALLBACK_STRING = 'ifthenpay/Frontend/CallbackCtrl?ec={ec}&mv={mv}&pm=cofidis&apk=[ANTI_PHISHING_KEY]&oid=[ID]&tid=[REQUEST_ID]&val=[AMOUNT]';
 	public const PIX_CALLBACK_STRING = 'ifthenpay/Frontend/CallbackCtrl?ec={ec}&mv={mv}&pm=pix&apk=[ANTI_PHISHING_KEY]&oid=[ID]&tid=[REQUEST_ID]&val=[AMOUNT]';
 	public const IFTHENPAYGATEWAY_CALLBACK_STRING = 'ifthenpay/Frontend/CallbackCtrl?ec={ec}&mv={mv}&pm=ifthenpaygateway&apk=[ANTI_PHISHING_KEY]&oid=[ID]&ent=[ENTITY]&ref=[REFERENCE]&tid=[REQUEST_ID]&val=[AMOUNT]';
 	public const CCARD_CALLBACK_STRING = 'ifthenpay/Frontend/CallbackCtrl?ec={ec}&mv={mv}&pm=ccard&apk=[ANTI_PHISHING_KEY]&oid=[ID]&tid=[REQUEST_ID]&val=[AMOUNT]';
@@ -165,24 +157,6 @@ final class ConfigVars
 	public const CCARD_SUCCESS_STATUS = '6dfcbb0428e4f89c';
 	public const CCARD_ERROR_STATUS = '101737ba0aa2e7c5';
 	public const CCARD_CANCEL_STATUS = 'd4d26126c0f39bf2';
-
-
-	/* -------------------------------------------------------------------------- */
-	/*                        COFIDIS gateway "callback" url and status                       */
-	/* -------------------------------------------------------------------------- */
-	public const COFIDIS_RETURN_URL_STRING = 'ifthenpay/Frontend/ReturnCofidisCtrl?order_id=[ORDER_ID]&hash=[HASH]';
-	public const INIT_STATUS_TRUE = 'True';
-	public const INIT_STATUS_FALSE = 'False';
-
-	// cofidis status
-	public const COFIDIS_STATUS_INITIATED = 'INITIATED';  // this is pending (pending)
-	public const COFIDIS_STATUS_CANCELED = 'CANCELED'; // 1 (canceled)
-	public const COFIDIS_STATUS_PENDING_INVOICE = 'PENDING_INVOICE'; // approved mas aguarda a fatura, ainda pode falhar (pending)
-	public const COFIDIS_STATUS_NOT_APPROVED = 'NOT_APPROVED'; // (depois do pending invoice) (failed)
-	public const COFIDIS_STATUS_FINANCED = 'FINANCED'; // (depois do pending invoice) this is payed (processed)
-	public const COFIDIS_STATUS_EXPIRED = 'EXPIRED'; // not sure what this is (expired)
-	public const COFIDIS_STATUS_TECHNICAL_ERROR = 'TECHNICAL_ERROR'; // (failed)
-
 
 
 	/* -------------------------------------------------------------------------- */
@@ -214,7 +188,6 @@ final class ConfigVars
 	public const MBWAY_CODE = self::VENDOR . '_' . self::MBWAY;
 	public const PAYSHOP_CODE = self::VENDOR . '_' . self::PAYSHOP;
 	public const CCARD_CODE = self::VENDOR . '_' . self::CCARD;
-	public const COFIDIS_CODE = self::VENDOR . '_' . self::COFIDIS;
 	public const PIX_CODE = self::VENDOR . '_' . self::PIX;
 	public const IFTHENPAYGATEWAY_CODE = self::VENDOR . '_' . self::IFTHENPAYGATEWAY;
 	public const IFTHENPAY_CODE = self::VENDOR;
@@ -226,7 +199,6 @@ final class ConfigVars
 	public const DB_CONFIG_PREFIX_PAYSHOP = self::DB_CONFIG_PREFIX . self::PAYSHOP . '/';
 	public const DB_CONFIG_PREFIX_MBWAY = self::DB_CONFIG_PREFIX . self::MBWAY . '/';
 	public const DB_CONFIG_PREFIX_CCARD = self::DB_CONFIG_PREFIX . self::CCARD . '/';
-	public const DB_CONFIG_PREFIX_COFIDIS = self::DB_CONFIG_PREFIX . self::COFIDIS . '/';
 	public const DB_CONFIG_PREFIX_PIX = self::DB_CONFIG_PREFIX . self::PIX . '/';
 	public const DB_CONFIG_PREFIX_IFTHENPAYGATEWAY = self::DB_CONFIG_PREFIX . self::IFTHENPAYGATEWAY . '/';
 
@@ -270,18 +242,6 @@ final class ConfigVars
 	public const MBWAY_ANTI_PHISHING_KEY = 'anti_phishing_key';
 	public const MBWAY_ACTIVATE_CALLBACK = 'activate_callback';
 	public const MBWAY_IS_CALLBACK_ACTIVATED = 'is_callback_activated';
-
-
-
-	/* -------------------------------------------------------------------------- */
-	/*                          Cofidis writable CONFIGURATION                       */
-	/* -------------------------------------------------------------------------- */
-
-	public const COFIDIS_CALLBACK_URL = 'callback_url';
-	public const COFIDIS_ANTI_PHISHING_KEY = 'anti_phishing_key';
-	public const COFIDIS_ACTIVATE_CALLBACK = 'activate_callback';
-	public const COFIDIS_IS_CALLBACK_ACTIVATED = 'is_callback_activated';
-
 
 
 
@@ -361,11 +321,6 @@ final class ConfigVars
 	public const CCARD_SEND_INVOICE_EMAIL = 'send_invoice_email';
 
 
-	/* ------------------------------- Cofidis conf ------------------------------- */
-	public const COFIDIS_KEY = 'key';
-	public const COFIDIS_SEND_INVOICE_EMAIL = 'send_invoice_email';
-
-
 	/* ------------------------------- Pix conf ------------------------------- */
 	public const PIX_KEY = 'key';
 	public const PIX_SEND_INVOICE_EMAIL = 'send_invoice_email';
@@ -430,11 +385,6 @@ final class ConfigVars
 
 	public const API_URL_IFTHENPAY_POST_REFUND = 'https://ifthenpay.com/api/endpoint/payments/refund';
 
-	public const API_URL_COFIDIS_SET_REQUEST = 'https://ifthenpay.com/api/cofidis/init/';
-
-	public const API_URL_COFIDIS_GET_PAYMENT_STATUS = 'https://ifthenpay.com/api/cofidis/status';
-	public const API_URL_COFIDIS_GET_MAX_MIN_AMOUNT = 'https://ifthenpay.com/api/cofidis/limits';
-
 	public const API_URL_PIX_SET_REQUEST = 'https://api.ifthenpay.com/pix/init/';
 
 	public const API_URL_GET_GATEWAYK_KEYS = 'https://ifthenpay.com/IfmbWS/ifthenpaymobile.asmx/GetGatewayKeys';
@@ -480,7 +430,6 @@ final class ConfigVars
 	public const ASSET_PATH_CHECKOUT_LOGO_PAYSHOP = self::MODULE_NAME . '::img/payshop.png';
 	public const ASSET_PATH_CHECKOUT_LOGO_MBWAY = self::MODULE_NAME . '::img/mbway.png';
 	public const ASSET_PATH_CHECKOUT_LOGO_CCARD = self::MODULE_NAME . '::img/ccard.png';
-	public const ASSET_PATH_CHECKOUT_LOGO_COFIDIS = self::MODULE_NAME . '::img/cofidis.png';
 	public const ASSET_PATH_CHECKOUT_LOGO_PIX = self::MODULE_NAME . '::img/pix.png';
 	public const ASSET_PATH_CHECKOUT_LOGO_IFTHENPAYGATEWAY = self::MODULE_NAME . '::img/ifthenpaygateway.png';
 

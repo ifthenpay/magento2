@@ -18,7 +18,6 @@ use Ifthenpay\Payment\Gateway\Config\MultibancoConfigFactory;
 use Ifthenpay\Payment\Gateway\Config\PayshopConfigFactory;
 use Ifthenpay\Payment\Gateway\Config\MbwayConfigFactory;
 use Ifthenpay\Payment\Gateway\Config\CcardConfigFactory;
-use Ifthenpay\Payment\Gateway\Config\CofidisConfigFactory;
 use Ifthenpay\Payment\Gateway\Config\PixConfigFactory;
 use Ifthenpay\Payment\Gateway\Config\IfthenpayConfigFactory;
 use Ifthenpay\Payment\Gateway\Config\IfthenpaygatewayConfigFactory;
@@ -30,7 +29,6 @@ class ConfigFactory
     private $payshopFactory;
     private $mbwayFactory;
     private $ccardFactory;
-    private $cofidisFactory;
     private $pixFactory;
     private $ifthenpaygatewayFactory;
 
@@ -40,7 +38,6 @@ class ConfigFactory
         PayshopConfigFactory $payshopFactory,
         MbwayConfigFactory $mbwayFactory,
         CcardConfigFactory $ccardFactory,
-        CofidisConfigFactory $cofidisFactory,
         PixConfigFactory $pixFactory,
         IfthenpaygatewayConfigFactory $ifthenpaygatewayFactory
     ) {
@@ -49,7 +46,6 @@ class ConfigFactory
         $this->payshopFactory = $payshopFactory;
         $this->mbwayFactory = $mbwayFactory;
         $this->ccardFactory = $ccardFactory;
-        $this->cofidisFactory = $cofidisFactory;
         $this->pixFactory = $pixFactory;
         $this->ifthenpaygatewayFactory = $ifthenpaygatewayFactory;
     }
@@ -67,8 +63,6 @@ class ConfigFactory
                 return $this->mbwayFactory->create();
             case ConfigVars::CCARD_CODE:
                 return $this->ccardFactory->create();
-            case ConfigVars::COFIDIS_CODE:
-                return $this->cofidisFactory->create();
             case ConfigVars::PIX_CODE:
                 return $this->pixFactory->create();
             case ConfigVars::IFTHENPAYGATEWAY_CODE:

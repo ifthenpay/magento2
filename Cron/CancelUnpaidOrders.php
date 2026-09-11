@@ -85,7 +85,7 @@ class CancelUnpaidOrders
                 continue;
             }
 
-            if ($this->isPaymentOverDeadline($deadline, $paymentMethod, $storedPaymentData, $pmService)) {
+            if ($this->isPaymentOverDeadline($deadline)) {
 
                 $order->registerCancellation(__('Order canceled by cronjob because payment was overdue'));
                 $order->save();
@@ -105,7 +105,7 @@ class CancelUnpaidOrders
         }
     }
 
-    private function isPaymentOverDeadline(string $deadline, string $paymentMethod, array $storedPaymentData, $pmService): bool
+    private function isPaymentOverDeadline(string $deadline): bool
     {
 
         $timezone = new \DateTimeZone('Europe/Lisbon');
@@ -118,26 +118,6 @@ class CancelUnpaidOrders
 
 
         if ($deadlineUnixTime < $currentUnixTime) {
-
-            // additional check for cofidisPay
-            if ($paymentMethod == ConfigVars::COFIDIS_CODE) {
-
-                $cofidisKey = $storedPaymentData['cofidis_key'];
-                $transactionId = $storedPaymentData['transaction_id'];
-
-                if ($cofidisKey != '') {
-
-                    $statusArray = $pmService->getCofidisPaymentStatusArray($cofidisKey, $transactionId);
-
-                    foreach ($statusArray as $status) {
-                        if ($status['statusCode'] == 'EXPIRED') {
-                            return true;
-                        }
-                    }
-                }
-                return false;
-            }
-
             return true;
         }
 
@@ -210,18 +190,6 @@ class CancelUnpaidOrders
 
             return $deadline->format('Y-m-d H:i:s');
         }
-        if ($paymentMethod === ConfigVars::COFIDIS_CODE) {
-
-            $createdAt = $storedPaymentData['created_at'] ?? '';
-            if ($createdAt === '') {
-                return '';
-            }
-
-            $deadline = \DateTime::createFromFormat('Y-m-d H:i:s', $createdAt);
-            $deadline->add(new \DateInterval('PT' . ConfigVars::COFIDIS_DEADLINE_MINUTES . 'M'));
-
-            return $deadline->format('Y-m-d H:i:s');
-        }
         if ($paymentMethod === ConfigVars::PIX_CODE) {
 
             $createdAt = $storedPaymentData['created_at'] ?? '';
@@ -261,7 +229,7 @@ class CancelUnpaidOrders
         // makes distinction between credit card and other payment methods
 
         $status = 'pending';
-        if ($paymentMethod === ConfigVars::CCARD_CODE || $paymentMethod === ConfigVars::COFIDIS_CODE) {
+        if ($paymentMethod === ConfigVars::CCARD_CODE) {
             $status = 'payment_review';
         }
 

@@ -72,7 +72,7 @@ class Main extends Fieldset
         $moduleVersion = $this->moduleResource->getDbVersion(ConfigVars::MODULE_NAME);
 
 
-        $slogan = __('Payments by Multibanco, MB WAY, Payshop, Credit Card, and Cofidis Pay');
+        $slogan = __('Payments by Multibanco, MB WAY, Payshop, and Credit Card');
         $labelHtml = '<div class="ifthenpay-payment-logo"></div><div id="ifthenpay-version" class="ifthenpay-version">V' . $moduleVersion . '</div><div class="ifthenpay-payment-text">' . $slogan . '</div>';
         $element->setLegend($labelHtml);
 
@@ -125,7 +125,6 @@ class Main extends Fieldset
         $urlGetSubEntities = $this->urlBuilder->getUrl(ConfigVars::AJAX_URL_STR_GET_SUB_ENTITIES);
         $urlRequestAccount = $this->urlBuilder->getUrl(ConfigVars::AJAX_URL_STR_GET_REQUEST_ACCOUNT);
         $urlRefreshAccounts = $this->urlBuilder->getUrl(ConfigVars::AJAX_URL_STR_GET_REFRESH_ACCOUNTS);
-        $urlGetMinMax = $this->urlBuilder->getUrl(ConfigVars::AJAX_URL_STR_GET_MIN_MAX);
         $urlGetGatewayMethods =  $this->urlBuilder->getUrl(ConfigVars::AJAX_URL_STR_GET_GATEWAY_METHODS);
         $urlRequestGatewayMethod =  $this->urlBuilder->getUrl(ConfigVars::AJAX_URL_STR_GET_REQUEST_GATEWAY_METHOD);
         $dynamicMultibancoCode = ConfigVars::MULTIBANCO_DYNAMIC;
@@ -145,7 +144,6 @@ class Main extends Fieldset
             window.ifthenpay_urlRequestAccount =" . json_encode($urlRequestAccount) . ";
             window.ifthenpay_urlResetBackofficeKey =" . json_encode($urlResetBackofficeKey) . ";
             window.ifthenpay_urlGetSubEntities =" . json_encode($urlGetSubEntities) . ";
-            window.ifthenpay_urlGetMinMax =" . json_encode($urlGetMinMax) . ";
             window.ifthenpay_urlGetGatewayMethods =" . json_encode($urlGetGatewayMethods) . ";
             window.ifthenpay_urlRequestGatewayMethod =" . json_encode($urlRequestGatewayMethod) . ";
             window.ifthenpay_standardErrorMessage =" . json_encode(__('An Error occurred.')) . ";

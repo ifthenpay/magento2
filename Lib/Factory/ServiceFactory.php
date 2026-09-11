@@ -17,7 +17,6 @@ use Ifthenpay\Payment\Lib\Services\MultibancoService;
 use Ifthenpay\Payment\Lib\Services\PayshopService;
 use Ifthenpay\Payment\Lib\Services\MbwayService;
 use Ifthenpay\Payment\Lib\Services\CcardService;
-use Ifthenpay\Payment\Lib\Services\CofidisService;
 use Ifthenpay\Payment\Lib\Services\PixService;
 use Ifthenpay\Payment\Lib\Services\IfthenpaygatewayService;
 
@@ -28,7 +27,6 @@ class ServiceFactory
     private $payshopService;
     private $mbwayService;
     private $ccardService;
-    private $cofidisService;
     private $pixService;
     private $ifthenpaygatewayService;
 
@@ -37,7 +35,6 @@ class ServiceFactory
         PayshopService $payshopService,
         MbwayService $mbwayService,
         CcardService $ccardService,
-        CofidisService $cofidisService,
         PixService $pixService,
         IfthenpaygatewayService $ifthenpaygatewayService
     ) {
@@ -45,7 +42,6 @@ class ServiceFactory
         $this->payshopService = $payshopService;
         $this->mbwayService = $mbwayService;
         $this->ccardService = $ccardService;
-        $this->cofidisService = $cofidisService;
         $this->pixService = $pixService;
         $this->ifthenpaygatewayService = $ifthenpaygatewayService;
     }
@@ -61,8 +57,6 @@ class ServiceFactory
                 return $this->mbwayService;
             case ConfigVars::CCARD_CODE:
                 return $this->ccardService;
-            case ConfigVars::COFIDIS_CODE:
-                return $this->cofidisService;
             case ConfigVars::PIX_CODE:
                 return $this->pixService;
             case ConfigVars::IFTHENPAYGATEWAY_CODE:

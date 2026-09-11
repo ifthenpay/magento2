@@ -19,7 +19,6 @@ use Ifthenpay\Payment\Model\MultibancoFactory;
 use Ifthenpay\Payment\Model\PayshopFactory;
 use Ifthenpay\Payment\Model\MbwayFactory;
 use Ifthenpay\Payment\Model\CcardFactory;
-use Ifthenpay\Payment\Model\CofidisFactory;
 use Ifthenpay\Payment\Model\PixFactory;
 use Ifthenpay\Payment\Model\IfthenpaygatewayFactory;
 
@@ -29,7 +28,6 @@ class ModelFactory
     private $multibancoFactory;
     private $mbwayFactory;
     private $ccardFactory;
-    private $cofidisFactory;
     private $pixFactory;
     private $ifthenpaygatewayFactory;
 
@@ -38,7 +36,6 @@ class ModelFactory
         PayshopFactory $payshopFactory,
         MbwayFactory $mbwayFactory,
         CcardFactory $ccardFactory,
-        CofidisFactory $cofidisFactory,
         PixFactory $pixFactory,
         IfthenpaygatewayFactory $ifthenpaygatewayFactory
     ) {
@@ -46,7 +43,6 @@ class ModelFactory
         $this->payshopFactory = $payshopFactory;
         $this->mbwayFactory = $mbwayFactory;
         $this->ccardFactory = $ccardFactory;
-        $this->cofidisFactory = $cofidisFactory;
         $this->pixFactory = $pixFactory;
         $this->ifthenpaygatewayFactory = $ifthenpaygatewayFactory;
     }
@@ -62,8 +58,6 @@ class ModelFactory
                 return $this->mbwayFactory->create();
             case ConfigVars::CCARD:
                 return $this->ccardFactory->create();
-            case ConfigVars::COFIDIS:
-                return $this->cofidisFactory->create();
             case ConfigVars::PIX:
                 return $this->pixFactory->create();
             case ConfigVars::IFTHENPAYGATEWAY:
