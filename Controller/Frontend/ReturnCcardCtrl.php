@@ -117,6 +117,15 @@ class ReturnCcardCtrl extends Action
 
             if ($paymentStatus === ConfigVars::CCARD_SUCCESS_STATUS) {
 
+                if (!$this->isValidSk($requestData, $transactionId)) {
+                    $this->logger->error('Ccard return: invalid sk, order not marked as paid', [
+                        'requestId' => $transactionId,
+                        'orderId' => $orderId
+                    ]);
+                    $this->messageManager->addErrorMessage(__('The payment could not be verified. Please contact the store.'));
+                    return $this->resultFactory->create(ResultFactory::TYPE_REDIRECT)->setPath('checkout/onepage/success');
+                }
+
                 $storedPaymentData['status'] = ConfigVars::DB_STATUS_PAID;
                 $this->ccardService->setData($storedPaymentData)->save();
                 $this->handleCapture($transactionId);
@@ -151,6 +160,27 @@ class ReturnCcardCtrl extends Action
             }
         }
         return $this->resultFactory->create(ResultFactory::TYPE_REDIRECT)->setPath('checkout/onepage/success');
+    }
+
+
+    private function isValidSk(array $requestData, string $transactionId): bool
+    {
+        $id = $requestData['id'] ?? null;
+        $amount = $requestData['amount'] ?? null;
+        $sk = $requestData['sk'] ?? null;
+
+        if (!is_string($id) || !is_string($amount) || !is_string($sk) || $sk === '') {
+            return false;
+        }
+
+        $ccardKey = (string) $this->storeManager->getStore($this->_order->getStoreId())
+            ->getConfig('payment/' . ConfigVars::CCARD_CODE . '/' . ConfigVars::CCARD_KEY);
+
+        if ($ccardKey === '') {
+            return false;
+        }
+
+        return hash_equals(hash_hmac('sha256', $id . $amount . $transactionId, $ccardKey), strtolower($sk));
     }
 
     private function handleCancel($transactionId)

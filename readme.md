@@ -89,7 +89,7 @@ The table below indicates the compatibility and the support provided for this mo
 
 |                         | Magento 2.4 [2.4.0 - 2.4.8] |
 |-------------------------|-----------------------------|
-| Compatibility           | Ifthenpay v2.0.0 - v2.3.4   |
+| Compatibility           | Ifthenpay v2.0.0 - v2.3.6   |
 | LTS (Long Time Support) | Supported until end of 2026 |
 
 

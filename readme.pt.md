@@ -90,7 +90,7 @@ A tabela abaixo indica a compatibilidade e o supporte disponibilizado para este 
 
 |                              | Magento 2.4 [2.4.0 - 2.4.8] |
 |------------------------------|-----------------------------|
-| Compatibilidade              | Ifthenpay v2.0.0 - v2.3.4   |
+| Compatibilidade              | Ifthenpay v2.0.0 - v2.3.6   |
 | LTS (Suporte de Longo Prazo) | Supported until end of 2026 |
 
 
